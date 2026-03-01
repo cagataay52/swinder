@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium İlan Platformu</title>
+    <style>
+        /* --- Temel Ayarlar ve Renk Paleti --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --bg-dark: #0a0a0c;
+            --surface: #1a1a1f;
+            --primary-gold: #d4af37; /* Lüks hissiyat için altın/bronz */
+            --text-light: #f5f5f7;
+            --text-muted: #8e8e93;
+            --glass-bg: rgba(26, 26, 31, 0.7);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* --- Üst Menü (Navbar) --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px); /* Cam efekti */
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 100;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: var(--primary-gold);
+            text-decoration: none;
+        }
+
+        .nav-links button {
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            margin-left: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links button:hover {
+            color: var(--primary-gold);
+        }
+
+        .btn-premium {
+            background: linear-gradient(45deg, #d4af37, #aa8529);
+            color: #000 !important;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        /* --- Karşılama Ekranı (Hero Section) --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #1a1a1f 0%, #0a0a0c 100%);
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 300;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .hero h1 span {
+            color: var(--primary-gold);
+            font-weight: 600;
+        }
+
+        .search-box {
+            margin-top: 40px;
+            display: flex;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px;
+            border-radius: 50px;
+            width: 100%;
+            max-width: 650px;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .search-box input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* --- Vitrin İlanları (Cards) --- */
+        .showcase {
+            padding: 100px 5%;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 40px;
+            border-left: 4px solid var(--primary-gold);
+            padding-left: 15px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(212, 175, 55, 0.4);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        .card-img {
+            height: 220px;
+            background-color: #2a2a30;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary-gold);
+            color: #000;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .card-content {
+            padding: 24px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .card-price {
+            color: var(--primary-gold);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .card-details {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">ELITE VİTRİN</a>
+        <div class="nav-links">
+            <button>Giriş Yap</button>
+            <button>Kayıt Ol</button>
+            <button class="btn-premium">+ İlan Ver</button>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Aradığın Lüksü <span>Keşfet</span></h1>
+        <p style="color: var(--text-muted); font-size: 1.2rem; margin-top: 15px;">Otomobil, gayrimenkul ve özel koleksiyonlar için premium pazar yeri.</p>
+        
+        <div class="search-box">
+            <input type="text" placeholder="Marka, model veya anahtar kelime yazın...">
+            <button class="btn-premium" style="border: none; padding: 10px 35px; border-radius: 40px;">Ara</button>
+        </div>
+    </section>
+
+    <section class="showcase">
+        <h2 class="section-title">Günün Öne Çıkanları</h2>
+        <div class="grid">
+            
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+                    <span class="badge">PREMIUM</span>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">BMW 420i Cabrio M Sport</h3>
+                    <div class="card-price">3.250.000 TL</div>
+                    <div class="card-details">
+                        <span>2022</span>
+                        <span>15.000 km</span>
+                        <span>İstanbul</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Boğaz Manzaralı Ultra Lüks Villa</h3>
+                    <div class="card-price">145.000.000 TL</div>
+                    <div class="card-details">
+                        <span>6+2</span>
+                        <span>850 m²</span>
+                        <span>Sarıyer</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1601158935942-52255782d322?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Rolex Submariner Date</h3>
+                    <div class="card-price">485.000 TL</div>
+                    <div class="card-details">
+                        <span>2023</span>
+                        <span>Kutusunda</span>
+                        <span>İzmir</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <script>
+        // Arama kutusuna tıklandığında altın rengi parlama efekti
+        const searchInput = document.querySelector('.search-box input');
+        const searchBox = document.querySelector('.search-box');
+
+        searchInput.addEventListener('focus', () => {
+            searchBox.style.borderColor = 'var(--primary-gold)';
+            searchBox.style.boxShadow = '0 0 20px rgba(212, 175, 55, 0.15)';
+        });
+
+        searchInput.addEventListener('blur', () => {
+            searchBox.style.borderColor = 'rgba(255,255,255,0.1)';
+            searchBox.style.boxShadow = 'none';
+        });
+    </script>
+</body>
+</html>
