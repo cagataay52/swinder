@@ -139,7 +139,7 @@
 
     <header>
         <a href="index.html" class="logo">SWINDER</a>
-        <div class="nav-links">
+        <div class="nav-links" id="main-nav-links">
             <button class="text-btn" onclick="openAuthModal('login')">Giriş Yap</button>
             <button class="text-btn" onclick="openAuthModal('register')">Kayıt Ol</button>
             <button class="btn-premium" onclick="openAddModal()">+ İlan Ver</button>
@@ -221,7 +221,7 @@
                 <div class="card-content"><h3 class="card-title">Boğaz Manzaralı Yalı</h3><div class="card-price">245.000.000 TL</div><div class="card-details"><span>8+2</span><span>Sarıyer</span></div></div>
             </div>
 
-            <div class="card premium" onclick="openDetailModal('Audemars Piguet Royal Oak', '2.100.000 TL', '2021', 'Kutulu', 'Otomatik', 'Çelik', 'https://images.unsplash.com/photo-1548171915-e79a380a2a4b?auto=format&fit=crop&w=800&q=80', 'Lüks Saat Merkezi')">
+            <div class="card premium" onclick="openDetailModal('Audemars Piguet Royal Oak', '2.100.000 TL', '2021', 'Kutulu', 'Otomatik', 'Çelik', 'https://images.unsplash.com/photo-1548171915-e79a380a2a4b?auto=format&fit=crop&w=800&q=80,https://images.unsplash.com/photo-1622434641406-a158123450f9?auto=format&fit=crop&w=800&q=80', 'Lüks Saat Merkezi')">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1548171915-e79a380a2a4b?auto=format&fit=crop&w=800&q=80');"><span class="badge premium-badge">PREMIUM</span></div>
                 <div class="card-content"><h3 class="card-title">Audemars Piguet Royal Oak</h3><div class="card-price">2.100.000 TL</div><div class="card-details"><span>2021</span><span>Sıfır Ayarında</span></div></div>
             </div>
@@ -259,43 +259,20 @@
                 <button class="tab-btn active" id="tab-login" onclick="switchAuthTab('login')">Giriş Yap</button>
                 <button class="tab-btn" id="tab-register" onclick="switchAuthTab('register')">Kayıt Ol</button>
             </div>
+            
             <div class="auth-form active" id="form-login">
-                <div class="form-group"><input type="email" placeholder="E-posta Adresi"></div>
-                <div class="form-group"><input type="password" placeholder="Şifre"></div>
-                <button class="btn-premium" style="width: 100%; border-radius: 10px;">Giriş Yap</button>
+                <div class="form-group"><input type="email" id="login-email" placeholder="E-posta Adresi"></div>
+                <div class="form-group"><input type="password" id="login-pass" placeholder="Şifre"></div>
+                <div style="text-align: right; margin-bottom: 15px;"><a href="#" style="color: var(--text-muted); font-size: 12px; text-decoration: none;">Şifremi Unuttum</a></div>
+                <button class="btn-premium" id="btn-login" style="width: 100%; border-radius: 10px;">Giriş Yap</button>
             </div>
+            
             <div class="auth-form" id="form-register">
-                <div class="form-group"><input type="text" placeholder="Ad Soyad veya Mağaza Adı"></div>
-                <div class="form-group"><input type="email" placeholder="E-posta Adresi"></div>
-                <div class="form-group"><input type="password" placeholder="Şifre Belirleyin"></div>
-                <button class="btn-premium" style="width: 100%; border-radius: 10px;">Hesap Oluştur</button>
+                <div class="form-group"><input type="text" id="reg-name" placeholder="Mağaza veya Ad Soyad"></div>
+                <div class="form-group"><input type="email" id="reg-email" placeholder="E-posta Adresi"></div>
+                <div class="form-group"><input type="password" id="reg-pass" placeholder="Şifre Belirleyin (En az 6 hane)"></div>
+                <button class="btn-premium" id="btn-register" style="width: 100%; border-radius: 10px;">Hesap Oluştur</button>
             </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="addModal">
-        <div class="add-box">
-            <button class="close-btn" onclick="closeAddModal()">&times;</button>
-            <h2>✨ Yeni İlan Oluştur</h2>
-            <form>
-                <div class="form-grid-2">
-                    <div class="form-group"><label>Kategori</label><select><option>Premium Araçlar</option><option>Lüks Emlak</option></select></div>
-                    <div class="form-group"><label>Fiyat (TL)</label><input type="text" placeholder="Örn: 3.250.000"></div>
-                    <div class="form-group" style="grid-column: span 2;"><label>İlan Başlığı</label><input type="text" placeholder="Örn: Hatasız BMW 420i"></div>
-                    <div class="form-group" style="grid-column: span 2;">
-                        <label>Fotoğraf Yükle (Maks. 5 Adet)</label>
-                        <div class="upload-area">
-                            <h3 style="font-size: 24px; margin-bottom: 10px;">📸</h3>
-                            <h3>Fotoğrafları Buraya Sürükleyin</h3>
-                            <p>İlk fotoğraf vitrin görseli olur.</p>
-                        </div>
-                    </div>
-                </div>
-                <div style="display: flex; justify-content: flex-end; gap: 15px; margin-top: 20px;">
-                    <button type="button" class="text-btn" style="color: var(--text-muted);" onclick="closeAddModal()">İptal</button>
-                    <button type="button" class="btn-premium">İlanı Yayına Al</button>
-                </div>
-            </form>
         </div>
     </div>
 
@@ -334,19 +311,48 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="addModal">
+        <div class="add-box">
+            <button class="close-btn" onclick="closeAddModal()">&times;</button>
+            <h2>✨ Yeni İlan Oluştur</h2>
+            <form>
+                <div class="form-grid-2">
+                    <div class="form-group"><label>Kategori</label><select><option>Premium Araçlar</option><option>Lüks Emlak</option></select></div>
+                    <div class="form-group"><label>Fiyat (TL)</label><input type="text" placeholder="Örn: 3.250.000"></div>
+                    <div class="form-group" style="grid-column: span 2;"><label>İlan Başlığı</label><input type="text" placeholder="Örn: Hatasız BMW 420i Cabrio M Sport"></div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>Fotoğraf Yükle (Maks. 5 Adet)</label>
+                        <div class="upload-area">
+                            <h3 style="font-size: 24px; margin-bottom: 10px;">📸</h3>
+                            <h3>Fotoğrafları Buraya Sürükleyin</h3>
+                            <p>İlk fotoğraf vitrin görseli olur.</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 15px; margin-top: 20px;">
+                    <button type="button" class="text-btn" style="color: var(--text-muted);" onclick="closeAddModal()">İptal</button>
+                    <button type="button" class="btn-premium">İlanı Yayına Al</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
     <script>
-        // 1. MODAL AÇ/KAPAT VE SEKME DEĞİŞTİRME
+        // Modal Genel Aç/Kapat
         function closeAuthModal() { document.getElementById('authModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
         function closeDetailModal() { document.getElementById('detailModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
         function closeAddModal() { document.getElementById('addModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
         
-        function openAuthModal(tab) { document.getElementById('authModal').classList.add('active'); document.body.style.overflow = 'hidden'; switchAuthTab(tab); }
-        function openAddModal() { document.getElementById('addModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
+        // Dışarıdan Global Çağrılabilmesi İçin window nesnesine ekliyoruz
+        window.openAuthModal = function(tab) { document.getElementById('authModal').classList.add('active'); document.body.style.overflow = 'hidden'; switchAuthTab(tab); }
+        window.openAddModal = function() { document.getElementById('addModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
         
         document.querySelectorAll('.modal-overlay').forEach(modal => {
             modal.addEventListener('click', (e) => { if(e.target === modal) { modal.classList.remove('active'); document.body.style.overflow = 'auto'; }});
         });
 
+        // Auth Sekmeleri (Giriş / Kayıt Geçişi)
         function switchAuthTab(tab) {
             document.getElementById('tab-login').classList.remove('active'); document.getElementById('tab-register').classList.remove('active');
             document.getElementById('tab-' + tab).classList.add('active');
@@ -354,8 +360,8 @@
             document.getElementById('form-' + tab).classList.add('active');
         }
 
-        // 2. TAKİP ET BUTONU EFEKTİ
-        function toggleFollow(btn) {
+        // Takip Et Butonu
+        window.toggleFollow = function(btn) {
             if (btn.classList.contains('following')) {
                 btn.classList.remove('following');
                 btn.innerText = "Takip Et";
@@ -365,7 +371,7 @@
             }
         }
 
-        // 3. İLAN DETAY (GALERİ + SWIPE) MANTIĞI
+        // --- GALERİLİ VE KAYDIRMALI İLAN DETAY MODALI ---
         const detailModal = document.getElementById('detailModal');
         const mainImgDiv = document.getElementById('modalMainImg');
         const thumbContainer = document.getElementById('modalThumbnails');
@@ -373,37 +379,27 @@
         let currentGalleryImages = [];
         let currentImageIndex = 0;
 
-        function openDetailModal(title, price, year, km, fuel, gear, imgUrls, seller) {
-            document.getElementById('modalTitle').innerText = title; 
-            document.getElementById('modalPrice').innerText = price;
-            document.getElementById('modalYear').innerText = year; 
-            document.getElementById('modalKm').innerText = km;
-            document.getElementById('modalFuel').innerText = fuel; 
-            document.getElementById('modalGear').innerText = gear;
+        window.openDetailModal = function(title, price, year, km, fuel, gear, imgUrls, seller) {
+            document.getElementById('modalTitle').innerText = title; document.getElementById('modalPrice').innerText = price;
+            document.getElementById('modalYear').innerText = year; document.getElementById('modalKm').innerText = km;
+            document.getElementById('modalFuel').innerText = fuel; document.getElementById('modalGear').innerText = gear;
             document.getElementById('modalSeller').innerText = seller;
 
-            // Rastgele inandırıcı takipçi sayısı
             const randomFollowers = (Math.random() * 50 + 1).toFixed(1) + " B";
             document.getElementById('modalFollowers').innerText = randomFollowers + " Takipçi";
-            
-            // Butonu sıfırla
             const followBtn = document.querySelector('.btn-follow');
-            followBtn.classList.remove('following');
-            followBtn.innerText = "Takip Et";
+            followBtn.classList.remove('following'); followBtn.innerText = "Takip Et";
 
-            // Fotoğraf Dizesini Ayır
             currentGalleryImages = imgUrls.split(',');
             currentImageIndex = 0;
             updateGalleryUI(); 
 
-            detailModal.classList.add('active'); 
-            document.body.style.overflow = 'hidden';
+            detailModal.classList.add('active'); document.body.style.overflow = 'hidden';
         }
 
         function updateGalleryUI() {
             mainImgDiv.style.backgroundImage = `url('${currentGalleryImages[currentImageIndex]}')`;
             thumbContainer.innerHTML = ''; 
-
             if(currentGalleryImages.length > 1) {
                 thumbContainer.style.display = 'flex';
                 currentGalleryImages.forEach((img, index) => {
@@ -419,11 +415,9 @@
             } else { thumbContainer.style.display = 'none'; }
         }
 
-        // Swipe (Dokunmatik Kaydırma) İşlemleri
         let touchstartX = 0; let touchendX = 0;
         mainImgDiv.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; }, {passive: true});
         mainImgDiv.addEventListener('touchend', e => { touchendX = e.changedTouches[0].screenX; handleSwipe(); }, {passive: true});
-
         let isDragging = false;
         mainImgDiv.addEventListener('mousedown', e => { isDragging = true; touchstartX = e.screenX; });
         window.addEventListener('mouseup', e => { if(isDragging) { touchendX = e.screenX; handleSwipe(); isDragging = false; }});
@@ -435,7 +429,7 @@
             else if (touchendX > touchstartX + swipeThreshold && currentImageIndex > 0) { currentImageIndex--; updateGalleryUI(); }
         }
 
-        // 4. SINIRSIZ KAYDIRMA (INFINITE SCROLL)
+        // --- SINIRSIZ KAYDIRMA (INFINITE SCROLL) ---
         const grid = document.getElementById('normalIlanIzgarasi');
         const loader = document.getElementById('loader');
         let isLoading = false;
@@ -447,6 +441,98 @@
                     grid.insertAdjacentHTML('beforeend', `<div class="card normal" onclick="openDetailModal('BMW F30 320i M Sport', '1.850.000 TL', '2018', '65.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1556189250-72ba954cfc2b?auto=format&fit=crop&w=800&q=80,https://images.unsplash.com/photo-1610647752706-3bb12232b3ab?auto=format&fit=crop&w=800&q=80', 'Çağatay Motors')"><div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1556189250-72ba954cfc2b?auto=format&fit=crop&w=800&q=80');"></div><div class="card-content"><h3 class="card-title">BMW F30 320i M Sport</h3><div class="card-price">1.850.000 TL</div><div class="card-details"><span>2018</span><span>Çağatay Motors</span></div></div></div>`);
                     loader.classList.remove('active'); isLoading = false; 
                 }, 1200);
+            }
+        });
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        // Senin Firebase Anahtarların
+        const firebaseConfig = {
+            apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0",
+            authDomain: "swinder-79534.firebaseapp.com",
+            projectId: "swinder-79534",
+            storageBucket: "swinder-79534.firebasestorage.app",
+            messagingSenderId: "704644873549",
+            appId: "1:704644873549:web:d95f561ec912b94cf2cb04",
+            measurementId: "G-PLTTN4M7FF"
+        };
+
+        // Firebase'i Başlat
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // --- 1. KAYIT OLMA İŞLEMİ (REGISTER) ---
+        document.getElementById('btn-register').addEventListener('click', async () => {
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-pass').value;
+
+            if(!name || !email || !password) { alert("Lütfen tüm alanları doldurun!"); return; }
+
+            // Butonu yükleniyor yap
+            const btn = document.getElementById('btn-register');
+            const originalText = btn.innerText;
+            btn.innerText = "Kayıt Yapılıyor...";
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                await updateProfile(auth.currentUser, { displayName: name });
+                
+                alert(`Harika! ${name} hesabı başarıyla oluşturuldu.`);
+                closeAuthModal(); // Modalı kapat
+            } catch (error) {
+                alert("Hata oluştu: " + error.message);
+            } finally {
+                btn.innerText = originalText;
+            }
+        });
+
+        // --- 2. GİRİŞ YAPMA İŞLEMİ (LOGIN) ---
+        document.getElementById('btn-login').addEventListener('click', async () => {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-pass').value;
+
+            if(!email || !password) { alert("Lütfen e-posta ve şifrenizi girin!"); return; }
+
+            const btn = document.getElementById('btn-login');
+            const originalText = btn.innerText;
+            btn.innerText = "Giriş Yapılıyor...";
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                closeAuthModal();
+            } catch (error) {
+                alert("Giriş başarısız. Şifrenizi veya e-postanızı kontrol edin.");
+            } finally {
+                btn.innerText = originalText;
+            }
+        });
+
+        // --- 3. OTURUM KONTROLÜ (Giriş yapıldıysa Üst Menüyü değiştir) ---
+        onAuthStateChanged(auth, (user) => {
+            const navLinks = document.getElementById('main-nav-links');
+            if (user) {
+                // Giriş yapılmışsa
+                navLinks.innerHTML = `
+                    <span style="color: var(--primary-gold); font-weight: 600; font-size: 15px; margin-right: 15px;">Hoş geldin, ${user.displayName || 'Kullanıcı'}</span>
+                    <button class="text-btn" id="btn-logout" style="color: #ff4757;">Çıkış Yap</button>
+                    <button class="btn-premium" onclick="window.openAddModal()">+ İlan Ver</button>
+                `;
+                
+                // Çıkış Butonu Dinleyicisi
+                document.getElementById('btn-logout').addEventListener('click', () => {
+                    signOut(auth).then(() => { window.location.reload(); });
+                });
+            } else {
+                // Giriş yapılmamışsa (Standart Menü)
+                navLinks.innerHTML = `
+                    <button class="text-btn" onclick="window.openAuthModal('login')">Giriş Yap</button>
+                    <button class="text-btn" onclick="window.openAuthModal('register')">Kayıt Ol</button>
+                    <button class="btn-premium" onclick="window.openAddModal()">+ İlan Ver</button>
+                `;
             }
         });
     </script>
