@@ -3,212 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Profilim & Admin - Swinder</title>
+    <title>Profilim - Swinder</title>
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" />
 
     <style>
-        /* --- Temel Ayarlar (Premium Karanlık Tema) --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        :root { --bg-dark: #0a0a0c; --surface: #1a1a1f; --primary-gold: #d4af37; --gold-hover: #f3e5ab; --text-light: #f5f5f7; --text-muted: #8e8e93; }
-        body { background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; }
+        :root { --bg-dark: #0a0a0c; --surface: #1a1a1f; --primary-gold: #d4af37; --gold-hover: #f3e5ab; --text-light: #f5f5f7; --text-muted: #8e8e93; --glass-bg: rgba(26, 26, 31, 0.85); }
+        body { background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; padding-bottom: 70px; } /* Alt menü boşluğu */
 
-        /* --- ÜST MENÜ --- */
-        header { padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212, 175, 55, 0.15); background: var(--bg-dark); position: sticky; top: 0; z-index: 100;}
-        .logo { font-size: 22px; font-weight: 800; letter-spacing: 2px; color: var(--primary-gold); text-decoration: none; text-shadow: 0 2px 10px rgba(212,175,55,0.2); }
-        .back-link { color: var(--text-muted); text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 5px; transition: 0.3s; font-weight: 500; }
-        .back-link:hover { color: var(--primary-gold); }
+        /* ÜST MENÜ (Sadece Kullanıcı Adı ve Ayarlar) */
+        header { position: sticky; top: 0; width: 100%; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; background: var(--bg-dark); z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .header-username { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 5px; color: var(--text-light); }
+        .gold-tick { width: 14px; height: 14px; background: var(--primary-gold); border-radius: 50%; color: #000; font-size: 10px; font-weight: bold; display: none; justify-content: center; align-items: center;}
+        .header-icon { color: var(--text-light); font-size: 28px; cursor: pointer; background: none; border: none; }
 
-        .profile-container { max-width: 935px; margin: 40px auto 50px; padding: 0 20px; }
+        .profile-container { max-width: 600px; margin: 0 auto; padding: 20px 0; }
 
-        /* --- Profil Üst Kısım --- */
-        .profile-header { display: flex; gap: 60px; margin-bottom: 40px; align-items: center; }
-        .profile-avatar-container { flex-shrink: 0; }
-        .profile-ring { width: 120px; height: 120px; border-radius: 50%; padding: 3px; background: linear-gradient(45deg, #d4af37, #aa8529, #f3e5ab); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.15); }
-        .profile-avatar { width: 100%; height: 100%; border-radius: 50%; border: 4px solid var(--bg-dark); background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=400&q=80'); background-size: cover; background-position: center; transition: 0.3s; }
-        .profile-info { flex: 1; display: flex; flex-direction: column; gap: 15px; }
-        .profile-top-row { display: flex; align-items: center; gap: 15px; flex-wrap: wrap;}
-        .profile-username { font-size: 24px; font-weight: 400; color: var(--text-light); letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;}
-        .gold-tick { display: none; width: 20px; height: 20px; background: var(--primary-gold); border-radius: 50%; text-align: center; line-height: 20px; font-size: 12px; color: #000; font-weight: bold; box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); cursor: help; }
-        .btn-edit { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: var(--text-light); padding: 6px 16px; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer; transition: 0.3s; }
-        .btn-edit:hover { border-color: var(--primary-gold); color: var(--primary-gold); }
-        .profile-stats { display: flex; gap: 40px; }
-        .stat-item { font-size: 15px; color: var(--text-light); }
-        .stat-item span { font-weight: 600; color: var(--primary-gold); font-size: 16px; margin-right: 4px; }
-        .profile-bio { font-size: 14px; line-height: 1.5; color: var(--text-light); }
-        .bio-category { color: var(--text-muted); font-size: 13px; margin-bottom: 3px; }
-        .bio-link { color: #e0f2fe; text-decoration: none; font-weight: 500; font-size: 13px; margin-top: 5px; display: inline-block; transition: 0.3s;}
+        /* INSTAGRAM TARZI PROFIL ÜSTÜ */
+        .profile-header-top { display: flex; align-items: center; justify-content: space-between; padding: 0 20px; margin-bottom: 15px; }
+        
+        .profile-avatar-container { position: relative; }
+        .profile-ring { width: 85px; height: 85px; border-radius: 50%; padding: 3px; background: linear-gradient(45deg, #d4af37, #aa8529, #f3e5ab); }
+        .profile-avatar { width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--bg-dark); background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=400&q=80'); background-size: cover; background-position: center; }
+        
+        .profile-stats { display: flex; gap: 20px; flex: 1; justify-content: space-evenly; margin-left: 20px; }
+        .stat-item { display: flex; flex-direction: column; align-items: center; color: var(--text-light); font-size: 13px; }
+        .stat-item span { font-weight: 700; font-size: 18px; margin-bottom: 2px; }
 
-        /* --- Sekmeler --- */
-        .profile-tabs { display: flex; justify-content: center; border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; gap: 20px;}
-        .tab-item { padding: 15px 20px; color: var(--text-muted); font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: 0.3s; margin-top: -1px; border-top: 1px solid transparent;}
-        .tab-item:hover { color: var(--text-light); }
-        .tab-item.active { color: var(--primary-gold); border-top: 1px solid var(--primary-gold); }
+        .profile-bio { padding: 0 20px; font-size: 14px; line-height: 1.4; color: var(--text-light); margin-bottom: 15px; }
+        .bio-name { font-weight: 600; margin-bottom: 2px; color: var(--text-light); }
+        .bio-category { color: var(--text-muted); font-size: 13px; margin-bottom: 2px; }
+        .bio-link { color: #e0f2fe; text-decoration: none; font-weight: 500; font-size: 13px; display: inline-block; margin-top: 3px;}
 
-        /* --- Grid --- */
-        .profile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-        .grid-item { position: relative; aspect-ratio: 1 / 1; background-size: cover; background-position: center; cursor: pointer; border-radius: 4px; overflow: hidden; transition: 0.3s ease; }
-        .grid-item.is-premium { border: 1px solid var(--primary-gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
-        .grid-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: 0.3s ease; backdrop-filter: blur(2px); text-align: center; padding: 10px;}
-        .grid-item:hover .grid-overlay { opacity: 1; }
-        .overlay-title { color: white; font-size: 14px; margin-bottom: 8px; font-weight: 500;}
-        .overlay-price { color: var(--primary-gold); font-size: 16px; font-weight: 700; }
-        .premium-tag { position: absolute; top: 10px; left: 10px; background: var(--primary-gold); color: black; font-size: 10px; font-weight: bold; padding: 2px 8px; border-radius: 10px; }
+        .profile-actions { padding: 0 20px; margin-bottom: 20px; }
+        .btn-edit { background: var(--surface); border: 1px solid rgba(255,255,255,0.1); color: var(--text-light); padding: 8px 0; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.3s; width: 100%; text-align: center; }
+        .btn-edit:hover { background: rgba(255,255,255,0.1); }
 
-        /* --- MODALLAR --- */
+        /* SEKMELER */
+        .profile-tabs { display: flex; justify-content: space-around; border-top: 1px solid rgba(255,255,255,0.1); }
+        .tab-item { flex: 1; text-align: center; padding: 12px 0; color: var(--text-muted); cursor: pointer; transition: 0.3s; border-bottom: 2px solid transparent; display: flex; justify-content: center;}
+        .tab-item.active { color: var(--text-light); border-bottom: 2px solid var(--text-light); }
+
+        /* GRID (IZGARA) GÖNDERİLER */
+        .profile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+        .grid-item { position: relative; aspect-ratio: 1 / 1; background-size: cover; background-position: center; cursor: pointer; }
+        
+        /* ALT MENÜ */
+        .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 10, 12, 0.95); backdrop-filter: blur(15px); padding: 10px 10px calc(10px + env(safe-area-inset-bottom)); border-top: 1px solid rgba(255,255,255,0.05); z-index: 999; }
+        .nav-icon-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+        .nav-icon-btn .material-symbols-outlined { font-size: 28px; }
+        .nav-icon-btn.active { color: var(--text-light); font-variation-settings: 'FILL' 1; }
+        .nav-icon-btn.add-btn { background: var(--text-light); color: var(--bg-dark); width: 40px; height: 40px; border-radius: 12px; display: flex; justify-content: center; align-items: center; }
+        .nav-icon-btn.add-btn .material-symbols-outlined { font-size: 24px; font-weight: 600; }
+
+        /* MODALLAR */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1000; padding: 15px; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
-        .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: none; color: white; font-size: 20px; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; z-index: 20;}
-        .close-btn:hover { background: var(--primary-gold); color: #000; }
+        .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.5); border: none; color: white; font-size: 20px; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; z-index: 20;}
         
         .form-group { margin-bottom: 15px; text-align: left; }
         .form-group label { display: block; margin-bottom: 5px; color: var(--text-muted); font-size: 13px; }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px 15px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; outline: none; transition: border 0.3s; font-family: inherit; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px 15px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; outline: none; transition: 0.3s; font-family: inherit; }
         .form-group input:focus, .form-group textarea:focus { border-color: var(--primary-gold); }
-        
-        .btn-premium { background: linear-gradient(135deg, #d4af37 0%, #b58500 100%); color: #fff; padding: 10px 24px; border-radius: 10px; font-weight: 700; font-size: 15px; border: none; cursor: pointer; transition: all 0.3s ease; width: 100%; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px;}
-        .btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px; border-radius: 10px; cursor: pointer; width: 100%; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;}
-        .btn-outline:hover { border-color: white; }
-        .btn-delete { background: rgba(255,71,87,0.1); border: 1px solid #ff4757; color: #ff4757; padding: 10px; border-radius: 10px; cursor: pointer; width: 100%; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;}
-        .btn-delete:hover { background: #ff4757; color: white; }
+        .btn-premium { background: var(--primary-gold); color: #000; padding: 12px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; width: 100%; border: none;}
+        .btn-delete { background: rgba(255,71,87,0.1); border: 1px solid #ff4757; color: #ff4757; padding: 12px; border-radius: 10px; cursor: pointer; width: 100%; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600;}
 
-        /* KUTULAR */
-        .edit-box { background: var(--surface); border: 1px solid rgba(212, 175, 55, 0.3); padding: 30px; border-radius: 20px; width: 100%; max-width: 500px; position: relative; transform: scale(0.95); transition: all 0.3s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.8); max-height: 90vh; overflow-y: auto;}
-        .detail-box { background: var(--surface); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 20px; width: 100%; max-width: 1000px; max-height: 90vh; display: flex; overflow: hidden; transform: scale(0.95); transition: all 0.4s ease; position: relative; }
-        .modal-overlay.active .edit-box, .modal-overlay.active .detail-box { transform: scale(1); }
+        .edit-box { background: var(--surface); padding: 30px 20px; border-radius: 20px; width: 100%; max-width: 500px; position: relative; transform: scale(0.95); transition: 0.3s ease; }
+        .post-detail-box { background: var(--bg-dark); width: 100%; max-width: 450px; border-radius: 20px; overflow: hidden; transform: scale(0.95); transition: 0.3s ease; display: flex; flex-direction: column; max-height: 90vh;}
+        .modal-overlay.active .edit-box, .modal-overlay.active .post-detail-box { transform: scale(1); }
         
-        .detail-left { flex: 1.2; display: flex; flex-direction: column; background: #000; border-right: 1px solid rgba(255,255,255,0.05); }
-        .main-photo { flex: 1; background-size: cover; background-position: center; min-height: 350px; }
-        .detail-content { flex: 1; padding: 40px; overflow-y: auto; display: flex; flex-direction: column; text-align: left; }
-        
-        .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
-        .spec-item { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; font-size: 14px; }
-        .spec-item span { color: var(--text-muted); display: block; font-size: 12px; }
+        .post-detail-img { width: 100%; aspect-ratio: 4/5; background-size: cover; background-position: center; }
+        .post-detail-info { padding: 20px; overflow-y: auto; }
+        .post-detail-caption { font-size: 14px; color: var(--text-light); margin-bottom: 20px; line-height: 1.4; }
 
-        .admin-controls { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); margin-top: auto; display: flex; flex-direction: column; gap: 10px;}
-
-        /* Mobil */
         @media (max-width: 768px) {
-            .profile-header { gap: 20px; flex-direction: column; text-align: center; }
-            .profile-top-row { justify-content: center; }
-            .profile-stats { justify-content: center; width: 100%; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 0; }
-            .profile-grid { grid-template-columns: repeat(2, 1fr); gap: 5px;}
-            
             .modal-overlay { padding: 0; align-items: flex-end; }
-            .detail-box, .edit-box { display: block; width: 100%; border-radius: 25px 25px 0 0; max-height: 85vh; transform: translateY(100%); padding: 0; border: none; border-top: 1px solid var(--primary-gold); overflow-y: auto; }
-            .edit-box { padding: 25px 20px; }
-            .modal-overlay.active .detail-box, .modal-overlay.active .edit-box { transform: translateY(0); }
-            .detail-left { height: 300px; min-height: 300px; flex: none; border-radius: 25px 25px 0 0; overflow: hidden; }
-            .detail-content { padding: 20px; overflow-y: visible; }
+            .edit-box, .post-detail-box { border-radius: 25px 25px 0 0; transform: translateY(100%); margin: 0; border: none; border-top: 1px solid rgba(255,255,255,0.1); }
+            .modal-overlay.active .edit-box, .modal-overlay.active .post-detail-box { transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <a href="index.html" class="logo">SWINDER</a>
-        <a href="index.html" class="back-link"><span class="material-symbols-outlined" style="font-size: 18px;">arrow_back</span> Vitrine Dön</a>
+        <div class="header-username">
+            <span id="header-username-text">Yükleniyor...</span>
+            <span class="gold-tick" id="gold-tick">✓</span>
+        </div>
+        <button class="header-icon"><span class="material-symbols-outlined">menu</span></button>
     </header>
 
     <main class="profile-container">
-        <header class="profile-header">
+        <div class="profile-header-top">
             <div class="profile-avatar-container">
                 <div class="profile-ring"><div class="profile-avatar" id="display-avatar"></div></div>
             </div>
-            <div class="profile-info">
-                <div class="profile-top-row">
-                    <h1 class="profile-username">
-                        <span id="display-name">Yükleniyor...</span> 
-                        <span class="gold-tick" id="gold-tick" title="Doğrulanmış Satıcı">✓</span>
-                    </h1>
-                    <button class="btn-edit" onclick="openProfileEditModal()">Profili Düzenle</button>
-                </div>
-                <div class="profile-stats">
-                    <div class="stat-item"><span id="ad-count">0</span> İlan</div>
-                    <div class="stat-item"><span>2.4B</span> Takipçi</div>
-                </div>
-                <div class="profile-bio">
-                    <div class="bio-category" id="role-text">Premium Showroom</div>
-                    <span id="bio-text">Lüks araç ve emlak portföyü.</span> <br>
-                    <a href="#" id="bio-link" class="bio-link" target="_blank"></a>
-                </div>
+            <div class="profile-stats">
+                <div class="stat-item"><span id="post-count">0</span>Gönderi</div>
+                <div class="stat-item"><span>12.4B</span>Takipçi</div>
+                <div class="stat-item"><span>45</span>Takip</div>
             </div>
-        </header>
+        </div>
+
+        <div class="profile-bio">
+            <div class="bio-name" id="display-name">-</div>
+            <div class="bio-category" id="role-text">Otomotiv • Lüks Yaşam</div>
+            <div id="bio-text">Lüks araç ve yaşam tarzı.</div>
+            <a href="#" id="bio-link" class="bio-link" target="_blank"></a>
+        </div>
+
+        <div class="profile-actions">
+            <button class="btn-edit" onclick="openProfileEditModal()">Profili Düzenle</button>
+        </div>
 
         <div class="profile-tabs">
-            <div class="tab-item active" id="tab-my" onclick="switchTab('my')"><span class="material-symbols-outlined" style="font-size: 16px; vertical-align: text-bottom;">grid_view</span> İlanlarım</div>
-            <div class="tab-item" id="tab-admin" style="display: none;" onclick="switchTab('all')"><span class="material-symbols-outlined" style="font-size: 16px; vertical-align: text-bottom;">admin_panel_settings</span> Tüm İlanlar (Yönetim)</div>
+            <div class="tab-item active" id="tab-my" onclick="switchTab('my')"><span class="material-symbols-outlined">grid_on</span></div>
+            <div class="tab-item" id="tab-admin" style="display: none;" onclick="switchTab('all')"><span class="material-symbols-outlined">admin_panel_settings</span></div>
         </div>
 
-        <div class="profile-grid" id="my-listings">
-            <div style="grid-column: span 3; text-align: center; padding: 40px; color: var(--text-muted);">İlanlar yükleniyor...</div>
-        </div>
+        <div class="profile-grid" id="my-posts">
+            </div>
     </main>
 
-    <div class="modal-overlay" id="detailModal">
-        <div class="detail-box">
-            <button class="close-btn" onclick="closeDetailModal()" style="background: rgba(0,0,0,0.5);">&times;</button>
-            <div class="detail-left">
-                <div class="main-photo" id="modalMainImg"></div>
-            </div>
-            <div class="detail-content">
-                <h2 id="modalTitle" style="font-weight: 300; font-size: 1.5rem;">-</h2>
-                <div style="font-size: 2rem; color: var(--primary-gold); font-weight: 700; margin-bottom: 15px;" id="modalPrice">-</div>
-                <div class="specs">
-                    <div class="spec-item"><span>Yıl / Durum</span><strong id="modalYear">-</strong></div>
-                    <div class="spec-item"><span>KM / Alan</span><strong id="modalKm">-</strong></div>
-                    <div class="spec-item"><span>Yakıt / Tip</span><strong id="modalFuel">-</strong></div>
-                    <div class="spec-item"><span>Vites / Ekstra</span><strong id="modalGear">-</strong></div>
-                </div>
-                
-                <div class="admin-controls">
-                    <h4 style="color: var(--text-light); font-size: 13px; text-transform: uppercase; margin-bottom: 5px;">İlan Yönetimi</h4>
-                    <button id="btn-make-premium" class="btn-premium" style="display: none;"><span class="material-symbols-outlined">stars</span> Premium Yap</button>
-                    <button class="btn-outline" onclick="openEditAdModal()"><span class="material-symbols-outlined">edit</span> İlanı Düzenle</button>
-                    <button id="btn-delete-listing" class="btn-delete"><span class="material-symbols-outlined">delete</span> İlanı Sil</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <nav class="bottom-nav">
+        <button class="nav-icon-btn" onclick="window.location.href='index.html'"><span class="material-symbols-outlined">home</span></button>
+        <button class="nav-icon-btn"><span class="material-symbols-outlined">search</span></button>
+        <button class="nav-icon-btn add-btn" onclick="window.location.href='index.html'"><span class="material-symbols-outlined">add</span></button>
+        <button class="nav-icon-btn"><span class="material-symbols-outlined">movie</span></button>
+        <button class="nav-icon-btn active"><span class="material-symbols-outlined">person</span></button>
+    </nav>
 
-    <div class="modal-overlay" id="editAdModal">
-        <div class="edit-box">
-            <button class="close-btn" onclick="closeEditAdModal()">&times;</button>
-            <h2 style="color: var(--primary-gold); font-weight: 300; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">İlanı Düzenle</h2>
-            <div class="form-group"><label>Fiyat (TL)</label><input type="text" id="edit-ad-price"></div>
-            <div class="form-group"><label>İlan Başlığı</label><input type="text" id="edit-ad-title"></div>
-            <div style="display: flex; gap:10px;">
-                <div class="form-group" style="flex:1;"><label>Yıl</label><input type="text" id="edit-ad-year"></div>
-                <div class="form-group" style="flex:1;"><label>KM</label><input type="text" id="edit-ad-km"></div>
+    <div class="modal-overlay" id="postDetailModal">
+        <div class="post-detail-box">
+            <button class="close-btn" onclick="closePostDetailModal()"><span class="material-symbols-outlined">close</span></button>
+            <div class="post-detail-img" id="modalPostImg"></div>
+            <div class="post-detail-info">
+                <div class="post-detail-caption" id="modalPostCaption">-</div>
+                <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;"><span id="modalPostLikes">0</span> beğenme</div>
+                
+                <div id="admin-controls" style="display: none;">
+                    <button id="btn-delete-post" class="btn-delete"><span class="material-symbols-outlined">delete</span> Gönderiyi Sil</button>
+                </div>
             </div>
-            <button class="btn-premium" id="btn-save-ad">Değişiklikleri Kaydet</button>
         </div>
     </div>
 
     <div class="modal-overlay" id="profileEditModal">
         <div class="edit-box">
-            <button class="close-btn" onclick="closeProfileEditModal()">&times;</button>
-            <h2 style="color: var(--primary-gold); font-weight: 300; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">Profili Düzenle</h2>
-            <div class="form-group"><label>Fotoğraf URL</label><input type="text" id="edit-avatar"></div>
+            <button class="close-btn" onclick="closeProfileEditModal()"><span class="material-symbols-outlined">close</span></button>
+            <h2 style="color: var(--text-light); font-weight: 600; margin-bottom: 20px; text-align: center; font-size: 16px;">Profili Düzenle</h2>
+            <div class="form-group"><label>Profil Fotoğrafı (URL)</label><input type="text" id="edit-avatar"></div>
             <div class="form-group"><label>Biyografi</label><textarea id="edit-bio" rows="3"></textarea></div>
             <div class="form-group"><label>Web Sitesi</label><input type="text" id="edit-website"></div>
-            <button class="btn-premium" id="btn-save-profile">Profili Güncelle</button>
+            <button class="btn-premium" id="btn-save-profile" style="margin-top: 10px;">Kaydet</button>
         </div>
     </div>
 
     <script>
-        function closeDetailModal() { document.getElementById('detailModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
         function openProfileEditModal() { document.getElementById('profileEditModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
         function closeProfileEditModal() { document.getElementById('profileEditModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
-        function openEditAdModal() { closeDetailModal(); setTimeout(() => { document.getElementById('editAdModal').classList.add('active'); document.body.style.overflow = 'hidden'; }, 300); }
-        function closeEditAdModal() { document.getElementById('editAdModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
+        function closePostDetailModal() { document.getElementById('postDetailModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
         document.querySelectorAll('.modal-overlay').forEach(modal => { modal.addEventListener('click', (e) => { if(e.target === modal) { modal.classList.remove('active'); document.body.style.overflow = 'auto'; }}); });
     </script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, query, where, getDocs, doc, getDoc, setDoc, updateDoc, deleteDoc, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, query, where, getDocs, doc, getDoc, setDoc, deleteDoc, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0",
@@ -226,13 +188,10 @@
         let currentUserId = null;
         let isAdmin = false; 
         let currentTab = 'my';
-        let activeAdId = null;
-        let activeAdData = null;
+        let activePostId = null;
 
         // =================================================================
-        // DİKKAT: AŞAĞIDAKİ "adminEmail" DEĞİŞKENİNE KENDİ E-POSTANI YAZ!
-        // Sadece bu e-posta ile giriş yapan kişi "Tüm İlanları" görebilir
-        // ve Premium yapabilir!
+        // DİKKAT: BURAYA KENDİ E-POSTANI YAZ! (Admin yetkisi için)
         // =================================================================
         const adminEmail = "kcagatay239@gmail.com"; 
 
@@ -240,155 +199,123 @@
             if (!user) { window.location.href = "index.html"; return; }
             
             currentUserId = user.uid;
-            document.getElementById('display-name').innerText = user.displayName || "Swinder Üyesi";
             
-            // --- E-POSTA TABANLI GÜVENLİ ADMIN KONTROLÜ ---
+            // Kullanıcı adı başlığa
+            const usernameLower = user.displayName ? user.displayName.toLowerCase() : "kullanıcı";
+            document.getElementById('header-username-text').innerText = user.displayName;
+            document.getElementById('display-name').innerText = user.displayName;
+            
+            // Admin Kontrolü
             if(user.email && user.email.toLowerCase() === adminEmail.toLowerCase()) {
                 isAdmin = true;
-                document.getElementById('tab-admin').style.display = 'block'; 
-                document.getElementById('role-text').innerText = "👑 Sistem Yöneticisi (Kurucu)";
-                document.getElementById('role-text').style.color = "var(--primary-gold)";
+                document.getElementById('tab-admin').style.display = 'flex'; 
+                document.getElementById('role-text').innerText = "Kurucu • Sistem Yöneticisi";
             }
 
+            // Profili Veritabanından Çek
             const userRef = doc(db, "kullanicilar", user.uid);
             const userSnap = await getDoc(userRef);
             if (userSnap.exists()) {
                 const userData = userSnap.data();
                 if(userData.avatar) document.getElementById('display-avatar').style.backgroundImage = `url('${userData.avatar}')`;
                 if(userData.bio) document.getElementById('bio-text').innerText = userData.bio;
-                if(userData.website) { document.getElementById('bio-link').innerText = "🔗 " + userData.website; document.getElementById('bio-link').href = userData.website.startsWith('http') ? userData.website : 'https://' + userData.website; }
-                if(userData.isVerified || isAdmin) document.getElementById('gold-tick').style.display = 'inline-block';
+                if(userData.website) { 
+                    document.getElementById('bio-link').innerText = userData.website.replace(/^https?:\/\//, ''); 
+                    document.getElementById('bio-link').href = userData.website.startsWith('http') ? userData.website : 'https://' + userData.website; 
+                }
+                
+                // Altın Tik Gösterimi
+                if(userData.isVerified || isAdmin || usernameLower.includes('çağatay') || usernameLower.includes('cagatay')) {
+                    document.getElementById('gold-tick').style.display = 'inline-flex';
+                }
 
+                // Modal içini doldur
                 document.getElementById('edit-avatar').value = userData.avatar || "";
                 document.getElementById('edit-bio').value = userData.bio || "";
                 document.getElementById('edit-website').value = userData.website || "";
-            } else if(isAdmin) {
-                await setDoc(userRef, { isVerified: true, bio: "Swinder Kurucu Hesabı" });
-                document.getElementById('gold-tick').style.display = 'inline-block';
             }
 
-            loadListings();
+            loadPosts();
         });
 
+        // Tab Değiştirme (Kendi gönderilerim vs Tüm Gönderiler)
         window.switchTab = function(tabName) {
             currentTab = tabName;
             document.getElementById('tab-my').classList.remove('active');
             document.getElementById('tab-admin').classList.remove('active');
             document.getElementById('tab-' + tabName).classList.add('active');
-            loadListings();
+            loadPosts();
         }
 
-        async function loadListings() {
-            const grid = document.getElementById('my-listings');
-            grid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: var(--primary-gold); padding: 40px;">Veriler Çekiliyor...</div>';
+        // Gönderileri (Posts) Çek
+        async function loadPosts() {
+            const grid = document.getElementById('my-posts');
+            grid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: var(--text-muted); padding: 40px; font-size: 13px;">Yükleniyor...</div>';
             
             let q;
             if (currentTab === 'my') {
-                q = query(collection(db, "ilanlar"), where("seller", "==", auth.currentUser.displayName));
+                q = query(collection(db, "gonderiler"), where("username", "==", auth.currentUser.displayName));
             } else {
-                q = query(collection(db, "ilanlar"), orderBy("createdAt", "desc"));
+                q = query(collection(db, "gonderiler"), orderBy("createdAt", "desc"));
             }
             
             try {
                 const snapshot = await getDocs(q);
                 grid.innerHTML = ''; 
-                if (currentTab === 'my') document.getElementById('ad-count').innerText = snapshot.size;
-                if (snapshot.empty) { grid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: var(--text-muted); padding: 40px;">Burada gösterilecek ilan yok.</div>'; return; }
+                
+                if (currentTab === 'my') document.getElementById('post-count').innerText = snapshot.size;
+                
+                if (snapshot.empty) { 
+                    grid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: var(--text-muted); padding: 40px; font-size: 13px;">Henüz hiç gönderi yok.</div>'; 
+                    return; 
+                }
 
                 snapshot.forEach((doc) => {
                     const data = doc.data();
-                    const firstImg = data.images.split(',')[0].trim();
-                    const premiumTag = data.isPremium ? '<div class="premium-tag">PREMIUM</div>' : '';
-                    const premiumGlow = data.isPremium ? 'is-premium' : '';
                     const dataStr = encodeURIComponent(JSON.stringify(data));
                     
                     grid.insertAdjacentHTML('beforeend', `
-                    <div class="grid-item ${premiumGlow}" style="background-image: url('${firstImg}');" onclick="openDetail('${doc.id}', '${dataStr}')">
-                        ${premiumTag}
-                        <div class="grid-overlay"><div class="overlay-title">${data.title}</div><div class="overlay-price">${data.price}</div></div>
-                    </div>`);
+                    <div class="grid-item" style="background-image: url('${data.imageUrl}');" onclick="openPostDetail('${doc.id}', '${dataStr}')"></div>
+                    `);
                 });
-            } catch (error) { grid.innerHTML = `<div style="grid-column: span 3; text-align: center; color: red;">Hata: ${error.message}</div>`; }
+            } catch (error) { grid.innerHTML = `<div style="grid-column: span 3; text-align: center; color: red;">Hata oluştu.</div>`; console.log(error);}
         }
 
-        window.openDetail = function(docId, dataStr) {
+        // Gönderi Detayını Aç
+        window.openPostDetail = function(docId, dataStr) {
             const data = JSON.parse(decodeURIComponent(dataStr));
-            activeAdId = docId;
-            activeAdData = data;
+            activePostId = docId;
 
-            document.getElementById('modalTitle').innerText = data.title;
-            document.getElementById('modalPrice').innerText = data.price;
-            document.getElementById('modalYear').innerText = data.year;
-            document.getElementById('modalKm').innerText = data.km;
-            document.getElementById('modalFuel').innerText = data.fuel;
-            document.getElementById('modalGear').innerText = data.gear;
-            document.getElementById('modalMainImg').style.backgroundImage = `url('${data.images.split(',')[0].trim()}')`;
+            document.getElementById('modalPostImg').style.backgroundImage = `url('${data.imageUrl}')`;
+            document.getElementById('modalPostCaption').innerHTML = `<strong>${data.username}</strong> ${data.caption || ''}`;
+            document.getElementById('modalPostLikes').innerText = data.likesCount || 0;
 
-            document.getElementById('edit-ad-title').value = data.title;
-            document.getElementById('edit-ad-price').value = data.price;
-            document.getElementById('edit-ad-year').value = data.year;
-            document.getElementById('edit-ad-km').value = data.km;
-
-            const btnPremium = document.getElementById('btn-make-premium');
-            if (isAdmin) {
-                btnPremium.style.display = 'flex';
-                if (data.isPremium) {
-                    btnPremium.innerHTML = '<span class="material-symbols-outlined">remove_circle</span> Premium İptal Et';
-                    btnPremium.style.background = 'transparent';
-                    btnPremium.style.border = '1px solid #ff4757';
-                    btnPremium.style.color = '#ff4757';
-                } else {
-                    btnPremium.innerHTML = '<span class="material-symbols-outlined">stars</span> Premium Yap';
-                    btnPremium.style.background = 'linear-gradient(135deg, #d4af37 0%, #b58500 100%)';
-                    btnPremium.style.border = 'none';
-                    btnPremium.style.color = '#fff';
-                }
+            // Eğer gönderi benimse veya Adminsem "Sil" butonunu göster
+            if (isAdmin || auth.currentUser.displayName === data.username) {
+                document.getElementById('admin-controls').style.display = 'block';
+            } else {
+                document.getElementById('admin-controls').style.display = 'none';
             }
 
-            document.getElementById('detailModal').classList.add('active'); 
+            document.getElementById('postDetailModal').classList.add('active'); 
             document.body.style.overflow = 'hidden';
         }
 
-        document.getElementById('btn-delete-listing').addEventListener('click', async () => {
-            if(!activeAdId) return;
-            if(confirm("Bu ilanı sistemden tamamen silmek istediğine emin misin?")) {
+        // Gönderi Silme İşlemi
+        document.getElementById('btn-delete-post').addEventListener('click', async () => {
+            if(!activePostId) return;
+            if(confirm("Bu gönderiyi silmek istediğine emin misin?")) {
                 try {
-                    document.getElementById('btn-delete-listing').innerText = "Siliniyor...";
-                    await deleteDoc(doc(db, "ilanlar", activeAdId));
-                    closeDetailModal(); loadListings(); 
+                    document.getElementById('btn-delete-post').innerText = "Siliniyor...";
+                    await deleteDoc(doc(db, "gonderiler", activePostId));
+                    closePostDetailModal(); 
+                    loadPosts(); 
                 } catch (error) { alert("Hata: " + error.message); }
-                finally { document.getElementById('btn-delete-listing').innerHTML = '<span class="material-symbols-outlined">delete</span> İlanı Sil'; }
+                finally { document.getElementById('btn-delete-post').innerHTML = '<span class="material-symbols-outlined">delete</span> Gönderiyi Sil'; }
             }
         });
 
-        document.getElementById('btn-save-ad').addEventListener('click', async () => {
-            if(!activeAdId) return;
-            const btn = document.getElementById('btn-save-ad');
-            btn.innerText = "Güncelleniyor...";
-            try {
-                await updateDoc(doc(db, "ilanlar", activeAdId), {
-                    title: document.getElementById('edit-ad-title').value,
-                    price: document.getElementById('edit-ad-price').value,
-                    year: document.getElementById('edit-ad-year').value,
-                    km: document.getElementById('edit-ad-km').value
-                });
-                closeEditAdModal(); loadListings();
-            } catch (error) { alert("Hata: " + error.message); }
-            finally { btn.innerText = "Değişiklikleri Kaydet"; }
-        });
-
-        document.getElementById('btn-make-premium').addEventListener('click', async () => {
-            if(!activeAdId || !isAdmin) return;
-            const btn = document.getElementById('btn-make-premium');
-            btn.innerText = "İşleniyor...";
-            const newPremiumStatus = !activeAdData.isPremium; 
-            try {
-                await updateDoc(doc(db, "ilanlar", activeAdId), { isPremium: newPremiumStatus });
-                closeDetailModal(); loadListings(); 
-                alert(newPremiumStatus ? "İlan başarıyla Premium Vitrin'e taşındı! ✨" : "İlan Premium'dan çıkarıldı.");
-            } catch (error) { alert("Hata: " + error.message); }
-        });
-
+        // Profili Düzenle ve Kaydet
         document.getElementById('btn-save-profile').addEventListener('click', async () => {
             if(!currentUserId) return;
             const btn = document.getElementById('btn-save-profile');
@@ -400,7 +327,7 @@
                     website: document.getElementById('edit-website').value
                 }, { merge: true });
                 closeProfileEditModal(); window.location.reload(); 
-            } catch (error) { alert("Hata: " + error.message); btn.innerText = "Profili Güncelle"; }
+            } catch (error) { alert("Hata: " + error.message); btn.innerText = "Kaydet"; }
         });
 
     </script>
