@@ -82,14 +82,17 @@
         .auth-form.active { display: block; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- DETAY MODALI VE ÇOKLU FOTOĞRAF GALERİSİ --- */
+        /* --- DETAY MODALI (KAYDIRILABİLİR GALERİ) --- */
         .detail-box { background: rgba(26, 26, 31, 0.85); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 20px; width: 100%; max-width: 1000px; max-height: 90vh; display: flex; overflow: hidden; transform: scale(0.95); transition: all 0.4s ease; position: relative; }
         .modal-overlay.active .detail-box { transform: scale(1); }
         
-        .detail-left { flex: 1.2; display: flex; flex-direction: column; background: #000; border-right: 1px solid rgba(255,255,255,0.05); }
-        .main-photo { flex: 1; background-size: cover; background-position: center; transition: background-image 0.3s ease; min-height: 350px; }
+        .detail-left { flex: 1.2; display: flex; flex-direction: column; background: #000; border-right: 1px solid rgba(255,255,255,0.05); position: relative; }
         
-        .thumbnail-gallery { display: flex; gap: 10px; padding: 15px; background: rgba(26, 26, 31, 0.9); overflow-x: auto; }
+        /* Mobilde ekran kaymasını engellemek için touch-action pan-y */
+        .main-photo { flex: 1; background-size: cover; background-position: center; transition: background-image 0.3s ease; min-height: 350px; touch-action: pan-y; cursor: grab; }
+        .main-photo:active { cursor: grabbing; }
+
+        .thumbnail-gallery { display: flex; gap: 10px; padding: 15px; background: rgba(26, 26, 31, 0.9); overflow-x: auto; scroll-behavior: smooth; }
         .thumbnail-gallery::-webkit-scrollbar { display: none; }
         .thumb-item { width: 80px; height: 60px; min-width: 80px; background-size: cover; background-position: center; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: 0.3s; opacity: 0.5; }
         .thumb-item:hover, .thumb-item.active { opacity: 1; border-color: var(--primary-gold); }
@@ -145,38 +148,22 @@
         <div class="grid">
             <div class="card premium" onclick="openDetailModal('BMW 420i Cabrio M Sport', '3.250.000 TL', '2022', '15.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?auto=format&fit=crop&w=800&q=80,https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&w=800&q=80,https://images.unsplash.com/photo-1610647752706-3bb12232b3ab?auto=format&fit=crop&w=800&q=80', 'Çağatay Motors')">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?auto=format&fit=crop&w=800&q=80');"><span class="badge premium-badge">PREMIUM</span></div>
-                <div class="card-content">
-                    <h3 class="card-title">BMW 420i Cabrio M Sport</h3>
-                    <div class="card-price">3.250.000 TL</div>
-                    <div class="card-details"><span>2022</span><span>Çağatay Motors</span></div>
-                </div>
+                <div class="card-content"><h3 class="card-title">BMW 420i Cabrio M Sport</h3><div class="card-price">3.250.000 TL</div><div class="card-details"><span>2022</span><span>Çağatay Motors</span></div></div>
             </div>
 
             <div class="card premium" onclick="openDetailModal('BMW F30 320i M Sport', '1.850.000 TL', '2018', '65.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1556189250-72ba954cfc2b?auto=format&fit=crop&w=800&q=80,https://images.unsplash.com/photo-1610647752706-3bb12232b3ab?auto=format&fit=crop&w=800&q=80', 'Çağatay Motors')">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1556189250-72ba954cfc2b?auto=format&fit=crop&w=800&q=80');"><span class="badge premium-badge">PREMIUM</span></div>
-                <div class="card-content">
-                    <h3 class="card-title">BMW F30 320i M Sport</h3>
-                    <div class="card-price">1.850.000 TL</div>
-                    <div class="card-details"><span>2018</span><span>Çağatay Motors</span></div>
-                </div>
+                <div class="card-content"><h3 class="card-title">BMW F30 320i M Sport</h3><div class="card-price">1.850.000 TL</div><div class="card-details"><span>2018</span><span>Çağatay Motors</span></div></div>
             </div>
 
             <div class="card premium" onclick="openDetailModal('Boğaz Manzaralı Yalı', '245.000.000 TL', '5 Yıllık', '1200 m²', 'Doğalgaz', 'Müstakil', 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80,https://images.unsplash.com/photo-1600607687931-cecebd802404?auto=format&fit=crop&w=800&q=80,https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80', 'Swinder Emlak')">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80');"><span class="badge premium-badge">PREMIUM</span></div>
-                <div class="card-content">
-                    <h3 class="card-title">Boğaz Manzaralı Yalı</h3>
-                    <div class="card-price">245.000.000 TL</div>
-                    <div class="card-details"><span>8+2</span><span>Sarıyer</span></div>
-                </div>
+                <div class="card-content"><h3 class="card-title">Boğaz Manzaralı Yalı</h3><div class="card-price">245.000.000 TL</div><div class="card-details"><span>8+2</span><span>Sarıyer</span></div></div>
             </div>
 
-            <div class="card premium" onclick="openDetailModal('Audemars Piguet Royal Oak', '2.100.000 TL', '2021', 'Kutulu', 'Otomatik', 'Çelik', 'https://images.unsplash.com/photo-1548171915-e79a380a2a4b?auto=format&fit=crop&w=800&q=80', 'Lüks Saat Merkezi')">
+            <div class="card premium" onclick="openDetailModal('Audemars Piguet Royal Oak', '2.100.000 TL', '2021', 'Kutulu', 'Otomatik', 'Çelik', 'https://images.unsplash.com/photo-1548171915-e79a380a2a4b?auto=format&fit=crop&w=800&q=80,https://images.unsplash.com/photo-1622434641406-a158123450f9?auto=format&fit=crop&w=800&q=80', 'Lüks Saat Merkezi')">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1548171915-e79a380a2a4b?auto=format&fit=crop&w=800&q=80');"><span class="badge premium-badge">PREMIUM</span></div>
-                <div class="card-content">
-                    <h3 class="card-title">Audemars Piguet Royal Oak</h3>
-                    <div class="card-price">2.100.000 TL</div>
-                    <div class="card-details"><span>2021</span><span>Sıfır Ayarında</span></div>
-                </div>
+                <div class="card-content"><h3 class="card-title">Audemars Piguet Royal Oak</h3><div class="card-price">2.100.000 TL</div><div class="card-details"><span>2021</span><span>Sıfır Ayarında</span></div></div>
             </div>
         </div>
 
@@ -184,37 +171,21 @@
             <h2 class="section-title" style="color: var(--text-light);">Güncel İlanlar</h2>
         </div>
         <div class="grid" id="normalIlanIzgarasi">
-            <div class="card normal" onclick="openDetailModal('Porsche 911 Carrera S', '18.200.000 TL', '2022', '12.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1503376760367-112cb1bf2363?auto=format&fit=crop&w=800&q=80', 'Bireysel Satıcı')">
+            <div class="card normal" onclick="openDetailModal('Porsche 911 Carrera S', '18.200.000 TL', '2022', '12.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1503376760367-112cb1bf2363?auto=format&fit=crop&w=800&q=80,https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=800&q=80', 'Bireysel Satıcı')">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1503376760367-112cb1bf2363?auto=format&fit=crop&w=800&q=80');"><span class="badge normal-badge">Yeni</span></div>
-                <div class="card-content">
-                    <h3 class="card-title">Porsche 911 Carrera S</h3>
-                    <div class="card-price">18.200.000 TL</div>
-                    <div class="card-details"><span>2022</span><span>12.000 km</span></div>
-                </div>
+                <div class="card-content"><h3 class="card-title">Porsche 911 Carrera S</h3><div class="card-price">18.200.000 TL</div><div class="card-details"><span>2022</span><span>12.000 km</span></div></div>
             </div>
             <div class="card normal" onclick="openDetailModal('Bodrum Yalıkavak Villa', '65.000.000 TL', 'Sıfır', '450 m²', 'Isı Pompası', 'Özel Havuz', 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80', 'Ege Emlak')">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80');"></div>
-                <div class="card-content">
-                    <h3 class="card-title">Bodrum Yalıkavak Villa</h3>
-                    <div class="card-price">65.000.000 TL</div>
-                    <div class="card-details"><span>5+1</span><span>Müstakil Havuzlu</span></div>
-                </div>
+                <div class="card-content"><h3 class="card-title">Bodrum Yalıkavak Villa</h3><div class="card-price">65.000.000 TL</div><div class="card-details"><span>5+1</span><span>Müstakil Havuzlu</span></div></div>
             </div>
             <div class="card normal" onclick="openDetailModal('Mercedes G63 AMG', '28.500.000 TL', '2023', '5.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1520031441872-265e4ff70366?auto=format&fit=crop&w=800&q=80', 'Bireysel Satıcı')">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1520031441872-265e4ff70366?auto=format&fit=crop&w=800&q=80');"></div>
-                <div class="card-content">
-                    <h3 class="card-title">Mercedes G63 AMG</h3>
-                    <div class="card-price">28.500.000 TL</div>
-                    <div class="card-details"><span>2023</span><span>5.000 km</span></div>
-                </div>
+                <div class="card-content"><h3 class="card-title">Mercedes G63 AMG</h3><div class="card-price">28.500.000 TL</div><div class="card-details"><span>2023</span><span>5.000 km</span></div></div>
             </div>
             <div class="card normal" onclick="openDetailModal('Rolex Submariner Date', '485.000 TL', '2023', 'Sıfır', 'Otomatik', 'Çelik', 'https://images.unsplash.com/photo-1601158935942-52255782d322?auto=format&fit=crop&w=800&q=80', 'Saat & Saat')">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1601158935942-52255782d322?auto=format&fit=crop&w=800&q=80');"></div>
-                <div class="card-content">
-                    <h3 class="card-title">Rolex Submariner Date</h3>
-                    <div class="card-price">485.000 TL</div>
-                    <div class="card-details"><span>2023</span><span>Kutusunda</span></div>
-                </div>
+                <div class="card-content"><h3 class="card-title">Rolex Submariner Date</h3><div class="card-price">485.000 TL</div><div class="card-details"><span>2023</span><span>Kutusunda</span></div></div>
             </div>
         </div>
     </section>
@@ -248,8 +219,7 @@
             
             <div class="detail-left">
                 <div class="main-photo" id="modalMainImg"></div>
-                <div class="thumbnail-gallery" id="modalThumbnails">
-                    </div>
+                <div class="thumbnail-gallery" id="modalThumbnails"></div>
             </div>
 
             <div class="detail-content">
@@ -276,19 +246,9 @@
             <h2>✨ Yeni İlan Oluştur</h2>
             <form>
                 <div class="form-grid-2">
-                    <div class="form-group">
-                        <label>Kategori</label>
-                        <select><option>Premium Araçlar</option><option>Lüks Emlak</option></select>
-                    </div>
-                    <div class="form-group">
-                        <label>Fiyat (TL)</label>
-                        <input type="text" placeholder="Örn: 3.250.000">
-                    </div>
-                    <div class="form-group" style="grid-column: span 2;">
-                        <label>İlan Başlığı</label>
-                        <input type="text" placeholder="Örn: Hatasız BMW 420i Cabrio M Sport">
-                    </div>
-                    
+                    <div class="form-group"><label>Kategori</label><select><option>Premium Araçlar</option><option>Lüks Emlak</option></select></div>
+                    <div class="form-group"><label>Fiyat (TL)</label><input type="text" placeholder="Örn: 3.250.000"></div>
+                    <div class="form-group" style="grid-column: span 2;"><label>İlan Başlığı</label><input type="text" placeholder="Örn: Hatasız BMW 420i Cabrio M Sport"></div>
                     <div class="form-group" style="grid-column: span 2;">
                         <label>Fotoğraf Yükle (Maksimum 5 Adet)</label>
                         <div class="upload-area">
@@ -307,7 +267,7 @@
     </div>
 
     <script>
-        // Modal Genel Kapatma İşlemleri
+        // --- MODAL KONTROLLERİ ---
         function closeAuthModal() { document.getElementById('authModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
         function closeDetailModal() { document.getElementById('detailModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
         function closeAddModal() { document.getElementById('addModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
@@ -325,10 +285,14 @@
             document.getElementById('form-' + tab).classList.add('active');
         }
 
-        // --- GALERİLİ İLAN DETAY MODALI (YENİ) ---
+        // --- GALERİ VE DOKUNMATİK KAYDIRMA (SWIPE) MANTIĞI ---
         const detailModal = document.getElementById('detailModal');
+        const mainImgDiv = document.getElementById('modalMainImg');
+        const thumbContainer = document.getElementById('modalThumbnails');
         
-        // imgUrls parametresi artık birden fazla linki virgülle ayırarak alıyor (Örn: "resim1.jpg,resim2.jpg")
+        let currentGalleryImages = [];
+        let currentImageIndex = 0;
+
         function openDetailModal(title, price, year, km, fuel, gear, imgUrls, seller) {
             document.getElementById('modalTitle').innerText = title; 
             document.getElementById('modalPrice').innerText = price;
@@ -338,43 +302,95 @@
             document.getElementById('modalGear').innerText = gear;
             document.getElementById('modalSeller').innerText = seller;
 
-            // Fotoğraf Linklerini Virgüllerden Ayırıp Dizi (Array) Yapıyoruz
-            const images = imgUrls.split(',');
-            const mainImgDiv = document.getElementById('modalMainImg');
-            const thumbContainer = document.getElementById('modalThumbnails');
+            // Fotoğrafları Diziye Çevir
+            currentGalleryImages = imgUrls.split(',');
+            currentImageIndex = 0;
             
-            // İlk fotoğrafı ana resim yap
-            mainImgDiv.style.backgroundImage = `url('${images[0]}')`;
-            thumbContainer.innerHTML = ''; // Eski fotoğrafları temizle
-
-            // Eğer birden fazla fotoğraf varsa küçük galeriyi oluştur (Maksimum 5 tane)
-            if(images.length > 1) {
-                thumbContainer.style.display = 'flex';
-                images.forEach((img, index) => {
-                    if (index < 5) { // Maksimum 5 sınırı burada işliyor
-                        const thumb = document.createElement('div');
-                        thumb.className = `thumb-item ${index === 0 ? 'active' : ''}`;
-                        thumb.style.backgroundImage = `url('${img}')`;
-                        
-                        // Küçük resme tıklanınca ana resmi değiştirme olayı
-                        thumb.onclick = function() {
-                            mainImgDiv.style.backgroundImage = `url('${img}')`;
-                            document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active'));
-                            this.classList.add('active');
-                        };
-                        thumbContainer.appendChild(thumb);
-                    }
-                });
-            } else {
-                // Tek fotoğraf varsa alt galeriyi gizle
-                thumbContainer.style.display = 'none';
-            }
+            updateGalleryUI(); // İlk ekranı çiz
 
             detailModal.classList.add('active'); 
             document.body.style.overflow = 'hidden';
         }
 
-        // Sonsuz Kaydırma Fonksiyonu
+        function updateGalleryUI() {
+            // Ana resmi güncelle
+            mainImgDiv.style.backgroundImage = `url('${currentGalleryImages[currentImageIndex]}')`;
+            thumbContainer.innerHTML = ''; 
+
+            if(currentGalleryImages.length > 1) {
+                thumbContainer.style.display = 'flex';
+                currentGalleryImages.forEach((img, index) => {
+                    if (index < 5) { // Maksimum 5 fotoğraf sınırı
+                        const thumb = document.createElement('div');
+                        thumb.className = `thumb-item ${index === currentImageIndex ? 'active' : ''}`;
+                        thumb.style.backgroundImage = `url('${img}')`;
+                        
+                        // Küçük resme tıklanınca
+                        thumb.onclick = function() {
+                            currentImageIndex = index;
+                            updateGalleryUI();
+                        };
+                        thumbContainer.appendChild(thumb);
+                        
+                        // Aktif olanı kaydırarak ortala (Mobilde çok işe yarar)
+                        if(index === currentImageIndex) {
+                            setTimeout(() => thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }), 50);
+                        }
+                    }
+                });
+            } else {
+                thumbContainer.style.display = 'none';
+            }
+        }
+
+        // --- DOKUNMATİK (SWIPE) OLAYLARI ---
+        let touchstartX = 0;
+        let touchendX = 0;
+
+        mainImgDiv.addEventListener('touchstart', e => {
+            touchstartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+
+        mainImgDiv.addEventListener('touchend', e => {
+            touchendX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, {passive: true});
+
+        // Mouse ile tutup kaydırma (Bilgisayarda test etmek için)
+        let isDragging = false;
+        mainImgDiv.addEventListener('mousedown', e => {
+            isDragging = true;
+            touchstartX = e.screenX;
+        });
+        window.addEventListener('mouseup', e => {
+            if(isDragging) {
+                touchendX = e.screenX;
+                handleSwipe();
+                isDragging = false;
+            }
+        });
+
+        function handleSwipe() {
+            if(currentGalleryImages.length <= 1) return; // Tek fotoğrafta kaydırma iptal
+            
+            const swipeThreshold = 50; // Algılama hassasiyeti (piksel)
+            
+            if (touchendX < touchstartX - swipeThreshold) {
+                // Sola kaydırıldı -> Sonraki Fotoğraf
+                if (currentImageIndex < Math.min(currentGalleryImages.length, 5) - 1) {
+                    currentImageIndex++;
+                    updateGalleryUI();
+                }
+            } else if (touchendX > touchstartX + swipeThreshold) {
+                // Sağa kaydırıldı -> Önceki Fotoğraf
+                if (currentImageIndex > 0) {
+                    currentImageIndex--;
+                    updateGalleryUI();
+                }
+            }
+        }
+
+        // --- SINIRSIZ KAYDIRMA ---
         const grid = document.getElementById('normalIlanIzgarasi');
         const loader = document.getElementById('loader');
         let isLoading = false;
@@ -383,10 +399,8 @@
             if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 150 && !isLoading) {
                 isLoading = true; loader.classList.add('active');
                 setTimeout(() => { 
-                    // Yükleme animasyonundan sonra aynı BMW F30 ve Porsche ilanlarını alt alta ekle
                     grid.insertAdjacentHTML('beforeend', `<div class="card normal" onclick="openDetailModal('BMW F30 320i M Sport', '1.850.000 TL', '2018', '65.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1556189250-72ba954cfc2b?auto=format&fit=crop&w=800&q=80,https://images.unsplash.com/photo-1610647752706-3bb12232b3ab?auto=format&fit=crop&w=800&q=80', 'Çağatay Motors')"><div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1556189250-72ba954cfc2b?auto=format&fit=crop&w=800&q=80');"></div><div class="card-content"><h3 class="card-title">BMW F30 320i M Sport</h3><div class="card-price">1.850.000 TL</div><div class="card-details"><span>2018</span><span>Çağatay Motors</span></div></div></div>`);
-                    loader.classList.remove('active'); 
-                    isLoading = false; 
+                    loader.classList.remove('active'); isLoading = false; 
                 }, 1200);
             }
         });
