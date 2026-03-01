@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMW 420i Cabrio M Sport - Elite Vitrin</title>
+    <style>
+        /* --- Temel Ayarlar ve Renk Paleti (Öncekiyle Aynı) --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        :root {
+            --bg-dark: #0a0a0c;
+            --surface: #1a1a1f;
+            --primary-gold: #d4af37;
+            --text-light: #f5f5f7;
+            --text-muted: #8e8e93;
+            --glass-bg: rgba(26, 26, 31, 0.7);
+        }
+        body { background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; line-height: 1.6; }
+
+        /* --- Üst Menü --- */
+        header {
+            position: fixed; top: 0; width: 100%; padding: 20px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            z-index: 100; border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+        .logo { font-size: 24px; font-weight: bold; letter-spacing: 2px; color: var(--primary-gold); text-decoration: none; }
+        .back-btn { color: var(--text-muted); text-decoration: none; font-size: 14px; transition: color 0.3s; }
+        .back-btn:hover { color: var(--text-light); }
+
+        /* --- İlan Görsel Galerisi --- */
+        .gallery-section {
+            margin-top: 75px; width: 100%; height: 60vh;
+            background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover; background-position: center;
+            position: relative;
+        }
+        .gallery-overlay {
+            position: absolute; bottom: 0; width: 100%; height: 50%;
+            background: linear-gradient(to top, var(--bg-dark), transparent);
+        }
+
+        /* --- Detay İçerik Alanı --- */
+        .detail-container {
+            max-width: 1200px; margin: -50px auto 100px; padding: 0 20px;
+            display: grid; grid-template-columns: 2fr 1fr; gap: 40px; position: relative; z-index: 10;
+        }
+
+        /* Sol Sütun: Açıklamalar */
+        .main-info h1 { font-size: 2.5rem; font-weight: 300; margin-bottom: 15px; }
+        .tags { display: flex; gap: 15px; margin-bottom: 30px; }
+        .tag { background: rgba(255,255,255,0.05); padding: 8px 16px; border-radius: 20px; font-size: 14px; color: var(--text-muted); border: 1px solid rgba(255,255,255,0.1); }
+        
+        .section-box {
+            background: var(--surface); border-radius: 16px; padding: 30px;
+            border: 1px solid rgba(255,255,255,0.05); margin-bottom: 30px;
+        }
+        .section-title { font-size: 1.2rem; color: var(--primary-gold); margin-bottom: 20px; border-bottom: 1px solid rgba(212, 175, 55, 0.2); padding-bottom: 10px; }
+        .description-text { color: var(--text-muted); font-size: 1rem; }
+        
+        .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .spec-item { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; }
+        .spec-label { color: var(--text-muted); }
+        .spec-value { font-weight: 600; }
+
+        /* Sağ Sütun: Satıcı Paneli (Sticky) */
+        .sidebar { position: sticky; top: 100px; }
+        .price-box { font-size: 2.5rem; color: var(--primary-gold); font-weight: 700; margin-bottom: 20px; text-align: right; }
+        
+        .seller-card { text-align: center; }
+        .seller-avatar {
+            width: 80px; height: 80px; background: #2a2a30; border-radius: 50%;
+            margin: 0 auto 15px; border: 2px solid var(--primary-gold); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: var(--primary-gold);
+        }
+        .seller-name { font-size: 1.2rem; margin-bottom: 5px; }
+        .seller-type { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
+        
+        .action-btn {
+            width: 100%; padding: 15px; border-radius: 10px; font-size: 16px; font-weight: 600;
+            cursor: pointer; transition: all 0.3s ease; margin-bottom: 15px; border: none;
+        }
+        .btn-call { background: var(--primary-gold); color: #000; }
+        .btn-call:hover { background: #e6c555; transform: translateY(-2px); }
+        .btn-message { background: transparent; color: var(--text-light); border: 1px solid rgba(255,255,255,0.2); }
+        .btn-message:hover { border-color: var(--primary-gold); color: var(--primary-gold); }
+
+        /* Mobil Uyumluluk */
+        @media (max-width: 900px) {
+            .detail-container { grid-template-columns: 1fr; }
+            .sidebar { position: static; }
+            .price-box { text-align: left; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">ELITE VİTRİN</a>
+        <a href="index.html" class="back-btn">← Vitrine Dön</a>
+    </header>
+
+    <div class="gallery-section">
+        <div class="gallery-overlay"></div>
+    </div>
+
+    <div class="detail-container">
+        
+        <div class="main-info">
+            <h1>BMW 420i Cabrio M Sport</h1>
+            
+            <div class="tags">
+                <div class="tag">2022 Model</div>
+                <div class="tag">15.000 KM</div>
+                <div class="tag">İstanbul / Kadıköy</div>
+                <div class="tag" style="border-color: var(--primary-gold); color: var(--primary-gold);">Premium İlan</div>
+            </div>
+
+            <div class="section-box">
+                <h2 class="section-title">Araç Özellikleri</h2>
+                <div class="specs-grid">
+                    <div class="spec-item"><span class="spec-label">Marka</span> <span class="spec-value">BMW</span></div>
+                    <div class="spec-item"><span class="spec-label">Seri</span> <span class="spec-value">4 Serisi</span></div>
+                    <div class="spec-item"><span class="spec-label">Model</span> <span class="spec-value">420i Cabrio</span></div>
+                    <div class="spec-item"><span class="spec-label">Yıl</span> <span class="spec-value">2022</span></div>
+                    <div class="spec-item"><span class="spec-label">Yakıt</span> <span class="spec-value">Benzin</span></div>
+                    <div class="spec-item"><span class="spec-label">Vites</span> <span class="spec-value">Yarı Otomatik</span></div>
+                    <div class="spec-item"><span class="spec-label">Motor Gücü</span> <span class="spec-value">170 hp</span></div>
+                    <div class="spec-item"><span class="spec-label">Çekiş</span> <span class="spec-value">Arkadan İtiş</span></div>
+                </div>
+            </div>
+
+            <div class="section-box">
+                <h2 class="section-title">İlan Açıklaması</h2>
+                <p class="description-text">
+                    Araç kapalı garajda muhafaza edilmiş olup, içinde sigara içilmemiştir. M Sport donanım paketine ek olarak opsiyonel Harman Kardon ses sistemi ve boyun ısıtma mevcuttur. Tüm bakımları yetkili serviste yapılmış olup garantisi devam etmektedir. Hata, boya, tramer kaydı kesinlikle yoktur. İstenilen ekspertize gösterilebilir.
+                </p>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="price-box">3.250.000 TL</div>
+            
+            <div class="section-box seller-card">
+                <div class="seller-avatar">ÇM</div>
+                <h3 class="seller-name">Çağatay Motors</h3>
+                <div class="seller-type">Kurumsal Mağaza</div>
+                
+                <button class="action-btn btn-call" onclick="alert('Satıcı aranıyor: +90 555 123 45 67')">Telefonu Göster</button>
+                <button class="action-btn btn-message" onclick="alert('Mesajlaşma penceresi açılıyor...')">Mesaj Gönder</button>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
