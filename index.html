@@ -66,38 +66,51 @@
         .spinner { width: 35px; height: 35px; border: 3px solid rgba(212, 175, 55, 0.2); border-top: 3px solid var(--primary-gold); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* --- ORTAK MODAL (Açılır Pencere) --- */
+        /* --- ORTAK MODAL YAPISI --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1000; padding: 15px; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: none; color: white; font-size: 20px; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; transition: 0.3s; z-index: 10; display: flex; align-items: center; justify-content: center; }
         .close-btn:hover { background: var(--primary-gold); color: #000; }
 
-        /* Giriş/Kayıt Modalı İçeriği */
+        /* Form Elemanları (Ortak) */
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 5px; color: var(--text-muted); font-size: 13px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 15px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; outline: none; transition: border 0.3s; font-family: inherit; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary-gold); }
+        
+        /* 1. Giriş/Kayıt Modalı */
         .auth-box { background: var(--surface); border: 1px solid rgba(212, 175, 55, 0.3); padding: 30px; border-radius: 20px; width: 100%; max-width: 400px; position: relative; transform: scale(0.95); transition: all 0.3s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
         .modal-overlay.active .auth-box { transform: scale(1); }
         .auth-tabs { display: flex; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .tab-btn { flex: 1; background: none; border: none; color: var(--text-muted); padding: 10px 0; font-size: 16px; cursor: pointer; transition: 0.3s; position: relative; }
         .tab-btn.active { color: var(--primary-gold); font-weight: 600; }
         .tab-btn.active::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 2px; background: var(--primary-gold); }
-        .form-group { margin-bottom: 15px; }
-        .form-group input { width: 100%; padding: 12px 15px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; outline: none; transition: border 0.3s; }
-        .form-group input:focus { border-color: var(--primary-gold); }
         .auth-form { display: none; }
         .auth-form.active { display: block; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* İlan Detay Modalı İçeriği */
+        /* 2. İlan Detay Modalı */
         .detail-box { background: rgba(26, 26, 31, 0.85); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 20px; width: 100%; max-width: 1000px; max-height: 90vh; display: flex; overflow: hidden; transform: scale(0.95); transition: all 0.4s ease; position: relative; }
         .modal-overlay.active .detail-box { transform: scale(1); }
         .detail-img { flex: 1.2; background-size: cover; background-position: center; min-height: 400px; }
-        .detail-content { flex: 1; padding: 40px; overflow-y: auto; display: flex; flex-direction: column; }
+        .detail-content { flex: 1; padding: 40px; overflow-y: auto; display: flex; flex-direction: column; text-align: left;}
         .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
         .spec-item { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; font-size: 14px; }
         .spec-item span { color: var(--text-muted); display: block; font-size: 12px; }
 
+        /* 3. YENİ İLAN VER MODALI */
+        .add-box { background: var(--surface); border: 1px solid rgba(212, 175, 55, 0.3); padding: 30px; border-radius: 20px; width: 100%; max-width: 700px; position: relative; transform: scale(0.95); transition: all 0.3s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.8); max-height: 90vh; overflow-y: auto; text-align: left; }
+        .modal-overlay.active .add-box { transform: scale(1); }
+        .add-box h2 { font-weight: 300; margin-bottom: 20px; color: var(--primary-gold); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
+        .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .upload-area { border: 2px dashed rgba(212, 175, 55, 0.4); border-radius: 16px; padding: 30px; text-align: center; background: rgba(212, 175, 55, 0.05); cursor: pointer; transition: all 0.3s; margin-top: 10px; }
+        .upload-area:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--primary-gold); }
+        .upload-area h3 { font-size: 16px; font-weight: 500; margin-bottom: 5px; color: var(--text-light); }
+        .upload-area p { font-size: 12px; color: var(--text-muted); }
+
         /* Mobil Optimizasyon */
         @media (max-width: 1024px) { .grid { grid-template-columns: repeat(3, 1fr); } .card.premium { transform: scale(1); } }
-        @media (max-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } header { padding: 15px 20px; } .nav-links button.text-btn { display: none; } .logo { font-size: 20px; } .detail-box { flex-direction: column; overflow-y: auto; } .detail-img { min-height: 250px; flex: none; } }
+        @media (max-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } header { padding: 15px 20px; } .nav-links button.text-btn { display: none; } .logo { font-size: 20px; } .detail-box { flex-direction: column; overflow-y: auto; } .detail-img { min-height: 250px; flex: none; } .form-grid-2 { grid-template-columns: 1fr; } }
         @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } .hero { height: 40vh; } }
     </style>
 </head>
@@ -108,7 +121,7 @@
         <div class="nav-links">
             <button class="text-btn" onclick="openAuthModal('login')">Giriş Yap</button>
             <button class="text-btn" onclick="openAuthModal('register')">Kayıt Ol</button>
-            <button class="btn-premium" onclick="window.location.href='panel.html'">+ İlan Ver</button>
+            <button class="btn-premium" onclick="openAddModal()">+ İlan Ver</button>
         </div>
     </header>
 
@@ -128,12 +141,10 @@
     </div>
 
     <section class="showcase">
-        
         <div class="section-header">
             <h2 class="section-title gold">✨ Swinder Premium Vitrin</h2>
             <a href="#" style="color: var(--primary-gold); text-decoration: none; font-size: 14px;">Tümünü Gör ↗</a>
         </div>
-        
         <div class="grid">
             <div class="card premium" onclick="openDetailModal('BMW 420i Cabrio M Sport', '3.250.000 TL', '2022', '15.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 'Çağatay Motors')">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"><span class="badge premium-badge">PREMIUM</span></div>
@@ -143,7 +154,6 @@
                     <div class="card-details"><span>2022</span><span>Çağatay Motors</span></div>
                 </div>
             </div>
-
             <div class="card premium" onclick="openDetailModal('BMW F30 320i M Sport', '1.850.000 TL', '2018', '65.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1556189250-72ba954cfc2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 'Çağatay Motors')">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1556189250-72ba954cfc2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"><span class="badge premium-badge">PREMIUM</span></div>
                 <div class="card-content">
@@ -152,7 +162,6 @@
                     <div class="card-details"><span>2018</span><span>Çağatay Motors</span></div>
                 </div>
             </div>
-
             <div class="card premium" onclick="openDetailModal('Boğaz Manzaralı Yalı', '245.000.000 TL', '5 Yıllık', '1200 m²', 'Doğalgaz', 'Müstakil', 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 'Swinder Emlak')">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"><span class="badge premium-badge">PREMIUM</span></div>
                 <div class="card-content">
@@ -161,7 +170,6 @@
                     <div class="card-details"><span>8+2</span><span>Sarıyer</span></div>
                 </div>
             </div>
-
             <div class="card premium" onclick="openDetailModal('Audemars Piguet Royal Oak', '2.100.000 TL', '2021', 'Kutulu', 'Otomatik', 'Çelik', 'https://images.unsplash.com/photo-1548171915-e79a380a2a4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 'Lüks Saat Merkezi')">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1548171915-e79a380a2a4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"><span class="badge premium-badge">PREMIUM</span></div>
                 <div class="card-content">
@@ -175,7 +183,6 @@
         <div class="section-header" style="margin-top: 60px;">
             <h2 class="section-title" style="color: var(--text-light);">Güncel İlanlar</h2>
         </div>
-
         <div class="grid" id="normalIlanIzgarasi">
             <div class="card normal" onclick="openDetailModal('Porsche 911 Carrera S', '18.200.000 TL', '2022', '12.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1503376760367-112cb1bf2363?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 'Bireysel Satıcı')">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1503376760367-112cb1bf2363?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"><span class="badge normal-badge">Yeni</span></div>
@@ -185,7 +192,6 @@
                     <div class="card-details"><span>2022</span><span>12.000 km</span></div>
                 </div>
             </div>
-
             <div class="card normal" onclick="openDetailModal('Bodrum Yalıkavak Villa', '65.000.000 TL', 'Sıfır', '450 m²', 'Isı Pompası', 'Özel Havuz', 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 'Ege Emlak')">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
                 <div class="card-content">
@@ -194,7 +200,6 @@
                     <div class="card-details"><span>5+1</span><span>Müstakil Havuzlu</span></div>
                 </div>
             </div>
-
             <div class="card normal" onclick="openDetailModal('Mercedes G63 AMG', '28.500.000 TL', '2023', '5.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1520031441872-265e4ff70366?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 'Bireysel Satıcı')">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1520031441872-265e4ff70366?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
                 <div class="card-content">
@@ -203,7 +208,6 @@
                     <div class="card-details"><span>2023</span><span>5.000 km</span></div>
                 </div>
             </div>
-
             <div class="card normal" onclick="openDetailModal('Rolex Submariner Date', '485.000 TL', '2023', 'Sıfır', 'Otomatik', 'Çelik', 'https://images.unsplash.com/photo-1601158935942-52255782d322?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 'Saat & Saat')">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1601158935942-52255782d322?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
                 <div class="card-content">
@@ -216,6 +220,7 @@
     </section>
 
     <div class="loader-container" id="loader"><div class="spinner"></div></div>
+
 
     <div class="modal-overlay" id="authModal">
         <div class="auth-box">
@@ -261,6 +266,61 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="addModal">
+        <div class="add-box">
+            <button class="close-btn" onclick="closeAddModal()">&times;</button>
+            <h2>✨ Yeni İlan Oluştur</h2>
+            
+            <form>
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label>Kategori</label>
+                        <select>
+                            <option>Premium Araçlar</option>
+                            <option>Lüks Emlak</option>
+                            <option>Saat & Mücevher</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Fiyat (TL)</label>
+                        <input type="text" placeholder="Örn: 3.250.000">
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>İlan Başlığı</label>
+                        <input type="text" placeholder="Örn: Hatasız BMW 420i Cabrio M Sport">
+                    </div>
+                    <div class="form-group">
+                        <label>Marka / Konum</label>
+                        <input type="text" placeholder="Örn: BMW veya Sarıyer">
+                    </div>
+                    <div class="form-group">
+                        <label>Model Yılı / Durum</label>
+                        <input type="text" placeholder="Örn: 2022 veya Sıfır">
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>İlan Açıklaması</label>
+                        <textarea rows="4" placeholder="Ürünün detaylarını lüks bir dille anlatın..."></textarea>
+                    </div>
+                    
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>Yüksek Çözünürlüklü Fotoğraflar</label>
+                        <div class="upload-area">
+                            <h3 style="font-size: 24px; margin-bottom: 10px;">📸</h3>
+                            <h3>Fotoğrafları Buraya Sürükleyin</h3>
+                            <p>Maksimum 10 fotoğraf yükleyebilirsiniz. İlk fotoğraf vitrin görseli olur.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 15px; margin-top: 20px;">
+                    <button type="button" class="text-btn" style="color: var(--text-muted);" onclick="closeAddModal()">İptal</button>
+                    <button type="button" class="btn-premium">İlanı Yayına Al</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
     <script>
         // --- 1) AUTH MODAL KONTROLLERİ ---
         const authModal = document.getElementById('authModal');
@@ -287,7 +347,14 @@
         function closeDetailModal() { detailModal.classList.remove('active'); document.body.style.overflow = 'auto'; }
         detailModal.addEventListener('click', (e) => { if(e.target === detailModal) closeDetailModal(); });
 
-        // --- 3) SINIRSIZ KAYDIRMA (Sadece Normal İlanlar İçin) ---
+        // --- 3) İLAN VER MODAL KONTROLLERİ ---
+        const addModal = document.getElementById('addModal');
+        function openAddModal() { addModal.classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function closeAddModal() { addModal.classList.remove('active'); document.body.style.overflow = 'auto'; }
+        addModal.addEventListener('click', (e) => { if(e.target === addModal) closeAddModal(); });
+
+
+        // --- 4) SINIRSIZ KAYDIRMA (Sadece Normal İlanlar İçin) ---
         const grid = document.getElementById('normalIlanIzgarasi');
         const loader = document.getElementById('loader');
         let isLoading = false;
