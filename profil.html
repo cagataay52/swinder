@@ -5,42 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profilim - Swinder</title>
     <style>
-        /* --- Temel Ayarlar --- */
+        /* --- Temel Ayarlar (Premium Karanlık Tema) --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        :root { --bg-dark: #0a0a0c; --surface: #1a1a1f; --primary-gold: #d4af37; --text-light: #f5f5f7; --text-muted: #8e8e93; --glass-bg: rgba(26, 26, 31, 0.75); }
+        :root {
+            --bg-dark: #0a0a0c; --surface: #1a1a1f; --primary-gold: #d4af37; --gold-hover: #f3e5ab;
+            --text-light: #f5f5f7; --text-muted: #8e8e93; --glass-bg: rgba(26, 26, 31, 0.75);
+        }
         body { background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; }
 
+        /* --- ÜST MENÜ --- */
         header { position: fixed; top: 0; width: 100%; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; background: var(--glass-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 100; border-bottom: 1px solid rgba(212, 175, 55, 0.15); }
-        .logo { font-size: 26px; font-weight: 800; letter-spacing: 2px; color: var(--primary-gold); text-decoration: none; }
+        .logo { font-size: 26px; font-weight: 800; letter-spacing: 2px; color: var(--primary-gold); text-decoration: none; text-shadow: 0 2px 10px rgba(212,175,55,0.3); }
         .back-link { color: var(--text-light); text-decoration: none; font-size: 15px; display: flex; align-items: center; gap: 5px; transition: 0.3s; }
         .back-link:hover { color: var(--primary-gold); }
 
+        /* --- PROFIL KONTEYNER (Instagram Genişliği) --- */
         .profile-container { max-width: 935px; margin: 100px auto 50px; padding: 0 20px; }
 
+        /* --- Profil Üst Kısım (Header - GÜZELLEŞTİRİLDİ) --- */
         .profile-header { display: flex; gap: 50px; margin-bottom: 40px; align-items: flex-start; }
+        
+        /* Avatar Bölümü (Glowing Gold Ring) */
         .profile-avatar-container { flex-shrink: 0; }
-        .profile-ring { width: 150px; height: 150px; border-radius: 50%; padding: 4px; background: linear-gradient(45deg, #d4af37, #aa8529, #f3e5ab); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
+        .profile-ring { width: 150px; height: 150px; border-radius: 50%; padding: 4px; background: linear-gradient(45deg, #d4af37, #aa8529, #f3e5ab); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); transition: 0.3s ease; }
+        .profile-ring:hover { transform: scale(1.05); }
         .profile-avatar { width: 100%; height: 100%; border-radius: 50%; border: 4px solid var(--bg-dark); background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=400&q=80'); background-size: cover; background-position: center; }
 
+        /* Bilgi Bölümü */
         .profile-info { flex: 1; display: flex; flex-direction: column; gap: 15px; }
+        
         .profile-username { font-size: 28px; font-weight: 300; color: var(--primary-gold); }
+        
+        /* İstatistikler (GÜZELLEŞTİRİLDİ - Kartlara Yerleştirildi) */
         .profile-stats { display: flex; gap: 40px; margin-top: 5px; }
-        .stat-item { font-size: 16px; }
-        .stat-item span { font-weight: 700; color: var(--text-light); font-size: 20px; }
+        .stat-card { background: rgba(0,0,0,0.3); padding: 15px 30px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); text-align: center; }
+        .stat-item { font-size: 16px; color: var(--text-muted); }
+        .stat-item span { font-weight: 700; color: var(--text-light); font-size: 20px; display: block; }
         
         .profile-bio { font-size: 15px; line-height: 1.5; margin-top: 5px; color: var(--text-muted); }
+        .bio-category { color: var(--primary-gold); font-weight: 600; font-size: 14px; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;}
 
+        /* --- Sekmeler (Tabs - GÜZELLEŞTİRİLDİ) --- */
         .profile-tabs { display: flex; justify-content: center; border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; margin-top: 30px;}
         .tab-item { padding: 15px 20px; color: var(--primary-gold); font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; border-top: 1px solid var(--primary-gold); margin-top: -1px; }
 
+        /* --- Vitrin Izgarası (Instagram Grid - GÜZELLEŞTİRİLDİ) --- */
         .profile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-        .grid-item { position: relative; aspect-ratio: 1 / 1; background-size: cover; background-position: center; cursor: pointer; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+        
+        .grid-item { position: relative; aspect-ratio: 1 / 1; background-size: cover; background-position: center; cursor: pointer; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s ease; }
+        .grid-item:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); border-color: rgba(255,255,255,0.2); }
+        
+        /* Hover Overlay (Kusursuz Glassmorphism) */
         .grid-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: 0.3s ease; backdrop-filter: blur(2px); text-align: center; padding: 10px;}
         .grid-item:hover .grid-overlay { opacity: 1; }
+        
         .overlay-title { color: white; font-size: 16px; margin-bottom: 10px; font-weight: 500;}
-        .overlay-price { color: var(--primary-gold); font-size: 18px; font-weight: 700; }
+        .overlay-price { color: var(--primary-gold); font-size: 18px; font-weight: 700; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
 
-        @media (max-width: 768px) { .profile-header { flex-direction: column; gap: 20px; align-items: center; text-align: center; } .profile-grid { grid-template-columns: repeat(2, 1fr); gap: 8px;} }
+        /* Mobil Optimizasyon */
+        @media (max-width: 768px) {
+            .profile-header { flex-direction: column; gap: 20px; align-items: center; text-align: center; }
+            .profile-stats { justify-content: center; gap: 20px; flex-wrap: wrap; }
+            .stat-card { padding: 10px 20px; }
+            .profile-grid { grid-template-columns: repeat(2, 1fr); gap: 8px;}
+        }
     </style>
 </head>
 <body>
@@ -62,12 +90,17 @@
                 <h1 class="profile-username" id="display-name">Yükleniyor...</h1>
                 
                 <div class="profile-stats">
-                    <div class="stat-item"><span id="ad-count">0</span> İlan</div>
-                    <div class="stat-item"><span>0</span> Takipçi</div>
+                    <div class="stat-card">
+                        <div class="stat-item"><span id="ad-count">0</span> İlan</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-item"><span>0</span> Takipçi</div>
+                    </div>
                 </div>
 
                 <div class="profile-bio">
-                    Burası senin özel yönetim sayfan. Sisteme yüklediğin tüm premium ilanlar aşağıda listelenmektedir.
+                    <div class="bio-category">Premium Showroom</div>
+                    Sanal garajın ve yayında olan tüm premium ilanların. Sisteme yeni bir ilan eklediğinde anında buraya düşecek.
                 </div>
             </div>
         </header>
@@ -86,6 +119,7 @@
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
         import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
+        // Senin Anahtarların
         const firebaseConfig = {
             apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0",
             authDomain: "swinder-79534.firebaseapp.com",
@@ -105,13 +139,13 @@
                 // İsmi Ekrana Yazdır
                 document.getElementById('display-name').innerText = user.displayName || "Swinder Üyesi";
                 
-                // Firestore'dan sadece bu kullanıcının ilanlarını çek
+                // Firestore'dan SADECE BU KULLANICININ ilanlarını çek
                 const listingsGrid = document.getElementById('my-listings');
                 const q = query(collection(db, "ilanlar"), where("seller", "==", user.displayName));
                 
                 try {
                     const querySnapshot = await getDocs(q);
-                    listingsGrid.innerHTML = ''; // Yükleniyor yazısını temizle
+                    listingsGrid.innerHTML = ''; // Temizle
                     
                     // Toplam ilan sayısını güncelle
                     document.getElementById('ad-count').innerText = querySnapshot.size;
@@ -121,7 +155,7 @@
                         return;
                     }
 
-                    // İlanları Izgaraya (Grid) Ekle
+                    // Her bir ilanı ızgaraya ekle
                     querySnapshot.forEach((doc) => {
                         const data = doc.data();
                         const firstImg = data.images.split(',')[0].trim();
