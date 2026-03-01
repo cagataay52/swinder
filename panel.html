@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontrol Paneli - Swinder</title>
+    <style>
+        /* --- Temel Ayarlar --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        :root {
+            --bg-dark: #0a0a0c; --surface: #1a1a1f; --primary-gold: #d4af37;
+            --text-light: #f5f5f7; --text-muted: #8e8e93; --glass-bg: rgba(26, 26, 31, 0.7);
+        }
+        body { background-color: var(--bg-dark); color: var(--text-light); display: flex; height: 100vh; overflow: hidden; }
+
+        /* --- Sol Menü (Sidebar) --- */
+        .sidebar {
+            width: 280px; background: var(--surface); border-right: 1px solid rgba(255,255,255,0.05);
+            display: flex; flex-direction: column; padding: 30px 20px;
+        }
+        .logo { font-size: 28px; font-weight: bold; letter-spacing: 2px; color: var(--primary-gold); text-decoration: none; margin-bottom: 40px; text-align: center; }
+        
+        .profile-card { text-align: center; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .avatar { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--primary-gold); margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: var(--primary-gold); background: rgba(0,0,0,0.3); }
+        .profile-name { font-size: 1.1rem; font-weight: 500; }
+        .profile-type { font-size: 0.85rem; color: var(--text-muted); margin-top: 5px; }
+
+        .nav-menu { display: flex; flex-direction: column; gap: 10px; }
+        .nav-item {
+            padding: 15px 20px; border-radius: 12px; color: var(--text-muted); text-decoration: none;
+            display: flex; align-items: center; gap: 15px; transition: all 0.3s; cursor: pointer;
+        }
+        .nav-item:hover { background: rgba(255,255,255,0.03); color: var(--text-light); }
+        .nav-item.active { background: rgba(212, 175, 55, 0.1); color: var(--primary-gold); border-left: 3px solid var(--primary-gold); }
+
+        /* --- Ana İçerik Alanı --- */
+        .main-content { flex: 1; padding: 40px 50px; overflow-y: auto; background: radial-gradient(circle at top right, #1a1a1f 0%, #0a0a0c 100%); }
+        
+        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        .header-top h1 { font-size: 2rem; font-weight: 300; }
+        .btn-premium {
+            background: linear-gradient(45deg, #d4af37, #aa8529); color: #000 !important;
+            padding: 12px 24px; border-radius: 30px; font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; border: none; cursor: pointer;
+        }
+        .btn-premium:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3); }
+
+        /* İstatistik Kartları */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-bottom: 40px; }
+        .stat-card { background: rgba(26,26,31,0.5); border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 16px; backdrop-filter: blur(10px); }
+        .stat-title { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px; }
+        .stat-value { font-size: 2rem; font-weight: 700; color: var(--primary-gold); }
+
+        /* --- İlan Ekleme Formu (Cam Efektli) --- */
+        .form-section { background: rgba(26,26,31,0.6); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 20px; padding: 40px; backdrop-filter: blur(15px); }
+        .form-section h2 { margin-bottom: 30px; font-weight: 400; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
+        
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group.full-width { grid-column: span 2; }
+        .form-group label { color: var(--text-muted); font-size: 0.9rem; }
+        .form-group input, .form-group select, .form-group textarea {
+            background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); color: var(--text-light);
+            padding: 15px; border-radius: 10px; outline: none; transition: all 0.3s; font-size: 1rem;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary-gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.1); }
+        
+        /* Fotoğraf Yükleme Alanı */
+        .upload-area {
+            border: 2px dashed rgba(212, 175, 55, 0.4); border-radius: 16px; padding: 40px; text-align: center;
+            background: rgba(212, 175, 55, 0.05); cursor: pointer; transition: all 0.3s; margin-top: 10px;
+        }
+        .upload-area:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--primary-gold); }
+        .upload-icon { font-size: 40px; color: var(--primary-gold); margin-bottom: 15px; }
+        
+        .action-buttons { display: flex; justify-content: flex-end; gap: 15px; margin-top: 40px; }
+        .btn-outline { background: transparent; color: var(--text-light); border: 1px solid rgba(255,255,255,0.2); padding: 12px 24px; border-radius: 30px; cursor: pointer; transition: all 0.3s; }
+        .btn-outline:hover { border-color: var(--text-light); }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <a href="index.html" class="logo">SWINDER</a>
+        
+        <div class="profile-card">
+            <div class="avatar">ÇM</div>
+            <div class="profile-name">Çağatay Motors</div>
+            <div class="profile-type">Kurumsal Satıcı</div>
+        </div>
+
+        <div class="nav-menu">
+            <a class="nav-item">📊 İstatistikler</a>
+            <a class="nav-item">🚗 Aktif İlanlarım (12)</a>
+            <a class="nav-item active">✨ Yeni İlan Ekle</a>
+            <a class="nav-item">💬 Mesajlar <span style="background:var(--primary-gold); color:#000; padding:2px 8px; border-radius:10px; font-size:12px; margin-left:auto;">3</span></a>
+            <a class="nav-item">⚙️ Ayarlar</a>
+            <a href="index.html" class="nav-item" style="margin-top: auto; color: #ff4757;">🚪 Çıkış Yap</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        
+        <div class="header-top">
+            <h1>Hoş geldin, Çağatay</h1>
+            <button class="btn-premium">Vitrine Git ↗</button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-title">Toplam İlan Görüntülenmesi</div>
+                <div class="stat-value">24.590</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Favoriye Eklenme</div>
+                <div class="stat-value">1.205</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Aktif İlan Sayısı</div>
+                <div class="stat-value">12</div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>Premium İlan Oluştur</h2>
+            
+            <form>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Kategori</label>
+                        <select>
+                            <option>Premium Araçlar</option>
+                            <option>Lüks Emlak</option>
+                            <option>Saat & Mücevher</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Fiyat (TL)</label>
+                        <input type="text" placeholder="Örn: 3.250.000">
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label>İlan Başlığı</label>
+                        <input type="text" placeholder="Örn: Hatasız BMW 420i Cabrio M Sport">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Marka</label>
+                        <input type="text" placeholder="Örn: BMW">
+                    </div>
+                    <div class="form-group">
+                        <label>Model Yılı</label>
+                        <input type="number" placeholder="Örn: 2022">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>İlan Açıklaması</label>
+                        <textarea rows="5" placeholder="Aracın/Ürünün detaylarını lüks bir dille anlatın..."></textarea>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Yüksek Çözünürlüklü Fotoğraflar</label>
+                        <div class="upload-area">
+                            <div class="upload-icon">📸</div>
+                            <h3 style="margin-bottom: 10px; font-weight: 500;">Fotoğrafları Sürükleyin veya Seçin</h3>
+                            <p style="color: var(--text-muted); font-size: 0.9rem;">Maksimum 10 fotoğraf. İlk fotoğraf vitrin görseli olacaktır.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button type="button" class="btn-outline">Taslak Olarak Kaydet</button>
+                    <button type="button" class="btn-premium">Yayına Al</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+</body>
+</html>
