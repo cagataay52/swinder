@@ -21,10 +21,7 @@
             z-index: 100; border-bottom: 1px solid rgba(212, 175, 55, 0.1);
         }
         .logo { font-size: 24px; font-weight: bold; letter-spacing: 2px; color: var(--primary-gold); text-decoration: none; }
-        .nav-links button {
-            background: transparent; border: none; color: var(--text-light);
-            margin-left: 25px; font-size: 14px; cursor: pointer; transition: color 0.3s ease;
-        }
+        .nav-links button { background: transparent; border: none; color: var(--text-light); margin-left: 25px; font-size: 14px; cursor: pointer; transition: color 0.3s ease; }
         .nav-links button:hover { color: var(--primary-gold); }
         .btn-premium {
             background: linear-gradient(45deg, #d4af37, #aa8529); color: #000 !important;
@@ -33,7 +30,7 @@
         }
         .btn-premium:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3); }
 
-        /* --- Karşılama Ekranı ve Arama --- */
+        /* --- Karşılama Ekranı --- */
         .hero {
             height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
             text-align: center; background: radial-gradient(circle at center, #1a1a1f 0%, #0a0a0c 100%);
@@ -58,52 +55,47 @@
         .categories::-webkit-scrollbar { display: none; }
         .category-btn {
             background: var(--surface); border: 1px solid rgba(255,255,255,0.05);
-            color: var(--text-light); padding: 12px 25px; border-radius: 30px;
-            font-size: 14px; cursor: pointer; transition: all 0.3s ease;
+            color: var(--text-light); padding: 12px 25px; border-radius: 30px; font-size: 14px; cursor: pointer; transition: all 0.3s ease;
         }
-        .category-btn:hover, .category-btn.active {
-            background: rgba(212, 175, 55, 0.1); border-color: var(--primary-gold); color: var(--primary-gold);
-        }
+        .category-btn:hover, .category-btn.active { background: rgba(212, 175, 55, 0.1); border-color: var(--primary-gold); color: var(--primary-gold); }
 
-        /* --- Vitrin İlanları --- */
-        .showcase { padding: 20px 5% 100px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-        .card {
-            background: var(--surface); border-radius: 16px; overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.05); transition: all 0.4s ease; cursor: pointer;
+        /* --- Vitrin İlanları (4'LÜ IZGARA) --- */
+        .showcase { padding: 20px 5% 50px; }
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); /* Masaüstünde tam 4 sütun */
+            gap: 30px; 
         }
+        
+        /* Ekran küçüldükçe sütun sayısını azalt */
+        @media (max-width: 1200px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+
+        .card { background: var(--surface); border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: all 0.4s ease; cursor: pointer; }
         .card:hover { transform: translateY(-10px); border-color: rgba(212, 175, 55, 0.4); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
         .card-img { height: 220px; background-size: cover; background-position: center; position: relative; }
         .badge { position: absolute; top: 15px; right: 15px; background: var(--primary-gold); color: #000; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; }
         .card-content { padding: 24px; }
-        .card-title { font-size: 1.25rem; margin-bottom: 12px; font-weight: 500; }
-        .card-price { color: var(--primary-gold); font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; }
+        .card-title { font-size: 1.1rem; margin-bottom: 12px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-price { color: var(--primary-gold); font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
+        .card-details { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; }
 
-        /* --- ORTAK MODAL (Açılır Pencere) YAPISI --- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            display: flex; justify-content: center; align-items: center;
-            opacity: 0; visibility: hidden; transition: all 0.4s ease; z-index: 1000; padding: 20px;
+        /* --- Yükleniyor Animasyonu (Spinner) --- */
+        .loader-container { display: none; justify-content: center; padding: 40px 0 80px 0; }
+        .loader-container.active { display: flex; }
+        .spinner {
+            width: 40px; height: 40px; border: 4px solid rgba(212, 175, 55, 0.2);
+            border-top: 4px solid var(--primary-gold); border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* --- MODAL (Açılır Pencere) --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.4s ease; z-index: 1000; padding: 20px; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         
-        /* Giriş Yap Modalı İçeriği */
-        .login-box {
-            background: var(--surface); border: 1px solid rgba(212, 175, 55, 0.2);
-            padding: 40px; border-radius: 20px; width: 100%; max-width: 400px;
-            transform: translateY(30px); transition: all 0.4s ease;
-        }
-        .modal-overlay.active .login-box { transform: translateY(0); }
-        .form-group { margin-bottom: 20px; }
-        .form-group input { width: 100%; padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; margin-top: 8px; }
-
-        /* İlan Detay Modalı İçeriği */
-        .detail-box {
-            background: rgba(26, 26, 31, 0.85); border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 20px; width: 100%; max-width: 1000px; max-height: 90vh;
-            display: flex; overflow: hidden; transform: scale(0.95); transition: all 0.4s ease; position: relative;
-        }
+        .detail-box { background: rgba(26, 26, 31, 0.85); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 20px; width: 100%; max-width: 1000px; max-height: 90vh; display: flex; overflow: hidden; transform: scale(0.95); transition: all 0.4s ease; position: relative; }
         .modal-overlay.active .detail-box { transform: scale(1); }
         .close-btn { position: absolute; top: 15px; right: 20px; background: rgba(0,0,0,0.5); border: none; color: white; font-size: 24px; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 10; }
         .close-btn:hover { background: var(--primary-gold); color: black; }
@@ -121,7 +113,7 @@
     <header>
         <a href="#" class="logo">ELITE VİTRİN</a>
         <div class="nav-links">
-            <button id="openLoginBtn">Giriş Yap</button>
+            <button>Giriş Yap</button>
             <button>Kayıt Ol</button>
             <button class="btn-premium">+ İlan Ver</button>
         </div>
@@ -139,40 +131,52 @@
         <button class="category-btn active">🚗 Premium Araçlar</button>
         <button class="category-btn">🏠 Lüks Emlak</button>
         <button class="category-btn">⌚ Saat & Mücevher</button>
+        <button class="category-btn">🛥️ Yat & Tekne</button>
     </div>
 
     <section class="showcase">
-        <div class="grid">
-            <div class="card" onclick="openDetailModal('BMW 420i Cabrio M Sport', '3.250.000 TL', '2022', '15.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80')">
-                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
-                    <span class="badge">PREMIUM</span>
-                </div>
+        <div class="grid" id="ilanIzgarasi">
+            
+            <div class="card" onclick="openDetailModal('BMW 420i Cabrio M Sport', '3.250.000 TL', '2022', '15.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"><span class="badge">PREMIUM</span></div>
                 <div class="card-content">
                     <h3 class="card-title">BMW 420i Cabrio M Sport</h3>
                     <div class="card-price">3.250.000 TL</div>
+                    <div class="card-details"><span>2022</span><span>15.000 km</span></div>
                 </div>
             </div>
 
-            <div class="card" onclick="openDetailModal('BMW F30 320i M Sport', '1.850.000 TL', '2018', '65.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1556189250-72ba954cfc2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80')">
-                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1556189250-72ba954cfc2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+            <div class="card" onclick="openDetailModal('Mercedes G63 AMG', '28.500.000 TL', '2023', '5.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1520031441872-265e4ff70366?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1520031441872-265e4ff70366?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
                 <div class="card-content">
-                    <h3 class="card-title">BMW F30 320i M Sport</h3>
-                    <div class="card-price">1.850.000 TL</div>
+                    <h3 class="card-title">Mercedes G63 AMG</h3>
+                    <div class="card-price">28.500.000 TL</div>
+                    <div class="card-details"><span>2023</span><span>5.000 km</span></div>
+                </div>
+            </div>
+
+            <div class="card" onclick="openDetailModal('Rolex Submariner Date', '485.000 TL', '2023', 'Sıfır', 'Otomatik', 'Çelik', 'https://images.unsplash.com/photo-1601158935942-52255782d322?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1601158935942-52255782d322?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"><span class="badge">ÖZEL</span></div>
+                <div class="card-content">
+                    <h3 class="card-title">Rolex Submariner Date</h3>
+                    <div class="card-price">485.000 TL</div>
+                    <div class="card-details"><span>2023</span><span>Kutusunda</span></div>
+                </div>
+            </div>
+
+            <div class="card" onclick="openDetailModal('Boğaz Manzaralı Yalı', '245.000.000 TL', 'Bina Yaşı: 5', '1200m²', 'Doğalgaz', '-', 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="card-content">
+                    <h3 class="card-title">Boğaz Manzaralı Ultra Lüks Yalı</h3>
+                    <div class="card-price">245.000.000 TL</div>
+                    <div class="card-details"><span>8+2</span><span>Sarıyer</span></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="modal-overlay" id="loginModal">
-        <div class="login-box">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-                <h2 style="font-weight: 400;">Giriş Yap</h2>
-                <button class="close-btn" id="closeLoginBtn" style="position: static; width:30px; height:30px; font-size:18px;">&times;</button>
-            </div>
-            <div class="form-group"><input type="email" placeholder="E-posta"></div>
-            <div class="form-group"><input type="password" placeholder="Şifre"></div>
-            <button class="btn-premium" style="width: 100%; border-radius: 10px;">Giriş Yap</button>
-        </div>
+    <div class="loader-container" id="loader">
+        <div class="spinner"></div>
     </div>
 
     <div class="modal-overlay" id="detailModal">
@@ -182,14 +186,12 @@
             <div class="detail-content">
                 <h2 id="modalTitle" style="font-weight: 300;">-</h2>
                 <div style="font-size: 2rem; color: var(--primary-gold); font-weight: 700;" id="modalPrice">-</div>
-                
                 <div class="specs">
-                    <div class="spec-item"><span>Model Yılı</span><strong id="modalYear">-</strong></div>
-                    <div class="spec-item"><span>Kilometre</span><strong id="modalKm">-</strong></div>
-                    <div class="spec-item"><span>Yakıt</span><strong id="modalFuel">-</strong></div>
-                    <div class="spec-item"><span>Vites</span><strong id="modalGear">-</strong></div>
+                    <div class="spec-item"><span>Yıl / Durum</span><strong id="modalYear">-</strong></div>
+                    <div class="spec-item"><span>KM / Alan</span><strong id="modalKm">-</strong></div>
+                    <div class="spec-item"><span>Yakıt / Tip</span><strong id="modalFuel">-</strong></div>
+                    <div class="spec-item"><span>Vites / Ekstra</span><strong id="modalGear">-</strong></div>
                 </div>
-
                 <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 12px; margin-top: auto;">
                     <h4 style="color: var(--primary-gold); margin-bottom: 10px;">Satıcı Bilgileri</h4>
                     <p style="font-weight: bold; margin-bottom: 15px;">Çağatay Motors</p>
@@ -200,34 +202,61 @@
     </div>
 
     <script>
-        // Arama Kutusu Efekti
-        const searchInput = document.querySelector('.search-box input');
-        const searchBox = document.querySelector('.search-box');
-        searchInput.addEventListener('focus', () => { searchBox.style.borderColor = 'var(--primary-gold)'; searchBox.style.boxShadow = '0 0 20px rgba(212, 175, 55, 0.15)'; });
-        searchInput.addEventListener('blur', () => { searchBox.style.borderColor = 'rgba(255,255,255,0.1)'; searchBox.style.boxShadow = 'none'; });
-
-        // GİRİŞ YAP MODALI KONTROLLERİ
-        const loginModal = document.getElementById('loginModal');
-        document.getElementById('openLoginBtn').addEventListener('click', () => { loginModal.classList.add('active'); document.body.style.overflow = 'hidden'; });
-        document.getElementById('closeLoginBtn').addEventListener('click', () => { loginModal.classList.remove('active'); document.body.style.overflow = 'auto'; });
-        loginModal.addEventListener('click', (e) => { if(e.target === loginModal) { loginModal.classList.remove('active'); document.body.style.overflow = 'auto'; } });
-
-        // İLAN DETAY MODALI KONTROLLERİ
+        // Modal Kontrolleri
         const detailModal = document.getElementById('detailModal');
         function openDetailModal(title, price, year, km, fuel, gear, imgUrl) {
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalPrice').innerText = price;
-            document.getElementById('modalYear').innerText = year;
-            document.getElementById('modalKm').innerText = km;
-            document.getElementById('modalFuel').innerText = fuel;
-            document.getElementById('modalGear').innerText = gear;
+            document.getElementById('modalTitle').innerText = title; document.getElementById('modalPrice').innerText = price;
+            document.getElementById('modalYear').innerText = year; document.getElementById('modalKm').innerText = km;
+            document.getElementById('modalFuel').innerText = fuel; document.getElementById('modalGear').innerText = gear;
             document.getElementById('modalImg').style.backgroundImage = `url('${imgUrl}')`;
-            
-            detailModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
+            detailModal.classList.add('active'); document.body.style.overflow = 'hidden';
         }
         document.getElementById('closeDetailBtn').addEventListener('click', () => { detailModal.classList.remove('active'); document.body.style.overflow = 'auto'; });
         detailModal.addEventListener('click', (e) => { if(e.target === detailModal) { detailModal.classList.remove('active'); document.body.style.overflow = 'auto'; } });
+
+        // --- SINIRSIZ KAYDIRMA (INFINITE SCROLL) SİMÜLASYONU ---
+        const grid = document.getElementById('ilanIzgarasi');
+        const loader = document.getElementById('loader');
+        let isLoading = false;
+
+        // Veritabanından geliyormuş gibi sahte ilan verileri (F30 dahil!)
+        const dummyVeriler = [
+            { title: "BMW F30 320i M Sport", price: "1.850.000 TL", year: "2018", km: "65.000 km", fuel: "Benzin", gear: "Otomatik", img: "https://images.unsplash.com/photo-1556189250-72ba954cfc2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+            { title: "Porsche 911 Carrera S", price: "18.200.000 TL", year: "2022", km: "12.000 km", fuel: "Benzin", gear: "Otomatik", img: "https://images.unsplash.com/photo-1503376760367-112cb1bf2363?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+            { title: "Audemars Piguet Royal Oak", price: "2.100.000 TL", year: "2021", km: "Kutulu", fuel: "Otomatik", gear: "Çelik", img: "https://images.unsplash.com/photo-1548171915-e79a380a2a4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+            { title: "Bodrum Yalıkavak Lüks Villa", price: "65.000.000 TL", year: "Sıfır", km: "450 m²", fuel: "Elektrik", gear: "Müstakil Havuz", img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" }
+        ];
+
+        window.addEventListener('scroll', () => {
+            // Sayfanın en altına 100px kala tetikle
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 && !isLoading) {
+                isLoading = true;
+                loader.classList.add('active'); // Yükleniyor ikonunu göster
+                
+                // Ağ gecikmesini simüle etmek için 1.5 saniye bekle
+                setTimeout(() => {
+                    yeniIlanlariYukle();
+                    loader.classList.remove('active');
+                    isLoading = false;
+                }, 1500);
+            }
+        });
+
+        function yeniIlanlariYukle() {
+            // Tam 1 satır dolması için 4 ilan daha ekle
+            dummyVeriler.forEach(ilan => {
+                const cardHTML = `
+                <div class="card" onclick="openDetailModal('${ilan.title}', '${ilan.price}', '${ilan.year}', '${ilan.km}', '${ilan.fuel}', '${ilan.gear}', '${ilan.img}')">
+                    <div class="card-img" style="background-image: url('${ilan.img}');"></div>
+                    <div class="card-content">
+                        <h3 class="card-title">${ilan.title}</h3>
+                        <div class="card-price">${ilan.price}</div>
+                        <div class="card-details"><span>${ilan.year}</span><span>${ilan.km}</span></div>
+                    </div>
+                </div>`;
+                grid.insertAdjacentHTML('beforeend', cardHTML);
+            });
+        }
     </script>
 </body>
 </html>
