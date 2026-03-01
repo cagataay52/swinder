@@ -10,8 +10,10 @@
         :root { --bg-dark: #0a0a0c; --surface: #1a1a1f; --primary-gold: #d4af37; --gold-hover: #f3e5ab; --text-light: #f5f5f7; --text-muted: #8e8e93; --glass-bg: rgba(26, 26, 31, 0.75); }
         body { background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; }
 
-        /* --- ÜST MENÜ VE GENEL TASARIM --- */
-        header { position: fixed; top: 0; width: 100%; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; background: var(--glass-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 100; border-bottom: 1px solid rgba(212, 175, 55, 0.15); }
+        /* --- AKILLI ÜST MENÜ (Smart Header) --- */
+        header { position: fixed; top: 0; width: 100%; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; background: var(--glass-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 100; border-bottom: 1px solid rgba(212, 175, 55, 0.15); transition: transform 0.4s ease-in-out; }
+        header.header-hidden { transform: translateY(-100%); } /* Aşağı kaydırınca gizle */
+        
         .logo { font-size: 26px; font-weight: 800; letter-spacing: 2px; color: var(--primary-gold); text-decoration: none; text-shadow: 0 2px 10px rgba(212,175,55,0.3); }
         .nav-links { display: flex; align-items: center; gap: 20px; }
         .nav-links button.text-btn { background: transparent; border: none; color: var(--text-light); font-size: 15px; cursor: pointer; transition: color 0.3s ease; font-weight: 500; }
@@ -26,20 +28,20 @@
         .search-box input { flex: 1; background: transparent; border: none; color: white; padding: 12px 20px; font-size: 16px; outline: none; }
         .search-box input::placeholder { color: var(--text-muted); }
 
-        /* --- HİKAYELER (STORIES) --- */
+        /* --- HİKAYELER --- */
         .stories-wrapper { padding: 30px 5% 10px; display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .stories-wrapper::-webkit-scrollbar { display: none; }
         .story-item { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; flex-shrink: 0; }
-        .story-ring { width: 75px; height: 75px; border-radius: 50%; padding: 3px; background: linear-gradient(45deg, #d4af37, #aa8529, #f3e5ab); display: flex; justify-content: center; align-items: center; transition: transform 0.3s ease; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2); }
+        .story-ring { width: 75px; height: 75px; border-radius: 50%; padding: 3px; background: linear-gradient(45deg, #d4af37, #aa8529, #f3e5ab); display: flex; justify-content: center; align-items: center; transition: transform 0.3s ease; }
         .story-ring:hover { transform: scale(1.08); }
         .story-img { width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--bg-dark); background-size: cover; background-position: center; }
         .story-name { font-size: 12px; color: var(--text-light); }
-        .story-ring.add-story { background: var(--surface); border: 1px dashed rgba(255,255,255,0.3); box-shadow: none; }
+        .story-ring.add-story { background: var(--surface); border: 1px dashed rgba(255,255,255,0.3); }
 
         .categories { display: flex; justify-content: center; gap: 10px; padding: 20px 5%; overflow-x: auto; white-space: nowrap; margin-bottom: 20px; }
         .categories::-webkit-scrollbar { display: none; }
         .category-btn { background: var(--surface); border: 1px solid rgba(255,255,255,0.05); color: var(--text-light); padding: 10px 20px; border-radius: 30px; font-size: 14px; cursor: pointer; transition: all 0.3s ease; }
-        .category-btn:hover, .category-btn.active { background: rgba(212, 175, 55, 0.1); border-color: var(--primary-gold); color: var(--primary-gold); }
+        .category-btn.active { background: rgba(212, 175, 55, 0.1); border-color: var(--primary-gold); color: var(--primary-gold); }
 
         /* --- VİTRİN VE KARTLAR --- */
         .showcase { padding: 0 5% 50px; }
@@ -54,16 +56,13 @@
         .card-title { font-size: 1.1rem; margin-bottom: 8px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .card-price { font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
         .card-details { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 12px; }
-
-        .card.premium { border: 1px solid var(--primary-gold); box-shadow: 0 0 20px rgba(212, 175, 55, 0.15); transform: scale(1.02); }
-        .card.premium:hover { transform: scale(1.04) translateY(-5px); box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4); border-color: var(--gold-hover); }
-        .card.premium .card-price { color: var(--primary-gold); }
-        .badge.premium-badge { position: absolute; top: 12px; left: 12px; background: linear-gradient(135deg, #d4af37, #aa8529); color: #000; padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: 800; letter-spacing: 1px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
         
-        .card.normal:hover { transform: translateY(-8px); border-color: rgba(255, 255, 255, 0.2); box-shadow: 0 15px 35px rgba(0,0,0,0.6); }
+        .card.premium { border: 1px solid var(--primary-gold); transform: scale(1.02); }
+        .card.premium .card-price { color: var(--primary-gold); }
+        .badge.premium-badge { position: absolute; top: 12px; left: 12px; background: linear-gradient(135deg, #d4af37, #aa8529); color: #000; padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: 800; letter-spacing: 1px; }
         .badge.normal-badge { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); color: #fff; padding: 5px 10px; border-radius: 8px; font-size: 11px; border: 1px solid rgba(255,255,255,0.1); }
 
-        /* --- MODALLAR --- */
+        /* --- MODALLAR GENEL --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1000; padding: 15px; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: none; color: white; font-size: 20px; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; transition: 0.3s; z-index: 10; display: flex; align-items: center; justify-content: center; }
@@ -71,27 +70,31 @@
         .form-group { margin-bottom: 15px; text-align: left; }
         .form-group label { display: block; margin-bottom: 5px; color: var(--text-muted); font-size: 13px; }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 15px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; outline: none; transition: border 0.3s; font-family: inherit; }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary-gold); }
 
-        .auth-box { background: var(--surface); border: 1px solid rgba(212, 175, 55, 0.3); padding: 30px; border-radius: 20px; width: 100%; max-width: 400px; position: relative; transform: scale(0.95); transition: all 0.3s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+        .auth-box { background: var(--surface); border: 1px solid rgba(212, 175, 55, 0.3); padding: 30px; border-radius: 20px; width: 100%; max-width: 400px; position: relative; transform: scale(0.95); transition: all 0.3s ease; }
         .modal-overlay.active .auth-box { transform: scale(1); }
         .auth-tabs { display: flex; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .tab-btn { flex: 1; background: none; border: none; color: var(--text-muted); padding: 10px 0; font-size: 16px; cursor: pointer; transition: 0.3s; position: relative; }
         .tab-btn.active { color: var(--primary-gold); font-weight: 600; }
         .tab-btn.active::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 2px; background: var(--primary-gold); }
         .auth-form { display: none; }
-        .auth-form.active { display: block; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .auth-form.active { display: block; }
 
-        /* HİKAYE İZLEME MODALI (Instagram Tarzı) */
-        .story-view-box { background: #000; width: 100%; max-width: 450px; height: 85vh; border-radius: 20px; position: relative; overflow: hidden; transform: scale(0.95); transition: 0.3s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.9); display: flex; flex-direction: column; }
+        /* HİKAYE İZLEME MODALI */
+        .story-view-box { background: #000; width: 100%; max-width: 450px; height: 85vh; border-radius: 20px; position: relative; overflow: hidden; transform: scale(0.95); transition: 0.3s ease; display: flex; flex-direction: column; }
         .modal-overlay.active .story-view-box { transform: scale(1); }
         .story-view-img { width: 100%; flex: 1; background-size: cover; background-position: center; }
         .story-view-header { position: absolute; top: 0; left: 0; width: 100%; padding: 20px 20px 40px 20px; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); display: flex; align-items: center; gap: 12px; z-index: 2; }
         .story-view-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center; }
-        .story-view-username { color: #fff; font-weight: 600; font-size: 15px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
-        .story-view-close { position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; font-size: 24px; cursor: pointer; z-index: 5; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+        .story-view-username { color: #fff; font-weight: 600; font-size: 15px; }
+        .story-view-close { position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; font-size: 24px; cursor: pointer; z-index: 5; }
+        
+        /* Çöp Kutusu (SİL) Butonları Tasarımı */
+        .btn-delete-story { display: none; position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(255, 71, 87, 0.9); border: none; color: white; padding: 10px 25px; border-radius: 30px; font-weight: 600; cursor: pointer; z-index: 10; font-size: 14px; box-shadow: 0 5px 15px rgba(255,71,87,0.4); backdrop-filter: blur(5px); }
+        .btn-delete-listing { display: none; background: rgba(255, 71, 87, 0.1); border: 1px solid #ff4757; color: #ff4757; padding: 8px 15px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-top: 15px; width: 100%; }
+        .btn-delete-listing:hover { background: #ff4757; color: white; }
 
+        /* İLAN DETAY & EKLE MODALI MASAÜSTÜ */
         .detail-box, .add-box { background: var(--surface); border: 1px solid rgba(212, 175, 55, 0.3); padding: 30px; border-radius: 20px; width: 100%; max-width: 1000px; max-height: 90vh; display: flex; overflow: hidden; transform: scale(0.95); transition: all 0.4s ease; position: relative; }
         .add-box { max-width: 700px; flex-direction: column; overflow-y: auto; text-align: left; }
         .modal-overlay.active .detail-box, .modal-overlay.active .add-box { transform: scale(1); }
@@ -103,6 +106,7 @@
         .thumbnail-gallery::-webkit-scrollbar { display: none; }
         .thumb-item { width: 80px; height: 60px; min-width: 80px; background-size: cover; background-position: center; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: 0.3s; opacity: 0.5; }
         .thumb-item:hover, .thumb-item.active { opacity: 1; border-color: var(--primary-gold); }
+        
         .detail-content { flex: 1; padding: 40px; overflow-y: auto; display: flex; flex-direction: column; text-align: left; }
         .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
         .spec-item { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; font-size: 14px; }
@@ -111,18 +115,43 @@
         .seller-card { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); margin-top: auto; }
         .seller-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .btn-follow { background: transparent; color: var(--text-light); border: 1px solid rgba(255,255,255,0.3); padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s; }
-        .btn-follow:hover { border-color: var(--primary-gold); color: var(--primary-gold); }
-        .btn-follow.following { background: var(--primary-gold); color: #000; border-color: var(--primary-gold); }
-
         .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
-        @media (max-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } .form-grid-2 { grid-template-columns: 1fr; } .detail-box { flex-direction: column; overflow-y: auto; } .detail-left { min-height: 300px; flex: none; } .story-view-box { height: 100vh; border-radius: 0; max-width: 100%;} }
+        /* ================= KUSURSUZ MOBİL OPTİMİZASYON (BOTTOM SHEET) ================= */
+        @media (max-width: 768px) { 
+            .grid { grid-template-columns: repeat(2, 1fr); gap: 15px; } 
+            .showcase { padding: 0 15px 50px; }
+            .form-grid-2 { grid-template-columns: 1fr; } 
+            .hero { height: 40vh; margin-top: 50px;}
+            
+            /* İlan Detay ve Ekleme Modalı (Mobil Bottom Sheet Tasarımı) */
+            .detail-box, .add-box { 
+                flex-direction: column; 
+                position: absolute; 
+                bottom: 0; 
+                border-radius: 25px 25px 0 0; /* Sadece üst köşeler yuvarlak */
+                max-height: 85vh; 
+                transform: translateY(100%); 
+                padding: 0;
+                border: none;
+                border-top: 1px solid var(--primary-gold);
+            }
+            .add-box { padding: 25px 20px; }
+            .modal-overlay.active .detail-box, .modal-overlay.active .add-box { transform: translateY(0); }
+            
+            .detail-left { min-height: 250px; flex: none; border-radius: 25px 25px 0 0; overflow: hidden; }
+            .detail-content { padding: 20px; }
+            
+            /* Hikaye İzleme (Tam Ekran Mobil) */
+            .story-view-box { height: 100vh; max-height: 100vh; border-radius: 0; max-width: 100%; transform: translateY(100%);}
+            .modal-overlay.active .story-view-box { transform: translateY(0); }
+        }
         @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
-    <header>
+    <header id="main-header">
         <a href="index.html" class="logo">SWINDER</a>
         <div class="nav-links" id="main-nav-links">
             <button class="text-btn" onclick="openAuthModal('login')">Giriş Yap</button>
@@ -138,12 +167,10 @@
 
     <div class="stories-wrapper" id="stories-container">
         <div class="story-item" onclick="openAddStoryModal()">
-            <div class="story-ring add-story">
-                <div class="story-img" style="background-color: #2a2a30; display:flex; justify-content:center; align-items:center; font-size: 24px; color: var(--text-muted);">+</div>
-            </div>
+            <div class="story-ring add-story"><div class="story-img" style="background-color: #2a2a30; display:flex; justify-content:center; align-items:center; font-size: 24px; color: var(--text-muted);">+</div></div>
             <span class="story-name">Hikaye Ekle</span>
         </div>
-        </div>
+    </div>
 
     <div class="categories">
         <button class="category-btn active">🚗 Araçlar</button>
@@ -155,11 +182,11 @@
     <section class="showcase">
         <div class="section-header"><h2 class="section-title gold">✨ Swinder Premium Vitrin</h2></div>
         <div class="grid">
-            <div class="card premium" onclick="openDetailModal('BMW 420i Cabrio M Sport', '3.250.000 TL', '2022', '15.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?auto=format&fit=crop&w=800&q=80', 'Çağatay Motors')">
+            <div class="card premium" onclick="openDetailModal('static1', 'BMW 420i Cabrio M Sport', '3.250.000 TL', '2022', '15.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?auto=format&fit=crop&w=800&q=80', 'Çağatay Motors')">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?auto=format&fit=crop&w=800&q=80');"><span class="badge premium-badge">PREMIUM</span></div>
                 <div class="card-content"><h3 class="card-title">BMW 420i Cabrio M Sport</h3><div class="card-price">3.250.000 TL</div><div class="card-details"><span>2022</span><span>Çağatay Motors ✓</span></div></div>
             </div>
-            <div class="card premium" onclick="openDetailModal('BMW F30 320i M Sport', '1.850.000 TL', '2018', '65.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1556189250-72ba954cfc2b?auto=format&fit=crop&w=800&q=80', 'Çağatay Motors')">
+            <div class="card premium" onclick="openDetailModal('static2', 'BMW F30 320i M Sport', '1.850.000 TL', '2018', '65.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1556189250-72ba954cfc2b?auto=format&fit=crop&w=800&q=80', 'Çağatay Motors')">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1556189250-72ba954cfc2b?auto=format&fit=crop&w=800&q=80');"><span class="badge premium-badge">PREMIUM</span></div>
                 <div class="card-content"><h3 class="card-title">BMW F30 320i M Sport</h3><div class="card-price">1.850.000 TL</div><div class="card-details"><span>2018</span><span>Çağatay Motors ✓</span></div></div>
             </div>
@@ -210,9 +237,10 @@
                 <div class="seller-card">
                     <h4 style="color: var(--primary-gold); margin-bottom: 10px; font-size: 13px; text-transform: uppercase;">Satıcı Bilgileri</h4>
                     <div class="seller-header">
-                        <div><p style="font-weight: bold; font-size: 16px; margin-bottom: 3px;" id="modalSeller">-</p><span style="font-size: 12px; color: var(--text-muted);" id="modalFollowers">24.5 B Takipçi</span></div>
+                        <div><p style="font-weight: bold; font-size: 16px; margin-bottom: 3px;" id="modalSeller">-</p></div>
                         <button class="btn-follow" onclick="toggleFollow(this)">Takip Et</button>
                     </div>
+                    <button id="btn-delete-listing" class="btn-delete-listing">🗑️ Bu İlanı Sil</button>
                 </div>
             </div>
         </div>
@@ -231,10 +259,7 @@
                     <div class="form-group"><label>KM / Alan</label><input type="text" id="add-km" placeholder="Örn: 15.000 km"></div>
                     <div class="form-group"><label>Yakıt / Isıtma</label><input type="text" id="add-fuel" placeholder="Örn: Benzin"></div>
                     <div class="form-group"><label>Vites / Özellik</label><input type="text" id="add-gear" placeholder="Örn: Otomatik"></div>
-                    <div class="form-group" style="grid-column: span 2;">
-                        <label style="color: var(--primary-gold);">Fotoğraf Linkleri (URL)</label>
-                        <textarea id="add-images" rows="2" placeholder="İnternetteki görsel adresini yapıştırın. Birden fazlaysa virgülle ayırın."></textarea>
-                    </div>
+                    <div class="form-group" style="grid-column: span 2;"><label style="color: var(--primary-gold);">Fotoğraf Linkleri (URL)</label><textarea id="add-images" rows="2" placeholder="İnternetteki görsel adresini yapıştırın. Birden fazlaysa virgülle ayırın."></textarea></div>
                 </div>
                 <div style="display: flex; justify-content: flex-end; gap: 15px; margin-top: 20px;">
                     <button type="button" class="text-btn" style="color: var(--text-muted);" onclick="closeAddModal()">İptal</button>
@@ -248,10 +273,7 @@
         <div class="auth-box" style="max-width: 450px;">
             <button class="close-btn" onclick="closeAddStoryModal()">&times;</button>
             <h2 style="color: var(--primary-gold); font-weight: 300; margin-bottom: 20px;">📸 Yeni Hikaye Paylaş</h2>
-            <div class="form-group">
-                <label>Hikaye Görseli Linki (URL)</label>
-                <input type="text" id="story-img-url" placeholder="Örn: https://images.unsplash.com/...">
-            </div>
+            <div class="form-group"><label>Hikaye Görseli Linki (URL)</label><input type="text" id="story-img-url" placeholder="Örn: https://images.unsplash.com/..."></div>
             <button class="btn-premium" id="btn-submit-story" style="width: 100%; border-radius: 10px; margin-top: 10px;">Hikayeyi Yayına Al</button>
         </div>
     </div>
@@ -264,29 +286,28 @@
                 <div class="story-view-username" id="view-story-username">-</div>
             </div>
             <div class="story-view-img" id="view-story-img"></div>
+            <button id="btn-delete-story" class="btn-delete-story">🗑️ Hikayeyi Sil</button>
         </div>
     </div>
 
     <script>
+        // Akıllı Üst Menü (Kaydırma Efekti)
+        let lastScrollTop = 0;
+        const header = document.getElementById('main-header');
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop && scrollTop > 80) { header.classList.add('header-hidden'); } // Aşağı
+            else { header.classList.remove('header-hidden'); } // Yukarı
+            lastScrollTop = scrollTop;
+        });
+
         function closeAuthModal() { document.getElementById('authModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
         function closeDetailModal() { document.getElementById('detailModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
         function closeAddModal() { document.getElementById('addModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
-        
         window.openAuthModal = function(tab) { document.getElementById('authModal').classList.add('active'); document.body.style.overflow = 'hidden'; switchAuthTab(tab); }
         window.openAddModal = function() { document.getElementById('addModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
-        
-        // HİKAYE MODALLARI KONTROLLERİ
         window.openAddStoryModal = function() { document.getElementById('addStoryModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
         window.closeAddStoryModal = function() { document.getElementById('addStoryModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
-        
-        window.openViewStoryModal = function(imgUrl, username, avatarUrl) {
-            document.getElementById('view-story-img').style.backgroundImage = `url('${imgUrl}')`;
-            document.getElementById('view-story-username').innerText = username;
-            document.getElementById('view-story-avatar').style.backgroundImage = `url('${avatarUrl || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100&q=80"}')`;
-            
-            document.getElementById('viewStoryModal').classList.add('active'); 
-            document.body.style.overflow = 'hidden';
-        }
         window.closeViewStoryModal = function() { document.getElementById('viewStoryModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
 
         document.querySelectorAll('.modal-overlay').forEach(modal => { modal.addEventListener('click', (e) => { if(e.target === modal) { modal.classList.remove('active'); document.body.style.overflow = 'auto'; }}); });
@@ -296,28 +317,11 @@
             document.getElementById('form-login').classList.remove('active'); document.getElementById('form-register').classList.remove('active'); document.getElementById('form-' + tab).classList.add('active');
         }
         
-        window.toggleFollow = function(btn) {
-            if (btn.classList.contains('following')) { btn.classList.remove('following'); btn.innerText = "Takip Et"; } 
-            else { btn.classList.add('following'); btn.innerText = "Takip Ediliyor"; }
-        }
-
+        // Galeri Swipe Sistemi
         const detailModal = document.getElementById('detailModal');
         const mainImgDiv = document.getElementById('modalMainImg');
         const thumbContainer = document.getElementById('modalThumbnails');
         let currentGalleryImages = []; let currentImageIndex = 0;
-
-        window.openDetailModal = function(title, price, year, km, fuel, gear, imgUrls, seller) {
-            document.getElementById('modalTitle').innerText = title; document.getElementById('modalPrice').innerText = price;
-            document.getElementById('modalYear').innerText = year; document.getElementById('modalKm').innerText = km;
-            document.getElementById('modalFuel').innerText = fuel; document.getElementById('modalGear').innerText = gear;
-            document.getElementById('modalSeller').innerText = seller;
-
-            document.getElementById('modalFollowers').innerText = ((Math.random() * 50) + 1).toFixed(1) + " B Takipçi";
-            const followBtn = document.querySelector('.btn-follow'); followBtn.classList.remove('following'); followBtn.innerText = "Takip Et";
-
-            currentGalleryImages = imgUrls.split(','); currentImageIndex = 0; updateGalleryUI(); 
-            detailModal.classList.add('active'); document.body.style.overflow = 'hidden';
-        }
 
         function updateGalleryUI() {
             mainImgDiv.style.backgroundImage = `url('${currentGalleryImages[currentImageIndex].trim()}')`;
@@ -347,7 +351,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0",
@@ -362,131 +366,99 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        // Küresel Değişkenler (Silme işlemi için)
+        let activeListingId = null;
+        let activeStoryId = null;
+
         // --- AUTH ---
-        document.getElementById('btn-register').addEventListener('click', async () => {
-            const name = document.getElementById('reg-name').value;
-            const email = document.getElementById('reg-email').value;
-            const password = document.getElementById('reg-pass').value;
-            if(!name || !email || !password) return alert("Tüm alanları doldurun!");
-            try {
-                const userCred = await createUserWithEmailAndPassword(auth, email, password);
-                await updateProfile(userCred.user, { displayName: name });
-                alert("Kayıt başarılı!"); closeAuthModal(); window.location.reload();
-            } catch (err) { alert("Hata: " + err.message); }
-        });
-
-        document.getElementById('btn-login').addEventListener('click', async () => {
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-pass').value;
-            if(!email || !password) return alert("Bilgileri girin!");
-            try { await signInWithEmailAndPassword(auth, email, password); closeAuthModal(); } 
-            catch (err) { alert("Giriş başarısız."); }
-        });
-
         onAuthStateChanged(auth, (user) => {
             const navLinks = document.getElementById('main-nav-links');
             if (user) {
-                navLinks.innerHTML = `
-                    <a href="profil.html" style="color: var(--primary-gold); font-weight: 600; font-size: 15px; margin-right: 15px; text-decoration: none; cursor: pointer;">👤 Profilim (${user.displayName})</a>
-                    <button class="text-btn" id="btn-logout" style="color: #ff4757;">Çıkış Yap</button>
-                    <button class="btn-premium" onclick="window.openAddModal()">+ İlan Ver</button>
-                `;
+                navLinks.innerHTML = `<a href="profil.html" style="color: var(--primary-gold); font-weight: 600; font-size: 15px; margin-right: 15px; text-decoration: none;">👤 Profilim (${user.displayName})</a><button class="text-btn" id="btn-logout" style="color: #ff4757;">Çıkış Yap</button><button class="btn-premium" onclick="openAddModal()">+ İlan Ver</button>`;
                 document.getElementById('btn-logout').addEventListener('click', () => { signOut(auth); });
             } else {
-                navLinks.innerHTML = `<button class="text-btn" onclick="window.openAuthModal('login')">Giriş Yap</button><button class="text-btn" onclick="window.openAuthModal('register')">Kayıt Ol</button><button class="btn-premium" onclick="window.openAddModal()">+ İlan Ver</button>`;
+                navLinks.innerHTML = `<button class="text-btn" onclick="openAuthModal('login')">Giriş Yap</button><button class="text-btn" onclick="openAuthModal('register')">Kayıt Ol</button><button class="btn-premium" onclick="openAddModal()">+ İlan Ver</button>`;
             }
         });
 
-        // --- HİKAYE (STORY) SİSTEMİ ---
-        
-        // 1. Yeni Hikaye Gönderme
-        document.getElementById('btn-submit-story').addEventListener('click', async () => {
-            const user = auth.currentUser;
-            if (!user) { alert("Hikaye paylaşmak için giriş yapmalısınız!"); window.closeAddStoryModal(); window.openAuthModal('login'); return; }
+        // --- İLAN AÇMA VE SİLME BUTONUNU GİZLE/GÖSTER ---
+        window.openDetailModal = function(id, title, price, year, km, fuel, gear, imgUrls, seller) {
+            document.getElementById('modalTitle').innerText = title; 
+            document.getElementById('modalPrice').innerText = price;
+            document.getElementById('modalYear').innerText = year; 
+            document.getElementById('modalKm').innerText = km;
+            document.getElementById('modalFuel').innerText = fuel; 
+            document.getElementById('modalGear').innerText = gear;
+            document.getElementById('modalSeller').innerText = seller;
 
-            const imageUrl = document.getElementById('story-img-url').value;
-            if (!imageUrl) { alert("Lütfen bir görsel linki girin!"); return; }
-
-            const btn = document.getElementById('btn-submit-story');
-            btn.innerText = "Yayına Alınıyor...";
-
-            try {
-                // 'hikayeler' adında yeni bir veritabanı koleksiyonu açıyoruz
-                await addDoc(collection(db, "hikayeler"), {
-                    imageUrl: imageUrl,
-                    username: user.displayName || "Swinder Üyesi",
-                    createdAt: new Date()
-                });
-                
-                alert("Hikayen başarıyla paylaşıldı!");
-                closeAddStoryModal();
-                loadStories(); // Ekranı yenilemeden hikayeyi başa ekle
-            } catch (error) {
-                alert("Hata: " + error.message);
-            } finally {
-                btn.innerText = "Hikayeyi Yayına Al";
+            currentGalleryImages = imgUrls.split(','); currentImageIndex = 0; updateGalleryUI(); 
+            
+            // Eğer giriş yapan kullanıcı, ilanın sahibi ise "SİL" butonunu göster
+            const btnDelete = document.getElementById('btn-delete-listing');
+            if(auth.currentUser && auth.currentUser.displayName === seller && id !== 'static1' && id !== 'static2') {
+                btnDelete.style.display = 'block';
+                activeListingId = id; // Hangi ilan silinecek hafızaya al
+            } else {
+                btnDelete.style.display = 'none';
+                activeListingId = null;
             }
-        });
 
-        // 2. Veritabanından Hikayeleri Çekme
-        async function loadStories() {
-            const storiesContainer = document.getElementById('stories-container');
-            // 'Ekle' butonunu sabit tutmak için içeriği sıfırlayıp butonu tekrar yazıyoruz
-            storiesContainer.innerHTML = `
-                <div class="story-item" onclick="openAddStoryModal()">
-                    <div class="story-ring add-story"><div class="story-img" style="background-color: #2a2a30; display:flex; justify-content:center; align-items:center; font-size: 24px; color: var(--text-muted);">+</div></div>
-                    <span class="story-name">Hikaye Ekle</span>
-                </div>
-            `;
-
-            try {
-                // Hikayeleri en yeniden en eskiye doğru (desc) çek
-                const q = query(collection(db, "hikayeler"), orderBy("createdAt", "desc"));
-                const snapshot = await getDocs(q);
-
-                snapshot.forEach((doc) => {
-                    const data = doc.data();
-                    // Her hikaye için bir yüzük (ring) oluştur ve tıklandığında ViewStory Modalını aç
-                    const storyHTML = `
-                    <div class="story-item" onclick="window.openViewStoryModal('${data.imageUrl}', '${data.username}', '')">
-                        <div class="story-ring">
-                            <div class="story-img" style="background-image: url('${data.imageUrl}');"></div>
-                        </div>
-                        <span class="story-name">${data.username}</span>
-                    </div>`;
-                    storiesContainer.insertAdjacentHTML('beforeend', storyHTML);
-                });
-            } catch (error) {
-                console.error("Hikayeler çekilemedi: ", error);
-            }
+            document.getElementById('detailModal').classList.add('active'); 
+            document.body.style.overflow = 'hidden';
         }
 
-        // --- İLANLARI ÇEKME (Mevcut Sistem) ---
-        document.getElementById('btn-submit-listing').addEventListener('click', async () => {
-            const user = auth.currentUser;
-            if (!user) { alert("İlan vermek için giriş yapın!"); window.openAuthModal('login'); return; }
-
-            const title = document.getElementById('add-title').value;
-            const price = document.getElementById('add-price').value;
-            let images = document.getElementById('add-images').value || "https://images.unsplash.com/photo-1503376760367-112cb1bf2363?w=800&q=80";
-
-            if (!title || !price) { alert("Başlık ve fiyat zorunludur!"); return; }
-            document.getElementById('btn-submit-listing').innerText = "Yükleniyor...";
-
-            try {
-                await addDoc(collection(db, "ilanlar"), {
-                    title: title, price: price, 
-                    year: document.getElementById('add-year').value || "-", 
-                    km: document.getElementById('add-km').value || "-", 
-                    fuel: document.getElementById('add-fuel').value || "-", 
-                    gear: document.getElementById('add-gear').value || "-", 
-                    images: images, seller: user.displayName || "Swinder Üyesi", createdAt: new Date()
-                });
-                alert("İlan yayına alındı!"); closeAddModal(); loadListings();
-            } catch (err) { alert("Hata: " + err.message); }
-            finally { document.getElementById('btn-submit-listing').innerText = "İlanı Yayına Al"; }
+        // İlan Silme Tetikleyicisi
+        document.getElementById('btn-delete-listing').addEventListener('click', async () => {
+            if(!activeListingId) return;
+            const confirmDelete = confirm("Bu ilanı kalıcı olarak silmek istediğine emin misin?");
+            if(confirmDelete) {
+                try {
+                    document.getElementById('btn-delete-listing').innerText = "Siliniyor...";
+                    await deleteDoc(doc(db, "ilanlar", activeListingId));
+                    alert("İlan başarıyla silindi!");
+                    closeDetailModal();
+                    loadListings(); // Sayfayı yenilemeden ilanları güncelle
+                } catch (error) { alert("Hata: " + error.message); }
+                finally { document.getElementById('btn-delete-listing').innerText = "🗑️ Bu İlanı Sil"; }
+            }
         });
 
+        // --- HİKAYE AÇMA VE SİLME BUTONUNU GİZLE/GÖSTER ---
+        window.openViewStoryModal = function(id, imgUrl, username, avatarUrl) {
+            document.getElementById('view-story-img').style.backgroundImage = `url('${imgUrl}')`;
+            document.getElementById('view-story-username').innerText = username;
+            document.getElementById('view-story-avatar').style.backgroundImage = `url('${avatarUrl || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100&q=80"}')`;
+            
+            // Hikayeyi yükleyen kişiyle, giriş yapan kişi aynıysa Sil butonunu göster
+            const btnDeleteStory = document.getElementById('btn-delete-story');
+            if(auth.currentUser && auth.currentUser.displayName === username) {
+                btnDeleteStory.style.display = 'block';
+                activeStoryId = id;
+            } else {
+                btnDeleteStory.style.display = 'none';
+                activeStoryId = null;
+            }
+
+            document.getElementById('viewStoryModal').classList.add('active'); 
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Hikaye Silme Tetikleyicisi
+        document.getElementById('btn-delete-story').addEventListener('click', async () => {
+            if(!activeStoryId) return;
+            const confirmDelete = confirm("Hikayeni silmek istediğine emin misin?");
+            if(confirmDelete) {
+                try {
+                    document.getElementById('btn-delete-story').innerText = "Siliniyor...";
+                    await deleteDoc(doc(db, "hikayeler", activeStoryId));
+                    closeViewStoryModal();
+                    loadStories();
+                } catch (error) { alert("Hata: " + error.message); }
+                finally { document.getElementById('btn-delete-story').innerText = "🗑️ Hikayeyi Sil"; }
+            }
+        });
+
+        // --- VERİ ÇEKME FONKSİYONLARI (Güncellendi: doc.id eklenerek gönderiliyor) ---
         async function loadListings() {
             const grid = document.getElementById('dynamic-ilanlar');
             try {
@@ -497,19 +469,63 @@
                 snapshot.forEach((doc) => {
                     const data = doc.data();
                     const firstImg = data.images.split(',')[0].trim();
+                    // doc.id parametresi openDetailModal fonksiyonuna eklendi!
                     grid.insertAdjacentHTML('beforeend', `
-                    <div class="card normal" onclick="window.openDetailModal('${data.title}', '${data.price}', '${data.year}', '${data.km}', '${data.fuel}', '${data.gear}', '${data.images}', '${data.seller}')">
+                    <div class="card normal" onclick="window.openDetailModal('${doc.id}', '${data.title}', '${data.price}', '${data.year}', '${data.km}', '${data.fuel}', '${data.gear}', '${data.images}', '${data.seller}')">
                         <div class="card-img" style="background-image: url('${firstImg}');"><span class="badge normal-badge">Yeni</span></div>
                         <div class="card-content"><h3 class="card-title">${data.title}</h3><div class="card-price">${data.price}</div><div class="card-details"><span>${data.year}</span><span>${data.km}</span></div></div>
                     </div>`);
                 });
             } catch (err) { grid.innerHTML = '<div style="grid-column: span 4; text-align: center; color: red;">Veri çekilemedi!</div>'; }
         }
-        
-        // Sayfa açıldığında hem ilanları hem hikayeleri yükle
-        loadListings();
-        loadStories();
 
+        async function loadStories() {
+            const storiesContainer = document.getElementById('stories-container');
+            storiesContainer.innerHTML = `<div class="story-item" onclick="openAddStoryModal()"><div class="story-ring add-story"><div class="story-img" style="background-color: #2a2a30; display:flex; justify-content:center; align-items:center; font-size: 24px; color: var(--text-muted);">+</div></div><span class="story-name">Hikaye Ekle</span></div>`;
+            try {
+                const snapshot = await getDocs(query(collection(db, "hikayeler"), orderBy("createdAt", "desc")));
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    // doc.id parametresi eklendi!
+                    const storyHTML = `
+                    <div class="story-item" onclick="window.openViewStoryModal('${doc.id}', '${data.imageUrl}', '${data.username}', '')">
+                        <div class="story-ring"><div class="story-img" style="background-image: url('${data.imageUrl}');"></div></div>
+                        <span class="story-name">${data.username}</span>
+                    </div>`;
+                    storiesContainer.insertAdjacentHTML('beforeend', storyHTML);
+                });
+            } catch (error) { console.error("Hikayeler çekilemedi: ", error); }
+        }
+
+        // İlan ve Hikaye Yükleme İşlemleri
+        document.getElementById('btn-submit-listing').addEventListener('click', async () => {
+            const user = auth.currentUser;
+            if (!user) return alert("Giriş yapmalısınız!"); 
+            const title = document.getElementById('add-title').value; const price = document.getElementById('add-price').value;
+            let images = document.getElementById('add-images').value || "https://images.unsplash.com/photo-1503376760367-112cb1bf2363?w=800&q=80";
+            if (!title || !price) return alert("Başlık ve fiyat zorunlu!");
+            
+            document.getElementById('btn-submit-listing').innerText = "Yükleniyor...";
+            try {
+                await addDoc(collection(db, "ilanlar"), { title: title, price: price, year: document.getElementById('add-year').value || "-", km: document.getElementById('add-km').value || "-", fuel: document.getElementById('add-fuel').value || "-", gear: document.getElementById('add-gear').value || "-", images: images, seller: user.displayName, createdAt: new Date() });
+                alert("İlan yayına alındı!"); closeAddModal(); loadListings();
+            } catch (err) { alert("Hata: " + err.message); } finally { document.getElementById('btn-submit-listing').innerText = "İlanı Yayına Al"; }
+        });
+
+        document.getElementById('btn-submit-story').addEventListener('click', async () => {
+            const user = auth.currentUser;
+            if (!user) return alert("Giriş yapmalısınız!"); 
+            const imageUrl = document.getElementById('story-img-url').value;
+            if (!imageUrl) return alert("Görsel linki girin!");
+            
+            document.getElementById('btn-submit-story').innerText = "Yükleniyor...";
+            try {
+                await addDoc(collection(db, "hikayeler"), { imageUrl: imageUrl, username: user.displayName, createdAt: new Date() });
+                closeAddStoryModal(); loadStories();
+            } catch (error) { alert("Hata: " + error.message); } finally { document.getElementById('btn-submit-story').innerText = "Hikayeyi Yayına Al"; }
+        });
+        
+        loadListings(); loadStories();
     </script>
 </body>
 </html>
