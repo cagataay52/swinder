@@ -92,7 +92,7 @@
         .story-view-img { width: 100%; flex: 1; background-size: cover; background-position: center; }
         .story-view-header { position: absolute; top: 0; left: 0; width: 100%; padding: 20px 20px 40px 20px; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); display: flex; align-items: center; gap: 12px; z-index: 2; }
         .story-view-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center; }
-        .story-view-username { color: #fff; font-weight: 600; font-size: 15px; }
+        .story-view-username { color: #fff; font-weight: 600; font-size: 15px; display: flex; align-items: center;}
         .story-view-close { position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; cursor: pointer; z-index: 5; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; }
         .btn-delete-story { display: none; position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(255, 71, 87, 0.9); border: none; color: white; padding: 10px 25px; border-radius: 30px; font-weight: 600; cursor: pointer; z-index: 10; font-size: 14px; backdrop-filter: blur(5px); align-items: center; gap: 8px;}
 
@@ -187,7 +187,6 @@
     </div>
 
     <section class="showcase">
-        
         <div class="section-header"><h2 class="section-title gold">✨ Swinder Premium Vitrin</h2></div>
         <div class="grid" id="premium-ilanlar">
             <div style="grid-column: span 4; text-align: center; color: var(--primary-gold); padding: 40px;">Yükleniyor...</div>
@@ -197,7 +196,6 @@
         <div class="grid" id="dynamic-ilanlar">
             <div style="grid-column: span 4; text-align: center; color: var(--text-muted); padding: 40px;">Yükleniyor...</div>
         </div>
-
     </section>
 
     <nav class="bottom-nav">
@@ -253,7 +251,7 @@
                 <div class="seller-card">
                     <h4 style="color: var(--primary-gold); margin-bottom: 10px; font-size: 13px; text-transform: uppercase;">Satıcı Bilgileri</h4>
                     <div class="seller-header">
-                        <div><p style="font-weight: bold; font-size: 16px; margin-bottom: 3px;" id="modalSeller">-</p></div>
+                        <div><p style="font-weight: bold; font-size: 16px; margin-bottom: 3px; display:flex; align-items:center; gap:5px;" id="modalSeller">-</p></div>
                         <button class="btn-follow" onclick="toggleFollow(this)">Takip Et</button>
                     </div>
                     <button id="btn-delete-listing" class="btn-delete-listing"><span class="material-symbols-outlined" style="font-size: 18px;">delete</span> Bu İlanı Sil</button>
@@ -371,7 +369,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, doc, deleteDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0",
@@ -414,10 +412,13 @@
             } catch (err) { alert("Hata: " + err.message); btn.innerText = "Hesap Oluştur"; }
         });
 
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             const navLinks = document.getElementById('main-nav-links');
             const mobileProfileBtn = document.getElementById('mobile-profile-btn'); 
             if (user) {
+                // 🔥 KÖPRÜ İÇİN İSMİ VERİTABANINA KAYDET
+                await setDoc(doc(db, "kullanicilar", user.uid), { displayName: user.displayName, email: user.email }, { merge: true });
+
                 navLinks.innerHTML = `<button class="text-btn" onclick="openMobileSearch()"><span class="material-symbols-outlined" style="font-size: 20px;">search</span> Keşfet</button><a href="profil.html" style="color: var(--primary-gold); font-weight: 600; font-size: 14px; margin-left: 10px; margin-right: 15px; text-decoration: none; display: flex; align-items:center; gap:5px;"><span class="material-symbols-outlined" style="font-size: 18px;">person</span> ${user.displayName}</a><button class="text-btn" id="btn-logout" style="color: #ff4757;">Çıkış</button><button class="btn-premium" onclick="openAddModal()"><span class="material-symbols-outlined" style="font-size: 18px;">add</span> İlan Ver</button>`;
                 document.getElementById('btn-logout').addEventListener('click', () => { signOut(auth).then(() => window.location.reload()); });
                 mobileProfileBtn.onclick = function() { window.location.href = "profil.html"; };
@@ -429,11 +430,15 @@
             }
         });
 
-        window.openDetailModal = function(id, title, price, year, km, fuel, gear, imgUrls, seller) {
+        // 🔥 İLANA TIKLAYINCA AÇILAN PENCEREDEKİ TİK VE FOTO 🔥
+        window.openDetailModal = function(id, title, price, year, km, fuel, gear, imgUrls, seller, isVerified) {
             document.getElementById('modalTitle').innerText = title; document.getElementById('modalPrice').innerText = price;
             document.getElementById('modalYear').innerText = year; document.getElementById('modalKm').innerText = km;
             document.getElementById('modalFuel').innerText = fuel; document.getElementById('modalGear').innerText = gear;
-            document.getElementById('modalSeller').innerText = seller;
+            
+            // Pencere içindeki satıcı adının yanına tiki koy
+            const tickHtml = isVerified ? ' <span class="gold-tick">✓</span>' : '';
+            document.getElementById('modalSeller').innerHTML = seller + tickHtml;
 
             currentGalleryImages = imgUrls.split(','); currentImageIndex = 0; updateGalleryUI(); 
             
@@ -457,18 +462,25 @@
             }
         });
 
-        // 🔥 DİNAMİK İLAN ÇEKME VE PREMİUM AYRIŞTIRMA 🔥
+        // 🔥 VERİTABANI KÖPRÜSÜ İLE İLANLARI ÇEKME 🔥
         async function loadListings() {
             const premiumGrid = document.getElementById('premium-ilanlar');
             const normalGrid = document.getElementById('dynamic-ilanlar');
             
             try {
+                // 1. Önce tüm kullanıcıları çekip hafızaya alıyoruz (Köprü)
+                const usersMap = {};
+                const usersSnap = await getDocs(collection(db, "kullanicilar"));
+                usersSnap.forEach(uDoc => {
+                    const uData = uDoc.data();
+                    if(uData.displayName) usersMap[uData.displayName] = uData;
+                });
+
+                // 2. İlanları Çek
                 const snapshot = await getDocs(query(collection(db, "ilanlar"), orderBy("createdAt", "desc")));
                 
-                premiumGrid.innerHTML = ''; 
-                normalGrid.innerHTML = ''; 
-                let premiumCount = 0;
-                let normalCount = 0;
+                premiumGrid.innerHTML = ''; normalGrid.innerHTML = ''; 
+                let premiumCount = 0; let normalCount = 0;
 
                 if (snapshot.empty) { 
                     normalGrid.innerHTML = '<div style="grid-column: span 4; text-align: center; color: var(--text-muted); padding: 50px;">İlk ilanı sen ver!</div>'; 
@@ -479,58 +491,63 @@
                 snapshot.forEach((doc) => {
                     const data = doc.data();
                     const firstImg = data.images.split(',')[0].trim();
-                    // Satıcı adı Çağatay ise Ana Sayfa'da da altın tik göster!
-                    const goldTick = (data.seller && (data.seller.toLowerCase().includes('çağatay') || data.seller.toLowerCase().includes('cagatay'))) 
-                                     ? '<span class="gold-tick">✓</span>' : '';
+                    
+                    // KÖPRÜ BAĞLANTISI: İlanı verenin profil bilgisini bul!
+                    const sellerInfo = usersMap[data.seller] || {};
+                    
+                    // Tik Kontrolü: Admin paneli üzerinden veya "Çağatay" ise
+                    const isVerified = sellerInfo.isVerified || (data.seller && (data.seller.toLowerCase().includes('çağatay') || data.seller.toLowerCase().includes('cagatay')));
+                    const goldTick = isVerified ? '<span class="gold-tick">✓</span>' : '';
 
-                    // EĞER İLAN PREMİUM İSE ÜSTTEKİ VİTRİNE EKLE
-                    if (data.isPremium) {
-                        premiumCount++;
-                        premiumGrid.insertAdjacentHTML('beforeend', `
-                        <div class="card premium" onclick="window.openDetailModal('${doc.id}', '${data.title}', '${data.price}', '${data.year}', '${data.km}', '${data.fuel}', '${data.gear}', '${data.images}', '${data.seller}')">
+                    // Avatar Kontrolü: Fotoğrafı varsa koy, yoksa gri ikon kalsın
+                    const avatarHtml = sellerInfo.avatar 
+                        ? `<div class="card-header-avatar" style="background: url('${sellerInfo.avatar}') center/cover; border: 1px solid var(--primary-gold);"></div>` 
+                        : `<div class="card-header-avatar"><span class="material-symbols-outlined" style="font-size: 16px;">person</span></div>`;
+
+                    // İlan Kartı HTML'i
+                    const cardHTML = `
+                        <div class="card ${data.isPremium ? 'premium' : 'normal'}" onclick="window.openDetailModal('${doc.id}', '${data.title}', '${data.price}', '${data.year}', '${data.km}', '${data.fuel}', '${data.gear}', '${data.images}', '${data.seller}', ${isVerified})">
                             <div class="card-header">
-                                <div class="card-header-avatar"><span class="material-symbols-outlined" style="font-size: 16px;">person</span></div>
+                                ${avatarHtml}
                                 <span class="card-header-username">${data.seller} ${goldTick}</span>
                             </div>
-                            <div class="card-img" style="background-image: url('${firstImg}');"><span class="badge premium-badge">PREMIUM</span></div>
+                            <div class="card-img" style="background-image: url('${firstImg}');"><span class="badge ${data.isPremium ? 'premium-badge' : 'normal-badge'}">${data.isPremium ? 'PREMIUM' : 'Yeni'}</span></div>
                             <div class="card-content"><h3 class="card-title">${data.title}</h3><div class="card-price">${data.price}</div><div class="card-details"><span>${data.year}</span><span>${data.km}</span></div></div>
-                        </div>`);
-                    } 
-                    // DEĞİLSE NORMAL İLANLARA EKLE
-                    else {
-                        normalCount++;
-                        normalGrid.insertAdjacentHTML('beforeend', `
-                        <div class="card normal" onclick="window.openDetailModal('${doc.id}', '${data.title}', '${data.price}', '${data.year}', '${data.km}', '${data.fuel}', '${data.gear}', '${data.images}', '${data.seller}')">
-                            <div class="card-header">
-                                <div class="card-header-avatar"><span class="material-symbols-outlined" style="font-size: 16px;">person</span></div>
-                                <span class="card-header-username">${data.seller} ${goldTick}</span>
-                            </div>
-                            <div class="card-img" style="background-image: url('${firstImg}');"><span class="badge normal-badge">Yeni</span></div>
-                            <div class="card-content"><h3 class="card-title">${data.title}</h3><div class="card-price">${data.price}</div><div class="card-details"><span>${data.year}</span><span>${data.km}</span></div></div>
-                        </div>`);
-                    }
+                        </div>`;
+
+                    if (data.isPremium) { premiumCount++; premiumGrid.insertAdjacentHTML('beforeend', cardHTML); } 
+                    else { normalCount++; normalGrid.insertAdjacentHTML('beforeend', cardHTML); }
                 });
 
                 if(premiumCount === 0) premiumGrid.innerHTML = '<div style="grid-column: span 4; text-align: center; color: var(--text-muted); padding: 20px;">Vitrinde şu an araç yok.</div>';
                 if(normalCount === 0) normalGrid.innerHTML = '<div style="grid-column: span 4; text-align: center; color: var(--text-muted); padding: 20px;">Güncel ilan bulunmuyor.</div>';
 
-            } catch (err) { 
-                normalGrid.innerHTML = '<div style="grid-column: span 4; text-align: center; color: red;">Veri çekilemedi!</div>'; 
-            }
+            } catch (err) { normalGrid.innerHTML = '<div style="grid-column: span 4; text-align: center; color: red;">Veri çekilemedi!</div>'; }
         }
 
-        // --- HİKAYELER VE İLAN EKLEME (Aynı şekilde çalışıyor) ---
+        // 🔥 HİKAYELER İÇİN VERİTABANI KÖPRÜSÜ 🔥
         async function loadStories() {
             const storiesContainer = document.getElementById('stories-container');
             storiesContainer.innerHTML = `<div class="story-item" onclick="openAddStoryModal()"><div class="story-ring add-story"><div class="story-img" style="background-color: #2a2a30; display:flex; justify-content:center; align-items:center; color: var(--text-muted);"><span class="material-symbols-outlined" style="font-size: 28px;">add</span></div></div><span class="story-name">Hikaye Ekle</span></div>`;
             try {
+                // Kullanıcıları çek
+                const usersMap = {};
+                const usersSnap = await getDocs(collection(db, "kullanicilar"));
+                usersSnap.forEach(uDoc => { const uData = uDoc.data(); if(uData.displayName) usersMap[uData.displayName] = uData; });
+
                 const snapshot = await getDocs(query(collection(db, "hikayeler"), orderBy("createdAt", "desc")));
                 snapshot.forEach((doc) => {
                     const data = doc.data();
+                    const sellerInfo = usersMap[data.username] || {};
+                    const storyAvatar = sellerInfo.avatar || '';
+                    
+                    const isVerified = sellerInfo.isVerified || (data.username && data.username.toLowerCase().includes('çağatay'));
+                    const goldTick = isVerified ? '<span class="gold-tick" style="width: 12px; height: 12px; font-size: 8px; margin-left: 2px;">✓</span>' : '';
+
                     const storyHTML = `
-                    <div class="story-item" onclick="window.openViewStoryModal('${doc.id}', '${data.imageUrl}', '${data.username}', '')">
+                    <div class="story-item" onclick="window.openViewStoryModal('${doc.id}', '${data.imageUrl}', '${data.username}', '${storyAvatar}')">
                         <div class="story-ring"><div class="story-img" style="background-image: url('${data.imageUrl}');"></div></div>
-                        <span class="story-name">${data.username}</span>
+                        <span class="story-name" style="display:flex; align-items:center;">${data.username.split(' ')[0]} ${goldTick}</span>
                     </div>`;
                     storiesContainer.insertAdjacentHTML('beforeend', storyHTML);
                 });
@@ -540,7 +557,11 @@
         window.openViewStoryModal = function(id, imgUrl, username, avatarUrl) {
             document.getElementById('view-story-img').style.backgroundImage = `url('${imgUrl}')`;
             document.getElementById('view-story-username').innerText = username;
-            document.getElementById('view-story-avatar').style.backgroundImage = `url('${avatarUrl || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100&q=80"}')`;
+            
+            // Eğer avatar yoksa varsayılanı kullan
+            const finalAvatar = avatarUrl ? avatarUrl : "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100&q=80";
+            document.getElementById('view-story-avatar').style.backgroundImage = `url('${finalAvatar}')`;
+            
             const btnDeleteStory = document.getElementById('btn-delete-story');
             if(auth.currentUser && auth.currentUser.displayName === username) { btnDeleteStory.style.display = 'flex'; activeStoryId = id; } 
             else { btnDeleteStory.style.display = 'none'; activeStoryId = null; }
@@ -568,7 +589,6 @@
             
             document.getElementById('btn-submit-listing').innerText = "Yükleniyor...";
             try {
-                // isPremium: false varsayılan olarak eklendi
                 await addDoc(collection(db, "ilanlar"), { title: title, price: price, year: document.getElementById('add-year').value || "-", km: document.getElementById('add-km').value || "-", fuel: document.getElementById('add-fuel').value || "-", gear: document.getElementById('add-gear').value || "-", images: images, seller: user.displayName, isPremium: false, createdAt: new Date() });
                 alert("İlan yayına alındı!"); closeAddModal(); loadListings();
             } catch (err) { alert("Hata: " + err.message); } finally { document.getElementById('btn-submit-listing').innerHTML = '<span class="material-symbols-outlined" style="font-size: 18px;">add</span> İlanı Yayına Al'; }
