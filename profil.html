@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Çağatay Motors - Swinder Profil</title>
+    <style>
+        /* --- Temel Ayarlar --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        :root {
+            --bg-dark: #0a0a0c; --surface: #1a1a1f; --primary-gold: #d4af37; --gold-hover: #f3e5ab;
+            --text-light: #f5f5f7; --text-muted: #8e8e93; --glass-bg: rgba(26, 26, 31, 0.75);
+        }
+        body { background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; }
+
+        /* --- Üst Menü --- */
+        header { position: fixed; top: 0; width: 100%; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; background: var(--glass-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 100; border-bottom: 1px solid rgba(212, 175, 55, 0.15); }
+        .logo { font-size: 26px; font-weight: 800; letter-spacing: 2px; color: var(--primary-gold); text-decoration: none; }
+        .back-link { color: var(--text-light); text-decoration: none; font-size: 15px; display: flex; align-items: center; gap: 5px; transition: 0.3s; }
+        .back-link:hover { color: var(--primary-gold); }
+
+        /* --- PROFIL ANA KONTEYNER (Instagram Genişliği) --- */
+        .profile-container { max-width: 935px; margin: 100px auto 50px; padding: 0 20px; }
+
+        /* --- Profil Üst Kısım (Header) --- */
+        .profile-header { display: flex; gap: 50px; margin-bottom: 40px; align-items: flex-start; }
+        
+        /* Avatar Bölümü */
+        .profile-avatar-container { flex-shrink: 0; cursor: pointer; }
+        .profile-ring { width: 150px; height: 150px; border-radius: 50%; padding: 4px; background: linear-gradient(45deg, #d4af37, #aa8529, #f3e5ab); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
+        .profile-avatar { width: 100%; height: 100%; border-radius: 50%; border: 4px solid var(--bg-dark); background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=400&q=80'); background-size: cover; background-position: center; }
+
+        /* Bilgi Bölümü */
+        .profile-info { flex: 1; display: flex; flex-direction: column; gap: 15px; }
+        
+        .profile-top-row { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+        .profile-username { font-size: 28px; font-weight: 300; }
+        .profile-actions { display: flex; gap: 10px; }
+        .btn-follow { background: var(--primary-gold); color: #000; border: none; padding: 8px 24px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.3s; }
+        .btn-follow:hover { background: var(--gold-hover); }
+        .btn-message { background: transparent; color: var(--text-light); border: 1px solid rgba(255,255,255,0.3); padding: 8px 20px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.3s; }
+        .btn-message:hover { border-color: var(--primary-gold); color: var(--primary-gold); }
+
+        /* İstatistikler */
+        .profile-stats { display: flex; gap: 40px; margin-top: 5px; }
+        .stat-item { font-size: 16px; }
+        .stat-item span { font-weight: 700; color: var(--text-light); }
+
+        /* Biyografi */
+        .profile-bio { font-size: 15px; line-height: 1.5; margin-top: 5px; }
+        .bio-name { font-weight: 600; font-size: 16px; margin-bottom: 5px; }
+        .bio-category { color: var(--text-muted); font-size: 14px; margin-bottom: 5px; }
+        .bio-link { color: #e0f2fe; text-decoration: none; font-weight: 500; display: inline-block; margin-top: 5px; }
+        .bio-link:hover { text-decoration: underline; }
+
+        /* --- Öne Çıkanlar (Highlights) --- */
+        .highlights { display: flex; gap: 30px; margin-bottom: 50px; overflow-x: auto; padding-bottom: 10px; }
+        .highlights::-webkit-scrollbar { display: none; }
+        .highlight-item { display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; }
+        .highlight-ring { width: 85px; height: 85px; border-radius: 50%; padding: 2px; background: rgba(255,255,255,0.2); }
+        .highlight-img { width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--bg-dark); background-size: cover; background-position: center; background-color: var(--surface); }
+        .highlight-name { font-size: 13px; font-weight: 500; }
+
+        /* --- Sekmeler (Tabs) --- */
+        .profile-tabs { display: flex; justify-content: center; border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
+        .tab-item { display: flex; align-items: center; gap: 8px; padding: 15px 20px; color: var(--text-muted); font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: 0.3s; margin-top: -1px; border-top: 1px solid transparent; }
+        .tab-item.active { color: var(--primary-gold); border-top: 1px solid var(--primary-gold); }
+
+        /* --- Vitrin Izgarası (Instagram Grid) --- */
+        .profile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        
+        .grid-item { position: relative; aspect-ratio: 1 / 1; background-size: cover; background-position: center; cursor: pointer; overflow: hidden; border-radius: 4px; }
+        
+        /* Hover Efekti (Fiyat ve Beğeni Gösterimi) */
+        .grid-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px; opacity: 0; transition: 0.3s ease; backdrop-filter: blur(2px); }
+        .grid-item:hover .grid-overlay { opacity: 1; }
+        
+        .overlay-price { color: var(--primary-gold); font-size: 20px; font-weight: 700; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
+        .overlay-stats { display: flex; gap: 20px; color: white; font-weight: 600; font-size: 16px; }
+        .overlay-stats div { display: flex; align-items: center; gap: 6px; }
+
+        /* Sadece Premium ilanlarda sağ üstte ikon */
+        .grid-premium-icon { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.5); padding: 5px; border-radius: 5px; font-size: 14px; backdrop-filter: blur(5px); }
+
+        /* Mobil Optimizasyon */
+        @media (max-width: 768px) {
+            .profile-header { flex-direction: column; gap: 20px; align-items: center; text-align: center; }
+            .profile-top-row { flex-direction: column; gap: 15px; }
+            .profile-stats { justify-content: center; gap: 20px; }
+            .profile-grid { gap: 3px; }
+            .grid-item { border-radius: 0; }
+            .overlay-price { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">SWINDER</a>
+        <a href="index.html" class="back-link">← Ana Sayfaya Dön</a>
+    </header>
+
+    <main class="profile-container">
+        
+        <header class="profile-header">
+            <div class="profile-avatar-container">
+                <div class="profile-ring">
+                    <div class="profile-avatar" style="background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=400&q=80');"></div>
+                </div>
+            </div>
+
+            <div class="profile-info">
+                <div class="profile-top-row">
+                    <h1 class="profile-username">cagataymotors</h1>
+                    <div class="profile-actions">
+                        <button class="btn-follow" id="followBtn" onclick="toggleFollow()">Takip Et</button>
+                        <button class="btn-message">Mesaj</button>
+                    </div>
+                </div>
+
+                <div class="profile-stats">
+                    <div class="stat-item"><span>42</span> İlan</div>
+                    <div class="stat-item"><span>24.5B</span> Takipçi</div>
+                    <div class="stat-item"><span>120</span> Takip</div>
+                </div>
+
+                <div class="profile-bio">
+                    <div class="bio-name">Çağatay Motors</div>
+                    <div class="bio-category">Otomotiv • Premium Galeri</div>
+                    <div>Sadece hatasız, düşük kilometreli ve özel sipariş premium araçlar. <br>📍 İstanbul, Sarıyer (Randevu ile çalışılmaktadır)</div>
+                    <a href="#" class="bio-link">🔗 cagataymotors.com.tr</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="highlights">
+            <div class="highlight-item">
+                <div class="highlight-ring"><div class="highlight-img" style="background-image: url('https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=200&q=80');"></div></div>
+                <span class="highlight-name">Teslimatlar</span>
+            </div>
+            <div class="highlight-item">
+                <div class="highlight-ring"><div class="highlight-img" style="background-image: url('https://images.unsplash.com/photo-1563720223185-11003d516935?w=200&q=80');"></div></div>
+                <span class="highlight-name">Showroom</span>
+            </div>
+            <div class="highlight-item">
+                <div class="highlight-ring"><div class="highlight-img" style="background-image: url('https://images.unsplash.com/photo-1610647752706-3bb12232b3ab?w=200&q=80');"></div></div>
+                <span class="highlight-name">Ekspertiz</span>
+            </div>
+            <div class="highlight-item">
+                <div class="highlight-ring"><div class="highlight-img" style="background-image: url('https://images.unsplash.com/photo-1503376760367-112cb1bf2363?w=200&q=80');"></div></div>
+                <span class="highlight-name">Müşteriler</span>
+            </div>
+        </div>
+
+        <div class="profile-tabs">
+            <div class="tab-item active">▦ İlanlar</div>
+            <div class="tab-item">🎬 Reels</div>
+            <div class="tab-item">🔖 Satılanlar</div>
+        </div>
+
+        <div class="profile-grid">
+            
+            <div class="grid-item" style="background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=800&q=80');">
+                <div class="grid-premium-icon">✨</div>
+                <div class="grid-overlay">
+                    <div class="overlay-price">3.250.000 TL</div>
+                    <div class="overlay-stats">
+                        <div>❤️ 1.2K</div>
+                        <div>💬 45</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-item" style="background-image: url('https://images.unsplash.com/photo-1556189250-72ba954cfc2b?w=800&q=80');">
+                <div class="grid-premium-icon">✨</div>
+                <div class="grid-overlay">
+                    <div class="overlay-price">1.850.000 TL</div>
+                    <div class="overlay-stats">
+                        <div>❤️ 850</div>
+                        <div>💬 22</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-item" style="background-image: url('https://images.unsplash.com/photo-1503376760367-112cb1bf2363?w=800&q=80');">
+                <div class="grid-overlay">
+                    <div class="overlay-price">18.200.000 TL</div>
+                    <div class="overlay-stats">
+                        <div>❤️ 3.4K</div>
+                        <div>💬 120</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-item" style="background-image: url('https://images.unsplash.com/photo-1520031441872-265e4ff70366?w=800&q=80');">
+                <div class="grid-overlay">
+                    <div class="overlay-price">28.500.000 TL</div>
+                    <div class="overlay-stats">
+                        <div>❤️ 5.1K</div>
+                        <div>💬 340</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-item" style="background-image: url('https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=800&q=80');">
+                <div class="grid-overlay">
+                    <div class="overlay-price">8.500.000 TL</div>
+                    <div class="overlay-stats">
+                        <div>❤️ 920</div>
+                        <div>💬 18</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-item" style="background-image: url('https://images.unsplash.com/photo-1563720223185-11003d516935?w=800&q=80');">
+                <div class="grid-overlay">
+                    <div class="overlay-price">9.200.000 TL</div>
+                    <div class="overlay-stats">
+                        <div>❤️ 1.8K</div>
+                        <div>💬 65</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Takip Et Butonu Etkileşimi
+        function toggleFollow() {
+            const btn = document.getElementById('followBtn');
+            if (btn.innerText === "Takip Et") {
+                btn.innerText = "Takiptesin";
+                btn.style.background = "transparent";
+                btn.style.color = "var(--text-light)";
+                btn.style.border = "1px solid rgba(255,255,255,0.3)";
+            } else {
+                btn.innerText = "Takip Et";
+                btn.style.background = "var(--primary-gold)";
+                btn.style.color = "#000";
+                btn.style.border = "none";
+            }
+        }
+    </script>
+</body>
+</html>
