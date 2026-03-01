@@ -7,10 +7,13 @@
     <style>
         /* --- TEMEL AYARLAR --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        :root { --bg-dark: #0a0a0c; --surface: #1a1a1f; --primary-gold: #d4af37; --gold-hover: #f3e5ab; --text-light: #f5f5f7; --text-muted: #8e8e93; --glass-bg: rgba(26, 26, 31, 0.75); }
+        :root {
+            --bg-dark: #0a0a0c; --surface: #1a1a1f; --primary-gold: #d4af37; --gold-hover: #f3e5ab;
+            --text-light: #f5f5f7; --text-muted: #8e8e93; --glass-bg: rgba(26, 26, 31, 0.75);
+        }
         body { background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; }
 
-        /* --- ÜST MENÜ VE GENEL TASARIM --- */
+        /* --- ÜST MENÜ --- */
         header { position: fixed; top: 0; width: 100%; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; background: var(--glass-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 100; border-bottom: 1px solid rgba(212, 175, 55, 0.15); }
         .logo { font-size: 26px; font-weight: 800; letter-spacing: 2px; color: var(--primary-gold); text-decoration: none; text-shadow: 0 2px 10px rgba(212,175,55,0.3); }
         .nav-links { display: flex; align-items: center; gap: 20px; }
@@ -19,6 +22,7 @@
         .btn-premium { background: linear-gradient(135deg, #d4af37 0%, #b58500 100%); color: #fff !important; padding: 10px 24px; border-radius: 30px; font-weight: 700; font-size: 15px; border: 1px solid #d4af37; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
         .btn-premium:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.7); background: linear-gradient(135deg, #f3e5ab 0%, #d4af37 100%); color: #000 !important; }
 
+        /* --- KARŞILAMA EKRANI --- */
         .hero { height: 45vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle at center, #1a1a1f 0%, #0a0a0c 100%); padding: 0 20px; margin-top: 60px; }
         .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 300; margin-bottom: 20px; letter-spacing: 1px; }
         .hero h1 span { color: var(--primary-gold); font-weight: 600; }
@@ -26,20 +30,23 @@
         .search-box input { flex: 1; background: transparent; border: none; color: white; padding: 12px 20px; font-size: 16px; outline: none; }
         .search-box input::placeholder { color: var(--text-muted); }
 
+        /* --- HİKAYELER (STORIES) --- */
         .stories-wrapper { padding: 30px 5% 10px; display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .stories-wrapper::-webkit-scrollbar { display: none; }
         .story-item { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; flex-shrink: 0; }
         .story-ring { width: 75px; height: 75px; border-radius: 50%; padding: 3px; background: linear-gradient(45deg, #d4af37, #aa8529, #f3e5ab); display: flex; justify-content: center; align-items: center; transition: transform 0.3s ease; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2); }
         .story-ring:hover { transform: scale(1.08); }
         .story-img { width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--bg-dark); background-size: cover; background-position: center; }
-        .story-name { font-size: 12px; color: var(--text-light); }
+        .story-name { font-size: 12px; color: var(--text-light); max-width: 75px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .story-ring.add-story { background: var(--surface); border: 1px dashed rgba(255,255,255,0.3); box-shadow: none; }
 
+        /* --- KATEGORİLER --- */
         .categories { display: flex; justify-content: center; gap: 10px; padding: 20px 5%; overflow-x: auto; white-space: nowrap; margin-bottom: 20px; }
         .categories::-webkit-scrollbar { display: none; }
         .category-btn { background: var(--surface); border: 1px solid rgba(255,255,255,0.05); color: var(--text-light); padding: 10px 20px; border-radius: 30px; font-size: 14px; cursor: pointer; transition: all 0.3s ease; }
         .category-btn:hover, .category-btn.active { background: rgba(212, 175, 55, 0.1); border-color: var(--primary-gold); color: var(--primary-gold); }
 
+        /* --- VİTRİN VE KARTLAR --- */
         .showcase { padding: 0 5% 50px; }
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
         .section-title { font-size: 1.5rem; font-weight: 300; display: flex; align-items: center; gap: 10px; }
@@ -61,7 +68,12 @@
         .card.normal:hover { transform: translateY(-8px); border-color: rgba(255, 255, 255, 0.2); box-shadow: 0 15px 35px rgba(0,0,0,0.6); }
         .badge.normal-badge { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); color: #fff; padding: 5px 10px; border-radius: 8px; font-size: 11px; border: 1px solid rgba(255,255,255,0.1); }
 
-        /* --- MODALLAR --- */
+        .loader-container { display: none; justify-content: center; padding: 30px 0 60px 0; }
+        .loader-container.active { display: flex; }
+        .spinner { width: 35px; height: 35px; border: 3px solid rgba(212, 175, 55, 0.2); border-top: 3px solid var(--primary-gold); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* --- MODALLAR (AÇILIR PENCERE) GENEL --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1000; padding: 15px; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: none; color: white; font-size: 20px; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; transition: 0.3s; z-index: 10; display: flex; align-items: center; justify-content: center; }
@@ -71,6 +83,7 @@
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 15px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; outline: none; transition: border 0.3s; font-family: inherit; }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary-gold); }
 
+        /* 1) GİRİŞ/KAYIT MODALI */
         .auth-box { background: var(--surface); border: 1px solid rgba(212, 175, 55, 0.3); padding: 30px; border-radius: 20px; width: 100%; max-width: 400px; position: relative; transform: scale(0.95); transition: all 0.3s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
         .modal-overlay.active .auth-box { transform: scale(1); }
         .auth-tabs { display: flex; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); }
@@ -81,6 +94,7 @@
         .auth-form.active { display: block; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* 2) İLAN DETAY MODALI (GALERİLİ & KAYDIRMALI) */
         .detail-box { background: rgba(26, 26, 31, 0.85); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 20px; width: 100%; max-width: 1000px; max-height: 90vh; display: flex; overflow: hidden; transform: scale(0.95); transition: all 0.4s ease; position: relative; }
         .modal-overlay.active .detail-box { transform: scale(1); }
         .detail-left { flex: 1.2; display: flex; flex-direction: column; background: #000; border-right: 1px solid rgba(255,255,255,0.05); position: relative; }
@@ -101,6 +115,7 @@
         .btn-follow:hover { border-color: var(--primary-gold); color: var(--primary-gold); }
         .btn-follow.following { background: var(--primary-gold); color: #000; border-color: var(--primary-gold); }
 
+        /* 3) YENİ İLAN VER MODALI */
         .add-box { background: var(--surface); border: 1px solid rgba(212, 175, 55, 0.3); padding: 30px; border-radius: 20px; width: 100%; max-width: 700px; position: relative; transform: scale(0.95); transition: all 0.3s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.8); max-height: 90vh; overflow-y: auto; text-align: left; }
         .modal-overlay.active .add-box { transform: scale(1); }
         .add-box h2 { font-weight: 300; margin-bottom: 20px; color: var(--primary-gold); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
@@ -129,12 +144,21 @@
     <div class="stories-wrapper">
         <div class="story-item"><div class="story-ring add-story"><div class="story-img" style="background-color: #2a2a30; display:flex; justify-content:center; align-items:center; font-size: 24px; color: var(--text-muted);">+</div></div><span class="story-name">Hikaye Ekle</span></div>
         <div class="story-item" onclick="window.location.href='profil.html'"><div class="story-ring"><div class="story-img" style="background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=150&q=80');"></div></div><span class="story-name">Çağatay Motors</span></div>
+        <div class="story-item"><div class="story-ring"><div class="story-img" style="background-image: url('https://images.unsplash.com/photo-1548171915-e79a380a2a4b?w=150&q=80');"></div></div><span class="story-name">Lüks Saat Mrk.</span></div>
+        <div class="story-item"><div class="story-ring"><div class="story-img" style="background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=150&q=80');"></div></div><span class="story-name">Swinder Emlak</span></div>
+    </div>
+
+    <div class="categories">
+        <button class="category-btn active">🚗 Araçlar</button>
+        <button class="category-btn">🏠 Emlak</button>
+        <button class="category-btn">⌚ Saat</button>
+        <button class="category-btn">🛥️ Tekne</button>
     </div>
 
     <section class="showcase">
         <div class="section-header"><h2 class="section-title gold">✨ Swinder Premium Vitrin</h2></div>
         <div class="grid">
-            <div class="card premium" onclick="openDetailModal('BMW 420i Cabrio M Sport', '3.250.000 TL', '2022', '15.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?auto=format&fit=crop&w=800&q=80', 'Çağatay Motors')">
+            <div class="card premium" onclick="openDetailModal('BMW 420i Cabrio M Sport', '3.250.000 TL', '2022', '15.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?auto=format&fit=crop&w=800&q=80,https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&w=800&q=80,https://images.unsplash.com/photo-1610647752706-3bb12232b3ab?auto=format&fit=crop&w=800&q=80', 'Çağatay Motors')">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?auto=format&fit=crop&w=800&q=80');"><span class="badge premium-badge">PREMIUM</span></div>
                 <div class="card-content"><h3 class="card-title">BMW 420i Cabrio M Sport</h3><div class="card-price">3.250.000 TL</div><div class="card-details"><span>2022</span><span>Çağatay Motors</span></div></div>
             </div>
@@ -152,6 +176,8 @@
             <div style="grid-column: span 4; text-align: center; color: var(--text-muted); padding: 40px;">İlanlar yükleniyor...</div>
         </div>
     </section>
+
+    <div class="loader-container" id="loader"><div class="spinner"></div></div>
 
     <div class="modal-overlay" id="authModal">
         <div class="auth-box">
@@ -190,7 +216,7 @@
                 <div class="seller-card">
                     <h4 style="color: var(--primary-gold); margin-bottom: 10px; font-size: 13px; text-transform: uppercase;">Satıcı Bilgileri</h4>
                     <div class="seller-header">
-                        <div><p style="font-weight: bold; font-size: 16px; margin-bottom: 3px;" id="modalSeller">-</p></div>
+                        <div><p style="font-weight: bold; font-size: 16px; margin-bottom: 3px;" id="modalSeller">-</p><span style="font-size: 12px; color: var(--text-muted);" id="modalFollowers">24.5 B Takipçi</span></div>
                         <button class="btn-follow" onclick="toggleFollow(this)">Takip Et</button>
                     </div>
                 </div>
@@ -207,16 +233,13 @@
                     <div class="form-group"><label>Kategori</label><select id="add-category"><option>Premium Araçlar</option><option>Lüks Emlak</option></select></div>
                     <div class="form-group"><label>Fiyat (TL)</label><input type="text" id="add-price" placeholder="Örn: 3.250.000 TL"></div>
                     <div class="form-group" style="grid-column: span 2;"><label>İlan Başlığı</label><input type="text" id="add-title" placeholder="Örn: Hatasız BMW 420i Cabrio M Sport"></div>
-                    
                     <div class="form-group"><label>Yıl / Durum</label><input type="text" id="add-year" placeholder="Örn: 2022"></div>
                     <div class="form-group"><label>KM / Alan</label><input type="text" id="add-km" placeholder="Örn: 15.000 km"></div>
                     <div class="form-group"><label>Yakıt / Isıtma</label><input type="text" id="add-fuel" placeholder="Örn: Benzin"></div>
                     <div class="form-group"><label>Vites / Özellik</label><input type="text" id="add-gear" placeholder="Örn: Otomatik"></div>
-                    
                     <div class="form-group" style="grid-column: span 2;">
                         <label style="color: var(--primary-gold);">Fotoğraf Linkleri (URL)</label>
-                        <textarea id="add-images" rows="2" placeholder="İnternetteki bir görselin adresini kopyalayıp buraya yapıştırın. Birden fazlaysa virgülle ayırın."></textarea>
-                        <span style="font-size: 11px; color: var(--text-muted);">Örn: https://images.unsplash.com/photo-1503376760367...</span>
+                        <textarea id="add-images" rows="2" placeholder="İnternetteki görsel adresini yapıştırın. Birden fazlaysa virgülle ayırın."></textarea>
                     </div>
                 </div>
                 <div style="display: flex; justify-content: flex-end; gap: 15px; margin-top: 20px;">
@@ -227,7 +250,6 @@
         </div>
     </div>
 
-
     <script>
         function closeAuthModal() { document.getElementById('authModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
         function closeDetailModal() { document.getElementById('detailModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
@@ -236,16 +258,18 @@
         window.openAddModal = function() { document.getElementById('addModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
         
         document.querySelectorAll('.modal-overlay').forEach(modal => { modal.addEventListener('click', (e) => { if(e.target === modal) { modal.classList.remove('active'); document.body.style.overflow = 'auto'; }}); });
+        
         function switchAuthTab(tab) {
             document.getElementById('tab-login').classList.remove('active'); document.getElementById('tab-register').classList.remove('active'); document.getElementById('tab-' + tab).classList.add('active');
             document.getElementById('form-login').classList.remove('active'); document.getElementById('form-register').classList.remove('active'); document.getElementById('form-' + tab).classList.add('active');
         }
+        
         window.toggleFollow = function(btn) {
             if (btn.classList.contains('following')) { btn.classList.remove('following'); btn.innerText = "Takip Et"; } 
             else { btn.classList.add('following'); btn.innerText = "Takip Ediliyor"; }
         }
 
-        // Galeri ve Swipe
+        // İlan Detay, Galeri ve Swipe İşlemleri
         const detailModal = document.getElementById('detailModal');
         const mainImgDiv = document.getElementById('modalMainImg');
         const thumbContainer = document.getElementById('modalThumbnails');
@@ -257,8 +281,10 @@
             document.getElementById('modalFuel').innerText = fuel; document.getElementById('modalGear').innerText = gear;
             document.getElementById('modalSeller').innerText = seller;
 
-            currentGalleryImages = imgUrls.split(','); currentImageIndex = 0;
-            updateGalleryUI(); 
+            document.getElementById('modalFollowers').innerText = ((Math.random() * 50) + 1).toFixed(1) + " B Takipçi";
+            const followBtn = document.querySelector('.btn-follow'); followBtn.classList.remove('following'); followBtn.innerText = "Takip Et";
+
+            currentGalleryImages = imgUrls.split(','); currentImageIndex = 0; updateGalleryUI(); 
             detailModal.classList.add('active'); document.body.style.overflow = 'hidden';
         }
 
@@ -290,9 +316,8 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-        // Senin Bilgilerin
         const firebaseConfig = {
             apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0",
             authDomain: "swinder-79534.firebaseapp.com",
@@ -306,7 +331,7 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // --- AUTH: GİRİŞ VE KAYIT ---
+        // --- AUTH: KAYIT VE GİRİŞ ---
         document.getElementById('btn-register').addEventListener('click', async () => {
             const name = document.getElementById('reg-name').value;
             const email = document.getElementById('reg-email').value;
@@ -324,96 +349,71 @@
             const password = document.getElementById('login-pass').value;
             if(!email || !password) return alert("Bilgileri girin!");
             try { await signInWithEmailAndPassword(auth, email, password); closeAuthModal(); } 
-            catch (err) { alert("Hata: " + err.message); }
+            catch (err) { alert("Giriş başarısız."); }
         });
 
+        // --- OTURUM KONTROLÜ (Tıklanabilir Profil Linki Eklendi) ---
         onAuthStateChanged(auth, (user) => {
             const navLinks = document.getElementById('main-nav-links');
             if (user) {
-                navLinks.innerHTML = `<span style="color: var(--primary-gold); font-weight: 600; margin-right: 15px;">${user.displayName}</span><button class="text-btn" id="btn-logout" style="color: #ff4757;">Çıkış Yap</button><button class="btn-premium" onclick="window.openAddModal()">+ İlan Ver</button>`;
+                // KULLANICI GİRİŞ YAPTIYSA PROFILIM YAZISI ÇIKAR
+                navLinks.innerHTML = `
+                    <a href="profil.html" style="color: var(--primary-gold); font-weight: 600; font-size: 15px; margin-right: 15px; text-decoration: none; cursor: pointer;">👤 Profilim (${user.displayName})</a>
+                    <button class="text-btn" id="btn-logout" style="color: #ff4757;">Çıkış Yap</button>
+                    <button class="btn-premium" onclick="window.openAddModal()">+ İlan Ver</button>
+                `;
                 document.getElementById('btn-logout').addEventListener('click', () => { signOut(auth); });
             } else {
                 navLinks.innerHTML = `<button class="text-btn" onclick="window.openAuthModal('login')">Giriş Yap</button><button class="text-btn" onclick="window.openAuthModal('register')">Kayıt Ol</button><button class="btn-premium" onclick="window.openAddModal()">+ İlan Ver</button>`;
             }
         });
 
-        // --- FIRESTORE: İLAN EKLEME (URL HACK İLE) ---
+        // --- FIRESTORE: İLAN EKLEME VE ÇEKME ---
         document.getElementById('btn-submit-listing').addEventListener('click', async () => {
             const user = auth.currentUser;
-            if (!user) { alert("İlan vermek için giriş yapmalısınız!"); window.openAuthModal('login'); return; }
+            if (!user) { alert("İlan vermek için giriş yapın!"); window.openAuthModal('login'); return; }
 
             const title = document.getElementById('add-title').value;
             const price = document.getElementById('add-price').value;
-            const year = document.getElementById('add-year').value || "-";
-            const km = document.getElementById('add-km').value || "-";
-            const fuel = document.getElementById('add-fuel').value || "-";
-            const gear = document.getElementById('add-gear').value || "-";
-            
-            // Eğer resim linki girilmezse çok şık bir siyah Porsche resmi varsayılan olarak atanır
-            let images = document.getElementById('add-images').value;
-            if (!images) { images = "https://images.unsplash.com/photo-1503376760367-112cb1bf2363?w=800&q=80"; }
+            let images = document.getElementById('add-images').value || "https://images.unsplash.com/photo-1503376760367-112cb1bf2363?w=800&q=80";
 
             if (!title || !price) { alert("Başlık ve fiyat zorunludur!"); return; }
-
-            const btn = document.getElementById('btn-submit-listing');
-            btn.innerText = "Yayına Alınıyor...";
+            document.getElementById('btn-submit-listing').innerText = "Yükleniyor...";
 
             try {
-                // Veritabanına Yaz
                 await addDoc(collection(db, "ilanlar"), {
-                    title: title, price: price, year: year, km: km, fuel: fuel, gear: gear, images: images, 
-                    seller: user.displayName || "Swinder Kullanıcısı",
-                    createdAt: new Date()
+                    title: title, price: price, 
+                    year: document.getElementById('add-year').value || "-", 
+                    km: document.getElementById('add-km').value || "-", 
+                    fuel: document.getElementById('add-fuel').value || "-", 
+                    gear: document.getElementById('add-gear').value || "-", 
+                    images: images, seller: user.displayName || "Swinder Üyesi"
                 });
-                
-                alert("Tebrikler! İlanın yayına alındı.");
-                closeAddModal();
-                loadListings(); // İlanları anında yenile!
-            } catch (error) {
-                alert("İlan yüklenemedi: " + error.message);
-            } finally {
-                btn.innerText = "İlanı Yayına Al";
-            }
+                alert("İlan yayına alındı!"); closeAddModal(); loadListings();
+            } catch (err) { alert("Hata: " + err.message); }
+            finally { document.getElementById('btn-submit-listing').innerText = "İlanı Yayına Al"; }
         });
 
-        // --- FIRESTORE: İLANLARI EKRANA ÇEKME ---
         async function loadListings() {
             const grid = document.getElementById('dynamic-ilanlar');
-            grid.innerHTML = '<div style="grid-column: span 4; text-align: center; color: var(--primary-gold);">Veritabanına bağlanılıyor...</div>';
-
             try {
-                const querySnapshot = await getDocs(collection(db, "ilanlar"));
+                const snapshot = await getDocs(collection(db, "ilanlar"));
                 grid.innerHTML = ''; 
-                
-                if (querySnapshot.empty) {
-                    grid.innerHTML = '<div style="grid-column: span 4; text-align: center; color: var(--text-muted); padding: 50px;">Henüz hiç ilan yok. Sağ üstten ilk ilanı sen ver!</div>';
-                    return;
-                }
+                if (snapshot.empty) { grid.innerHTML = '<div style="grid-column: span 4; text-align: center; color: var(--text-muted); padding: 50px;">İlk ilanı sen ver!</div>'; return; }
 
-                // Veritabanındaki her bir ilanı (document) HTML karta çevir
-                querySnapshot.forEach((doc) => {
+                snapshot.forEach((doc) => {
                     const data = doc.data();
-                    const firstImg = data.images.split(',')[0].trim(); // İlk resmi vitrin fotosu yap
-                    
-                    const cardHTML = `
+                    const firstImg = data.images.split(',')[0].trim();
+                    grid.insertAdjacentHTML('beforeend', `
                     <div class="card normal" onclick="window.openDetailModal('${data.title}', '${data.price}', '${data.year}', '${data.km}', '${data.fuel}', '${data.gear}', '${data.images}', '${data.seller}')">
                         <div class="card-img" style="background-image: url('${firstImg}');"><span class="badge normal-badge">Yeni</span></div>
-                        <div class="card-content">
-                            <h3 class="card-title">${data.title}</h3>
-                            <div class="card-price">${data.price}</div>
-                            <div class="card-details"><span>${data.year}</span><span>${data.km}</span></div>
-                        </div>
-                    </div>`;
-                    grid.insertAdjacentHTML('beforeend', cardHTML);
+                        <div class="card-content"><h3 class="card-title">${data.title}</h3><div class="card-price">${data.price}</div><div class="card-details"><span>${data.year}</span><span>${data.km}</span></div></div>
+                    </div>`);
                 });
-            } catch (error) {
-                grid.innerHTML = `<div style="grid-column: span 4; text-align: center; color: red;">Veritabanından ilanlar çekilemedi. Test Modunu açtığından emin ol! Hata: ${error.message}</div>`;
-            }
+            } catch (err) { grid.innerHTML = '<div style="grid-column: span 4; text-align: center; color: red;">Veri çekilemedi!</div>'; }
         }
         
-        // Sayfa açıldığında ilanları yükle
         loadListings();
-
     </script>
 </body>
 </html>
