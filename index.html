@@ -8,12 +8,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" />
 
     <style>
-        /* --- TEMEL AYARLAR --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         :root { --bg-dark: #0a0a0c; --surface: #1a1a1f; --primary-gold: #d4af37; --gold-hover: #f3e5ab; --text-light: #f5f5f7; --text-muted: #8e8e93; --glass-bg: rgba(26, 26, 31, 0.75); }
         body { background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; }
 
-        /* --- AKILLI ÜST MENÜ --- */
         header { position: fixed; top: 0; width: 100%; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; background: var(--glass-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 100; border-bottom: 1px solid rgba(212, 175, 55, 0.15); transition: transform 0.4s ease-in-out; }
         header.header-hidden { transform: translateY(-100%); }
         .logo { font-size: 22px; font-weight: 800; letter-spacing: 2px; color: var(--primary-gold); text-decoration: none; text-shadow: 0 2px 10px rgba(212,175,55,0.3); }
@@ -23,7 +21,6 @@
         .btn-premium { background: linear-gradient(135deg, #d4af37 0%, #b58500 100%); color: #fff !important; padding: 10px 20px; border-radius: 30px; font-weight: 700; font-size: 14px; border: 1px solid #d4af37; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); display: flex; align-items: center; gap: 5px;}
         .btn-premium:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6); background: linear-gradient(135deg, #f3e5ab 0%, #d4af37 100%); color: #000 !important; }
 
-        /* --- HİKAYELER --- */
         .stories-wrapper { margin-top: 80px; padding: 20px 5% 10px; display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .stories-wrapper::-webkit-scrollbar { display: none; }
         .story-item { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; flex-shrink: 0; }
@@ -33,13 +30,11 @@
         .story-name { font-size: 12px; color: var(--text-light); }
         .story-ring.add-story { background: var(--surface); border: 1px dashed rgba(255,255,255,0.3); color: var(--text-muted); }
 
-        /* --- KATEGORİLER --- */
         .categories { display: flex; justify-content: center; gap: 10px; padding: 20px 5%; overflow-x: auto; white-space: nowrap; margin-bottom: 10px; }
         .categories::-webkit-scrollbar { display: none; }
         .category-btn { background: var(--surface); border: 1px solid rgba(255,255,255,0.05); color: var(--text-light); padding: 8px 18px; border-radius: 30px; font-size: 13px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 6px; }
         .category-btn.active { background: rgba(212, 175, 55, 0.1); border-color: var(--primary-gold); color: var(--primary-gold); }
 
-        /* --- VİTRİN VE KARTLAR --- */
         .showcase { padding: 0 5% 50px; }
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 10px; }
         .section-title { font-size: 1.3rem; font-weight: 300; display: flex; align-items: center; gap: 10px; color: var(--text-light);}
@@ -59,40 +54,30 @@
         .card-price { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; color: var(--primary-gold);}
         .card-details { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; }
         
-        /* 🔥 YENİ: MIDNIGHT NEON AURA EFEKTİ 🔥 */
-        .card.premium { 
-            border: 1px solid rgba(212, 175, 55, 0.5); 
-            transform: scale(1.02); 
-            /* Nefes alan altın neon efekti */
-            animation: midnightGlow 3s infinite alternate; 
-        }
+        /* MIDNIGHT NEON AURA EFEKTİ */
+        .card.premium { border: 1px solid rgba(212, 175, 55, 0.5); transform: scale(1.02); animation: midnightGlow 3s infinite alternate; }
         @keyframes midnightGlow {
             0% { box-shadow: 0 0 10px rgba(212, 175, 55, 0.1), inset 0 0 10px rgba(212, 175, 55, 0.05); border-color: rgba(212, 175, 55, 0.3); }
             100% { box-shadow: 0 0 30px rgba(212, 175, 55, 0.5), inset 0 0 15px rgba(212, 175, 55, 0.1); border-color: rgba(212, 175, 55, 0.8); }
         }
-        .card.premium:hover { 
-            transform: scale(1.04) translateY(-5px); 
-            animation: none; /* Hover anında nefes almayı durdur, tam parlat */
-            box-shadow: 0 15px 50px rgba(212, 175, 55, 0.8), 0 0 30px rgba(212, 175, 55, 0.5); 
-            border-color: #f3e5ab; 
-        }
+        .card.premium:hover { transform: scale(1.04) translateY(-5px); animation: none; box-shadow: 0 15px 50px rgba(212, 175, 55, 0.8), 0 0 30px rgba(212, 175, 55, 0.5); border-color: #f3e5ab; }
         .card.premium .card-price { color: var(--primary-gold); text-shadow: 0 0 10px rgba(212,175,55,0.4); }
         
         .badge.premium-badge { position: absolute; top: 10px; left: 10px; background: linear-gradient(135deg, #d4af37, #aa8529); color: #000; padding: 4px 10px; border-radius: 12px; font-size: 10px; font-weight: 800; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);}
         .badge.normal-badge { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); color: #fff; padding: 4px 8px; border-radius: 8px; font-size: 10px; border: 1px solid rgba(255,255,255,0.1); }
         .gold-tick { display: inline-flex; justify-content: center; align-items: center; width: 14px; height: 14px; background: var(--primary-gold); border-radius: 50%; color: #000; font-size: 10px; font-weight: bold; margin-left: 4px;}
 
-        /* --- MODALLAR --- */
+        /* MODALLAR */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1000; padding: 15px; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: none; color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; transition: 0.3s; z-index: 10; display: flex; align-items: center; justify-content: center; }
         .close-btn:hover { background: var(--primary-gold); color: #000; }
+        
         .form-group { margin-bottom: 15px; text-align: left; }
         .form-group label { display: block; margin-bottom: 5px; color: var(--text-muted); font-size: 13px; }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 15px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; outline: none; transition: border 0.3s; font-family: inherit; }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary-gold); }
 
-        /* GİRİŞ MODALI */
         .auth-box { background: var(--surface); border: 1px solid rgba(212, 175, 55, 0.3); padding: 30px; border-radius: 20px; width: 100%; max-width: 400px; position: relative; transform: scale(0.95); transition: all 0.3s ease; }
         .modal-overlay.active .auth-box { transform: scale(1); }
         .auth-tabs { display: flex; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); }
@@ -102,7 +87,15 @@
         .auth-form { display: none; }
         .auth-form.active { display: block; }
 
-        /* İLAN DETAY & DİĞER MODALLAR MASAÜSTÜ */
+        .story-view-box { background: #000; width: 100%; max-width: 450px; height: 85vh; border-radius: 20px; position: relative; overflow: hidden; transform: scale(0.95); transition: 0.3s ease; display: flex; flex-direction: column; }
+        .modal-overlay.active .story-view-box { transform: scale(1); }
+        .story-view-img { width: 100%; flex: 1; background-size: cover; background-position: center; }
+        .story-view-header { position: absolute; top: 0; left: 0; width: 100%; padding: 20px 20px 40px 20px; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); display: flex; align-items: center; gap: 12px; z-index: 2; }
+        .story-view-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center; }
+        .story-view-username { color: #fff; font-weight: 600; font-size: 15px; }
+        .story-view-close { position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; cursor: pointer; z-index: 5; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; }
+        .btn-delete-story { display: none; position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(255, 71, 87, 0.9); border: none; color: white; padding: 10px 25px; border-radius: 30px; font-weight: 600; cursor: pointer; z-index: 10; font-size: 14px; backdrop-filter: blur(5px); align-items: center; gap: 8px;}
+
         .detail-box, .add-box { background: var(--surface); border: 1px solid rgba(212, 175, 55, 0.3); padding: 30px; border-radius: 20px; width: 100%; max-width: 1000px; max-height: 90vh; display: flex; overflow: hidden; transform: scale(0.95); transition: all 0.4s ease; position: relative; }
         .add-box { max-width: 700px; flex-direction: column; overflow-y: auto; text-align: left; }
         .modal-overlay.active .detail-box, .modal-overlay.active .add-box { transform: scale(1); }
@@ -120,23 +113,11 @@
         .seller-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .btn-follow { background: transparent; color: var(--text-light); border: 1px solid rgba(255,255,255,0.3); padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s; }
         .btn-delete-listing { display: none; background: rgba(255, 71, 87, 0.1); border: 1px solid #ff4757; color: #ff4757; padding: 8px 15px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-top: 15px; width: 100%; align-items: center; justify-content: center; gap: 8px;}
-        
-        /* HİKAYE İZLEME MODALI */
-        .story-view-box { background: #000; width: 100%; max-width: 450px; height: 85vh; border-radius: 20px; position: relative; overflow: hidden; transform: scale(0.95); transition: 0.3s ease; display: flex; flex-direction: column; }
-        .modal-overlay.active .story-view-box { transform: scale(1); }
-        .story-view-img { width: 100%; flex: 1; background-size: cover; background-position: center; }
-        .story-view-header { position: absolute; top: 0; left: 0; width: 100%; padding: 20px 20px 40px 20px; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); display: flex; align-items: center; gap: 12px; z-index: 2; }
-        .story-view-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center; }
-        .story-view-username { color: #fff; font-weight: 600; font-size: 15px; }
-        .story-view-close { position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; cursor: pointer; z-index: 5; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; }
-        .btn-delete-story { display: none; position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(255, 71, 87, 0.9); border: none; color: white; padding: 10px 25px; border-radius: 30px; font-weight: 600; cursor: pointer; z-index: 10; font-size: 14px; backdrop-filter: blur(5px); align-items: center; gap: 8px;}
-
-        /* MOBİL ARAMA MODALI */
-        .mobile-search-box { background: var(--surface); width: 100%; border-radius: 25px 25px 0 0; padding: 30px 20px; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.3s ease; }
-        .modal-overlay.active .mobile-search-box { transform: translateY(0); }
         .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
-        /* ================= MOBİL OPTİMİZASYON ================= */
+        .mobile-search-box { background: var(--surface); width: 100%; border-radius: 25px 25px 0 0; padding: 30px 20px; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.3s ease; }
+        .modal-overlay.active .mobile-search-box { transform: translateY(0); }
+
         .bottom-nav { display: none; }
         @media (max-width: 768px) { 
             body { padding-bottom: 70px; } 
@@ -146,7 +127,6 @@
             .stories-wrapper { margin-top: 65px; padding: 15px 15px 5px; }
             #main-nav-links { display: none; } 
 
-            /* INSTAGRAM TARZI ALT MENÜ */
             .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(26, 26, 31, 0.95); backdrop-filter: blur(15px); padding: 10px 10px calc(10px + env(safe-area-inset-bottom)); border-top: 1px solid rgba(255,255,255,0.05); z-index: 999; }
             .nav-icon-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
             .nav-icon-btn .material-symbols-outlined { font-size: 26px; }
@@ -207,30 +187,17 @@
     </div>
 
     <section class="showcase">
-        <div class="section-header"><h2 class="section-title gold">✨ Swinder Premium Vitrin</h2></div>
         
-        <div class="grid">
-            <div class="card premium" onclick="openDetailModal('static1', 'BMW 420i Cabrio M Sport', '3.250.000 TL', '2022', '15.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?auto=format&fit=crop&w=800&q=80', 'Çağatay Motors')">
-                <div class="card-header">
-                    <div class="card-header-avatar"><span class="material-symbols-outlined" style="font-size: 16px;">person</span></div>
-                    <span class="card-header-username">Çağatay Motors <span class="gold-tick">✓</span></span>
-                </div>
-                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?auto=format&fit=crop&w=800&q=80');"><span class="badge premium-badge">PREMIUM</span></div>
-                <div class="card-content"><h3 class="card-title">BMW 420i Cabrio M Sport</h3><div class="card-price">3.250.000 TL</div><div class="card-details"><span>2022</span><span>15.000 km</span></div></div>
-            </div>
-
-            <div class="card premium" onclick="openDetailModal('static2', 'BMW F30 320i M Sport', '1.850.000 TL', '2018', '65.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1556189250-72ba954cfc2b?auto=format&fit=crop&w=800&q=80', 'Çağatay Motors')">
-                <div class="card-header">
-                    <div class="card-header-avatar"><span class="material-symbols-outlined" style="font-size: 16px;">person</span></div>
-                    <span class="card-header-username">Çağatay Motors <span class="gold-tick">✓</span></span>
-                </div>
-                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1556189250-72ba954cfc2b?auto=format&fit=crop&w=800&q=80');"><span class="badge premium-badge">PREMIUM</span></div>
-                <div class="card-content"><h3 class="card-title">BMW F30 320i M Sport</h3><div class="card-price">1.850.000 TL</div><div class="card-details"><span>2018</span><span>65.000 km</span></div></div>
-            </div>
+        <div class="section-header"><h2 class="section-title gold">✨ Swinder Premium Vitrin</h2></div>
+        <div class="grid" id="premium-ilanlar">
+            <div style="grid-column: span 4; text-align: center; color: var(--primary-gold); padding: 40px;">Yükleniyor...</div>
         </div>
 
         <div class="section-header" style="margin-top: 40px;"><h2 class="section-title" style="color: var(--text-light);">Güncel İlanlar <span style="font-size: 14px; color: var(--primary-gold);">(Canlı)</span></h2></div>
-        <div class="grid" id="dynamic-ilanlar"><div style="grid-column: span 4; text-align: center; color: var(--text-muted); padding: 40px;">İlanlar yükleniyor...</div></div>
+        <div class="grid" id="dynamic-ilanlar">
+            <div style="grid-column: span 4; text-align: center; color: var(--text-muted); padding: 40px;">Yükleniyor...</div>
+        </div>
+
     </section>
 
     <nav class="bottom-nav">
@@ -253,13 +220,11 @@
         <div class="auth-box">
             <button class="close-btn" onclick="closeAuthModal()" style="z-index: 20;"><span class="material-symbols-outlined">close</span></button>
             <div class="auth-tabs"><button class="tab-btn active" id="tab-login" onclick="switchAuthTab('login')">Giriş Yap</button><button class="tab-btn" id="tab-register" onclick="switchAuthTab('register')">Kayıt Ol</button></div>
-            
             <div class="auth-form active" id="form-login">
                 <div class="form-group"><input type="email" id="login-email" placeholder="E-posta Adresi"></div>
                 <div class="form-group"><input type="password" id="login-pass" placeholder="Şifre"></div>
                 <button class="btn-premium" id="btn-login" style="width: 100%; border-radius: 10px; justify-content: center;">Giriş Yap</button>
             </div>
-            
             <div class="auth-form" id="form-register">
                 <div class="form-group"><input type="text" id="reg-name" placeholder="Mağaza veya Ad Soyad"></div>
                 <div class="form-group"><input type="email" id="reg-email" placeholder="E-posta Adresi"></div>
@@ -361,7 +326,6 @@
         window.openAddStoryModal = function() { document.getElementById('addStoryModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
         window.closeAddStoryModal = function() { document.getElementById('addStoryModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
         window.closeViewStoryModal = function() { document.getElementById('viewStoryModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
-
         document.querySelectorAll('.modal-overlay').forEach(modal => { modal.addEventListener('click', (e) => { if(e.target === modal) { modal.classList.remove('active'); document.body.style.overflow = 'auto'; }}); });
         
         function switchAuthTab(tab) {
@@ -425,25 +389,15 @@
         let activeListingId = null;
         let activeStoryId = null;
 
-        // --- AUTH: GİRİŞ VE KAYIT SİSTEMİ (ONARILDI) ---
+        // GİRİŞ İŞLEMLERİ
         document.getElementById('btn-login').addEventListener('click', async () => {
             const email = document.getElementById('login-email').value.trim();
             const password = document.getElementById('login-pass').value;
             const btn = document.getElementById('btn-login');
-            
-            if(!email || !password) return alert("Lütfen e-posta ve şifrenizi girin!");
-            
+            if(!email || !password) return alert("Bilgileri girin!");
             btn.innerText = "Giriş Yapılıyor...";
-            
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-                alert("Başarıyla giriş yapıldı!");
-                closeAuthModal();
-                window.location.reload(); // Sayfayı yenileyip oturumu başlat
-            } catch (err) { 
-                alert("Giriş başarısız! Bilgilerinizi kontrol edin. Hata: " + err.message); 
-                btn.innerHTML = 'Giriş Yap';
-            }
+            try { await signInWithEmailAndPassword(auth, email, password); window.location.reload(); } 
+            catch (err) { alert("Hata: " + err.message); btn.innerText = "Giriş Yap"; }
         });
 
         document.getElementById('btn-register').addEventListener('click', async () => {
@@ -451,41 +405,30 @@
             const email = document.getElementById('reg-email').value.trim();
             const password = document.getElementById('reg-pass').value;
             const btn = document.getElementById('btn-register');
-
             if(!name || !email || !password) return alert("Tüm alanları doldurun!");
             btn.innerText = "Kayıt Yapılıyor...";
-
             try {
                 const userCred = await createUserWithEmailAndPassword(auth, email, password);
                 await updateProfile(userCred.user, { displayName: name });
-                alert("Kayıt başarılı! Hoş geldin " + name); 
-                closeAuthModal(); 
                 window.location.reload();
-            } catch (err) { 
-                alert("Hata: " + err.message); 
-                btn.innerHTML = 'Hesap Oluştur';
-            }
+            } catch (err) { alert("Hata: " + err.message); btn.innerText = "Hesap Oluştur"; }
         });
 
         onAuthStateChanged(auth, (user) => {
             const navLinks = document.getElementById('main-nav-links');
             const mobileProfileBtn = document.getElementById('mobile-profile-btn'); 
-            
             if (user) {
                 navLinks.innerHTML = `<button class="text-btn" onclick="openMobileSearch()"><span class="material-symbols-outlined" style="font-size: 20px;">search</span> Keşfet</button><a href="profil.html" style="color: var(--primary-gold); font-weight: 600; font-size: 14px; margin-left: 10px; margin-right: 15px; text-decoration: none; display: flex; align-items:center; gap:5px;"><span class="material-symbols-outlined" style="font-size: 18px;">person</span> ${user.displayName}</a><button class="text-btn" id="btn-logout" style="color: #ff4757;">Çıkış</button><button class="btn-premium" onclick="openAddModal()"><span class="material-symbols-outlined" style="font-size: 18px;">add</span> İlan Ver</button>`;
                 document.getElementById('btn-logout').addEventListener('click', () => { signOut(auth).then(() => window.location.reload()); });
-                
                 mobileProfileBtn.onclick = function() { window.location.href = "profil.html"; };
                 mobileProfileBtn.style.color = "var(--primary-gold)";
             } else {
                 navLinks.innerHTML = `<button class="text-btn" onclick="openMobileSearch()"><span class="material-symbols-outlined" style="font-size: 20px;">search</span> Keşfet</button><button class="text-btn" onclick="openAuthModal('login')">Giriş Yap</button><button class="text-btn" onclick="openAuthModal('register')">Kayıt Ol</button><button class="btn-premium" onclick="openAddModal()"><span class="material-symbols-outlined" style="font-size: 18px;">add</span> İlan Ver</button>`;
-                
                 mobileProfileBtn.onclick = function() { window.openAuthModal('login'); };
                 mobileProfileBtn.style.color = "var(--text-muted)";
             }
         });
 
-        // --- İLAN FONKSİYONLARI ---
         window.openDetailModal = function(id, title, price, year, km, fuel, gear, imgUrls, seller) {
             document.getElementById('modalTitle').innerText = title; document.getElementById('modalPrice').innerText = price;
             document.getElementById('modalYear').innerText = year; document.getElementById('modalKm').innerText = km;
@@ -514,54 +457,69 @@
             }
         });
 
-        window.openViewStoryModal = function(id, imgUrl, username, avatarUrl) {
-            document.getElementById('view-story-img').style.backgroundImage = `url('${imgUrl}')`;
-            document.getElementById('view-story-username').innerText = username;
-            document.getElementById('view-story-avatar').style.backgroundImage = `url('${avatarUrl || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100&q=80"}')`;
-            
-            const btnDeleteStory = document.getElementById('btn-delete-story');
-            if(auth.currentUser && auth.currentUser.displayName === username) {
-                btnDeleteStory.style.display = 'flex'; activeStoryId = id;
-            } else { btnDeleteStory.style.display = 'none'; activeStoryId = null; }
-
-            document.getElementById('viewStoryModal').classList.add('active'); document.body.style.overflow = 'hidden';
-        }
-
-        document.getElementById('btn-delete-story').addEventListener('click', async () => {
-            if(!activeStoryId) return;
-            if(confirm("Hikayeni silmek istediğine emin misin?")) {
-                try {
-                    document.getElementById('btn-delete-story').innerText = "Siliniyor...";
-                    await deleteDoc(doc(db, "hikayeler", activeStoryId));
-                    closeViewStoryModal(); loadStories();
-                } catch (error) { alert("Hata: " + error.message); }
-                finally { document.getElementById('btn-delete-story').innerHTML = '<span class="material-symbols-outlined" style="font-size: 18px;">delete</span> Hikayeyi Sil'; }
-            }
-        });
-
+        // 🔥 DİNAMİK İLAN ÇEKME VE PREMİUM AYRIŞTIRMA 🔥
         async function loadListings() {
-            const grid = document.getElementById('dynamic-ilanlar');
+            const premiumGrid = document.getElementById('premium-ilanlar');
+            const normalGrid = document.getElementById('dynamic-ilanlar');
+            
             try {
                 const snapshot = await getDocs(query(collection(db, "ilanlar"), orderBy("createdAt", "desc")));
-                grid.innerHTML = ''; 
-                if (snapshot.empty) { grid.innerHTML = '<div style="grid-column: span 4; text-align: center; color: var(--text-muted); padding: 50px;">İlk ilanı sen ver!</div>'; return; }
+                
+                premiumGrid.innerHTML = ''; 
+                normalGrid.innerHTML = ''; 
+                let premiumCount = 0;
+                let normalCount = 0;
+
+                if (snapshot.empty) { 
+                    normalGrid.innerHTML = '<div style="grid-column: span 4; text-align: center; color: var(--text-muted); padding: 50px;">İlk ilanı sen ver!</div>'; 
+                    premiumGrid.innerHTML = '<div style="grid-column: span 4; text-align: center; color: var(--text-muted); padding: 20px;">Vitrinde şu an araç yok.</div>'; 
+                    return; 
+                }
 
                 snapshot.forEach((doc) => {
                     const data = doc.data();
                     const firstImg = data.images.split(',')[0].trim();
-                    grid.insertAdjacentHTML('beforeend', `
-                    <div class="card normal" onclick="window.openDetailModal('${doc.id}', '${data.title}', '${data.price}', '${data.year}', '${data.km}', '${data.fuel}', '${data.gear}', '${data.images}', '${data.seller}')">
-                        <div class="card-header">
-                            <div class="card-header-avatar"><span class="material-symbols-outlined" style="font-size: 16px;">person</span></div>
-                            <span class="card-header-username">${data.seller}</span>
-                        </div>
-                        <div class="card-img" style="background-image: url('${firstImg}');"><span class="badge normal-badge">Yeni</span></div>
-                        <div class="card-content"><h3 class="card-title">${data.title}</h3><div class="card-price">${data.price}</div><div class="card-details"><span>${data.year}</span><span>${data.km}</span></div></div>
-                    </div>`);
+                    // Satıcı adı Çağatay ise Ana Sayfa'da da altın tik göster!
+                    const goldTick = (data.seller && (data.seller.toLowerCase().includes('çağatay') || data.seller.toLowerCase().includes('cagatay'))) 
+                                     ? '<span class="gold-tick">✓</span>' : '';
+
+                    // EĞER İLAN PREMİUM İSE ÜSTTEKİ VİTRİNE EKLE
+                    if (data.isPremium) {
+                        premiumCount++;
+                        premiumGrid.insertAdjacentHTML('beforeend', `
+                        <div class="card premium" onclick="window.openDetailModal('${doc.id}', '${data.title}', '${data.price}', '${data.year}', '${data.km}', '${data.fuel}', '${data.gear}', '${data.images}', '${data.seller}')">
+                            <div class="card-header">
+                                <div class="card-header-avatar"><span class="material-symbols-outlined" style="font-size: 16px;">person</span></div>
+                                <span class="card-header-username">${data.seller} ${goldTick}</span>
+                            </div>
+                            <div class="card-img" style="background-image: url('${firstImg}');"><span class="badge premium-badge">PREMIUM</span></div>
+                            <div class="card-content"><h3 class="card-title">${data.title}</h3><div class="card-price">${data.price}</div><div class="card-details"><span>${data.year}</span><span>${data.km}</span></div></div>
+                        </div>`);
+                    } 
+                    // DEĞİLSE NORMAL İLANLARA EKLE
+                    else {
+                        normalCount++;
+                        normalGrid.insertAdjacentHTML('beforeend', `
+                        <div class="card normal" onclick="window.openDetailModal('${doc.id}', '${data.title}', '${data.price}', '${data.year}', '${data.km}', '${data.fuel}', '${data.gear}', '${data.images}', '${data.seller}')">
+                            <div class="card-header">
+                                <div class="card-header-avatar"><span class="material-symbols-outlined" style="font-size: 16px;">person</span></div>
+                                <span class="card-header-username">${data.seller} ${goldTick}</span>
+                            </div>
+                            <div class="card-img" style="background-image: url('${firstImg}');"><span class="badge normal-badge">Yeni</span></div>
+                            <div class="card-content"><h3 class="card-title">${data.title}</h3><div class="card-price">${data.price}</div><div class="card-details"><span>${data.year}</span><span>${data.km}</span></div></div>
+                        </div>`);
+                    }
                 });
-            } catch (err) { grid.innerHTML = '<div style="grid-column: span 4; text-align: center; color: red;">Veri çekilemedi!</div>'; }
+
+                if(premiumCount === 0) premiumGrid.innerHTML = '<div style="grid-column: span 4; text-align: center; color: var(--text-muted); padding: 20px;">Vitrinde şu an araç yok.</div>';
+                if(normalCount === 0) normalGrid.innerHTML = '<div style="grid-column: span 4; text-align: center; color: var(--text-muted); padding: 20px;">Güncel ilan bulunmuyor.</div>';
+
+            } catch (err) { 
+                normalGrid.innerHTML = '<div style="grid-column: span 4; text-align: center; color: red;">Veri çekilemedi!</div>'; 
+            }
         }
 
+        // --- HİKAYELER VE İLAN EKLEME (Aynı şekilde çalışıyor) ---
         async function loadStories() {
             const storiesContainer = document.getElementById('stories-container');
             storiesContainer.innerHTML = `<div class="story-item" onclick="openAddStoryModal()"><div class="story-ring add-story"><div class="story-img" style="background-color: #2a2a30; display:flex; justify-content:center; align-items:center; color: var(--text-muted);"><span class="material-symbols-outlined" style="font-size: 28px;">add</span></div></div><span class="story-name">Hikaye Ekle</span></div>`;
@@ -579,6 +537,28 @@
             } catch (error) { console.error("Hikayeler çekilemedi: ", error); }
         }
 
+        window.openViewStoryModal = function(id, imgUrl, username, avatarUrl) {
+            document.getElementById('view-story-img').style.backgroundImage = `url('${imgUrl}')`;
+            document.getElementById('view-story-username').innerText = username;
+            document.getElementById('view-story-avatar').style.backgroundImage = `url('${avatarUrl || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100&q=80"}')`;
+            const btnDeleteStory = document.getElementById('btn-delete-story');
+            if(auth.currentUser && auth.currentUser.displayName === username) { btnDeleteStory.style.display = 'flex'; activeStoryId = id; } 
+            else { btnDeleteStory.style.display = 'none'; activeStoryId = null; }
+            document.getElementById('viewStoryModal').classList.add('active'); document.body.style.overflow = 'hidden';
+        }
+
+        document.getElementById('btn-delete-story').addEventListener('click', async () => {
+            if(!activeStoryId) return;
+            if(confirm("Hikayeni silmek istediğine emin misin?")) {
+                try {
+                    document.getElementById('btn-delete-story').innerText = "Siliniyor...";
+                    await deleteDoc(doc(db, "hikayeler", activeStoryId));
+                    closeViewStoryModal(); loadStories();
+                } catch (error) { alert("Hata: " + error.message); }
+                finally { document.getElementById('btn-delete-story').innerHTML = '<span class="material-symbols-outlined" style="font-size: 18px;">delete</span> Hikayeyi Sil'; }
+            }
+        });
+
         document.getElementById('btn-submit-listing').addEventListener('click', async () => {
             const user = auth.currentUser;
             if (!user) return alert("Giriş yapmalısınız!"); 
@@ -588,9 +568,10 @@
             
             document.getElementById('btn-submit-listing').innerText = "Yükleniyor...";
             try {
-                await addDoc(collection(db, "ilanlar"), { title: title, price: price, year: document.getElementById('add-year').value || "-", km: document.getElementById('add-km').value || "-", fuel: document.getElementById('add-fuel').value || "-", gear: document.getElementById('add-gear').value || "-", images: images, seller: user.displayName, createdAt: new Date() });
+                // isPremium: false varsayılan olarak eklendi
+                await addDoc(collection(db, "ilanlar"), { title: title, price: price, year: document.getElementById('add-year').value || "-", km: document.getElementById('add-km').value || "-", fuel: document.getElementById('add-fuel').value || "-", gear: document.getElementById('add-gear').value || "-", images: images, seller: user.displayName, isPremium: false, createdAt: new Date() });
                 alert("İlan yayına alındı!"); closeAddModal(); loadListings();
-            } catch (err) { alert("Hata: " + err.message); } finally { document.getElementById('btn-submit-listing').innerText = "İlanı Yayına Al"; }
+            } catch (err) { alert("Hata: " + err.message); } finally { document.getElementById('btn-submit-listing').innerHTML = '<span class="material-symbols-outlined" style="font-size: 18px;">add</span> İlanı Yayına Al'; }
         });
 
         document.getElementById('btn-submit-story').addEventListener('click', async () => {
@@ -598,7 +579,6 @@
             if (!user) return alert("Giriş yapmalısınız!"); 
             const imageUrl = document.getElementById('story-img-url').value;
             if (!imageUrl) return alert("Görsel linki girin!");
-            
             document.getElementById('btn-submit-story').innerText = "Yükleniyor...";
             try {
                 await addDoc(collection(db, "hikayeler"), { imageUrl: imageUrl, username: user.displayName, createdAt: new Date() });
