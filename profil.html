@@ -2,8 +2,11 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profilim - Swinder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Profilim & Admin - Swinder</title>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" />
+
     <style>
         /* --- Temel Ayarlar (Premium Karanlık Tema) --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -11,7 +14,7 @@
         body { background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; }
 
         /* --- ÜST MENÜ --- */
-        header { padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212, 175, 55, 0.15); background: var(--bg-dark); }
+        header { padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212, 175, 55, 0.15); background: var(--bg-dark); position: sticky; top: 0; z-index: 100;}
         .logo { font-size: 22px; font-weight: 800; letter-spacing: 2px; color: var(--primary-gold); text-decoration: none; text-shadow: 0 2px 10px rgba(212,175,55,0.2); }
         .back-link { color: var(--text-muted); text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 5px; transition: 0.3s; font-weight: 500; }
         .back-link:hover { color: var(--primary-gold); }
@@ -20,62 +23,83 @@
 
         /* --- Profil Üst Kısım --- */
         .profile-header { display: flex; gap: 60px; margin-bottom: 40px; align-items: center; }
-        
         .profile-avatar-container { flex-shrink: 0; }
         .profile-ring { width: 120px; height: 120px; border-radius: 50%; padding: 3px; background: linear-gradient(45deg, #d4af37, #aa8529, #f3e5ab); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.15); }
         .profile-avatar { width: 100%; height: 100%; border-radius: 50%; border: 4px solid var(--bg-dark); background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=400&q=80'); background-size: cover; background-position: center; transition: 0.3s; }
-
         .profile-info { flex: 1; display: flex; flex-direction: column; gap: 15px; }
-        
         .profile-top-row { display: flex; align-items: center; gap: 15px; flex-wrap: wrap;}
         .profile-username { font-size: 24px; font-weight: 400; color: var(--text-light); letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;}
-        
-        /* ALTIN TİK TASARIMI */
         .gold-tick { display: none; width: 20px; height: 20px; background: var(--primary-gold); border-radius: 50%; text-align: center; line-height: 20px; font-size: 12px; color: #000; font-weight: bold; box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); cursor: help; }
-        
         .btn-edit { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: var(--text-light); padding: 6px 16px; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer; transition: 0.3s; }
         .btn-edit:hover { border-color: var(--primary-gold); color: var(--primary-gold); }
-        
         .profile-stats { display: flex; gap: 40px; }
         .stat-item { font-size: 15px; color: var(--text-light); }
         .stat-item span { font-weight: 600; color: var(--primary-gold); font-size: 16px; margin-right: 4px; }
-        
         .profile-bio { font-size: 14px; line-height: 1.5; color: var(--text-light); }
         .bio-category { color: var(--text-muted); font-size: 13px; margin-bottom: 3px; }
         .bio-link { color: #e0f2fe; text-decoration: none; font-weight: 500; font-size: 13px; margin-top: 5px; display: inline-block; transition: 0.3s;}
-        .bio-link:hover { color: var(--primary-gold); text-decoration: underline; }
 
-        /* --- Sekmeler ve Grid --- */
-        .profile-tabs { display: flex; justify-content: center; border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px;}
-        .tab-item { padding: 15px 20px; color: var(--primary-gold); font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; border-top: 1px solid var(--primary-gold); margin-top: -1px; }
+        /* --- Sekmeler --- */
+        .profile-tabs { display: flex; justify-content: center; border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; gap: 20px;}
+        .tab-item { padding: 15px 20px; color: var(--text-muted); font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: 0.3s; margin-top: -1px; border-top: 1px solid transparent;}
+        .tab-item:hover { color: var(--text-light); }
+        .tab-item.active { color: var(--primary-gold); border-top: 1px solid var(--primary-gold); }
 
+        /* --- Grid --- */
         .profile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
         .grid-item { position: relative; aspect-ratio: 1 / 1; background-size: cover; background-position: center; cursor: pointer; border-radius: 4px; overflow: hidden; transition: 0.3s ease; }
+        .grid-item.is-premium { border: 1px solid var(--primary-gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
         .grid-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: 0.3s ease; backdrop-filter: blur(2px); text-align: center; padding: 10px;}
         .grid-item:hover .grid-overlay { opacity: 1; }
         .overlay-title { color: white; font-size: 14px; margin-bottom: 8px; font-weight: 500;}
         .overlay-price { color: var(--primary-gold); font-size: 16px; font-weight: 700; }
+        .premium-tag { position: absolute; top: 10px; left: 10px; background: var(--primary-gold); color: black; font-size: 10px; font-weight: bold; padding: 2px 8px; border-radius: 10px; }
 
-        /* --- PROFİL DÜZENLE MODALI --- */
+        /* --- MODALLAR --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1000; padding: 15px; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
-        .edit-box { background: var(--surface); border: 1px solid rgba(212, 175, 55, 0.3); padding: 30px; border-radius: 20px; width: 100%; max-width: 500px; position: relative; transform: scale(0.95); transition: all 0.3s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
-        .modal-overlay.active .edit-box { transform: scale(1); }
-        .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: none; color: white; font-size: 20px; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+        .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: none; color: white; font-size: 20px; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; z-index: 20;}
         .close-btn:hover { background: var(--primary-gold); color: #000; }
         
         .form-group { margin-bottom: 15px; text-align: left; }
         .form-group label { display: block; margin-bottom: 5px; color: var(--text-muted); font-size: 13px; }
         .form-group input, .form-group textarea { width: 100%; padding: 12px 15px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; outline: none; transition: border 0.3s; font-family: inherit; }
         .form-group input:focus, .form-group textarea:focus { border-color: var(--primary-gold); }
-        .btn-premium { background: linear-gradient(135deg, #d4af37 0%, #b58500 100%); color: #fff; padding: 10px 24px; border-radius: 10px; font-weight: 700; font-size: 15px; border: none; cursor: pointer; transition: all 0.3s ease; width: 100%; margin-top: 10px;}
-        .btn-premium:hover { box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4); }
+        
+        .btn-premium { background: linear-gradient(135deg, #d4af37 0%, #b58500 100%); color: #fff; padding: 10px 24px; border-radius: 10px; font-weight: 700; font-size: 15px; border: none; cursor: pointer; transition: all 0.3s ease; width: 100%; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px;}
+        .btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px; border-radius: 10px; cursor: pointer; width: 100%; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;}
+        .btn-outline:hover { border-color: white; }
+        .btn-delete { background: rgba(255,71,87,0.1); border: 1px solid #ff4757; color: #ff4757; padding: 10px; border-radius: 10px; cursor: pointer; width: 100%; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;}
+        .btn-delete:hover { background: #ff4757; color: white; }
 
+        /* KUTULAR */
+        .edit-box { background: var(--surface); border: 1px solid rgba(212, 175, 55, 0.3); padding: 30px; border-radius: 20px; width: 100%; max-width: 500px; position: relative; transform: scale(0.95); transition: all 0.3s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.8); max-height: 90vh; overflow-y: auto;}
+        .detail-box { background: var(--surface); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 20px; width: 100%; max-width: 1000px; max-height: 90vh; display: flex; overflow: hidden; transform: scale(0.95); transition: all 0.4s ease; position: relative; }
+        .modal-overlay.active .edit-box, .modal-overlay.active .detail-box { transform: scale(1); }
+        
+        .detail-left { flex: 1.2; display: flex; flex-direction: column; background: #000; border-right: 1px solid rgba(255,255,255,0.05); }
+        .main-photo { flex: 1; background-size: cover; background-position: center; min-height: 350px; }
+        .detail-content { flex: 1; padding: 40px; overflow-y: auto; display: flex; flex-direction: column; text-align: left; }
+        
+        .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+        .spec-item { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; font-size: 14px; }
+        .spec-item span { color: var(--text-muted); display: block; font-size: 12px; }
+
+        .admin-controls { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); margin-top: auto; display: flex; flex-direction: column; gap: 10px;}
+
+        /* Mobil */
         @media (max-width: 768px) {
             .profile-header { gap: 20px; flex-direction: column; text-align: center; }
             .profile-top-row { justify-content: center; }
             .profile-stats { justify-content: center; width: 100%; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 0; }
             .profile-grid { grid-template-columns: repeat(2, 1fr); gap: 5px;}
+            
+            .modal-overlay { padding: 0; align-items: flex-end; }
+            .detail-box, .edit-box { display: block; width: 100%; border-radius: 25px 25px 0 0; max-height: 85vh; transform: translateY(100%); padding: 0; border: none; border-top: 1px solid var(--primary-gold); overflow-y: auto; }
+            .edit-box { padding: 25px 20px; }
+            .modal-overlay.active .detail-box, .modal-overlay.active .edit-box { transform: translateY(0); }
+            .detail-left { height: 300px; min-height: 300px; flex: none; border-radius: 25px 25px 0 0; overflow: hidden; }
+            .detail-content { padding: 20px; overflow-y: visible; }
         }
     </style>
 </head>
@@ -83,42 +107,37 @@
 
     <header>
         <a href="index.html" class="logo">SWINDER</a>
-        <a href="index.html" class="back-link">← Vitrine Dön</a>
+        <a href="index.html" class="back-link"><span class="material-symbols-outlined" style="font-size: 18px;">arrow_back</span> Vitrine Dön</a>
     </header>
 
     <main class="profile-container">
         <header class="profile-header">
             <div class="profile-avatar-container">
-                <div class="profile-ring">
-                    <div class="profile-avatar" id="display-avatar"></div>
-                </div>
+                <div class="profile-ring"><div class="profile-avatar" id="display-avatar"></div></div>
             </div>
-
             <div class="profile-info">
                 <div class="profile-top-row">
                     <h1 class="profile-username">
                         <span id="display-name">Yükleniyor...</span> 
-                        <span class="gold-tick" id="gold-tick" title="Doğrulanmış Premium Satıcı">✓</span>
+                        <span class="gold-tick" id="gold-tick" title="Doğrulanmış Satıcı">✓</span>
                     </h1>
-                    <button class="btn-edit" onclick="openEditModal()">Profili Düzenle</button>
+                    <button class="btn-edit" onclick="openProfileEditModal()">Profili Düzenle</button>
                 </div>
-                
                 <div class="profile-stats">
                     <div class="stat-item"><span id="ad-count">0</span> İlan</div>
-                    <div class="stat-item"><span>1.2B</span> Takipçi</div>
-                    <div class="stat-item"><span>45</span> Takip</div>
+                    <div class="stat-item"><span>2.4B</span> Takipçi</div>
                 </div>
-
                 <div class="profile-bio">
-                    <div class="bio-category">Premium Showroom</div>
-                    <span id="bio-text">Sanal garajın ve yayında olan tüm premium ilanların burada.</span> <br>
+                    <div class="bio-category" id="role-text">Premium Showroom</div>
+                    <span id="bio-text">Lüks araç ve emlak portföyü.</span> <br>
                     <a href="#" id="bio-link" class="bio-link" target="_blank"></a>
                 </div>
             </div>
         </header>
 
         <div class="profile-tabs">
-            <div class="tab-item">▦ Aktif İlanlar</div>
+            <div class="tab-item active" id="tab-my" onclick="switchTab('my')"><span class="material-symbols-outlined" style="font-size: 16px; vertical-align: text-bottom;">grid_view</span> İlanlarım</div>
+            <div class="tab-item" id="tab-admin" style="display: none;" onclick="switchTab('all')"><span class="material-symbols-outlined" style="font-size: 16px; vertical-align: text-bottom;">admin_panel_settings</span> Tüm İlanlar (Yönetim)</div>
         </div>
 
         <div class="profile-grid" id="my-listings">
@@ -126,38 +145,70 @@
         </div>
     </main>
 
-    <div class="modal-overlay" id="editModal">
+    <div class="modal-overlay" id="detailModal">
+        <div class="detail-box">
+            <button class="close-btn" onclick="closeDetailModal()" style="background: rgba(0,0,0,0.5);">&times;</button>
+            <div class="detail-left">
+                <div class="main-photo" id="modalMainImg"></div>
+            </div>
+            <div class="detail-content">
+                <h2 id="modalTitle" style="font-weight: 300; font-size: 1.5rem;">-</h2>
+                <div style="font-size: 2rem; color: var(--primary-gold); font-weight: 700; margin-bottom: 15px;" id="modalPrice">-</div>
+                <div class="specs">
+                    <div class="spec-item"><span>Yıl / Durum</span><strong id="modalYear">-</strong></div>
+                    <div class="spec-item"><span>KM / Alan</span><strong id="modalKm">-</strong></div>
+                    <div class="spec-item"><span>Yakıt / Tip</span><strong id="modalFuel">-</strong></div>
+                    <div class="spec-item"><span>Vites / Ekstra</span><strong id="modalGear">-</strong></div>
+                </div>
+                
+                <div class="admin-controls">
+                    <h4 style="color: var(--text-light); font-size: 13px; text-transform: uppercase; margin-bottom: 5px;">İlan Yönetimi</h4>
+                    <button id="btn-make-premium" class="btn-premium" style="display: none;"><span class="material-symbols-outlined">stars</span> Premium Yap</button>
+                    <button class="btn-outline" onclick="openEditAdModal()"><span class="material-symbols-outlined">edit</span> İlanı Düzenle</button>
+                    <button id="btn-delete-listing" class="btn-delete"><span class="material-symbols-outlined">delete</span> İlanı Sil</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="editAdModal">
         <div class="edit-box">
-            <button class="close-btn" onclick="closeEditModal()">&times;</button>
+            <button class="close-btn" onclick="closeEditAdModal()">&times;</button>
+            <h2 style="color: var(--primary-gold); font-weight: 300; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">İlanı Düzenle</h2>
+            <div class="form-group"><label>Fiyat (TL)</label><input type="text" id="edit-ad-price"></div>
+            <div class="form-group"><label>İlan Başlığı</label><input type="text" id="edit-ad-title"></div>
+            <div style="display: flex; gap:10px;">
+                <div class="form-group" style="flex:1;"><label>Yıl</label><input type="text" id="edit-ad-year"></div>
+                <div class="form-group" style="flex:1;"><label>KM</label><input type="text" id="edit-ad-km"></div>
+            </div>
+            <button class="btn-premium" id="btn-save-ad">Değişiklikleri Kaydet</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="profileEditModal">
+        <div class="edit-box">
+            <button class="close-btn" onclick="closeProfileEditModal()">&times;</button>
             <h2 style="color: var(--primary-gold); font-weight: 300; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">Profili Düzenle</h2>
-            
-            <div class="form-group">
-                <label>Profil Fotoğrafı Linki (URL)</label>
-                <input type="text" id="edit-avatar" placeholder="Örn: https://images.unsplash.com/photo-155535...">
-            </div>
-            <div class="form-group">
-                <label>Hakkımda / Biyografi</label>
-                <textarea id="edit-bio" rows="3" placeholder="Mağazanız veya kendiniz hakkında bilgi verin..."></textarea>
-            </div>
-            <div class="form-group">
-                <label>Web Sitesi veya Sosyal Medya Linki</label>
-                <input type="text" id="edit-website" placeholder="Örn: cagataymotors.com.tr">
-            </div>
-            
-            <button class="btn-premium" id="btn-save-profile">Değişiklikleri Kaydet</button>
+            <div class="form-group"><label>Fotoğraf URL</label><input type="text" id="edit-avatar"></div>
+            <div class="form-group"><label>Biyografi</label><textarea id="edit-bio" rows="3"></textarea></div>
+            <div class="form-group"><label>Web Sitesi</label><input type="text" id="edit-website"></div>
+            <button class="btn-premium" id="btn-save-profile">Profili Güncelle</button>
         </div>
     </div>
 
     <script>
-        function openEditModal() { document.getElementById('editModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
-        function closeEditModal() { document.getElementById('editModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
-        document.getElementById('editModal').addEventListener('click', (e) => { if(e.target.id === 'editModal') closeEditModal(); });
+        function closeDetailModal() { document.getElementById('detailModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
+        function openProfileEditModal() { document.getElementById('profileEditModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function closeProfileEditModal() { document.getElementById('profileEditModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
+        function openEditAdModal() { closeDetailModal(); setTimeout(() => { document.getElementById('editAdModal').classList.add('active'); document.body.style.overflow = 'hidden'; }, 300); }
+        function closeEditAdModal() { document.getElementById('editAdModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
+        document.querySelectorAll('.modal-overlay').forEach(modal => { modal.addEventListener('click', (e) => { if(e.target === modal) { modal.classList.remove('active'); document.body.style.overflow = 'auto'; }}); });
     </script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, query, where, getDocs, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, query, where, getDocs, doc, getDoc, setDoc, updateDoc, deleteDoc, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0",
@@ -173,100 +224,185 @@
         const db = getFirestore(app);
 
         let currentUserId = null;
+        let isAdmin = false; 
+        let currentTab = 'my';
+        let activeAdId = null;
+        let activeAdData = null;
+
+        // =================================================================
+        // DİKKAT: AŞAĞIDAKİ "adminEmail" DEĞİŞKENİNE KENDİ E-POSTANI YAZ!
+        // Sadece bu e-posta ile giriş yapan kişi "Tüm İlanları" görebilir
+        // ve Premium yapabilir!
+        // =================================================================
+        const adminEmail = "kcagatay239@gmail.com"; 
 
         onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                currentUserId = user.uid;
-                document.getElementById('display-name').innerText = user.displayName || "Swinder Üyesi";
-                
-                // --- 1. KULLANICI PROFİL BİLGİLERİNİ ÇEK VE ALTIN TİK KONTROLÜ ---
-                const userRef = doc(db, "kullanicilar", user.uid);
-                const userSnap = await getDoc(userRef);
+            if (!user) { window.location.href = "index.html"; return; }
+            
+            currentUserId = user.uid;
+            document.getElementById('display-name').innerText = user.displayName || "Swinder Üyesi";
+            
+            // --- E-POSTA TABANLI GÜVENLİ ADMIN KONTROLÜ ---
+            if(user.email && user.email.toLowerCase() === adminEmail.toLowerCase()) {
+                isAdmin = true;
+                document.getElementById('tab-admin').style.display = 'block'; 
+                document.getElementById('role-text').innerText = "👑 Sistem Yöneticisi (Kurucu)";
+                document.getElementById('role-text').style.color = "var(--primary-gold)";
+            }
 
-                if (userSnap.exists()) {
-                    // Veritabanında kaydı varsa bilgileri ekrana bas
-                    const userData = userSnap.data();
-                    if(userData.avatar) document.getElementById('display-avatar').style.backgroundImage = `url('${userData.avatar}')`;
-                    if(userData.bio) document.getElementById('bio-text').innerText = userData.bio;
-                    if(userData.website) {
-                        document.getElementById('bio-link').innerText = "🔗 " + userData.website;
-                        document.getElementById('bio-link').href = userData.website.startsWith('http') ? userData.website : 'https://' + userData.website;
-                    }
-                    if(userData.isVerified) {
-                        document.getElementById('gold-tick').style.display = 'inline-block'; // ALTIN TİKİ GÖSTER!
-                    }
+            const userRef = doc(db, "kullanicilar", user.uid);
+            const userSnap = await getDoc(userRef);
+            if (userSnap.exists()) {
+                const userData = userSnap.data();
+                if(userData.avatar) document.getElementById('display-avatar').style.backgroundImage = `url('${userData.avatar}')`;
+                if(userData.bio) document.getElementById('bio-text').innerText = userData.bio;
+                if(userData.website) { document.getElementById('bio-link').innerText = "🔗 " + userData.website; document.getElementById('bio-link').href = userData.website.startsWith('http') ? userData.website : 'https://' + userData.website; }
+                if(userData.isVerified || isAdmin) document.getElementById('gold-tick').style.display = 'inline-block';
 
-                    // Modal içindeki form kutularını da eski verilerle doldur
-                    document.getElementById('edit-avatar').value = userData.avatar || "";
-                    document.getElementById('edit-bio').value = userData.bio || "";
-                    document.getElementById('edit-website').value = userData.website || "";
+                document.getElementById('edit-avatar').value = userData.avatar || "";
+                document.getElementById('edit-bio').value = userData.bio || "";
+                document.getElementById('edit-website').value = userData.website || "";
+            } else if(isAdmin) {
+                await setDoc(userRef, { isVerified: true, bio: "Swinder Kurucu Hesabı" });
+                document.getElementById('gold-tick').style.display = 'inline-block';
+            }
 
-                } else {
-                    // İLK KEZ PROFİLE GİREN KULLANICI: Otomatik olarak kurucu altın tiki verelim!
-                    await setDoc(userRef, {
-                        avatar: "",
-                        bio: "Sanal garajın ve yayında olan tüm premium ilanların burada.",
-                        website: "",
-                        isVerified: true // Swinder kurucusuna Altın Tik anında tanımlanır!
-                    });
-                    document.getElementById('gold-tick').style.display = 'inline-block';
-                }
+            loadListings();
+        });
 
-                // --- 2. KULLANICININ İLANLARINI ÇEK ---
-                const listingsGrid = document.getElementById('my-listings');
-                const q = query(collection(db, "ilanlar"), where("seller", "==", user.displayName));
-                
-                try {
-                    const querySnapshot = await getDocs(q);
-                    listingsGrid.innerHTML = ''; 
-                    document.getElementById('ad-count').innerText = querySnapshot.size;
+        window.switchTab = function(tabName) {
+            currentTab = tabName;
+            document.getElementById('tab-my').classList.remove('active');
+            document.getElementById('tab-admin').classList.remove('active');
+            document.getElementById('tab-' + tabName).classList.add('active');
+            loadListings();
+        }
 
-                    if (querySnapshot.empty) {
-                        listingsGrid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: var(--text-muted); padding: 40px; border: 1px dashed rgba(255,255,255,0.1); border-radius: 8px;">İlk ilanını ver ve garajını doldurmaya başla!</div>';
-                        return;
-                    }
-
-                    querySnapshot.forEach((doc) => {
-                        const data = doc.data();
-                        const firstImg = data.images.split(',')[0].trim();
-                        listingsGrid.insertAdjacentHTML('beforeend', `
-                        <div class="grid-item" style="background-image: url('${firstImg}');">
-                            <div class="grid-overlay"><div class="overlay-title">${data.title}</div><div class="overlay-price">${data.price}</div></div>
-                        </div>`);
-                    });
-                } catch (error) { listingsGrid.innerHTML = `<div style="grid-column: span 3; text-align: center; color: red;">Hata oluştu.</div>`; }
-
+        async function loadListings() {
+            const grid = document.getElementById('my-listings');
+            grid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: var(--primary-gold); padding: 40px;">Veriler Çekiliyor...</div>';
+            
+            let q;
+            if (currentTab === 'my') {
+                q = query(collection(db, "ilanlar"), where("seller", "==", auth.currentUser.displayName));
             } else {
-                window.location.href = "index.html";
+                q = query(collection(db, "ilanlar"), orderBy("createdAt", "desc"));
+            }
+            
+            try {
+                const snapshot = await getDocs(q);
+                grid.innerHTML = ''; 
+                if (currentTab === 'my') document.getElementById('ad-count').innerText = snapshot.size;
+                if (snapshot.empty) { grid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: var(--text-muted); padding: 40px;">Burada gösterilecek ilan yok.</div>'; return; }
+
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const firstImg = data.images.split(',')[0].trim();
+                    const premiumTag = data.isPremium ? '<div class="premium-tag">PREMIUM</div>' : '';
+                    const premiumGlow = data.isPremium ? 'is-premium' : '';
+                    const dataStr = encodeURIComponent(JSON.stringify(data));
+                    
+                    grid.insertAdjacentHTML('beforeend', `
+                    <div class="grid-item ${premiumGlow}" style="background-image: url('${firstImg}');" onclick="openDetail('${doc.id}', '${dataStr}')">
+                        ${premiumTag}
+                        <div class="grid-overlay"><div class="overlay-title">${data.title}</div><div class="overlay-price">${data.price}</div></div>
+                    </div>`);
+                });
+            } catch (error) { grid.innerHTML = `<div style="grid-column: span 3; text-align: center; color: red;">Hata: ${error.message}</div>`; }
+        }
+
+        window.openDetail = function(docId, dataStr) {
+            const data = JSON.parse(decodeURIComponent(dataStr));
+            activeAdId = docId;
+            activeAdData = data;
+
+            document.getElementById('modalTitle').innerText = data.title;
+            document.getElementById('modalPrice').innerText = data.price;
+            document.getElementById('modalYear').innerText = data.year;
+            document.getElementById('modalKm').innerText = data.km;
+            document.getElementById('modalFuel').innerText = data.fuel;
+            document.getElementById('modalGear').innerText = data.gear;
+            document.getElementById('modalMainImg').style.backgroundImage = `url('${data.images.split(',')[0].trim()}')`;
+
+            document.getElementById('edit-ad-title').value = data.title;
+            document.getElementById('edit-ad-price').value = data.price;
+            document.getElementById('edit-ad-year').value = data.year;
+            document.getElementById('edit-ad-km').value = data.km;
+
+            const btnPremium = document.getElementById('btn-make-premium');
+            if (isAdmin) {
+                btnPremium.style.display = 'flex';
+                if (data.isPremium) {
+                    btnPremium.innerHTML = '<span class="material-symbols-outlined">remove_circle</span> Premium İptal Et';
+                    btnPremium.style.background = 'transparent';
+                    btnPremium.style.border = '1px solid #ff4757';
+                    btnPremium.style.color = '#ff4757';
+                } else {
+                    btnPremium.innerHTML = '<span class="material-symbols-outlined">stars</span> Premium Yap';
+                    btnPremium.style.background = 'linear-gradient(135deg, #d4af37 0%, #b58500 100%)';
+                    btnPremium.style.border = 'none';
+                    btnPremium.style.color = '#fff';
+                }
+            }
+
+            document.getElementById('detailModal').classList.add('active'); 
+            document.body.style.overflow = 'hidden';
+        }
+
+        document.getElementById('btn-delete-listing').addEventListener('click', async () => {
+            if(!activeAdId) return;
+            if(confirm("Bu ilanı sistemden tamamen silmek istediğine emin misin?")) {
+                try {
+                    document.getElementById('btn-delete-listing').innerText = "Siliniyor...";
+                    await deleteDoc(doc(db, "ilanlar", activeAdId));
+                    closeDetailModal(); loadListings(); 
+                } catch (error) { alert("Hata: " + error.message); }
+                finally { document.getElementById('btn-delete-listing').innerHTML = '<span class="material-symbols-outlined">delete</span> İlanı Sil'; }
             }
         });
 
-        // --- 3. PROFİLİ DÜZENLE VE KAYDET ---
+        document.getElementById('btn-save-ad').addEventListener('click', async () => {
+            if(!activeAdId) return;
+            const btn = document.getElementById('btn-save-ad');
+            btn.innerText = "Güncelleniyor...";
+            try {
+                await updateDoc(doc(db, "ilanlar", activeAdId), {
+                    title: document.getElementById('edit-ad-title').value,
+                    price: document.getElementById('edit-ad-price').value,
+                    year: document.getElementById('edit-ad-year').value,
+                    km: document.getElementById('edit-ad-km').value
+                });
+                closeEditAdModal(); loadListings();
+            } catch (error) { alert("Hata: " + error.message); }
+            finally { btn.innerText = "Değişiklikleri Kaydet"; }
+        });
+
+        document.getElementById('btn-make-premium').addEventListener('click', async () => {
+            if(!activeAdId || !isAdmin) return;
+            const btn = document.getElementById('btn-make-premium');
+            btn.innerText = "İşleniyor...";
+            const newPremiumStatus = !activeAdData.isPremium; 
+            try {
+                await updateDoc(doc(db, "ilanlar", activeAdId), { isPremium: newPremiumStatus });
+                closeDetailModal(); loadListings(); 
+                alert(newPremiumStatus ? "İlan başarıyla Premium Vitrin'e taşındı! ✨" : "İlan Premium'dan çıkarıldı.");
+            } catch (error) { alert("Hata: " + error.message); }
+        });
+
         document.getElementById('btn-save-profile').addEventListener('click', async () => {
             if(!currentUserId) return;
-            
             const btn = document.getElementById('btn-save-profile');
             btn.innerText = "Kaydediliyor...";
-
-            const avatar = document.getElementById('edit-avatar').value;
-            const bio = document.getElementById('edit-bio').value;
-            const website = document.getElementById('edit-website').value;
-
             try {
-                // Veritabanındaki "kullanicilar" tablosunu güncelle (merge: true ile altın tik silinmez)
                 await setDoc(doc(db, "kullanicilar", currentUserId), {
-                    avatar: avatar,
-                    bio: bio,
-                    website: website
+                    avatar: document.getElementById('edit-avatar').value,
+                    bio: document.getElementById('edit-bio').value,
+                    website: document.getElementById('edit-website').value
                 }, { merge: true });
-
-                closeEditModal();
-                window.location.reload(); // Sayfayı yenileyip yeni bilgileri göster
-            } catch (error) {
-                alert("Güncelleme hatası: " + error.message);
-                btn.innerText = "Değişiklikleri Kaydet";
-            }
+                closeProfileEditModal(); window.location.reload(); 
+            } catch (error) { alert("Hata: " + error.message); btn.innerText = "Profili Güncelle"; }
         });
+
     </script>
 </body>
 </html>
