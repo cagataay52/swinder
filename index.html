@@ -8,12 +8,8 @@
         /* --- Temel Ayarlar --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         :root {
-            --bg-dark: #0a0a0c;
-            --surface: #1a1a1f;
-            --primary-gold: #d4af37;
-            --text-light: #f5f5f7;
-            --text-muted: #8e8e93;
-            --glass-bg: rgba(26, 26, 31, 0.7);
+            --bg-dark: #0a0a0c; --surface: #1a1a1f; --primary-gold: #d4af37;
+            --text-light: #f5f5f7; --text-muted: #8e8e93; --glass-bg: rgba(26, 26, 31, 0.7);
         }
         body { background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; }
 
@@ -37,17 +33,40 @@
         }
         .btn-premium:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3); }
 
-        /* --- Karşılama Ekranı --- */
+        /* --- Karşılama Ekranı ve Arama --- */
         .hero {
-            height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
             text-align: center; background: radial-gradient(circle at center, #1a1a1f 0%, #0a0a0c 100%);
             padding: 0 20px; margin-top: 50px;
         }
         .hero h1 { font-size: 3.5rem; font-weight: 300; margin-bottom: 20px; letter-spacing: 1px; }
         .hero h1 span { color: var(--primary-gold); font-weight: 600; }
+        
+        .search-box {
+            margin-top: 30px; display: flex; background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1); padding: 8px; border-radius: 50px;
+            width: 100%; max-width: 650px; backdrop-filter: blur(5px); transition: all 0.3s ease;
+        }
+        .search-box input { flex: 1; background: transparent; border: none; color: white; padding: 12px 20px; font-size: 16px; outline: none; }
+        .search-box input::placeholder { color: var(--text-muted); }
+
+        /* --- Kategoriler --- */
+        .categories {
+            display: flex; justify-content: center; gap: 15px; padding: 20px 5%;
+            overflow-x: auto; white-space: nowrap; margin-bottom: 20px;
+        }
+        .categories::-webkit-scrollbar { display: none; }
+        .category-btn {
+            background: var(--surface); border: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-light); padding: 12px 25px; border-radius: 30px;
+            font-size: 14px; cursor: pointer; transition: all 0.3s ease;
+        }
+        .category-btn:hover, .category-btn.active {
+            background: rgba(212, 175, 55, 0.1); border-color: var(--primary-gold); color: var(--primary-gold);
+        }
 
         /* --- Vitrin İlanları --- */
-        .showcase { padding: 50px 5% 100px; }
+        .showcase { padding: 20px 5% 100px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
         .card {
             background: var(--surface); border-radius: 16px; overflow: hidden;
@@ -60,50 +79,41 @@
         .card-title { font-size: 1.25rem; margin-bottom: 12px; font-weight: 500; }
         .card-price { color: var(--primary-gold); font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; }
 
-        /* --- HIZLI BAKIŞ MODALI (BUĞULU CAM EFEKTİ) --- */
+        /* --- ORTAK MODAL (Açılır Pencere) YAPISI --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(15px); /* Buğulu cam efekti */
-            -webkit-backdrop-filter: blur(15px);
+            background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             display: flex; justify-content: center; align-items: center;
             opacity: 0; visibility: hidden; transition: all 0.4s ease; z-index: 1000; padding: 20px;
         }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         
-        .detail-modal-box {
+        /* Giriş Yap Modalı İçeriği */
+        .login-box {
+            background: var(--surface); border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 40px; border-radius: 20px; width: 100%; max-width: 400px;
+            transform: translateY(30px); transition: all 0.4s ease;
+        }
+        .modal-overlay.active .login-box { transform: translateY(0); }
+        .form-group { margin-bottom: 20px; }
+        .form-group input { width: 100%; padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; margin-top: 8px; }
+
+        /* İlan Detay Modalı İçeriği */
+        .detail-box {
             background: rgba(26, 26, 31, 0.85); border: 1px solid rgba(212, 175, 55, 0.3);
             border-radius: 20px; width: 100%; max-width: 1000px; max-height: 90vh;
-            display: flex; overflow: hidden; transform: scale(0.95); transition: all 0.4s ease;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8); position: relative;
+            display: flex; overflow: hidden; transform: scale(0.95); transition: all 0.4s ease; position: relative;
         }
-        .modal-overlay.active .detail-modal-box { transform: scale(1); }
-
-        .close-detail-btn {
-            position: absolute; top: 15px; right: 20px; background: rgba(0,0,0,0.5); border: none;
-            color: white; font-size: 24px; width: 40px; height: 40px; border-radius: 50%;
-            cursor: pointer; z-index: 10; transition: all 0.3s; display: flex; justify-content: center; align-items: center;
-        }
-        .close-detail-btn:hover { background: var(--primary-gold); color: black; }
-
+        .modal-overlay.active .detail-box { transform: scale(1); }
+        .close-btn { position: absolute; top: 15px; right: 20px; background: rgba(0,0,0,0.5); border: none; color: white; font-size: 24px; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 10; }
+        .close-btn:hover { background: var(--primary-gold); color: black; }
         .detail-img { flex: 1.2; background-size: cover; background-position: center; min-height: 400px; }
-        
         .detail-content { flex: 1; padding: 40px; overflow-y: auto; display: flex; flex-direction: column; }
-        .detail-content h2 { font-size: 2rem; margin-bottom: 10px; font-weight: 300; }
-        .detail-content .price { font-size: 2rem; color: var(--primary-gold); font-weight: 700; margin-bottom: 25px; }
-        
-        .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px; }
+        .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
         .spec-item { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; font-size: 14px; }
-        .spec-item span { color: var(--text-muted); display: block; font-size: 12px; margin-bottom: 2px; }
+        .spec-item span { color: var(--text-muted); display: block; font-size: 12px; }
 
-        .seller-info { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); margin-top: auto; }
-        .seller-info h4 { margin-bottom: 15px; color: var(--primary-gold); }
-
-        /* Mobil Düzen */
-        @media (max-width: 768px) {
-            .detail-modal-box { flex-direction: column; overflow-y: auto; }
-            .detail-img { min-height: 250px; flex: none; }
-            .detail-content { padding: 20px; }
-        }
+        @media (max-width: 768px) { .detail-box { flex-direction: column; overflow-y: auto; } .detail-img { min-height: 250px; flex: none; } }
     </style>
 </head>
 <body>
@@ -111,17 +121,28 @@
     <header>
         <a href="#" class="logo">ELITE VİTRİN</a>
         <div class="nav-links">
+            <button id="openLoginBtn">Giriş Yap</button>
+            <button>Kayıt Ol</button>
             <button class="btn-premium">+ İlan Ver</button>
         </div>
     </header>
 
     <section class="hero">
         <h1>Aradığın Lüksü <span>Keşfet</span></h1>
+        <div class="search-box">
+            <input type="text" placeholder="Marka, model veya anahtar kelime yazın...">
+            <button class="btn-premium" style="padding: 10px 35px;">Ara</button>
+        </div>
     </section>
+
+    <div class="categories">
+        <button class="category-btn active">🚗 Premium Araçlar</button>
+        <button class="category-btn">🏠 Lüks Emlak</button>
+        <button class="category-btn">⌚ Saat & Mücevher</button>
+    </div>
 
     <section class="showcase">
         <div class="grid">
-            
             <div class="card" onclick="openDetailModal('BMW 420i Cabrio M Sport', '3.250.000 TL', '2022', '15.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80')">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                     <span class="badge">PREMIUM</span>
@@ -133,26 +154,34 @@
             </div>
 
             <div class="card" onclick="openDetailModal('BMW F30 320i M Sport', '1.850.000 TL', '2018', '65.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1556189250-72ba954cfc2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80')">
-                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1556189250-72ba954cfc2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
-                </div>
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1556189250-72ba954cfc2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
                 <div class="card-content">
                     <h3 class="card-title">BMW F30 320i M Sport</h3>
                     <div class="card-price">1.850.000 TL</div>
                 </div>
             </div>
-
         </div>
     </section>
 
+    <div class="modal-overlay" id="loginModal">
+        <div class="login-box">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                <h2 style="font-weight: 400;">Giriş Yap</h2>
+                <button class="close-btn" id="closeLoginBtn" style="position: static; width:30px; height:30px; font-size:18px;">&times;</button>
+            </div>
+            <div class="form-group"><input type="email" placeholder="E-posta"></div>
+            <div class="form-group"><input type="password" placeholder="Şifre"></div>
+            <button class="btn-premium" style="width: 100%; border-radius: 10px;">Giriş Yap</button>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="detailModal">
-        <div class="detail-modal-box">
-            <button class="close-detail-btn" id="closeDetailBtn">&times;</button>
-            
+        <div class="detail-box">
+            <button class="close-btn" id="closeDetailBtn">&times;</button>
             <div class="detail-img" id="modalImg"></div>
-            
             <div class="detail-content">
-                <h2 id="modalTitle">Araç Başlığı</h2>
-                <div class="price" id="modalPrice">0 TL</div>
+                <h2 id="modalTitle" style="font-weight: 300;">-</h2>
+                <div style="font-size: 2rem; color: var(--primary-gold); font-weight: 700;" id="modalPrice">-</div>
                 
                 <div class="specs">
                     <div class="spec-item"><span>Model Yılı</span><strong id="modalYear">-</strong></div>
@@ -161,9 +190,9 @@
                     <div class="spec-item"><span>Vites</span><strong id="modalGear">-</strong></div>
                 </div>
 
-                <div class="seller-info">
-                    <h4>Satıcı Bilgileri</h4>
-                    <p style="font-weight: bold; margin-bottom: 10px;">Çağatay Motors</p>
+                <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 12px; margin-top: auto;">
+                    <h4 style="color: var(--primary-gold); margin-bottom: 10px;">Satıcı Bilgileri</h4>
+                    <p style="font-weight: bold; margin-bottom: 15px;">Çağatay Motors</p>
                     <button class="btn-premium" style="width: 100%; border-radius: 8px;">İletişime Geç</button>
                 </div>
             </div>
@@ -171,10 +200,20 @@
     </div>
 
     <script>
-        const detailModal = document.getElementById('detailModal');
-        const closeDetailBtn = document.getElementById('closeDetailBtn');
+        // Arama Kutusu Efekti
+        const searchInput = document.querySelector('.search-box input');
+        const searchBox = document.querySelector('.search-box');
+        searchInput.addEventListener('focus', () => { searchBox.style.borderColor = 'var(--primary-gold)'; searchBox.style.boxShadow = '0 0 20px rgba(212, 175, 55, 0.15)'; });
+        searchInput.addEventListener('blur', () => { searchBox.style.borderColor = 'rgba(255,255,255,0.1)'; searchBox.style.boxShadow = 'none'; });
 
-        // Modalı açan fonksiyon (Dinamik olarak verileri doldurur)
+        // GİRİŞ YAP MODALI KONTROLLERİ
+        const loginModal = document.getElementById('loginModal');
+        document.getElementById('openLoginBtn').addEventListener('click', () => { loginModal.classList.add('active'); document.body.style.overflow = 'hidden'; });
+        document.getElementById('closeLoginBtn').addEventListener('click', () => { loginModal.classList.remove('active'); document.body.style.overflow = 'auto'; });
+        loginModal.addEventListener('click', (e) => { if(e.target === loginModal) { loginModal.classList.remove('active'); document.body.style.overflow = 'auto'; } });
+
+        // İLAN DETAY MODALI KONTROLLERİ
+        const detailModal = document.getElementById('detailModal');
         function openDetailModal(title, price, year, km, fuel, gear, imgUrl) {
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalPrice').innerText = price;
@@ -185,22 +224,10 @@
             document.getElementById('modalImg').style.backgroundImage = `url('${imgUrl}')`;
             
             detailModal.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Arka planın kaymasını engelle
+            document.body.style.overflow = 'hidden';
         }
-
-        // Kapatma İşlemleri
-        closeDetailBtn.addEventListener('click', () => {
-            detailModal.classList.remove('active');
-            document.body.style.overflow = 'auto'; // Kaydırmayı geri aç
-        });
-
-        // Pencere dışına tıklayınca kapatma
-        detailModal.addEventListener('click', (e) => {
-            if(e.target === detailModal) {
-                detailModal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-        });
+        document.getElementById('closeDetailBtn').addEventListener('click', () => { detailModal.classList.remove('active'); document.body.style.overflow = 'auto'; });
+        detailModal.addEventListener('click', (e) => { if(e.target === detailModal) { detailModal.classList.remove('active'); document.body.style.overflow = 'auto'; } });
     </script>
 </body>
 </html>
