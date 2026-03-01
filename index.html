@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Swinder - Premium İlan Platformu</title>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" />
+
     <style>
         /* --- TEMEL AYARLAR --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -19,7 +22,7 @@
         .nav-links button.text-btn { background: transparent; border: none; color: var(--text-light); font-size: 15px; cursor: pointer; transition: color 0.3s ease; font-weight: 500; }
         .nav-links button.text-btn:hover { color: var(--primary-gold); }
         .nav-links a { font-size: 15px; transition: 0.3s; }
-        .btn-premium { background: linear-gradient(135deg, #d4af37 0%, #b58500 100%); color: #fff !important; padding: 10px 24px; border-radius: 30px; font-weight: 700; font-size: 15px; border: 1px solid #d4af37; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
+        .btn-premium { background: linear-gradient(135deg, #d4af37 0%, #b58500 100%); color: #fff !important; padding: 10px 24px; border-radius: 30px; font-weight: 700; font-size: 15px; border: 1px solid #d4af37; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); display: flex; align-items: center; gap: 5px;}
         .btn-premium:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.7); background: linear-gradient(135deg, #f3e5ab 0%, #d4af37 100%); color: #000 !important; }
 
         .hero { height: 45vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle at center, #1a1a1f 0%, #0a0a0c 100%); padding: 0 20px; margin-top: 60px; }
@@ -38,12 +41,12 @@
         .story-ring:hover { transform: scale(1.08); }
         .story-img { width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--bg-dark); background-size: cover; background-position: center; }
         .story-name { font-size: 12px; color: var(--text-light); }
-        .story-ring.add-story { background: var(--surface); border: 1px dashed rgba(255,255,255,0.3); }
+        .story-ring.add-story { background: var(--surface); border: 1px dashed rgba(255,255,255,0.3); color: var(--text-muted); }
 
         /* --- KATEGORİLER --- */
         .categories { display: flex; justify-content: center; gap: 10px; padding: 20px 5%; overflow-x: auto; white-space: nowrap; margin-bottom: 20px; }
         .categories::-webkit-scrollbar { display: none; }
-        .category-btn { background: var(--surface); border: 1px solid rgba(255,255,255,0.05); color: var(--text-light); padding: 10px 20px; border-radius: 30px; font-size: 14px; cursor: pointer; transition: all 0.3s ease; }
+        .category-btn { background: var(--surface); border: 1px solid rgba(255,255,255,0.05); color: var(--text-light); padding: 10px 20px; border-radius: 30px; font-size: 14px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px; }
         .category-btn.active { background: rgba(212, 175, 55, 0.1); border-color: var(--primary-gold); color: var(--primary-gold); }
 
         /* --- VİTRİN VE KARTLAR --- */
@@ -64,11 +67,13 @@
         .card.premium .card-price { color: var(--primary-gold); }
         .badge.premium-badge { position: absolute; top: 12px; left: 12px; background: linear-gradient(135deg, #d4af37, #aa8529); color: #000; padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: 800; letter-spacing: 1px; }
         .badge.normal-badge { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); color: #fff; padding: 5px 10px; border-radius: 8px; font-size: 11px; border: 1px solid rgba(255,255,255,0.1); }
+        
+        .gold-tick { display: inline-flex; justify-content: center; align-items: center; width: 14px; height: 14px; background: var(--primary-gold); border-radius: 50%; color: #000; font-size: 10px; font-weight: bold; margin-left: 4px; vertical-align: middle;}
 
         /* --- MODALLAR GENEL --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1000; padding: 15px; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
-        .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: none; color: white; font-size: 20px; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; transition: 0.3s; z-index: 10; display: flex; align-items: center; justify-content: center; }
+        .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: none; color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; transition: 0.3s; z-index: 10; display: flex; align-items: center; justify-content: center; }
         .close-btn:hover { background: var(--primary-gold); color: #000; }
         
         .form-group { margin-bottom: 15px; text-align: left; }
@@ -92,8 +97,8 @@
         .story-view-header { position: absolute; top: 0; left: 0; width: 100%; padding: 20px 20px 40px 20px; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); display: flex; align-items: center; gap: 12px; z-index: 2; }
         .story-view-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center; }
         .story-view-username { color: #fff; font-weight: 600; font-size: 15px; }
-        .story-view-close { position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; font-size: 24px; cursor: pointer; z-index: 5; }
-        .btn-delete-story { display: none; position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(255, 71, 87, 0.9); border: none; color: white; padding: 10px 25px; border-radius: 30px; font-weight: 600; cursor: pointer; z-index: 10; font-size: 14px; backdrop-filter: blur(5px); }
+        .story-view-close { position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; cursor: pointer; z-index: 5; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; }
+        .btn-delete-story { display: none; position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(255, 71, 87, 0.9); border: none; color: white; padding: 10px 25px; border-radius: 30px; font-weight: 600; cursor: pointer; z-index: 10; font-size: 14px; backdrop-filter: blur(5px); display: flex; align-items: center; gap: 8px;}
 
         /* İLAN DETAY & EKLE MODALI MASAÜSTÜ */
         .detail-box, .add-box { background: var(--surface); border: 1px solid rgba(212, 175, 55, 0.3); padding: 30px; border-radius: 20px; width: 100%; max-width: 1000px; max-height: 90vh; display: flex; overflow: hidden; transform: scale(0.95); transition: all 0.4s ease; position: relative; }
@@ -112,7 +117,7 @@
         .seller-card { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); margin-top: auto; }
         .seller-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .btn-follow { background: transparent; color: var(--text-light); border: 1px solid rgba(255,255,255,0.3); padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s; }
-        .btn-delete-listing { display: none; background: rgba(255, 71, 87, 0.1); border: 1px solid #ff4757; color: #ff4757; padding: 8px 15px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-top: 15px; width: 100%; }
+        .btn-delete-listing { display: none; background: rgba(255, 71, 87, 0.1); border: 1px solid #ff4757; color: #ff4757; padding: 8px 15px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-top: 15px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;}
         .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
         /* MOBİL ARAMA MODALI */
@@ -123,17 +128,16 @@
         .bottom-nav { display: none; } /* Masaüstünde Gizli */
 
         @media (max-width: 768px) { 
-            body { padding-bottom: 80px; } /* Alt menü için boşluk */
+            body { padding-bottom: 80px; } 
             .grid { grid-template-columns: repeat(2, 1fr); gap: 15px; } 
             .showcase { padding: 0 15px 20px; }
             .form-grid-2 { grid-template-columns: 1fr; } 
             .hero { height: 30vh; margin-top: 50px;}
             
-            /* Üst Menü ve Kahraman Alanı Temizliği */
-            #main-nav-links { display: none; } /* Üst menü linkleri mobilde gizli */
-            .hero .search-box { display: none; } /* Arama çubuğunu mobilde gizle */
+            #main-nav-links { display: none; } 
+            .hero .search-box { display: none; } 
 
-            /* INSTAGRAM TARZI ALT MENÜ */
+            /* INSTAGRAM TARZI ALT MENÜ - İkonlar SVG Font ile */
             .bottom-nav {
                 display: flex; justify-content: space-around; align-items: center;
                 position: fixed; bottom: 0; left: 0; width: 100%;
@@ -141,13 +145,14 @@
                 padding: 15px 10px; padding-bottom: calc(15px + env(safe-area-inset-bottom));
                 border-top: 1px solid rgba(255,255,255,0.05); z-index: 999;
             }
-            .nav-icon-btn { background: none; border: none; color: var(--text-muted); font-size: 22px; cursor: pointer; transition: 0.3s; }
+            .nav-icon-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+            .nav-icon-btn .material-symbols-outlined { font-size: 28px; }
             .nav-icon-btn.active { color: var(--primary-gold); }
-            /* Ortadaki + Butonu */
-            .nav-icon-btn.add-btn { background: linear-gradient(135deg, #d4af37, #b58500); color: #000; width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 28px; font-weight: 300; transform: translateY(-10px); box-shadow: 0 5px 15px rgba(212,175,55,0.4); }
+            
+            .nav-icon-btn.add-btn { background: linear-gradient(135deg, #d4af37, #b58500); color: #000; width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; transform: translateY(-15px); box-shadow: 0 5px 15px rgba(212,175,55,0.4); }
+            .nav-icon-btn.add-btn .material-symbols-outlined { font-size: 32px; font-weight: 400; }
 
-            /* Modallar Bottom Sheet (Aşağıdan Kayma) Stiline Çevrildi */
-            .modal-overlay { padding: 0; align-items: flex-end; z-index: 1001;} /* Alt menünün de üstüne çıksın */
+            .modal-overlay { padding: 0; align-items: flex-end; z-index: 1001;} 
             .auth-box { margin: 0; max-width: 100%; border-radius: 25px 25px 0 0; transform: translateY(100%); border-bottom: none; }
             .modal-overlay.active .auth-box { transform: translateY(0); }
             
@@ -162,7 +167,6 @@
             .story-view-box { height: 100dvh; max-height: 100dvh; width: 100%; border-radius: 0; transform: translateY(100%); }
             .modal-overlay.active .story-view-box { transform: translateY(0); }
             .story-view-header { padding: 15px 15px 40px 15px; }
-            .story-view-close { top: 15px; right: 15px; font-size: 28px; }
             .btn-delete-story { bottom: 50px; padding: 12px 30px; }
         }
         @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
@@ -175,7 +179,7 @@
         <div class="nav-links" id="main-nav-links">
             <button class="text-btn" onclick="openAuthModal('login')">Giriş Yap</button>
             <button class="text-btn" onclick="openAuthModal('register')">Kayıt Ol</button>
-            <button class="btn-premium" onclick="openAddModal()">+ İlan Ver</button>
+            <button class="btn-premium" onclick="openAddModal()"><span class="material-symbols-outlined" style="font-size: 18px;">add</span> İlan Ver</button>
         </div>
     </header>
 
@@ -186,16 +190,16 @@
 
     <div class="stories-wrapper" id="stories-container">
         <div class="story-item" onclick="openAddStoryModal()">
-            <div class="story-ring add-story"><div class="story-img" style="background-color: #2a2a30; display:flex; justify-content:center; align-items:center; font-size: 24px; color: var(--text-muted);">+</div></div>
+            <div class="story-ring add-story"><div class="story-img" style="background-color: #2a2a30; display:flex; justify-content:center; align-items:center; color: var(--text-muted);"><span class="material-symbols-outlined" style="font-size: 28px;">add</span></div></div>
             <span class="story-name">Hikaye Ekle</span>
         </div>
     </div>
 
     <div class="categories">
-        <button class="category-btn active">🚗 Araçlar</button>
-        <button class="category-btn">🏠 Emlak</button>
-        <button class="category-btn">⌚ Saat</button>
-        <button class="category-btn">🛥️ Tekne</button>
+        <button class="category-btn active"><span class="material-symbols-outlined" style="font-size: 18px;">directions_car</span> Araçlar</button>
+        <button class="category-btn"><span class="material-symbols-outlined" style="font-size: 18px;">domain</span> Emlak</button>
+        <button class="category-btn"><span class="material-symbols-outlined" style="font-size: 18px;">watch</span> Saat</button>
+        <button class="category-btn"><span class="material-symbols-outlined" style="font-size: 18px;">sailing</span> Tekne</button>
     </div>
 
     <section class="showcase">
@@ -203,11 +207,11 @@
         <div class="grid">
             <div class="card premium" onclick="openDetailModal('static1', 'BMW 420i Cabrio M Sport', '3.250.000 TL', '2022', '15.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?auto=format&fit=crop&w=800&q=80', 'Çağatay Motors')">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?auto=format&fit=crop&w=800&q=80');"><span class="badge premium-badge">PREMIUM</span></div>
-                <div class="card-content"><h3 class="card-title">BMW 420i Cabrio M Sport</h3><div class="card-price">3.250.000 TL</div><div class="card-details"><span>2022</span><span>Çağatay Motors ✓</span></div></div>
+                <div class="card-content"><h3 class="card-title">BMW 420i Cabrio M Sport</h3><div class="card-price">3.250.000 TL</div><div class="card-details"><span>2022</span><span>Çağatay Motors <span class="gold-tick">✓</span></span></div></div>
             </div>
             <div class="card premium" onclick="openDetailModal('static2', 'BMW F30 320i M Sport', '1.850.000 TL', '2018', '65.000', 'Benzin', 'Otomatik', 'https://images.unsplash.com/photo-1556189250-72ba954cfc2b?auto=format&fit=crop&w=800&q=80', 'Çağatay Motors')">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1556189250-72ba954cfc2b?auto=format&fit=crop&w=800&q=80');"><span class="badge premium-badge">PREMIUM</span></div>
-                <div class="card-content"><h3 class="card-title">BMW F30 320i M Sport</h3><div class="card-price">1.850.000 TL</div><div class="card-details"><span>2018</span><span>Çağatay Motors ✓</span></div></div>
+                <div class="card-content"><h3 class="card-title">BMW F30 320i M Sport</h3><div class="card-price">1.850.000 TL</div><div class="card-details"><span>2018</span><span>Çağatay Motors <span class="gold-tick">✓</span></span></div></div>
             </div>
         </div>
 
@@ -216,44 +220,52 @@
     </section>
 
     <nav class="bottom-nav">
-        <button class="nav-icon-btn active" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">🏠</button>
-        <button class="nav-icon-btn" onclick="openMobileSearch()">🔍</button>
-        <button class="nav-icon-btn add-btn" onclick="openAddModal()">+</button>
-        <button class="nav-icon-btn" id="mobile-profile-btn" onclick="openAuthModal('login')">👤</button>
+        <button class="nav-icon-btn active" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+            <span class="material-symbols-outlined">home</span>
+        </button>
+        <button class="nav-icon-btn" onclick="openMobileSearch()">
+            <span class="material-symbols-outlined">search</span>
+        </button>
+        <button class="nav-icon-btn add-btn" onclick="openAddModal()">
+            <span class="material-symbols-outlined">add</span>
+        </button>
+        <button class="nav-icon-btn" id="mobile-profile-btn" onclick="openAuthModal('login')">
+            <span class="material-symbols-outlined">person</span>
+        </button>
     </nav>
 
     <div class="modal-overlay" id="mobileSearchModal">
         <div class="mobile-search-box">
-            <button class="close-btn" onclick="closeMobileSearch()" style="top: -50px; right: 10px;">&times;</button>
+            <button class="close-btn" onclick="closeMobileSearch()" style="top: -50px; right: 10px;"><span class="material-symbols-outlined">close</span></button>
             <h3 style="color: var(--text-light); margin-bottom: 15px; font-weight: 400;">Keşfet</h3>
             <div class="form-group">
                 <input type="text" placeholder="Marka, model, kelime..." style="font-size: 16px; padding: 15px;">
             </div>
-            <button class="btn-premium" style="width: 100%;">Ara</button>
+            <button class="btn-premium" style="width: 100%; justify-content: center;">Ara</button>
         </div>
     </div>
 
     <div class="modal-overlay" id="authModal">
         <div class="auth-box">
-            <button class="close-btn" onclick="closeAuthModal()" style="z-index: 20;">&times;</button>
+            <button class="close-btn" onclick="closeAuthModal()" style="z-index: 20;"><span class="material-symbols-outlined">close</span></button>
             <div class="auth-tabs"><button class="tab-btn active" id="tab-login" onclick="switchAuthTab('login')">Giriş Yap</button><button class="tab-btn" id="tab-register" onclick="switchAuthTab('register')">Kayıt Ol</button></div>
             <div class="auth-form active" id="form-login">
                 <div class="form-group"><input type="email" id="login-email" placeholder="E-posta Adresi"></div>
                 <div class="form-group"><input type="password" id="login-pass" placeholder="Şifre"></div>
-                <button class="btn-premium" id="btn-login" style="width: 100%; border-radius: 10px;">Giriş Yap</button>
+                <button class="btn-premium" id="btn-login" style="width: 100%; border-radius: 10px; justify-content: center;">Giriş Yap</button>
             </div>
             <div class="auth-form" id="form-register">
                 <div class="form-group"><input type="text" id="reg-name" placeholder="Mağaza veya Ad Soyad"></div>
                 <div class="form-group"><input type="email" id="reg-email" placeholder="E-posta Adresi"></div>
                 <div class="form-group"><input type="password" id="reg-pass" placeholder="Şifre Belirleyin"></div>
-                <button class="btn-premium" id="btn-register" style="width: 100%; border-radius: 10px;">Hesap Oluştur</button>
+                <button class="btn-premium" id="btn-register" style="width: 100%; border-radius: 10px; justify-content: center;">Hesap Oluştur</button>
             </div>
         </div>
     </div>
 
     <div class="modal-overlay" id="detailModal">
         <div class="detail-box">
-            <button class="close-btn" onclick="closeDetailModal()" style="z-index: 20; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);">&times;</button>
+            <button class="close-btn" onclick="closeDetailModal()" style="z-index: 20; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);"><span class="material-symbols-outlined">close</span></button>
             <div class="detail-left">
                 <div class="main-photo" id="modalMainImg"></div>
                 <div class="thumbnail-gallery" id="modalThumbnails"></div>
@@ -273,7 +285,7 @@
                         <div><p style="font-weight: bold; font-size: 16px; margin-bottom: 3px;" id="modalSeller">-</p></div>
                         <button class="btn-follow" onclick="toggleFollow(this)">Takip Et</button>
                     </div>
-                    <button id="btn-delete-listing" class="btn-delete-listing">🗑️ Bu İlanı Sil</button>
+                    <button id="btn-delete-listing" class="btn-delete-listing"><span class="material-symbols-outlined" style="font-size: 18px;">delete</span> Bu İlanı Sil</button>
                 </div>
             </div>
         </div>
@@ -281,7 +293,7 @@
 
     <div class="modal-overlay" id="addModal">
         <div class="add-box">
-            <button class="close-btn" onclick="closeAddModal()" style="z-index: 20;">&times;</button>
+            <button class="close-btn" onclick="closeAddModal()" style="z-index: 20;"><span class="material-symbols-outlined">close</span></button>
             <h2 style="color: var(--primary-gold); font-weight: 300; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 20px;">✨ Yeni İlan Oluştur</h2>
             <form>
                 <div class="form-grid-2">
@@ -304,27 +316,26 @@
 
     <div class="modal-overlay" id="addStoryModal">
         <div class="auth-box" style="max-width: 450px;">
-            <button class="close-btn" onclick="closeAddStoryModal()">&times;</button>
+            <button class="close-btn" onclick="closeAddStoryModal()"><span class="material-symbols-outlined">close</span></button>
             <h2 style="color: var(--primary-gold); font-weight: 300; margin-bottom: 20px;">📸 Yeni Hikaye Paylaş</h2>
             <div class="form-group"><label>Hikaye Görseli Linki (URL)</label><input type="text" id="story-img-url" placeholder="Örn: https://images.unsplash.com/..."></div>
-            <button class="btn-premium" id="btn-submit-story" style="width: 100%; border-radius: 10px; margin-top: 10px;">Hikayeyi Yayına Al</button>
+            <button class="btn-premium" id="btn-submit-story" style="width: 100%; border-radius: 10px; margin-top: 10px; justify-content: center;">Hikayeyi Yayına Al</button>
         </div>
     </div>
 
     <div class="modal-overlay" id="viewStoryModal">
         <div class="story-view-box">
-            <button class="story-view-close" onclick="closeViewStoryModal()">&times;</button>
+            <button class="story-view-close" onclick="closeViewStoryModal()"><span class="material-symbols-outlined">close</span></button>
             <div class="story-view-header">
                 <div class="story-view-avatar" id="view-story-avatar"></div>
                 <div class="story-view-username" id="view-story-username">-</div>
             </div>
             <div class="story-view-img" id="view-story-img"></div>
-            <button id="btn-delete-story" class="btn-delete-story">🗑️ Hikayeyi Sil</button>
+            <button id="btn-delete-story" class="btn-delete-story"><span class="material-symbols-outlined" style="font-size: 18px;">delete</span> Hikayeyi Sil</button>
         </div>
     </div>
 
     <script>
-        // Akıllı Üst Menü (Kaydırma Efekti)
         let lastScrollTop = 0;
         const header = document.getElementById('main-header');
         window.addEventListener('scroll', function() {
@@ -334,7 +345,6 @@
             lastScrollTop = scrollTop;
         });
 
-        // Mobil Arama Kontrolü
         window.openMobileSearch = function() { document.getElementById('mobileSearchModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
         window.closeMobileSearch = function() { document.getElementById('mobileSearchModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
 
@@ -410,24 +420,19 @@
         let activeListingId = null;
         let activeStoryId = null;
 
-        // --- AUTH: MASAÜSTÜ VE MOBİL MENÜ KONTROLÜ ---
         onAuthStateChanged(auth, (user) => {
             const navLinks = document.getElementById('main-nav-links');
-            const mobileProfileBtn = document.getElementById('mobile-profile-btn'); // Mobildeki Profil İkonu
+            const mobileProfileBtn = document.getElementById('mobile-profile-btn'); 
             
             if (user) {
-                // Masaüstü
-                navLinks.innerHTML = `<a href="profil.html" style="color: var(--primary-gold); font-weight: 600; font-size: 15px; margin-right: 15px; text-decoration: none;">👤 Profilim (${user.displayName})</a><button class="text-btn" id="btn-logout" style="color: #ff4757;">Çıkış Yap</button><button class="btn-premium" onclick="openAddModal()">+ İlan Ver</button>`;
+                navLinks.innerHTML = `<a href="profil.html" style="color: var(--primary-gold); font-weight: 600; font-size: 15px; margin-right: 15px; text-decoration: none;">👤 Profilim (${user.displayName})</a><button class="text-btn" id="btn-logout" style="color: #ff4757;">Çıkış Yap</button><button class="btn-premium" onclick="openAddModal()"><span class="material-symbols-outlined" style="font-size: 18px;">add</span> İlan Ver</button>`;
                 document.getElementById('btn-logout').addEventListener('click', () => { signOut(auth); });
                 
-                // Mobil
                 mobileProfileBtn.onclick = function() { window.location.href = "profil.html"; };
                 mobileProfileBtn.style.color = "var(--primary-gold)";
             } else {
-                // Masaüstü
-                navLinks.innerHTML = `<button class="text-btn" onclick="openAuthModal('login')">Giriş Yap</button><button class="text-btn" onclick="openAuthModal('register')">Kayıt Ol</button><button class="btn-premium" onclick="openAddModal()">+ İlan Ver</button>`;
+                navLinks.innerHTML = `<button class="text-btn" onclick="openAuthModal('login')">Giriş Yap</button><button class="text-btn" onclick="openAuthModal('register')">Kayıt Ol</button><button class="btn-premium" onclick="openAddModal()"><span class="material-symbols-outlined" style="font-size: 18px;">add</span> İlan Ver</button>`;
                 
-                // Mobil
                 mobileProfileBtn.onclick = function() { window.openAuthModal('login'); };
                 mobileProfileBtn.style.color = "var(--text-muted)";
             }
@@ -443,7 +448,7 @@
             
             const btnDelete = document.getElementById('btn-delete-listing');
             if(auth.currentUser && auth.currentUser.displayName === seller && id !== 'static1' && id !== 'static2') {
-                btnDelete.style.display = 'block'; activeListingId = id;
+                btnDelete.style.display = 'flex'; activeListingId = id;
             } else { btnDelete.style.display = 'none'; activeListingId = null; }
 
             document.getElementById('detailModal').classList.add('active'); document.body.style.overflow = 'hidden';
@@ -457,7 +462,7 @@
                     await deleteDoc(doc(db, "ilanlar", activeListingId));
                     alert("İlan silindi!"); closeDetailModal(); loadListings(); 
                 } catch (error) { alert("Hata: " + error.message); }
-                finally { document.getElementById('btn-delete-listing').innerText = "🗑️ Bu İlanı Sil"; }
+                finally { document.getElementById('btn-delete-listing').innerHTML = '<span class="material-symbols-outlined" style="font-size: 18px;">delete</span> Bu İlanı Sil'; }
             }
         });
 
@@ -468,7 +473,7 @@
             
             const btnDeleteStory = document.getElementById('btn-delete-story');
             if(auth.currentUser && auth.currentUser.displayName === username) {
-                btnDeleteStory.style.display = 'block'; activeStoryId = id;
+                btnDeleteStory.style.display = 'flex'; activeStoryId = id;
             } else { btnDeleteStory.style.display = 'none'; activeStoryId = null; }
 
             document.getElementById('viewStoryModal').classList.add('active'); document.body.style.overflow = 'hidden';
@@ -482,7 +487,7 @@
                     await deleteDoc(doc(db, "hikayeler", activeStoryId));
                     closeViewStoryModal(); loadStories();
                 } catch (error) { alert("Hata: " + error.message); }
-                finally { document.getElementById('btn-delete-story').innerText = "🗑️ Hikayeyi Sil"; }
+                finally { document.getElementById('btn-delete-story').innerHTML = '<span class="material-symbols-outlined" style="font-size: 18px;">delete</span> Hikayeyi Sil'; }
             }
         });
 
@@ -507,7 +512,7 @@
 
         async function loadStories() {
             const storiesContainer = document.getElementById('stories-container');
-            storiesContainer.innerHTML = `<div class="story-item" onclick="openAddStoryModal()"><div class="story-ring add-story"><div class="story-img" style="background-color: #2a2a30; display:flex; justify-content:center; align-items:center; font-size: 24px; color: var(--text-muted);">+</div></div><span class="story-name">Hikaye Ekle</span></div>`;
+            storiesContainer.innerHTML = `<div class="story-item" onclick="openAddStoryModal()"><div class="story-ring add-story"><div class="story-img" style="background-color: #2a2a30; display:flex; justify-content:center; align-items:center; color: var(--text-muted);"><span class="material-symbols-outlined" style="font-size: 28px;">add</span></div></div><span class="story-name">Hikaye Ekle</span></div>`;
             try {
                 const snapshot = await getDocs(query(collection(db, "hikayeler"), orderBy("createdAt", "desc")));
                 snapshot.forEach((doc) => {
