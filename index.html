@@ -6,210 +6,113 @@
     <title>Premium İlan Platformu</title>
     <style>
         /* --- Temel Ayarlar ve Renk Paleti --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         :root {
             --bg-dark: #0a0a0c;
             --surface: #1a1a1f;
-            --primary-gold: #d4af37; /* Lüks hissiyat için altın/bronz */
+            --primary-gold: #d4af37;
             --text-light: #f5f5f7;
             --text-muted: #8e8e93;
             --glass-bg: rgba(26, 26, 31, 0.7);
         }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            overflow-x: hidden;
-        }
+        body { background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; }
 
         /* --- Üst Menü (Navbar) --- */
         header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 20px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px); /* Cam efekti */
-            -webkit-backdrop-filter: blur(12px);
-            z-index: 100;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            position: fixed; top: 0; width: 100%; padding: 20px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            z-index: 100; border-bottom: 1px solid rgba(212, 175, 55, 0.1);
         }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            color: var(--primary-gold);
-            text-decoration: none;
-        }
-
+        .logo { font-size: 24px; font-weight: bold; letter-spacing: 2px; color: var(--primary-gold); text-decoration: none; }
         .nav-links button {
-            background: transparent;
-            border: none;
-            color: var(--text-light);
-            margin-left: 25px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: color 0.3s ease;
+            background: transparent; border: none; color: var(--text-light);
+            margin-left: 25px; font-size: 14px; cursor: pointer; transition: color 0.3s ease;
         }
-
-        .nav-links button:hover {
-            color: var(--primary-gold);
-        }
-
+        .nav-links button:hover { color: var(--primary-gold); }
         .btn-premium {
-            background: linear-gradient(45deg, #d4af37, #aa8529);
-            color: #000 !important;
-            padding: 10px 24px;
-            border-radius: 30px;
-            font-weight: 600;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: linear-gradient(45deg, #d4af37, #aa8529); color: #000 !important;
+            padding: 10px 24px; border-radius: 30px; font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer;
         }
-
-        .btn-premium:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
-        }
+        .btn-premium:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3); }
 
         /* --- Karşılama Ekranı (Hero Section) --- */
         .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: radial-gradient(circle at center, #1a1a1f 0%, #0a0a0c 100%);
-            padding: 0 20px;
+            height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; background: radial-gradient(circle at center, #1a1a1f 0%, #0a0a0c 100%);
+            padding: 0 20px; margin-top: 50px;
         }
-
-        .hero h1 {
-            font-size: 4rem;
-            font-weight: 300;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
-        }
-
-        .hero h1 span {
-            color: var(--primary-gold);
-            font-weight: 600;
-        }
-
+        .hero h1 { font-size: 3.5rem; font-weight: 300; margin-bottom: 20px; letter-spacing: 1px; }
+        .hero h1 span { color: var(--primary-gold); font-weight: 600; }
         .search-box {
-            margin-top: 40px;
-            display: flex;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 8px;
-            border-radius: 50px;
-            width: 100%;
-            max-width: 650px;
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
+            margin-top: 30px; display: flex; background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1); padding: 8px; border-radius: 50px;
+            width: 100%; max-width: 650px; backdrop-filter: blur(5px); transition: all 0.3s ease;
+        }
+        .search-box input { flex: 1; background: transparent; border: none; color: white; padding: 12px 20px; font-size: 16px; outline: none; }
+        .search-box input::placeholder { color: var(--text-muted); }
+
+        /* --- Kategoriler --- */
+        .categories {
+            display: flex; justify-content: center; gap: 15px; padding: 30px 5%;
+            overflow-x: auto; white-space: nowrap; margin-bottom: 20px;
+        }
+        .categories::-webkit-scrollbar { display: none; }
+        .category-btn {
+            background: var(--surface); border: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-light); padding: 12px 25px; border-radius: 30px;
+            font-size: 14px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px;
+        }
+        .category-btn:hover, .category-btn.active {
+            background: rgba(212, 175, 55, 0.1); border-color: var(--primary-gold); color: var(--primary-gold);
         }
 
-        .search-box input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: white;
-            padding: 12px 20px;
-            font-size: 16px;
-            outline: none;
-        }
-
-        .search-box input::placeholder {
-            color: var(--text-muted);
-        }
-
-        /* --- Vitrin İlanları (Cards) --- */
-        .showcase {
-            padding: 100px 5%;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            margin-bottom: 40px;
-            border-left: 4px solid var(--primary-gold);
-            padding-left: 15px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-        }
-
+        /* --- Vitrin İlanları --- */
+        .showcase { padding: 20px 5% 100px; }
+        .section-title { font-size: 2rem; margin-bottom: 40px; border-left: 4px solid var(--primary-gold); padding-left: 15px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
         .card {
-            background: var(--surface);
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
-            cursor: pointer;
+            background: var(--surface); border-radius: 16px; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05); transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease; cursor: pointer;
         }
-
-        .card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(212, 175, 55, 0.4);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-        }
-
-        .card-img {
-            height: 220px;
-            background-color: #2a2a30;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-        }
-
+        .card:hover { transform: translateY(-10px); border-color: rgba(212, 175, 55, 0.4); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+        .card-img { height: 220px; background-color: #2a2a30; background-size: cover; background-position: center; position: relative; }
         .badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: var(--primary-gold);
-            color: #000;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: bold;
-            letter-spacing: 1px;
+            position: absolute; top: 15px; right: 15px; background: var(--primary-gold);
+            color: #000; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; letter-spacing: 1px;
         }
+        .card-content { padding: 24px; }
+        .card-title { font-size: 1.25rem; margin-bottom: 12px; font-weight: 500; }
+        .card-price { color: var(--primary-gold); font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; }
+        .card-details { display: flex; justify-content: space-between; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; }
 
-        .card-content {
-            padding: 24px;
+        /* --- Açılır Pencere (Modal) --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px);
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; visibility: hidden; transition: all 0.4s ease; z-index: 1000;
         }
-
-        .card-title {
-            font-size: 1.25rem;
-            margin-bottom: 12px;
-            font-weight: 500;
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-box {
+            background: var(--surface); border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 40px; border-radius: 20px; width: 100%; max-width: 400px;
+            transform: translateY(30px); transition: all 0.4s ease; box-shadow: 0 25px 50px rgba(0,0,0,0.5);
         }
-
-        .card-price {
-            color: var(--primary-gold);
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 20px;
+        .modal-overlay.active .modal-box { transform: translateY(0); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .modal-header h2 { color: var(--text-light); font-weight: 400; }
+        .close-btn { background: transparent; border: none; color: var(--text-muted); font-size: 24px; cursor: pointer; transition: color 0.3s; }
+        .close-btn:hover { color: var(--primary-gold); }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 14px; }
+        .form-group input {
+            width: 100%; padding: 12px 15px; background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; outline: none; transition: border 0.3s;
         }
-
-        .card-details {
-            display: flex;
-            justify-content: space-between;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            padding-top: 15px;
-        }
+        .form-group input:focus { border-color: var(--primary-gold); }
+        .btn-full { width: 100%; margin-top: 10px; padding: 14px; font-size: 16px; }
     </style>
 </head>
 <body>
@@ -217,7 +120,7 @@
     <header>
         <a href="#" class="logo">ELITE VİTRİN</a>
         <div class="nav-links">
-            <button>Giriş Yap</button>
+            <button id="loginBtn">Giriş Yap</button>
             <button>Kayıt Ol</button>
             <button class="btn-premium">+ İlan Ver</button>
         </div>
@@ -232,6 +135,14 @@
             <button class="btn-premium" style="border: none; padding: 10px 35px; border-radius: 40px;">Ara</button>
         </div>
     </section>
+
+    <div class="categories">
+        <button class="category-btn active">🚗 Premium Araçlar</button>
+        <button class="category-btn">🏠 Lüks Emlak</button>
+        <button class="category-btn">⌚ Saat & Mücevher</button>
+        <button class="category-btn">🛥️ Yat & Tekne</button>
+        <button class="category-btn">🖼️ Sanat & Koleksiyon</button>
+    </div>
 
     <section class="showcase">
         <h2 class="section-title">Günün Öne Çıkanları</h2>
@@ -253,6 +164,20 @@
             </div>
 
             <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1556189250-72ba954cfc2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">BMW F30 320i M Sport</h3>
+                    <div class="card-price">1.850.000 TL</div>
+                    <div class="card-details">
+                        <span>2018</span>
+                        <span>65.000 km</span>
+                        <span>Ankara</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
                 <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                 </div>
                 <div class="card-content">
@@ -266,36 +191,72 @@
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1601158935942-52255782d322?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">Rolex Submariner Date</h3>
-                    <div class="card-price">485.000 TL</div>
-                    <div class="card-details">
-                        <span>2023</span>
-                        <span>Kutusunda</span>
-                        <span>İzmir</span>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </section>
 
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2>Giriş Yap</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <form>
+                <div class="form-group">
+                    <label>E-posta Adresi</label>
+                    <input type="email" placeholder="ornek@mail.com">
+                </div>
+                <div class="form-group">
+                    <label>Şifre</label>
+                    <input type="password" placeholder="••••••••">
+                </div>
+                <button type="button" class="btn-premium btn-full">Giriş Yap</button>
+                <p style="text-align: center; margin-top: 20px; font-size: 13px; color: var(--text-muted);">
+                    Hesabın yok mu? <a href="#" style="color: var(--primary-gold); text-decoration: none;">Hemen Kayıt Ol</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
     <script>
-        // Arama kutusuna tıklandığında altın rengi parlama efekti
+        // Arama kutusu efekti
         const searchInput = document.querySelector('.search-box input');
         const searchBox = document.querySelector('.search-box');
-
         searchInput.addEventListener('focus', () => {
             searchBox.style.borderColor = 'var(--primary-gold)';
             searchBox.style.boxShadow = '0 0 20px rgba(212, 175, 55, 0.15)';
         });
-
         searchInput.addEventListener('blur', () => {
             searchBox.style.borderColor = 'rgba(255,255,255,0.1)';
             searchBox.style.boxShadow = 'none';
+        });
+
+        // Kategori Seçim Efekti
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Modal (Giriş Penceresi) Kontrolleri
+        const loginBtn = document.getElementById('loginBtn');
+        const loginModal = document.getElementById('loginModal');
+        const closeModal = document.getElementById('closeModal');
+
+        loginBtn.addEventListener('click', () => {
+            loginModal.classList.add('active');
+        });
+
+        closeModal.addEventListener('click', () => {
+            loginModal.classList.remove('active');
+        });
+
+        // Modal dışına tıklayınca kapatma
+        loginModal.addEventListener('click', (e) => {
+            if(e.target === loginModal) {
+                loginModal.classList.remove('active');
+            }
         });
     </script>
 </body>
