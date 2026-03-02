@@ -13,8 +13,7 @@
         .ambient-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
         .ambient-blob-1 { position: absolute; top: -10%; left: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, transparent 70%); border-radius: 50%; filter: blur(60px); animation: float1 20s infinite alternate ease-in-out; }
         .ambient-blob-2 { position: absolute; bottom: 10%; right: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(255,48,64,0.1) 0%, transparent 70%); border-radius: 50%; filter: blur(60px); animation: float2 25s infinite alternate ease-in-out; }
-        @keyframes float1 { 100% { transform: translate(10vw, 10vh); } }
-        @keyframes float2 { 100% { transform: translate(-10vw, -10vh); } }
+        @keyframes float1 { 100% { transform: translate(10vw, 10vh); } } @keyframes float2 { 100% { transform: translate(-10vw, -10vh); } }
 
         header { position: sticky; top: 0; width: 100%; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: rgba(10, 10, 12, 0.6); backdrop-filter: blur(24px); z-index: 100; border-bottom: var(--glass-border); }
         .header-username { font-size: 20px; font-weight: 700; color: var(--text-light); display: flex; align-items:center; gap:8px;}
@@ -40,6 +39,7 @@
         .nav-icon-btn .material-symbols-outlined { font-size: 30px; }
         .nav-icon-btn.active { color: var(--text-light); }
         .nav-icon-btn.add-btn { background: linear-gradient(135deg, #d4af37, #aa8529); color: #000; width: 44px; height: 44px; border-radius: 12px; display: flex; justify-content: center; align-items: center;}
+        .nav-icon-btn.add-btn .material-symbols-outlined { color: #000; font-weight: 600; font-size: 28px;}
 
         /* MODALLAR */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1500; padding: 15px; }
@@ -51,7 +51,7 @@
         .sheet-header { padding: 20px; border-bottom: var(--glass-border); display: flex; align-items: center; gap: 15px; font-size: 16px; font-weight: 600;}
         .list-item { display: flex; align-items: center; gap: 15px; padding: 18px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; font-size: 16px; font-weight: 500;}
 
-        /* AUTH (KAYIT OL EKLENDI) */
+        /* AUTH EKRANI */
         .glass-box { background: rgba(25, 25, 30, 0.4); backdrop-filter: blur(30px); border: var(--glass-border); border-radius: 24px; padding: 30px; width: 100%; max-width: 400px; transform: scale(0.95); transition: 0.3s ease;}
         .modal-overlay.active .glass-box { transform: scale(1); }
         .auth-tabs { display: flex; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
@@ -171,9 +171,7 @@
         
         window.switchAuthTab = function(tab) {
             document.getElementById('tab-login').classList.remove('active'); document.getElementById('tab-register').classList.remove('active');
-            document.getElementById('tab-' + tab).classList.add('active');
-            document.getElementById('form-login').classList.remove('active'); document.getElementById('form-register').classList.remove('active');
-            document.getElementById('form-' + tab).classList.add('active');
+            document.getElementById('tab-' + tab).classList.add('active'); document.getElementById('form-login').classList.remove('active'); document.getElementById('form-register').classList.remove('active'); document.getElementById('form-' + tab).classList.add('active');
         }
 
         document.querySelectorAll('.modal-overlay').forEach(m => { 
@@ -240,7 +238,6 @@
             myPosts.forEach(doc => { grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${doc.imageUrl}');"></div>`); });
         }
 
-        // PROFİL DÜZENLEME (14 Gün)
         document.getElementById('btn-save-profile').addEventListener('click', async () => {
             if(!currentUserId) return; const btn = document.getElementById('btn-save-profile'); btn.innerText = "Kaydediliyor...";
             const newUsername = document.getElementById('edit-username').value.trim(); const avatar = document.getElementById('edit-avatar').value; const bio = document.getElementById('edit-bio').value;
@@ -259,7 +256,6 @@
             } catch (error) { alert("Hata: " + error.message); btn.innerText = "Kaydet"; }
         });
 
-        // ARAMA VE REELS
         window.renderExploreGrid = function() {
             const filterText = document.getElementById('search-input').value.toLowerCase();
             const grid = document.getElementById('explore-grid'); grid.innerHTML = '';
