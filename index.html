@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Swinder - Lüks Arkadaşlık & Sosyal Ağ</title>
     
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#050505">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Swinder">
+    <link rel="apple-touch-icon" href="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=192&h=192&auto=format&fit=crop">
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" />
     <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
 
     <style>
-        /* --- TEMEL & GLASSMORPHISM --- */
+        /* TEMEL AYARLAR */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; touch-action: pan-y; }
         :root { --primary-gold: #d4af37; --gold-hover: #f3e5ab; --text-light: #f5f5f7; --text-muted: rgba(255,255,255,0.6); --glass-bg: rgba(20, 20, 25, 0.45); --glass-border: 1px solid rgba(255, 255, 255, 0.08); --glass-blur: blur(24px); --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
         body { background: #050505; color: var(--text-light); overflow: hidden; }
@@ -19,8 +26,7 @@
         .ambient-blob-2 { position: absolute; bottom: 10%; right: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(255,48,64,0.1) 0%, transparent 70%); border-radius: 50%; filter: blur(60px); animation: float2 25s infinite alternate ease-in-out; }
         @keyframes float1 { 100% { transform: translate(10vw, 10vh); } } @keyframes float2 { 100% { transform: translate(-10vw, -10vh); } }
 
-        /* ÜST MENÜ */
-        header { position: fixed; top: 0; left: 0; width: 100%; padding: 10px 20px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; background: rgba(10, 10, 12, 0.6); backdrop-filter: var(--glass-blur); z-index: 100; border-bottom: var(--glass-border); }
+        header { position: fixed; top: 0; left: 0; width: 100%; padding: 10px 20px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; background: rgba(10, 10, 12, 0.6); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); z-index: 100; border-bottom: var(--glass-border); padding-top: calc(10px + env(safe-area-inset-top)); }
         .header-left { display: flex; justify-content: flex-start; position: relative;}
         .header-right { display: flex; justify-content: flex-end; }
         .logo { font-family: 'Grand Hotel', cursive; font-size: 36px; color: var(--text-light); text-decoration: none; text-shadow: 0 2px 10px rgba(255,255,255,0.2); justify-self: center; letter-spacing: 1px;}
@@ -28,7 +34,7 @@
         .notification-dot { position: absolute; top: 0; right: 0; width: 10px; height: 10px; background: #ff3040; border-radius: 50%; display: none; box-shadow: 0 0 8px rgba(255,48,64,0.8);}
 
         /* HİKAYELER */
-        .stories-wrapper { position: absolute; top: 65px; left: 0; width: 100%; padding: 10px 5%; display: flex; gap: 15px; overflow-x: auto; scroll-behavior: smooth; z-index: 50; }
+        .stories-wrapper { position: absolute; top: calc(65px + env(safe-area-inset-top)); left: 0; width: 100%; padding: 10px 5%; display: flex; gap: 15px; overflow-x: auto; scroll-behavior: smooth; z-index: 50; }
         .stories-wrapper::-webkit-scrollbar { display: none; }
         .story-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; flex-shrink: 0; }
         .story-ring { width: 65px; height: 65px; border-radius: 50%; padding: 2px; background: linear-gradient(45deg, #d4af37, #aa8529, #f3e5ab); display: flex; justify-content: center; align-items: center; }
@@ -36,7 +42,7 @@
         .story-name { font-size: 11px; color: var(--text-light); font-weight: 500;}
 
         /* SWIPE TINDER KARTLARI */
-        .swipe-container { position: absolute; top: 165px; bottom: 150px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 400px; display: flex; justify-content: center; align-items: center; perspective: 1000px; }
+        .swipe-container { position: absolute; top: calc(165px + env(safe-area-inset-top)); bottom: 150px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 400px; display: flex; justify-content: center; align-items: center; perspective: 1000px; }
         .swipe-card { position: absolute; width: 92%; height: 95%; background: var(--glass-bg); backdrop-filter: blur(30px); border: var(--glass-border); border-radius: 24px; box-shadow: var(--glass-shadow); overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; transform-origin: 50% 100%; transition: transform 0.3s ease, opacity 0.3s ease; cursor: grab; z-index: 1; user-select: none;}
         .swipe-card.moving { transition: none; cursor: grabbing; }
         .swipe-card.removed { pointer-events: none; } 
@@ -47,6 +53,8 @@
         .stamp-nope { left: 30px; color: #ff4757; border-color: #ff4757; transform: rotate(-15deg); }
         .card-info { position: relative; z-index: 2; padding: 20px; width: 100%; display: flex; justify-content: space-between; align-items: flex-end;}
         .card-name { font-size: 28px; font-weight: 700; color: white; display: flex; align-items: center; gap: 8px;}
+        .card-age { font-weight: 400; font-size: 24px; opacity: 0.9;}
+        .card-bio { font-size: 15px; color: rgba(255,255,255,0.8); margin-top: 5px;}
         .gold-tick { width: 14px; height: 14px; background: var(--primary-gold); border-radius: 50%; color: #000; font-size: 10px; font-weight: bold; display: flex; justify-content: center; align-items: center;}
         
         .empty-state { position: absolute; text-align: center; color: var(--text-muted); font-size: 16px; display: flex; flex-direction: column; align-items: center; gap: 15px; z-index: 0;}
@@ -64,9 +72,9 @@
         .nav-icon-btn .material-symbols-outlined { font-size: 30px; }
         .nav-icon-btn.active { color: var(--text-light); }
         .nav-icon-btn.add-btn { background: linear-gradient(135deg, #d4af37, #aa8529); color: #000; width: 44px; height: 44px; border-radius: 12px; display: flex; justify-content: center; align-items: center;}
-        .nav-icon-btn.add-btn .material-symbols-outlined { color: #000; font-weight: 600; font-size: 28px;}
+        .nav-icon-btn.add-btn .material-symbols-outlined { color: #000; font-weight: 600;}
 
-        /* MODALLAR & CAM KUTULAR */
+        /* MODALLAR VE CAM KUTULAR */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1500; padding: 15px; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 50; display: flex; align-items: center; justify-content: center;}
@@ -77,17 +85,18 @@
         .form-group { margin-bottom: 15px; text-align: left; width: 100%;}
         .form-group input, .form-group textarea { width: 100%; padding: 14px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; outline: none; font-size: 14px; font-family: inherit;}
         .form-group input:focus, .form-group textarea:focus { border-color: var(--primary-gold); background: rgba(0,0,0,0.8);}
-        .btn-premium { background: var(--primary-gold); color: #000; padding: 14px; border-radius: 12px; font-weight: 700; width: 100%; border: none; cursor: pointer; font-size: 15px; transition: 0.3s;}
+        .btn-premium { background: var(--primary-gold); color: #000; padding: 14px; border-radius: 12px; font-weight: 700; width: 100%; border: none; cursor: pointer; font-size: 15px;}
 
         /* AŞAĞIDAN AÇILAN EKRANLAR */
         .bottom-sheet { background: var(--bg-dark); width: 100%; height: 90vh; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.4s; display: flex; flex-direction: column; overflow: hidden;}
         .modal-overlay.active .bottom-sheet { transform: translateY(0); }
         .sheet-header { padding: 20px; border-bottom: var(--glass-border); display: flex; align-items: center; gap: 15px; font-size: 16px; font-weight: 600; z-index: 10; background: rgba(10,10,12,0.9);}
+        
         .list-item { display: flex; align-items: center; gap: 15px; padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer;}
         .list-avatar { width: 48px; height: 48px; border-radius: 50%; background: #222; background-size: cover; background-position: center; flex-shrink: 0;}
         .list-text { flex: 1; font-size: 14px; line-height: 1.4;}
 
-        /* 🔥 ORİJİNAL BOYUT (ASPECT RATIO) KORUYUCU 🔥 */
+        /* ORİJİNAL BOYUT (ASPECT RATIO) KORUYUCU */
         .media-blur-bg { position: absolute; top: -10%; left: -10%; width: 120%; height: 120%; background-size: cover; background-position: center; filter: blur(35px) brightness(0.3); z-index: 0; }
         .media-contain-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: contain; background-repeat: no-repeat; background-position: center; z-index: 1; }
 
@@ -102,12 +111,11 @@
         .reel-user { display: flex; align-items: center; gap: 10px; color: white; font-weight: 600; font-size: 15px; margin-bottom: 12px; cursor: pointer; text-shadow: 0 2px 4px rgba(0,0,0,0.8);}
         .reel-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center;}
         
-        .btn-follow { background: var(--primary-gold); border: none; color: black; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-left: 5px; cursor: pointer; transition: 0.3s;}
-        .btn-follow.following { background: rgba(255,255,255,0.2); color: white;}
+        .btn-follow { background: transparent; border: 1px solid white; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-left: 5px; cursor: pointer; transition: 0.3s;}
+        .btn-follow.following { background: rgba(255,255,255,0.2); border-color: transparent;}
         
         .reel-actions { display: flex; flex-direction: column; gap: 20px; align-items: center; padding-bottom: 15px;}
         .reel-action-btn { background: none; border: none; color: white; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));}
-        .reel-action-btn .material-symbols-outlined { font-size: 34px; transition: 0.2s;}
         .reel-action-btn.liked .material-symbols-outlined { color: #ff3040; font-variation-settings: 'FILL' 1; }
 
         /* KEŞFET KISMI & KULLANICI ARAMA */
@@ -116,29 +124,34 @@
         .grid-view { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; overflow-y: auto; flex: 1; align-content: start;}
         .grid-item { aspect-ratio: 1 / 1; background-size: cover; background-position: center; cursor: pointer; transition: 0.3s;}
 
-        /* 🔥 GELİŞMİŞ KULLANICI PROFİLİ MODALI (Instagram Tarzı) 🔥 */
-        .profile-header-top { display: flex; align-items: center; justify-content: space-between; padding: 15px 20px 5px; }
-        .profile-ring { width: 80px; height: 80px; border-radius: 50%; padding: 3px; background: linear-gradient(45deg, #d4af37, #aa8529, #f3e5ab); }
-        .profile-avatar { width: 100%; height: 100%; border-radius: 50%; border: 3px solid #050505; background-size: cover; background-position: center; }
-        .profile-stats { display: flex; gap: 15px; flex: 1; justify-content: space-evenly; margin-left: 15px; }
-        .stat-item { display: flex; flex-direction: column; align-items: center; color: var(--text-light); font-size: 13px; }
-        .stat-item span { font-weight: 700; font-size: 18px; margin-bottom: 2px; }
+        /* KULLANICI PROFİLİ GÖRÜNTÜLEME (Instagram Tarzı) */
+        .user-profile-header { display: flex; align-items: center; gap: 20px; padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.05);}
+        .up-avatar { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center; flex-shrink: 0;}
+        .up-info { flex: 1;}
+        .up-name { font-size: 20px; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 5px;}
+        .profile-stats-header { display: flex; justify-content: space-around; width: 100%; margin-bottom: 15px;}
+        .ps-item { text-align: center; font-size: 13px; color: var(--text-light); }
+        .ps-item span { display: block; font-size: 18px; font-weight: bold; }
 
-        /* GÖNDERİ DETAY MODALI (Edit & Delete) */
+        /* GÖNDERİ DETAY MODALI */
         .post-detail-box { background: var(--bg-dark); width: 100%; height: 90vh; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.4s; display: flex; flex-direction: column; overflow: hidden; }
         .modal-overlay.active .post-detail-box { transform: translateY(0); }
         .post-detail-img-container { position: relative; width: 100%; aspect-ratio: 4/5; background: black; overflow: hidden; border-bottom: var(--glass-border);}
         
+        /* CHAT EKRANI */
         .chat-area { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #050505;}
         .chat-msg { display: flex; flex-direction: column; max-width: 80%; }
         .chat-msg.mine { align-self: flex-end; align-items: flex-end; }
         .chat-msg.theirs { align-self: flex-start; align-items: flex-start; }
         .chat-bubble { padding: 12px 16px; border-radius: 20px; font-size: 14px; line-height: 1.4; word-break: break-word;}
-        .chat-msg.mine .chat-bubble { background: linear-gradient(135deg, #d4af37, #aa8529); color: #000; border-bottom-right-radius: 4px;}
+        .chat-msg.mine .chat-bubble { background: linear-gradient(135deg, #d4af37, #aa8529); color: #000; border-bottom-right-radius: 4px; box-shadow: 0 4px 10px rgba(212,175,55,0.2);}
         .chat-msg.theirs .chat-bubble { background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; border-bottom-left-radius: 4px;}
+        .chat-time { font-size: 10px; color: gray; margin-top: 4px; }
         .chat-input-container { padding: 15px 20px; background: rgba(20,20,25,0.9); border-top: var(--glass-border); display: flex; gap: 10px; align-items: center;}
         .chat-input { flex: 1; background: rgba(255,255,255,0.1); border: none; color: white; padding: 14px 20px; border-radius: 30px; outline: none;}
+        .chat-send-btn { background: var(--primary-gold); width: 45px; height: 45px; border-radius: 50%; border: none; display: flex; justify-content: center; align-items: center; color: black; cursor: pointer;}
 
+        /* MATCH (EŞLEŞME) */
         .match-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: 0.5s ease;}
         .match-overlay.active { opacity: 1; visibility: visible; }
         .match-title { font-family: 'Grand Hotel', cursive; font-size: 60px; color: var(--primary-gold); margin-bottom: 40px; transform: scale(0.5); opacity: 0; transition: 0.5s; }
@@ -149,6 +162,7 @@
         .match-overlay.active .m-avatar { transform: translateX(0); opacity: 1; }
         .btn-msg { background: linear-gradient(135deg, #d4af37, #aa8529); color: black; padding: 15px 30px; border-radius: 30px; font-weight: 700; border: none; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;}
 
+        /* AUTH SEKMELERİ */
         .auth-tabs { display: flex; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .tab-btn { flex: 1; background: none; border: none; color: var(--text-muted); padding: 10px; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 15px; }
         .tab-btn.active { color: var(--primary-gold); border-bottom: 2px solid var(--primary-gold); }
@@ -169,20 +183,21 @@
     <div class="ambient-bg"><div class="ambient-blob-1"></div><div class="ambient-blob-2"></div></div>
 
     <header>
-        <div class="header-left"><button class="header-icon" onclick="openNotifications()"><span class="material-symbols-outlined">favorite</span><span class="notification-dot" id="noti-dot"></span></button></div>
+        <div class="header-left">
+            <button class="header-icon" onclick="openNotifications()">
+                <span class="material-symbols-outlined">favorite</span>
+                <span class="notification-dot" id="noti-dot"></span>
+            </button>
+        </div>
         <a href="index.html" class="logo">Swinder</a>
-        <div class="header-right"><button class="header-icon" onclick="openMessages()"><span class="material-symbols-outlined">send</span></button></div>
+        <div class="header-right">
+            <button class="header-icon" onclick="openMessages()"><span class="material-symbols-outlined">send</span></button>
+        </div>
     </header>
 
     <div class="stories-wrapper" id="stories-container"></div>
 
-    <div class="swipe-container" id="swipe-container">
-        <div class="empty-state" id="empty-state" style="display: none;">
-            <span class="material-symbols-outlined">radar</span>
-            <p>Yakınlarda kimse kalmadı.</p>
-            <button class="btn-reset-swipes" onclick="resetSwipes()">Tüm Kaydırmaları Sıfırla</button>
-        </div>
-    </div>
+    <div class="swipe-container" id="swipe-container"><div class="empty-state" id="empty-state" style="display: none;"><span class="material-symbols-outlined">radar</span><p>Yakınlarda yeni kimse yok.</p><button class="btn-reset-swipes" onclick="resetSwipes()">Test İçin Sıfırla</button></div></div>
 
     <div class="action-buttons">
         <button class="action-btn btn-dislike" onclick="buttonSwipe('left')"><span class="material-symbols-outlined">close</span></button>
@@ -211,15 +226,15 @@
                 <button class="btn-premium" id="btn-login">Oturum Aç</button>
             </div>
             <div class="auth-form" id="form-register">
-                <div class="form-group"><input type="text" id="reg-name" placeholder="Kullanıcı Adı"></div>
+                <div class="form-group"><input type="text" id="reg-name" placeholder="Kullanıcı Adı (Benzersiz)"></div>
                 <div class="form-group"><input type="email" id="reg-email" placeholder="E-posta Adresi"></div>
-                <div class="form-group"><input type="password" id="reg-pass" placeholder="Şifre"></div>
+                <div class="form-group"><input type="password" id="reg-pass" placeholder="Şifre Belirleyin"></div>
                 <button class="btn-premium" id="btn-register">Hesap Oluştur</button>
             </div>
         </div>
     </div>
 
-    <div class="modal-overlay" id="messagesModal"><div class="bottom-sheet"><div class="sheet-header"><button class="header-icon" onclick="closeModal('messagesModal')"><span class="material-symbols-outlined">arrow_back</span></button>Mesajlar</div><div style="flex:1; overflow-y:auto;" id="dm-list-container"><div style="text-align:center; padding:40px; color:gray;">Yükleniyor...</div></div></div></div>
+    <div class="modal-overlay" id="messagesModal"><div class="bottom-sheet"><div class="sheet-header"><button class="header-icon" onclick="closeModal('messagesModal')"><span class="material-symbols-outlined">arrow_back</span></button>Mesajlar</div><div style="flex:1; overflow-y:auto;" id="dm-list-container"><div style="text-align:center; padding:40px; color:gray;">Sohbetler yükleniyor...</div></div></div></div>
     
     <div class="modal-overlay" id="chatRoomModal" style="z-index: 1600;"><div class="bottom-sheet" style="height: 100dvh; border-radius: 0;"><div class="sheet-header"><button class="header-icon" onclick="closeModal('chatRoomModal'); openMessages();"><span class="material-symbols-outlined">arrow_back</span></button><div style="display:flex; align-items:center; gap:10px;"><div id="chat-header-avatar" style="width:36px; height:36px; border-radius:50%; background-size:cover; border:2px solid var(--primary-gold);"></div><span id="chat-header-name">Kullanıcı</span></div><button class="header-icon" style="margin-left:auto; color:#ff4757;" onclick="deleteChatRoom()"><span class="material-symbols-outlined">delete</span></button></div><div class="chat-area" id="chat-messages"></div><div class="chat-input-container"><input type="text" id="chat-input" class="chat-input" placeholder="Mesaj yaz..." onkeypress="if(event.key === 'Enter') sendChatMessage()"><button class="chat-send-btn" onclick="sendChatMessage()"><span class="material-symbols-outlined">send</span></button></div></div></div>
     
@@ -240,23 +255,22 @@
         <div class="bottom-sheet">
             <div class="sheet-header">
                 <button class="header-icon" onclick="closeModal('userProfileModal')"><span class="material-symbols-outlined">arrow_back</span></button>
-                <span id="up-title">Profil</span>
+                <span id="up-title" style="font-weight:bold;">Profil</span>
             </div>
-            <div class="profile-header-top" style="padding: 15px 20px 5px;">
-                <div class="profile-ring"><div class="profile-avatar" id="up-avatar" style="width: 75px; height: 75px; border-radius:50%; background-size:cover; border:2px solid #000;"></div></div>
-                <div class="profile-stats">
-                    <div class="stat-item"><span id="up-post-count">0</span>Gönderi</div>
-                    <div class="stat-item"><span id="up-follower-count">0</span>Takipçi</div>
-                    <div class="stat-item"><span id="up-following-count">0</span>Takip</div>
+            <div style="padding: 20px 20px 10px; display:flex; align-items:center;">
+                <div class="up-avatar" id="up-avatar" style="width: 80px; height: 80px; border-radius:50%; background-size:cover; border:2px solid var(--primary-gold); flex-shrink:0;"></div>
+                <div class="profile-stats-header">
+                    <div class="ps-item"><span id="up-post-count">0</span>Gönderi</div>
+                    <div class="ps-item"><span id="up-follower-count">0</span>Takipçi</div>
+                    <div class="ps-item"><span id="up-following-count">0</span>Takip</div>
                 </div>
             </div>
-            <div class="profile-bio" style="padding: 0 20px; margin-bottom: 10px;">
+            <div style="padding: 0 20px 15px;">
                 <strong id="up-name" style="font-size: 16px; color: white;">-</strong><br>
-                <span id="up-bio" style="color:gray; font-size: 14px;">-</span>
+                <span id="up-bio" style="color:gray; font-size: 14px; line-height:1.4;">-</span>
             </div>
-            <div style="padding: 0 20px 15px; display: flex; gap: 10px;">
-                <button id="btn-follow-user" class="btn-follow" style="flex: 1; padding: 10px; font-size: 14px; border-radius: 8px; background: var(--primary-gold); color: black; border: none; font-weight: bold;" onclick="toggleFollowDB(this)">Takip Et</button>
-                <button class="btn-premium" style="flex: 1; padding: 10px; font-size: 14px; border-radius: 8px; background: rgba(255,255,255,0.1); color: white;" onclick="alert('Eşleşme olmadan doğrudan mesaj atılamaz.')">Mesaj At</button>
+            <div style="padding: 0 20px 20px; display: flex; gap: 10px;">
+                <button id="btn-follow-user" class="btn-follow" style="flex: 1; padding: 10px; font-size: 14px; border-radius: 8px; background: var(--primary-gold); color: black; border: none; font-weight: bold; cursor: pointer;" onclick="toggleFollowDB(this)">Takip Et</button>
             </div>
             <div class="grid-view" id="up-grid" style="border-top: var(--glass-border); padding-top: 2px;"></div>
         </div>
@@ -282,7 +296,7 @@
                         <button class="header-icon" onclick="openCommentsDB()"><span class="material-symbols-outlined">chat_bubble</span></button>
                     </div>
                     <div style="font-weight:600; margin-bottom:10px;"><span id="pd-likes">0</span> beğenme</div>
-                    <div style="font-size: 14px;"><strong id="pd-user" style="margin-right:5px;">-</strong><span id="pd-caption" style="color:rgba(255,255,255,0.8);">-</span></div>
+                    <div style="font-size: 14px;"><strong id="pd-user" style="margin-right:5px; cursor:pointer;" onclick="openUserProfile(this.innerText)">-</strong><span id="pd-caption" style="color:rgba(255,255,255,0.8);">-</span></div>
                 </div>
             </div>
         </div>
@@ -292,8 +306,7 @@
     
     <div class="modal-overlay" id="addStoryModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addStoryModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color:white; font-size:18px; text-align:center; margin-bottom:20px;">Hikayene Ekle</h2><div class="form-group"><input type="text" id="story-img-url" placeholder="Görsel URL..."></div><button id="btn-submit-story" class="btn-premium">Paylaş</button></div></div>
 
-    <div class="modal-overlay" id="viewStoryModal"><div class="story-view-box"><button class="close-btn" onclick="closeModal('viewStoryModal')" style="z-index: 10; top: 20px; right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button><div class="story-view-header"><div class="story-view-avatar" id="view-story-avatar"></div><div class="story-view-username" id="view-story-username" style="color:white; font-weight:bold;">-</div><button class="header-icon" id="btn-delete-story" style="margin-left:auto; color:#ff4757; display:none;" onclick="deleteStoryDB()"><span class="material-symbols-outlined">delete</span></button></div>
-    <div style="position:relative; flex:1; overflow:hidden;"><div class="media-blur-bg" id="view-story-blur"></div><div class="media-contain-img" id="view-story-img"></div></div></div></div>
+    <div class="modal-overlay" id="viewStoryModal"><div class="story-view-box"><button class="close-btn" onclick="closeModal('viewStoryModal')" style="z-index: 10; top: 20px; right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button><div class="story-view-header"><div class="story-view-avatar" id="view-story-avatar"></div><div class="story-view-username" id="view-story-username" style="color:white; font-weight:bold;">-</div><button class="header-icon" id="btn-delete-story" style="margin-left:auto; color:#ff4757; display:none;" onclick="deleteStoryDB()"><span class="material-symbols-outlined">delete</span></button></div><div style="position:relative; flex:1; overflow:hidden;"><div class="media-blur-bg" id="view-story-blur"></div><div class="media-contain-img" id="view-story-img"></div></div></div></div>
 
     <div class="modal-overlay" id="commentsModal" style="z-index: 1700;"><div class="bottom-sheet" style="height: 70vh;"><div class="sheet-header"><button class="header-icon" onclick="closeModal('commentsModal')"><span class="material-symbols-outlined">close</span></button> Yorumlar</div><div style="flex:1; overflow-y:auto; padding:15px; display:flex; flex-direction:column; gap:15px;" id="comments-list"></div><div class="chat-input-container"><input type="text" id="new-comment-input" placeholder="Yorum ekle..." class="chat-input"><button onclick="submitComment()" style="background:none; border:none; color:var(--primary-gold); font-weight:bold; padding:0 10px; cursor:pointer;">Paylaş</button></div></div></div>
 
@@ -302,14 +315,13 @@
     <div class="match-overlay" id="matchOverlay"><div class="match-title">Eşleştiniz!</div><div class="match-avatars"><div class="m-avatar left" id="match-my-avatar"></div><div class="m-avatar right" id="match-their-avatar"></div></div><div style="color: white; font-size: 16px; margin-bottom: 30px;" id="match-text"></div><div style="display:flex; flex-direction:column; gap:15px;"><button class="btn-msg" id="btn-match-msg"><span class="material-symbols-outlined">send</span> Mesaj Gönder</button><button class="btn-keep" onclick="closeMatch()">Kaydırmaya Devam Et</button></div></div>
 
     <script>
+        if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').then(reg => console.log('SW Aktif')).catch(err => console.log('SW Hatası')); }); }
+    </script>
+
+    <script>
         function openModal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
         window.closeModal = function(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = 'auto'; }
-        
-        window.switchAuthTab = function(tab) {
-            document.getElementById('tab-login').classList.remove('active'); document.getElementById('tab-register').classList.remove('active');
-            document.getElementById('tab-' + tab).classList.add('active'); document.getElementById('form-login').classList.remove('active'); document.getElementById('form-register').classList.remove('active'); document.getElementById('form-' + tab).classList.add('active');
-        }
-        
+        window.switchAuthTab = function(tab) { document.getElementById('tab-login').classList.remove('active'); document.getElementById('tab-register').classList.remove('active'); document.getElementById('tab-' + tab).classList.add('active'); document.getElementById('form-login').classList.remove('active'); document.getElementById('form-register').classList.remove('active'); document.getElementById('form-' + tab).classList.add('active'); }
         document.querySelectorAll('.modal-overlay').forEach(m => { m.addEventListener('click', (e) => { if(e.target === m && m.id !== 'authModal') closeModal(m.id); }); });
 
         window.openExplore = () => { openModal('exploreModal'); if(window.renderExploreGrid) window.renderExploreGrid(); }
@@ -326,7 +338,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, getDocs, doc, getDoc, addDoc, query, orderBy, setDoc, where, updateDoc, arrayUnion, arrayRemove, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, getDoc, addDoc, query, orderBy, setDoc, where, updateDoc, deleteDoc, arrayUnion, arrayRemove, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = { apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0", authDomain: "swinder-79534.firebaseapp.com", projectId: "swinder-79534", storageBucket: "swinder-79534.firebasestorage.app", messagingSenderId: "704644873549", appId: "1:704644873549:web:d95f561ec912b94cf2cb04" };
         const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
@@ -336,7 +348,7 @@
         let activeInteractPostId = null; let activeInteractOwner = null; let activeInteractStoryId = null;
 
         document.getElementById('btn-login').addEventListener('click', async () => { try { await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-pass').value); window.location.reload(); } catch (err) { alert(err.message); }});
-        document.getElementById('btn-register').addEventListener('click', async () => { const name = document.getElementById('reg-name').value; const email = document.getElementById('reg-email').value; const pass = document.getElementById('reg-pass').value; if(!name || !email || !pass) return alert("Doldurun!"); document.getElementById('btn-register').innerText = "Açılıyor..."; try { const uc = await createUserWithEmailAndPassword(auth, email, pass); await updateProfile(uc.user, { displayName: name }); window.location.reload(); } catch (e) { alert(e.message); document.getElementById('btn-register').innerText = "Hesap Oluştur"; }});
+        document.getElementById('btn-register').addEventListener('click', async () => { const name = document.getElementById('reg-name').value.trim(); const email = document.getElementById('reg-email').value; const pass = document.getElementById('reg-pass').value; if(!name || !email || !pass) return alert("Doldurun!"); document.getElementById('btn-register').innerText = "Açılıyor..."; try { const uc = await createUserWithEmailAndPassword(auth, email, pass); await updateProfile(uc.user, { displayName: name }); window.location.reload(); } catch (e) { alert(e.message); document.getElementById('btn-register').innerText = "Hesap Oluştur"; }});
 
         onAuthStateChanged(auth, async (user) => {
             if (user) { 
@@ -346,8 +358,7 @@
                 if(snap.exists()) currentUserProfile = { uid: user.uid, following: [], followers: [], ...snap.data() };
                 onSnapshot(query(collection(db, "bildirimler"), where("to", "==", user.displayName)), (s) => { if(!s.empty) document.getElementById('noti-dot').style.display = 'block'; });
                 await loadAllData(); loadProfilesForDeck(); window.listenToDMs(); window.loadStories();
-            } 
-            else { openModal('authModal'); }
+            } else { openModal('authModal'); }
         });
 
         async function loadAllData() {
@@ -358,7 +369,7 @@
             window.globalPosts = []; postSnap.forEach(doc => { window.globalPosts.push({ id: doc.id, ...doc.data() }); });
         }
 
-        // 🔥 GERÇEK TAKİP SİSTEMİ (INSTAGRAM GİBİ CANLI SAYAÇ) 🔥
+        // 🔥 TAKİP ET SİSTEMİ 🔥
         window.toggleFollowDB = async function(btnElement, targetName=null) {
             const user = auth.currentUser; if(!user) return;
             const tName = targetName || document.getElementById('up-title').innerText;
@@ -366,9 +377,7 @@
             
             const isFollowing = btnElement.classList.contains('following');
             const myRef = doc(db, "kullanicilar", user.uid); const targetRef = doc(db, "kullanicilar", targetUser.uid);
-            
-            const countEl = document.getElementById('up-follower-count');
-            let count = countEl ? parseInt(countEl.innerText) : 0;
+            const countEl = document.getElementById('up-follower-count'); let count = countEl ? parseInt(countEl.innerText) : 0;
 
             if(isFollowing) {
                 btnElement.classList.remove('following'); btnElement.innerText = "Takip Et"; btnElement.style.background = "var(--primary-gold)"; btnElement.style.color = "black";
@@ -376,7 +385,7 @@
                 await updateDoc(myRef, { following: arrayRemove(targetUser.uid) }); await updateDoc(targetRef, { followers: arrayRemove(user.uid) });
                 if(currentUserProfile && currentUserProfile.following) currentUserProfile.following = currentUserProfile.following.filter(id => id !== targetUser.uid);
             } else {
-                btnElement.classList.add('following'); btnElement.innerText = "Takibi Bırak"; btnElement.style.background = "rgba(255,255,255,0.1)"; btnElement.style.color = "white";
+                btnElement.classList.add('following'); btnElement.innerText = "Takibi Bırak"; btnElement.style.background = "rgba(255,255,255,0.2)"; btnElement.style.color = "white";
                 if(countEl && tName === document.getElementById('up-title').innerText) countEl.innerText = count + 1;
                 await updateDoc(myRef, { following: arrayUnion(targetUser.uid) }); await updateDoc(targetRef, { followers: arrayUnion(user.uid) });
                 if(currentUserProfile) { if(!currentUserProfile.following) currentUserProfile.following=[]; currentUserProfile.following.push(targetUser.uid); }
@@ -384,11 +393,11 @@
             }
         }
 
-        // 🔥 GÖNDERİ DÜZENLE & SİL 🔥
+        // 🔥 GÖNDERİ DÜZENLE VE SİL 🔥
         window.editPostDB = async function() {
             if(!activeInteractPostId) return;
             const currentCaption = document.getElementById('pd-caption').innerText;
-            const newCaption = prompt("Gönderi açıklamasını düzenle:", currentCaption);
+            const newCaption = prompt("Açıklamayı düzenle:", currentCaption);
             if(newCaption !== null) {
                 await updateDoc(doc(db, "gonderiler", activeInteractPostId), { caption: newCaption });
                 document.getElementById('pd-caption').innerText = newCaption;
@@ -411,7 +420,7 @@
             }
         }
 
-        // YORUMLAR VE BEĞENİ
+        // BEĞENİ VE YORUM
         window.toggleLikeDB = async function(btnElement, forcePostId=null, forceOwner=null) {
             const user = auth.currentUser; if(!user) return; const postId = forcePostId || activeInteractPostId; const owner = forceOwner || activeInteractOwner; if(!postId) return;
             const isLiked = btnElement.classList.contains('liked'); const postRef = doc(db, "gonderiler", postId); const likeSpan = document.getElementById('pd-likes'); const postData = window.globalPosts.find(p=>p.id===postId); let currentLikes = postData ? (postData.likesCount||0) : 0;
@@ -419,24 +428,62 @@
             else { btnElement.classList.add('liked'); if(likeSpan && activeInteractPostId===postId) likeSpan.innerText = currentLikes + 1; await updateDoc(postRef, { likedBy: arrayUnion(user.displayName), likesCount: currentLikes + 1 }); if(postData) postData.likesCount += 1; if(owner && owner !== user.displayName) await addDoc(collection(db, "bildirimler"), { to: owner, from: user.displayName, text: 'gönderini beğendi.', createdAt: new Date() }); }
         }
         window.openCommentsDB = async function(postId=null) {
-            const pId = postId || activeInteractPostId; if(!pId) return;
-            activeInteractPostId = pId; openModal('commentsModal');
+            const pId = postId || activeInteractPostId; if(!pId) return; activeInteractPostId = pId; openModal('commentsModal');
             const list = document.getElementById('comments-list'); list.innerHTML = '<div style="color:gray; text-align:center;">Yükleniyor...</div>';
             const snap = await getDocs(query(collection(db, `gonderiler/${pId}/yorumlar`), orderBy("createdAt", "asc")));
             list.innerHTML = ''; if(snap.empty) { list.innerHTML = '<div style="color:gray; text-align:center;">İlk yorumu sen yap!</div>'; return;}
-            snap.forEach(d => {
-                const data = d.data(); const avatar = window.globalUsersByName[data.username]?.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100';
-                list.insertAdjacentHTML('beforeend', `<div class="list-item" style="padding:0; border:none;"><div class="list-avatar" style="background-image:url('${avatar}'); width:36px; height:36px;"></div><div class="list-text"><strong style="color:var(--primary-gold);">${data.username}</strong> <span style="color:white;">${data.text}</span></div></div>`);
-            });
+            snap.forEach(d => { const data = d.data(); const avatar = window.globalUsersByName[data.username]?.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100'; list.insertAdjacentHTML('beforeend', `<div class="list-item" style="padding:0; border:none;"><div class="list-avatar" style="background-image:url('${avatar}'); width:36px; height:36px;"></div><div class="list-text"><strong style="color:var(--primary-gold);">${data.username}</strong> <span style="color:white;">${data.text}</span></div></div>`); });
         }
-        window.submitComment = async function() {
-            const user = auth.currentUser; if(!user || !activeInteractPostId) return; const text = document.getElementById('new-comment-input').value.trim(); if(!text) return;
-            document.getElementById('new-comment-input').value = ""; await addDoc(collection(db, `gonderiler/${activeInteractPostId}/yorumlar`), { username: user.displayName, text: text, createdAt: new Date() });
-            const pData = window.globalPosts.find(p=>p.id===activeInteractPostId); if(pData && pData.username !== user.displayName) await addDoc(collection(db, "bildirimler"), { to: pData.username, from: user.displayName, text: `yorum yaptı: "${text}"`, createdAt: new Date() });
-            openCommentsDB(activeInteractPostId); 
+        window.submitComment = async function() { const user = auth.currentUser; if(!user || !activeInteractPostId) return; const text = document.getElementById('new-comment-input').value.trim(); if(!text) return; document.getElementById('new-comment-input').value = ""; await addDoc(collection(db, `gonderiler/${activeInteractPostId}/yorumlar`), { username: user.displayName, text: text, createdAt: new Date() }); const pData = window.globalPosts.find(p=>p.id===activeInteractPostId); if(pData && pData.username !== user.displayName) await addDoc(collection(db, "bildirimler"), { to: pData.username, from: user.displayName, text: `yorum yaptı: "${text}"`, createdAt: new Date() }); openCommentsDB(activeInteractPostId); }
+
+        // TINDER KARTLARI
+        const swipeContainer = document.getElementById('swipe-container'); 
+        async function loadProfilesForDeck() {
+            const myUid = auth.currentUser ? auth.currentUser.uid : null; if(!myUid) return;
+            const mySwipesSnap = await getDocs(query(collection(db, "kaydirmalar"), where("swiperId", "==", myUid)));
+            const swipedIds = new Set(); mySwipesSnap.forEach(doc => swipedIds.add(doc.data().swipedId));
+            const profiles = [];
+            Object.values(window.globalUsersById).forEach(u => {
+                if(u.uid !== myUid && !swipedIds.has(u.uid) && u.displayName) { profiles.push({ uid: u.uid, name: u.displayName, age: u.age || "25", bio: u.bio || "Swinder Üyesi", img: u.avatar || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=800", isVerified: u.isVerified || u.displayName.toLowerCase().includes('çağatay') }); }
+            });
+            if(profiles.length === 0) { document.getElementById('empty-state').style.display = 'flex'; return; }
+            profiles.reverse().forEach((p, index) => { const gt = p.isVerified ? '<span class="gold-tick">✓</span>' : ''; swipeContainer.insertAdjacentHTML('beforeend', `<div class="swipe-card" data-uid="${p.uid}" data-name="${p.name}" data-img="${p.img}" style="z-index: ${1000 - index};"><div class="card-img-bg" style="background-image: url('${p.img}');"></div><div class="card-overlay"></div><div class="swipe-stamp stamp-like">LIKE</div><div class="swipe-stamp stamp-nope">NOPE</div><div class="card-info"><div class="card-details"><div class="card-name">${p.name} <span class="card-age">${p.age}</span> ${gt}</div><div class="card-bio">${p.bio}</div></div></div></div>`); });
+            initSwipeLogic();
+        }
+        window.resetSwipes = async function() { const user = auth.currentUser; if(!user) return; const snap = await getDocs(query(collection(db, "kaydirmalar"), where("swiperId", "==", user.uid))); for(const d of snap.docs) { await deleteDoc(doc(db, "kaydirmalar", d.id)); } alert("Sıfırlandı. Lütfen sayfayı yenileyin."); window.location.reload(); }
+        function initSwipeLogic() { const cards = Array.from(document.querySelectorAll('.swipe-card:not(.removed)')); if(cards.length === 0) return; cards.forEach(card => { const likeStamp = card.querySelector('.stamp-like'); const nopeStamp = card.querySelector('.stamp-nope'); let startX = 0, currentX = 0; const onDrag = (e) => { const clientX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX; currentX = clientX - startX; card.style.transform = `translateX(${currentX}px) rotate(${currentX * 0.05}deg)`; if (currentX > 0) { likeStamp.style.opacity = currentX / 100; nopeStamp.style.opacity = 0; } else { nopeStamp.style.opacity = Math.abs(currentX) / 100; likeStamp.style.opacity = 0; } }; const endDrag = (e) => { document.removeEventListener('mousemove', onDrag); document.removeEventListener('touchmove', onDrag); document.removeEventListener('mouseup', endDrag); document.removeEventListener('touchend', endDrag); card.classList.remove('moving'); if (currentX > 120) { card.classList.add('removed'); processSwipe(card, 'right'); } else if (currentX < -120) { card.classList.add('removed'); processSwipe(card, 'left'); } else { card.style.transform = `translateX(0px) rotate(0deg)`; likeStamp.style.opacity = 0; nopeStamp.style.opacity = 0; } currentX = 0; }; const startDrag = (e) => { const currentTopCard = document.querySelector('.swipe-card:not(.removed)'); if (card !== currentTopCard) return; startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX; card.classList.add('moving'); document.addEventListener('mousemove', onDrag); document.addEventListener('touchmove', onDrag, {passive: false}); document.addEventListener('mouseup', endDrag); document.addEventListener('touchend', endDrag); }; card.addEventListener('mousedown', startDrag); card.addEventListener('touchstart', startDrag, {passive: true}); }); }
+        window.buttonSwipe = function(d) { const topCard = document.querySelector('.swipe-card:not(.removed)'); if(!topCard) return; topCard.classList.add('removed'); if(d === 'right' || d === 'super') topCard.querySelector('.stamp-like').style.opacity = 1; else topCard.querySelector('.stamp-nope').style.opacity = 1; processSwipe(topCard, d); }
+        async function processSwipe(card, direction) { const endX = (direction === 'right' || direction === 'super') ? window.innerWidth : -window.innerWidth; card.style.transition = 'transform 0.4s ease-out, opacity 0.4s ease-out'; card.style.transform = `translateX(${endX}px) rotate(${direction === 'left' ? -30 : 30}deg)`; card.style.opacity = '0'; const user = auth.currentUser; const theirUid = card.dataset.uid; const theirName = card.dataset.name; const theirImg = card.dataset.img; if (user) { await setDoc(doc(db, "kaydirmalar", `${user.uid}_${theirUid}`), { swiperId: user.uid, swipedId: theirUid, action: direction, timestamp: new Date() }); if (direction === 'right' || direction === 'super') { const theirSwipe = await getDoc(doc(db, "kaydirmalar", `${theirUid}_${user.uid}`)); if(theirSwipe.exists() && (theirSwipe.data().action === 'right' || theirSwipe.data().action === 'super')) { const matchQ = await getDocs(query(collection(db, "eslesmeler"), where("users", "array-contains", user.uid))); let alreadyMatched = false; matchQ.forEach(d => { if(d.data().users.includes(theirUid)) alreadyMatched = true; }); if(!alreadyMatched) { const matchRef = await addDoc(collection(db, "eslesmeler"), { users: [user.uid, theirUid], userNames: [user.displayName, theirName], lastMessage: "Yeni Eşleşme!", updatedAt: new Date() }); document.getElementById('match-my-avatar').style.backgroundImage = `url('${currentUserProfile?.avatar || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=200"}')`; document.getElementById('match-their-avatar').style.backgroundImage = `url('${theirImg}')`; document.getElementById('match-text').innerHTML = `Sen ve <strong>${theirName}</strong> birbirinizi beğendiniz!`; document.getElementById('btn-match-msg').onclick = () => { window.closeMatch(); window.openChatRoom(matchRef.id, theirName, theirImg, theirUid); }; document.getElementById('matchOverlay').classList.add('active'); } } } } setTimeout(() => { card.remove(); const rem = document.querySelectorAll('.swipe-card:not(.removed)'); if(rem.length === 0) document.getElementById('empty-state').style.display = 'flex'; }, 400); }
+
+        // DM SİSTEMİ
+        window.listenToDMs = function() { const user = auth.currentUser; if(!user) return; const dmListContainer = document.getElementById('dm-list-container'); onSnapshot(query(collection(db, "eslesmeler"), where("users", "array-contains", user.uid)), (snapshot) => { dmListContainer.innerHTML = ''; if(snapshot.empty) { dmListContainer.innerHTML = '<div style="text-align:center; padding:40px; color:gray;">Henüz eşleşmen yok.</div>'; return; } let matches = []; snapshot.forEach(d => matches.push({ id: d.id, ...d.data() })); matches.sort((a,b) => b.updatedAt.seconds - a.updatedAt.seconds); matches.forEach(match => { const theirIndex = match.users.indexOf(user.uid) === 0 ? 1 : 0; const theirUid = match.users[theirIndex]; const theirName = match.userNames[theirIndex]; const theirImg = window.globalUsersById[theirUid]?.avatar || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100"; dmListContainer.insertAdjacentHTML('beforeend', `<div class="list-item" onclick="window.openChatRoom('${match.id}', '${theirName}', '${theirImg}', '${theirUid}')"><div class="list-avatar" style="background-image: url('${theirImg}');"></div><div class="list-text"><strong style="font-size:15px; color:white;">${theirName}</strong><br><span style="color:gray; font-size:13px;">${match.lastMessage}</span></div></div>`); }); }); }
+        let activeChatId = null; let messagesUnsubscribe = null;
+        window.openChatRoom = function(chatId, partnerName, partnerImg, partnerUid) { closeModal('messagesModal'); activeChatId = chatId; document.getElementById('chat-header-name').innerText = partnerName; document.getElementById('chat-header-avatar').style.backgroundImage = `url('${partnerImg}')`; openModal('chatRoomModal'); const chatArea = document.getElementById('chat-messages'); chatArea.innerHTML = ''; if(messagesUnsubscribe) messagesUnsubscribe(); messagesUnsubscribe = onSnapshot(query(collection(db, `eslesmeler/${chatId}/mesajlar`), orderBy("timestamp", "asc")), (snapshot) => { chatArea.innerHTML = ''; snapshot.forEach(doc => { const msg = doc.data(); const isMine = msg.senderId === auth.currentUser.uid; const date = msg.timestamp ? new Date(msg.timestamp.toDate()).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : ''; chatArea.insertAdjacentHTML('beforeend', `<div class="chat-msg ${isMine ? 'mine' : 'theirs'}"><div class="chat-bubble">${msg.text}</div><div class="chat-time">${date}</div></div>`); }); chatArea.scrollTop = chatArea.scrollHeight; }); }
+        window.sendChatMessage = async function() { const input = document.getElementById('chat-input'); const text = input.value.trim(); if(!text || !activeChatId) return; input.value = ""; try { await addDoc(collection(db, `eslesmeler/${activeChatId}/mesajlar`), { senderId: auth.currentUser.uid, text: text, timestamp: new Date() }); await updateDoc(doc(db, "eslesmeler", activeChatId), { lastMessage: text, updatedAt: new Date() }); } catch(e) {} }
+        window.deleteChatRoom = async function() { if(!activeChatId) return; if(confirm("Sohbeti kalıcı olarak silmek istediğine emin misin?")) { try { await deleteDoc(doc(db, "eslesmeler", activeChatId)); closeModal('chatRoomModal'); window.openMessages(); } catch(e) {} } }
+
+        // KEŞFET & PROFİL
+        window.renderExploreGrid = function() {
+            const filterText = document.getElementById('search-input').value.toLowerCase(); const grid = document.getElementById('explore-grid'); grid.innerHTML = ''; const userList = document.getElementById('explore-users-list'); userList.innerHTML = ''; const myName = auth.currentUser ? auth.currentUser.displayName : "";
+            if(filterText) { let matchedUsers = Object.values(window.globalUsersById).filter(u => u.displayName && u.displayName.toLowerCase().includes(filterText)); if (matchedUsers.length > 0) { userList.style.display = 'block'; matchedUsers.forEach(u => { const av = u.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100'; userList.insertAdjacentHTML('beforeend', `<div class="list-item" onclick="closeModal('exploreModal'); window.openUserProfile('${u.displayName}')" style="padding: 10px 20px;"><div class="list-avatar" style="background-image: url('${av}'); width: 40px; height: 40px;"></div><div class="list-text"><strong style="color:white; font-size:15px;">${u.displayName}</strong></div></div>`); }); } else { userList.style.display = 'none'; } } else { userList.style.display = 'none'; }
+            let filteredPosts = window.globalPosts.filter(p => p.username !== myName);
+            if(filterText) filteredPosts = filteredPosts.filter(p => (p.caption||'').toLowerCase().includes(filterText) || (p.username||'').toLowerCase().includes(filterText));
+            if(filteredPosts.length === 0 && (!filterText || userList.innerHTML === '')) { grid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 40px; font-size: 13px;">Sonuç bulunamadı.</div>'; return;}
+            filteredPosts.forEach(p => { const dataStr = encodeURIComponent(JSON.stringify(p)); grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${p.imageUrl}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')"></div>`); });
+        }
+        window.performSearch = () => window.renderExploreGrid();
+
+        window.openPostDetail = function(postId, dataStr) {
+            closeModal('exploreModal'); closeModal('userProfileModal');
+            const data = JSON.parse(decodeURIComponent(dataStr)); activeInteractPostId = postId; activeInteractOwner = data.username;
+            document.getElementById('pd-img').style.backgroundImage = `url('${data.imageUrl}')`; document.getElementById('pd-blur').style.backgroundImage = `url('${data.imageUrl}')`;
+            document.getElementById('pd-user').innerText = data.username; document.getElementById('pd-caption').innerText = data.caption || ''; document.getElementById('pd-likes').innerText = data.likesCount || 0;
+            const btnLike = document.getElementById('pd-btn-like'); if(auth.currentUser && data.likedBy && data.likedBy.includes(auth.currentUser.displayName)) btnLike.classList.add('liked'); else btnLike.classList.remove('liked');
+            const isAdmin = auth.currentUser.email === adminEmail;
+            document.getElementById('admin-controls').style.display = (isAdmin || auth.currentUser.displayName === data.username) ? 'flex' : 'none';
+            openModal('postDetailModal');
         }
 
-        // 🔥 KULLANICI PROFİLİ (Instagram Tarzı Geliştirildi) 🔥
         window.openUserProfile = function(username) {
             let pInfo = window.globalUsersByName[username] || {};
             const isV = pInfo.isVerified || username.toLowerCase().includes('çağatay'); 
@@ -445,7 +492,6 @@
             document.getElementById('up-bio').innerText = pInfo.bio || 'Swinder Üyesi'; 
             document.getElementById('up-avatar').style.backgroundImage = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=200')`;
             
-            // Stats
             const userPosts = window.globalPosts.filter(p => p.username === username);
             document.getElementById('up-post-count').innerText = userPosts.length;
             document.getElementById('up-follower-count').innerText = (pInfo.followers || []).length;
@@ -465,47 +511,7 @@
             openModal('userProfileModal');
         }
 
-        // TINDER KARTLARI
-        const swipeContainer = document.getElementById('swipe-container'); 
-        async function loadProfilesForDeck() {
-            const myUid = auth.currentUser ? auth.currentUser.uid : null; if(!myUid) return;
-            const mySwipesSnap = await getDocs(query(collection(db, "kaydirmalar"), where("swiperId", "==", myUid)));
-            const swipedIds = new Set(); mySwipesSnap.forEach(doc => swipedIds.add(doc.data().swipedId));
-            const profiles = [];
-            Object.values(window.globalUsersById).forEach(u => {
-                if(u.uid !== myUid && !swipedIds.has(u.uid) && u.displayName) { profiles.push({ uid: u.uid, name: u.displayName, age: u.age || "25", bio: u.bio || "Swinder Üyesi", img: u.avatar || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=800", isVerified: u.isVerified || u.displayName.toLowerCase().includes('çağatay') }); }
-            });
-            if(profiles.length === 0) { document.getElementById('empty-state').style.display = 'flex'; return; }
-            profiles.reverse().forEach((p, index) => {
-                const gt = p.isVerified ? '<span class="gold-tick">✓</span>' : '';
-                swipeContainer.insertAdjacentHTML('beforeend', `<div class="swipe-card" data-uid="${p.uid}" data-name="${p.name}" data-img="${p.img}" style="z-index: ${1000 - index};"><div class="card-img-bg" style="background-image: url('${p.img}');"></div><div class="card-overlay"></div><div class="swipe-stamp stamp-like">LIKE</div><div class="swipe-stamp stamp-nope">NOPE</div><div class="card-info"><div class="card-details"><div class="card-name">${p.name} <span class="card-age">${p.age}</span> ${gt}</div><div class="card-bio">${p.bio}</div></div></div></div>`);
-            });
-            initSwipeLogic();
-        }
-        window.resetSwipes = async function() { const user = auth.currentUser; if(!user) return; const snap = await getDocs(query(collection(db, "kaydirmalar"), where("swiperId", "==", user.uid))); for(const d of snap.docs) { await deleteDoc(doc(db, "kaydirmalar", d.id)); } alert("Sıfırlandı."); window.location.reload(); }
-        function initSwipeLogic() { const cards = Array.from(document.querySelectorAll('.swipe-card:not(.removed)')); if(cards.length === 0) return; cards.forEach(card => { const likeStamp = card.querySelector('.stamp-like'); const nopeStamp = card.querySelector('.stamp-nope'); let startX = 0, currentX = 0; const onDrag = (e) => { const clientX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX; currentX = clientX - startX; card.style.transform = `translateX(${currentX}px) rotate(${currentX * 0.05}deg)`; if (currentX > 0) { likeStamp.style.opacity = currentX / 100; nopeStamp.style.opacity = 0; } else { nopeStamp.style.opacity = Math.abs(currentX) / 100; likeStamp.style.opacity = 0; } }; const endDrag = (e) => { document.removeEventListener('mousemove', onDrag); document.removeEventListener('touchmove', onDrag); document.removeEventListener('mouseup', endDrag); document.removeEventListener('touchend', endDrag); card.classList.remove('moving'); if (currentX > 120) { card.classList.add('removed'); processSwipe(card, 'right'); } else if (currentX < -120) { card.classList.add('removed'); processSwipe(card, 'left'); } else { card.style.transform = `translateX(0px) rotate(0deg)`; likeStamp.style.opacity = 0; nopeStamp.style.opacity = 0; } currentX = 0; }; const startDrag = (e) => { const currentTopCard = document.querySelector('.swipe-card:not(.removed)'); if (card !== currentTopCard) return; startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX; card.classList.add('moving'); document.addEventListener('mousemove', onDrag); document.addEventListener('touchmove', onDrag, {passive: false}); document.addEventListener('mouseup', endDrag); document.addEventListener('touchend', endDrag); }; card.addEventListener('mousedown', startDrag); card.addEventListener('touchstart', startDrag, {passive: true}); }); }
-        window.buttonSwipe = function(d) { const topCard = document.querySelector('.swipe-card:not(.removed)'); if(!topCard) return; topCard.classList.add('removed'); if(d === 'right' || d === 'super') topCard.querySelector('.stamp-like').style.opacity = 1; else topCard.querySelector('.stamp-nope').style.opacity = 1; processSwipe(topCard, d); }
-        async function processSwipe(card, direction) { const endX = (direction === 'right' || direction === 'super') ? window.innerWidth : -window.innerWidth; card.style.transition = 'transform 0.4s ease-out, opacity 0.4s ease-out'; card.style.transform = `translateX(${endX}px) rotate(${direction === 'left' ? -30 : 30}deg)`; card.style.opacity = '0'; const user = auth.currentUser; const theirUid = card.dataset.uid; const theirName = card.dataset.name; const theirImg = card.dataset.img; if (user) { await setDoc(doc(db, "kaydirmalar", `${user.uid}_${theirUid}`), { swiperId: user.uid, swipedId: theirUid, action: direction, timestamp: new Date() }); if (direction === 'right' || direction === 'super') { const theirSwipe = await getDoc(doc(db, "kaydirmalar", `${theirUid}_${user.uid}`)); if(theirSwipe.exists() && (theirSwipe.data().action === 'right' || theirSwipe.data().action === 'super')) { const matchQ = await getDocs(query(collection(db, "eslesmeler"), where("users", "array-contains", user.uid))); let alreadyMatched = false; matchQ.forEach(d => { if(d.data().users.includes(theirUid)) alreadyMatched = true; }); if(!alreadyMatched) { const matchRef = await addDoc(collection(db, "eslesmeler"), { users: [user.uid, theirUid], userNames: [user.displayName, theirName], lastMessage: "Yeni Eşleşme!", updatedAt: new Date() }); document.getElementById('match-my-avatar').style.backgroundImage = `url('${currentUserProfile?.avatar || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=200"}')`; document.getElementById('match-their-avatar').style.backgroundImage = `url('${theirImg}')`; document.getElementById('match-text').innerHTML = `Sen ve <strong>${theirName}</strong> birbirinizi beğendiniz!`; document.getElementById('btn-match-msg').onclick = () => { window.closeMatch(); window.openChatRoom(matchRef.id, theirName, theirImg, theirUid); }; document.getElementById('matchOverlay').classList.add('active'); } } } } setTimeout(() => { card.remove(); const rem = document.querySelectorAll('.swipe-card:not(.removed)'); if(rem.length === 0) document.getElementById('empty-state').style.display = 'flex'; }, 400); }
-
-        // DM SİSTEMİ
-        window.listenToDMs = function() { const user = auth.currentUser; if(!user) return; const dmListContainer = document.getElementById('dm-list-container'); onSnapshot(query(collection(db, "eslesmeler"), where("users", "array-contains", user.uid)), (snapshot) => { dmListContainer.innerHTML = ''; if(snapshot.empty) { dmListContainer.innerHTML = '<div style="text-align:center; padding:40px; color:gray;">Henüz eşleşmen yok.</div>'; return; } let matches = []; snapshot.forEach(d => matches.push({ id: d.id, ...d.data() })); matches.sort((a,b) => b.updatedAt.seconds - a.updatedAt.seconds); matches.forEach(match => { const theirIndex = match.users.indexOf(user.uid) === 0 ? 1 : 0; const theirUid = match.users[theirIndex]; const theirName = match.userNames[theirIndex]; const theirImg = window.globalUsersById[theirUid]?.avatar || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100"; dmListContainer.insertAdjacentHTML('beforeend', `<div class="list-item" onclick="window.openChatRoom('${match.id}', '${theirName}', '${theirImg}', '${theirUid}')"><div class="list-avatar" style="background-image: url('${theirImg}');"></div><div class="list-text"><strong style="font-size:15px; color:white;">${theirName}</strong><br><span style="color:gray; font-size:13px;">${match.lastMessage}</span></div></div>`); }); }); }
-        let activeChatId = null; let messagesUnsubscribe = null;
-        window.openChatRoom = function(chatId, partnerName, partnerImg, partnerUid) { closeModal('messagesModal'); activeChatId = chatId; document.getElementById('chat-header-name').innerText = partnerName; document.getElementById('chat-header-avatar').style.backgroundImage = `url('${partnerImg}')`; openModal('chatRoomModal'); const chatArea = document.getElementById('chat-messages'); chatArea.innerHTML = ''; if(messagesUnsubscribe) messagesUnsubscribe(); messagesUnsubscribe = onSnapshot(query(collection(db, `eslesmeler/${chatId}/mesajlar`), orderBy("timestamp", "asc")), (snapshot) => { chatArea.innerHTML = ''; snapshot.forEach(doc => { const msg = doc.data(); const isMine = msg.senderId === auth.currentUser.uid; const date = msg.timestamp ? new Date(msg.timestamp.toDate()).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : ''; chatArea.insertAdjacentHTML('beforeend', `<div class="chat-msg ${isMine ? 'mine' : 'theirs'}"><div class="chat-bubble">${msg.text}</div><div class="chat-time">${date}</div></div>`); }); chatArea.scrollTop = chatArea.scrollHeight; }); }
-        window.sendChatMessage = async function() { const input = document.getElementById('chat-input'); const text = input.value.trim(); if(!text || !activeChatId) return; input.value = ""; try { await addDoc(collection(db, `eslesmeler/${activeChatId}/mesajlar`), { senderId: auth.currentUser.uid, text: text, timestamp: new Date() }); await updateDoc(doc(db, "eslesmeler", activeChatId), { lastMessage: text, updatedAt: new Date() }); } catch(e) {} }
-        window.deleteChatRoom = async function() { if(!activeChatId) return; if(confirm("Sohbeti tamamen silmek istediğine emin misin?")) { try { await deleteDoc(doc(db, "eslesmeler", activeChatId)); closeModal('chatRoomModal'); window.openMessages(); } catch(e) {} } }
-
-        // KEŞFET
-        window.renderExploreGrid = function() {
-            const filterText = document.getElementById('search-input').value.toLowerCase(); const grid = document.getElementById('explore-grid'); grid.innerHTML = ''; const userList = document.getElementById('explore-users-list'); userList.innerHTML = ''; const myName = auth.currentUser ? auth.currentUser.displayName : "";
-            if(filterText) { let matchedUsers = Object.values(window.globalUsersById).filter(u => u.displayName && u.displayName.toLowerCase().includes(filterText)); if (matchedUsers.length > 0) { userList.style.display = 'block'; matchedUsers.forEach(u => { const av = u.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100'; userList.insertAdjacentHTML('beforeend', `<div class="list-item" onclick="closeModal('exploreModal'); window.openUserProfile('${u.displayName}')" style="padding: 10px 20px;"><div class="list-avatar" style="background-image: url('${av}'); width: 40px; height: 40px;"></div><div class="list-text"><strong style="color:white; font-size:15px;">${u.displayName}</strong></div></div>`); }); } else { userList.style.display = 'none'; } } else { userList.style.display = 'none'; }
-            let filteredPosts = window.globalPosts.filter(p => p.username !== myName);
-            if(filterText) filteredPosts = filteredPosts.filter(p => (p.caption||'').toLowerCase().includes(filterText) || (p.username||'').toLowerCase().includes(filterText));
-            if(filteredPosts.length === 0 && (!filterText || userList.innerHTML === '')) { grid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 40px; font-size: 13px;">Sonuç bulunamadı.</div>'; return;}
-            filteredPosts.forEach(p => { const dataStr = encodeURIComponent(JSON.stringify(p)); grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${p.imageUrl}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')"></div>`); });
-        }
-        window.performSearch = () => window.renderExploreGrid();
-
-        // REELS VE HIKAYELER (Hata Giderildi)
+        // REELS VE HIKAYELER (Tam Onarıldı)
         window.renderReels = function() {
             const rc = document.getElementById('reels-container'); rc.innerHTML = '';
             if(window.globalPosts.length === 0) { rc.innerHTML = '<div style="color:white; text-align:center; padding-top:50vh;">Reels yok.</div>'; return; }
@@ -517,19 +523,25 @@
 
         window.loadStories = async function() {
             const stContainer = document.getElementById('stories-container');
-            stContainer.innerHTML = `<div class="story-item" onclick="openModal('addStoryModal')"><div class="story-ring add-story"><div class="story-img" style="display:flex; justify-content:center; align-items:center; color: var(--text-muted);"><span class="material-symbols-outlined">add</span></div></div><span class="story-name">Sen</span></div>`;
+            if(!stContainer) return;
+            stContainer.innerHTML = `<div class="story-item" onclick="openModal('addStoryModal')"><div class="story-ring add-story"><div class="story-img" style="display:flex; justify-content:center; align-items:center; color: var(--text-muted); background:rgba(255,255,255,0.1);"><span class="material-symbols-outlined">add</span></div></div><span class="story-name">Sen</span></div>`;
             try {
                 const snapshot = await getDocs(query(collection(db, "hikayeler"), orderBy("createdAt", "desc")));
                 snapshot.forEach(doc => {
                     const data = doc.data(); 
                     const sAvatar = window.globalUsersByName[data.username]?.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100';
-                    const safeUrl = encodeURIComponent(data.imageUrl); // URL'yi güvenli hale getirdik
-                    stContainer.insertAdjacentHTML('beforeend', `<div class="story-item" onclick="window.viewStory('${doc.id}', '${safeUrl}', '${data.username}', '${sAvatar}')"><div class="story-ring"><div class="story-img" style="background-image: url('${data.imageUrl}');"></div></div><span class="story-name">${data.username.split(' ')[0]}</span></div>`);
+                    const safeUrl = encodeURIComponent(data.imageUrl); 
+                    const safeAvatar = encodeURIComponent(sAvatar);
+                    const safeUsername = encodeURIComponent(data.username);
+                    stContainer.insertAdjacentHTML('beforeend', `<div class="story-item" onclick="window.viewStory('${doc.id}', '${safeUrl}', '${safeUsername}', '${safeAvatar}')"><div class="story-ring"><div class="story-img" style="background-image: url('${data.imageUrl}');"></div></div><span class="story-name">${data.username.split(' ')[0]}</span></div>`);
                 });
-            } catch(e){}
+            } catch(e){ console.error(e); }
         }
-        window.viewStory = function(id, encodedUrl, username, avatarUrl) {
+
+        window.viewStory = function(id, encodedUrl, encodedUsername, encodedAvatar) {
             const imgUrl = decodeURIComponent(encodedUrl);
+            const username = decodeURIComponent(encodedUsername);
+            const avatarUrl = decodeURIComponent(encodedAvatar);
             activeInteractStoryId = id; 
             document.getElementById('view-story-blur').style.backgroundImage = `url('${imgUrl}')`; 
             document.getElementById('view-story-img').style.backgroundImage = `url('${imgUrl}')`; 
@@ -540,8 +552,8 @@
             openModal('viewStoryModal');
         }
 
-        document.getElementById('btn-submit-post').addEventListener('click', async () => { const user = auth.currentUser; if (!user) return; const imageUrl = document.getElementById('add-image').value; const caption = document.getElementById('add-caption').value; if (!imageUrl) return; document.getElementById('btn-submit-post').innerText = "Yükleniyor..."; try { await addDoc(collection(db, "gonderiler"), { imageUrl, caption, username: user.displayName, likesCount: 0, createdAt: new Date() }); closeModal('addModal'); document.getElementById('add-image').value = ""; await loadAllData(); } catch (err) {} finally { document.getElementById('btn-submit-post').innerText = "Akışta Paylaş"; } });
-        document.getElementById('btn-submit-story').addEventListener('click', async () => { const user = auth.currentUser; if (!user) return; const imageUrl = document.getElementById('story-img-url').value; if (!imageUrl) return; document.getElementById('btn-submit-story').innerText = "Yükleniyor..."; try { await addDoc(collection(db, "hikayeler"), { imageUrl, username: user.displayName, createdAt: new Date() }); closeModal('addStoryModal'); window.loadStories(); } catch (e) {} finally { document.getElementById('btn-submit-story').innerText = "Paylaş"; } });
+        document.getElementById('btn-submit-post').addEventListener('click', async () => { const user = auth.currentUser; if (!user) return; const imageUrl = document.getElementById('add-image').value; const caption = document.getElementById('add-caption').value; if (!imageUrl) return; document.getElementById('btn-submit-post').innerText = "Yükleniyor..."; try { await addDoc(collection(db, "gonderiler"), { imageUrl, caption, username: user.displayName, likesCount: 0, createdAt: new Date() }); closeModal('addModal'); document.getElementById('add-image').value = ""; await loadAllData(); window.renderExploreGrid(); } catch (err) {} finally { document.getElementById('btn-submit-post').innerText = "Akışta Paylaş"; }});
+        document.getElementById('btn-submit-story').addEventListener('click', async () => { const user = auth.currentUser; if (!user) return; const imageUrl = document.getElementById('story-img-url').value; if (!imageUrl) return; document.getElementById('btn-submit-story').innerText = "Yükleniyor..."; try { await addDoc(collection(db, "hikayeler"), { imageUrl, username: user.displayName, createdAt: new Date() }); closeModal('addStoryModal'); document.getElementById('story-img-url').value = ""; window.loadStories(); } catch (e) {} finally { document.getElementById('btn-submit-story').innerText = "Paylaş"; }});
     </script>
 </body>
 </html>
