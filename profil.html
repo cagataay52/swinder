@@ -192,7 +192,7 @@
         const firebaseConfig = { apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0", authDomain: "swinder-79534.firebaseapp.com", projectId: "swinder-79534", storageBucket: "swinder-79534.firebasestorage.app", messagingSenderId: "704644873549", appId: "1:704644873549:web:d95f561ec912b94cf2cb04" };
         const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
 
-        window.globalPosts = []; window.globalUsers = {};
+        window.globalPosts = []; window.globalUsersById = {}; window.globalUsersByName = {};
         const adminEmail = "kcagatay239@gmail.com"; 
         let currentUserId = null; let isAdmin = false;
 
@@ -226,7 +226,12 @@
 
         async function loadAllData() {
             const usersSnap = await getDocs(collection(db, "kullanicilar"));
-            usersSnap.forEach(uDoc => { window.globalUsers[uDoc.data().displayName] = uDoc.data(); });
+            window.globalUsersById = {}; window.globalUsersByName = {};
+            usersSnap.forEach(uDoc => { 
+                const uData = uDoc.data(); uData.uid = uDoc.id;
+                window.globalUsersById[uDoc.id] = uData; 
+                if(uData.displayName) window.globalUsersByName[uData.displayName] = uData; 
+            });
             const postSnap = await getDocs(query(collection(db, "gonderiler"), orderBy("createdAt", "desc")));
             window.globalPosts = []; postSnap.forEach(doc => { window.globalPosts.push({ id: doc.id, ...doc.data() }); });
         }
@@ -269,7 +274,7 @@
             const rc = document.getElementById('reels-container'); rc.innerHTML = '';
             if(window.globalPosts.length === 0) { rc.innerHTML = '<div style="color:white; text-align:center; padding-top:50vh;">Reels yok.</div>'; return; }
             window.globalPosts.forEach(data => {
-                const pInfo = window.globalUsers[data.username] || {};
+                const pInfo = window.globalUsersByName[data.username] || {};
                 const av = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100')`;
                 rc.insertAdjacentHTML('beforeend', `<div class="reel-item" style="background-image: url('${data.imageUrl}');"><div class="reel-overlay"></div><div class="reel-content"><div class="reel-info"><div class="reel-user" style="color:white; font-weight:bold; display:flex; align-items:center; gap:10px; margin-bottom:10px;"><div style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center; background-image:${av};"></div>${data.username}</div><div style="color: rgba(255,255,255,0.9); font-size: 14px;">${data.caption || ''}</div></div></div></div>`);
             });

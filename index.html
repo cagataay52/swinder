@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Swinder - Lüks Arkadaşlık & Sosyal Ağ</title>
+    
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" />
     <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
+
     <style>
+        /* --- TEMEL & GLASSMORPHISM --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; touch-action: pan-y; }
         :root { --primary-gold: #d4af37; --gold-hover: #f3e5ab; --text-light: #f5f5f7; --text-muted: rgba(255,255,255,0.6); --glass-bg: rgba(20, 20, 25, 0.45); --glass-border: 1px solid rgba(255, 255, 255, 0.08); --glass-blur: blur(24px); --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
         body { background: #050505; color: var(--text-light); overflow: hidden; }
@@ -16,13 +19,16 @@
         .ambient-blob-2 { position: absolute; bottom: 10%; right: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(255,48,64,0.1) 0%, transparent 70%); border-radius: 50%; filter: blur(60px); animation: float2 25s infinite alternate ease-in-out; }
         @keyframes float1 { 100% { transform: translate(10vw, 10vh); } } @keyframes float2 { 100% { transform: translate(-10vw, -10vh); } }
 
-        header { position: fixed; top: 0; left: 0; width: 100%; padding: 10px 20px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; background: rgba(10, 10, 12, 0.6); backdrop-filter: var(--glass-blur); z-index: 100; border-bottom: var(--glass-border); }
+        /* ÜST MENÜ */
+        header { position: fixed; top: 0; left: 0; width: 100%; padding: 10px 20px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; background: rgba(10, 10, 12, 0.6); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); z-index: 100; border-bottom: var(--glass-border); }
         .header-left { display: flex; justify-content: flex-start; position: relative;}
         .header-right { display: flex; justify-content: flex-end; }
         .logo { font-family: 'Grand Hotel', cursive; font-size: 36px; color: var(--text-light); text-decoration: none; text-shadow: 0 2px 10px rgba(255,255,255,0.2); justify-self: center; letter-spacing: 1px;}
         .header-icon { color: var(--text-light); font-size: 28px; cursor: pointer; transition: 0.3s; background: none; border: none; position: relative; display: flex; align-items: center;}
+        .header-icon:hover { color: var(--primary-gold); transform: scale(1.1);}
         .notification-dot { position: absolute; top: 0; right: 0; width: 10px; height: 10px; background: #ff3040; border-radius: 50%; display: none; box-shadow: 0 0 8px rgba(255,48,64,0.8);}
 
+        /* HİKAYELER */
         .stories-wrapper { position: absolute; top: 65px; left: 0; width: 100%; padding: 10px 5%; display: flex; gap: 15px; overflow-x: auto; scroll-behavior: smooth; z-index: 50; }
         .stories-wrapper::-webkit-scrollbar { display: none; }
         .story-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; flex-shrink: 0; }
@@ -30,11 +36,11 @@
         .story-img { width: 100%; height: 100%; border-radius: 50%; border: 2px solid #0a0a0c; background-size: cover; background-position: center; }
         .story-name { font-size: 11px; color: var(--text-light); font-weight: 500;}
 
-        /* SWIPE TINDER KARTLARI (Düzeltilmiş Z-Index ve Removed Sınıfı için) */
+        /* 🔥 SWIPE (TİNDER) KARTLARI (DOM VE Z-INDEX HATALARI ÇÖZÜLDÜ) 🔥 */
         .swipe-container { position: absolute; top: 165px; bottom: 150px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 400px; display: flex; justify-content: center; align-items: center; perspective: 1000px; }
-        .swipe-card { position: absolute; width: 92%; height: 95%; background: var(--glass-bg); backdrop-filter: blur(30px); border: var(--glass-border); border-radius: 24px; box-shadow: var(--glass-shadow); overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; transform-origin: 50% 100%; transition: transform 0.3s ease, opacity 0.3s ease; cursor: grab; z-index: 1; user-select: none;}
+        .swipe-card { position: absolute; width: 92%; height: 95%; background: var(--glass-bg); backdrop-filter: blur(30px); border: var(--glass-border); border-radius: 24px; box-shadow: var(--glass-shadow); overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; transform-origin: 50% 100%; transition: transform 0.3s ease, opacity 0.3s ease; cursor: grab; user-select: none; z-index: 1;}
         .swipe-card.moving { transition: none; cursor: grabbing; }
-        .swipe-card.removed { pointer-events: none; } /* Uçan karta bir daha tıklanamaz */
+        .swipe-card.removed { pointer-events: none; } /* Kaydırılan kart sistemden düşer */
         
         .card-img-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: -1; }
         .card-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 40%, transparent 100%); z-index: 0; }
@@ -51,12 +57,15 @@
         .empty-state .material-symbols-outlined { font-size: 60px; color: var(--primary-gold); animation: pulse 2s infinite alternate;}
         @keyframes pulse { 0% { transform: scale(1); opacity:0.6;} 100% { transform: scale(1.1); opacity:1;} }
 
+        /* AKSİYON BUTONLARI */
         .action-buttons { position: absolute; bottom: 85px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 350px; display: flex; justify-content: space-evenly; align-items: center; z-index: 90; padding: 0 20px;}
         .action-btn { width: 65px; height: 65px; border-radius: 50%; background: rgba(20,20,25,0.6); backdrop-filter: blur(20px); border: var(--glass-border); display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.4); transition: 0.2s;}
+        .action-btn:hover { transform: scale(1.1); }
         .btn-dislike { color: #ff4757; } .btn-dislike .material-symbols-outlined { font-size: 34px; font-weight: 600;}
         .btn-superlike { width: 50px; height: 50px; color: #3498db; } .btn-superlike .material-symbols-outlined { font-size: 28px; font-variation-settings: 'FILL' 1;}
         .btn-like { color: #2ecc71; } .btn-like .material-symbols-outlined { font-size: 34px; font-weight: 600; font-variation-settings: 'FILL' 1;}
 
+        /* ALT MENÜ */
         .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 10, 12, 0.85); backdrop-filter: blur(25px); padding: 12px 10px calc(12px + env(safe-area-inset-bottom)); border-top: var(--glass-border); z-index: 999;}
         .nav-icon-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
         .nav-icon-btn .material-symbols-outlined { font-size: 30px; }
@@ -64,7 +73,7 @@
         .nav-icon-btn.add-btn { background: linear-gradient(135deg, #d4af37, #aa8529); color: #000; width: 44px; height: 44px; border-radius: 12px; display: flex; justify-content: center; align-items: center;}
         .nav-icon-btn.add-btn .material-symbols-outlined { font-size: 28px; font-weight: 600; color: #000;}
 
-        /* MODALLAR & CAM KUTULAR */
+        /* MODALLAR */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1500; padding: 15px; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 50; display: flex; align-items: center; justify-content: center;}
@@ -75,8 +84,9 @@
         .form-group { margin-bottom: 15px; text-align: left; width: 100%;}
         .form-group input, .form-group textarea { width: 100%; padding: 14px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; outline: none; font-size: 14px; font-family: inherit;}
         .form-group input:focus { border-color: var(--primary-gold); }
-        .btn-premium { background: var(--primary-gold); color: #000; padding: 14px; border-radius: 12px; font-weight: 700; width: 100%; border: none; cursor: pointer; font-size: 15px; transition: 0.3s;}
+        .btn-premium { background: var(--primary-gold); color: #000; padding: 14px; border-radius: 12px; font-weight: 700; width: 100%; border: none; cursor: pointer; font-size: 15px;}
 
+        /* AŞAĞIDAN AÇILAN EKRANLAR */
         .bottom-sheet { background: var(--bg-dark); width: 100%; height: 90vh; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.4s; display: flex; flex-direction: column; overflow: hidden;}
         .modal-overlay.active .bottom-sheet { transform: translateY(0); }
         .sheet-header { padding: 20px; border-bottom: var(--glass-border); display: flex; align-items: center; gap: 15px; font-size: 16px; font-weight: 600;}
@@ -85,7 +95,7 @@
         .list-avatar { width: 48px; height: 48px; border-radius: 50%; background: #222; background-size: cover; background-position: center; flex-shrink: 0;}
         .list-text { flex: 1; font-size: 14px; line-height: 1.4;}
 
-        /* MATCH & CHAT */
+        /* MATCH (EŞLEŞME) VE CANLI SOHBET EKRANLARI */
         .match-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: 0.5s ease;}
         .match-overlay.active { opacity: 1; visibility: visible; }
         .match-title { font-family: 'Grand Hotel', cursive; font-size: 60px; color: var(--primary-gold); margin-bottom: 40px; transform: scale(0.5); opacity: 0; transition: 0.5s; }
@@ -103,18 +113,10 @@
         .chat-bubble { padding: 12px 16px; border-radius: 20px; font-size: 14px; line-height: 1.4; word-break: break-word;}
         .chat-msg.mine .chat-bubble { background: linear-gradient(135deg, #d4af37, #aa8529); color: #000; border-bottom-right-radius: 4px;}
         .chat-msg.theirs .chat-bubble { background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; border-bottom-left-radius: 4px;}
+        .chat-time { font-size: 10px; color: gray; margin-top: 4px; }
         .chat-input-container { padding: 15px 20px; background: rgba(20,20,25,0.9); border-top: var(--glass-border); display: flex; gap: 10px; align-items: center;}
         .chat-input { flex: 1; background: rgba(255,255,255,0.1); border: none; color: white; padding: 14px 20px; border-radius: 30px; outline: none;}
         .chat-send-btn { background: var(--primary-gold); width: 45px; height: 45px; border-radius: 50%; border: none; display: flex; justify-content: center; align-items: center; color: black; cursor: pointer;}
-
-        .search-input { flex: 1; background: rgba(255,255,255,0.1); border: none; color: white; padding: 12px 20px; border-radius: 30px; outline: none;}
-        .grid-view { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; overflow-y: auto; flex: 1; }
-        .grid-item { aspect-ratio: 1 / 1; background-size: cover; background-position: center; cursor: pointer; }
-        
-        .reels-box { background: #000; width: 100%; height: 100dvh; position: relative; transform: translateY(100%); transition: 0.4s ease; overflow-y: scroll; scroll-snap-type: y mandatory; }
-        .modal-overlay.active .reels-box { transform: translateY(0); }
-        .reel-item { width: 100%; height: 100dvh; scroll-snap-align: start; background-size: cover; background-position: center; position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; padding-bottom: 90px; }
-        .reel-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 40%, rgba(0,0,0,0.2) 100%); pointer-events: none;}
 
         .auth-tabs { display: flex; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .tab-btn { flex: 1; background: none; border: none; color: var(--text-muted); padding: 10px; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 15px; }
@@ -149,7 +151,7 @@
 
     <div class="stories-wrapper" id="stories-container"></div>
 
-    <div class="swipe-container" id="swipe-container"><div class="empty-state" id="empty-state" style="display: none;"><span class="material-symbols-outlined">radar</span><p>Yakınlarda yeni kimse yok.<br>Daha sonra tekrar gel.</p></div></div>
+    <div class="swipe-container" id="swipe-container"><div class="empty-state" id="empty-state" style="display: none;"><span class="material-symbols-outlined">radar</span><p>Şimdilik buralar sessiz.<br>Daha sonra tekrar gel.</p></div></div>
 
     <div class="action-buttons">
         <button class="action-btn btn-dislike" onclick="buttonSwipe('left')"><span class="material-symbols-outlined">close</span></button>
@@ -190,18 +192,8 @@
     
     <div class="modal-overlay" id="chatRoomModal" style="z-index: 1600;"><div class="bottom-sheet" style="height: 100dvh; border-radius: 0;"><div class="sheet-header"><button class="header-icon" onclick="closeModal('chatRoomModal'); openMessages();"><span class="material-symbols-outlined">arrow_back</span></button><div style="display:flex; align-items:center; gap:10px;"><div id="chat-header-avatar" style="width:36px; height:36px; border-radius:50%; background-size:cover; border:2px solid var(--primary-gold);"></div><span id="chat-header-name">Kullanıcı</span></div></div><div class="chat-area" id="chat-messages"></div><div class="chat-input-container"><input type="text" id="chat-input" class="chat-input" placeholder="Mesaj yaz..." onkeypress="if(event.key === 'Enter') sendChatMessage()"><button class="chat-send-btn" onclick="sendChatMessage()"><span class="material-symbols-outlined">send</span></button></div></div></div>
     
-    <div class="modal-overlay" id="notificationsModal"><div class="bottom-sheet"><div class="sheet-header"><button class="header-icon" onclick="closeModal('notificationsModal')"><span class="material-symbols-outlined">arrow_back</span></button> Bildirimler</div><div style="flex:1; overflow-y:auto;" id="noti-list"><div style="text-align:center; padding:40px; color:gray;">Bildirim yok...</div></div></div></div>
+    <div class="modal-overlay" id="notificationsModal"><div class="bottom-sheet"><div class="sheet-header"><button class="header-icon" onclick="closeModal('notificationsModal')"><span class="material-symbols-outlined">arrow_back</span></button> Bildirimler</div><div style="flex:1; overflow-y:auto;" id="noti-list"><div style="text-align:center; padding:40px; color:gray;">Bildirim yok.</div></div></div></div>
     
-    <div class="modal-overlay" id="exploreModal"><div class="bottom-sheet"><div class="sheet-header" style="gap:10px;"><button class="header-icon" onclick="closeModal('exploreModal')"><span class="material-symbols-outlined">arrow_back</span></button><input type="text" class="search-input" id="search-input" placeholder="Keşfet..." onkeyup="performSearch()"></div><div class="grid-view" id="explore-grid" style="padding: 2px;"></div></div></div>
-    
-    <div class="modal-overlay" id="addModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Yeni Gönderi</h2><div class="form-group"><input type="text" id="add-image" placeholder="Fotoğraf URL'si..."></div><div class="form-group"><textarea id="add-caption" rows="3" placeholder="Açıklama yaz..."></textarea></div><button type="button" id="btn-submit-post" class="btn-premium">Akışta Paylaş</button></div></div>
-    
-    <div class="modal-overlay" id="addStoryModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addStoryModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color:white; font-size:18px; text-align:center; margin-bottom:20px;">Hikayene Ekle</h2><div class="form-group"><input type="text" id="story-img-url" placeholder="Görsel URL..."></div><button id="btn-submit-story" class="btn-premium">Paylaş</button></div></div>
-
-    <div class="modal-overlay" id="viewStoryModal"><div class="story-view-box"><button class="close-btn" onclick="closeModal('viewStoryModal')" style="z-index: 10; top: 20px; right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button><div class="story-view-header"><div class="story-view-avatar" id="view-story-avatar"></div><div class="story-view-username" id="view-story-username" style="color:white; font-weight:bold;">-</div></div><div class="story-view-img" id="view-story-img"></div></div></div>
-
-    <div class="modal-overlay" id="reelsModal" style="padding:0; background: #000;"><button class="close-btn" onclick="closeModal('reelsModal')" style="z-index: 1000; top: 20px; right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button><div class="reels-box" id="reels-container"></div></div>
-
     <div class="match-overlay" id="matchOverlay"><div class="match-title">Eşleştiniz!</div><div class="match-avatars"><div class="m-avatar left" id="match-my-avatar"></div><div class="m-avatar right" id="match-their-avatar"></div></div><div style="color: white; font-size: 16px; margin-bottom: 30px;" id="match-text"></div><div style="display:flex; flex-direction:column; gap:15px;"><button class="btn-msg" id="btn-match-msg"><span class="material-symbols-outlined">send</span> Mesaj Gönder</button><button class="btn-keep" onclick="closeMatch()">Kaydırmaya Devam Et</button></div></div>
 
     <script>
@@ -215,10 +207,10 @@
         
         document.querySelectorAll('.modal-overlay').forEach(m => { m.addEventListener('click', (e) => { if(e.target === m && m.id !== 'authModal') closeModal(m.id); }); });
 
-        window.openExplore = () => { openModal('exploreModal'); if(window.renderExploreGrid) window.renderExploreGrid(); }
-        window.openReels = () => { openModal('reelsModal'); if(window.renderReels) window.renderReels(); }
+        window.openExplore = () => { alert('Keşfet ekranı profil sayfasından incelenebilir.'); }
+        window.openReels = () => { alert('Reels akışı profil sayfasından incelenebilir.'); }
         window.openNotifications = () => { openModal('notificationsModal'); document.getElementById('noti-dot').style.display='none'; if(window.loadNotifications) window.loadNotifications(); }
-        window.openMessages = () => { openModal('dmListModal'); if(window.loadDMs) window.loadDMs(); }
+        window.openMessages = () => { openModal('messagesModal'); } // ID DÜZELTİLDİ (messagesModal)
         window.closeMatch = () => document.getElementById('matchOverlay').classList.remove('active');
 
         // 🔥 EKRANI KAYDIRARAK MESAJ/BİLDİRİM AÇMA (SWIPE GESTURE) 🔥
@@ -231,13 +223,9 @@
         document.addEventListener('touchend', e => {
             if(e.target.closest('.swipe-card') || e.target.closest('.stories-wrapper') || document.querySelector('.modal-overlay.active')) return;
             globalEndX = e.changedTouches[0].screenX;
-            handleGlobalSwipe();
+            if (globalStartX - globalEndX > 100) { openMessages(); }      // Sağdan sola -> Mesajlar (Sağ tarafta uçak var)
+            else if (globalEndX - globalStartX > 100) { openNotifications(); } // Soldan sağa -> Bildirimler (Sol tarafta kalp var)
         }, {passive: true});
-
-        function handleGlobalSwipe() {
-            if (globalStartX - globalEndX > 100) { openMessages(); }      // Sağdan sola -> Mesajlar
-            else if (globalEndX - globalStartX > 100) { openNotifications(); } // Soldan sağa -> Bildirimler
-        }
     </script>
 
     <script type="module">
@@ -249,9 +237,8 @@
         const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
 
         const adminEmail = "kcagatay239@gmail.com"; 
-        window.globalUsers = {}; window.globalPosts = []; let currentUserProfile = null;
+        window.globalUsersById = {}; window.globalUsersByName = {}; let currentUserProfile = null;
 
-        // AUTH
         document.getElementById('btn-login').addEventListener('click', async () => { try { await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-pass').value); window.location.reload(); } catch (err) { alert(err.message); }});
         document.getElementById('btn-register').addEventListener('click', async () => { 
             const name = document.getElementById('reg-name').value; const email = document.getElementById('reg-email').value; const pass = document.getElementById('reg-pass').value;
@@ -269,54 +256,54 @@
                 onSnapshot(query(collection(db, "bildirimler"), where("to", "==", user.displayName)), (s) => { if(!s.empty) document.getElementById('noti-dot').style.display = 'block'; });
                 
                 await loadAllData(); 
-                loadProfilesForDeck(); // GERÇEK HESAPLARI YÜKLE
-                window.loadStories();
-                window.listenToDMs(); // CANLI DM DİNLEYİCİ
+                loadProfilesForDeck(); // SADECE GERÇEK HESAPLAR
+                window.listenToDMs(); // DM SİSTEMİ ONARILDI
             } 
             else { openModal('authModal'); }
         });
 
         async function loadAllData() {
             const usersSnap = await getDocs(collection(db, "kullanicilar"));
-            usersSnap.forEach(uDoc => { window.globalUsers[uDoc.data().displayName] = uDoc.data(); window.globalUsers[uDoc.id] = { uid: uDoc.id, ...uDoc.data() }; });
-            const postSnap = await getDocs(query(collection(db, "gonderiler"), orderBy("createdAt", "desc")));
-            window.globalPosts = []; postSnap.forEach(doc => { window.globalPosts.push({ id: doc.id, ...doc.data() }); });
+            window.globalUsersById = {}; window.globalUsersByName = {};
+            usersSnap.forEach(uDoc => { 
+                const uData = uDoc.data(); uData.uid = uDoc.id;
+                window.globalUsersById[uDoc.id] = uData; 
+                if(uData.displayName) window.globalUsersByName[uData.displayName] = uData; 
+            });
         }
 
-        // 🔥 TINDER KARTLARI (SAHTELER SİLİNDİ, KENDİNİ VE ESKİLERİ GÖRME ENGELLENDİ) 🔥
+        // 🔥 GERÇEK KULLANICI TINDER KARTLARI (SAHTELER VE KENDİNİ GÖRME KALDIRILDI) 🔥
         const swipeContainer = document.getElementById('swipe-container'); 
         
         async function loadProfilesForDeck() {
             const myUid = auth.currentUser ? auth.currentUser.uid : null; 
             if(!myUid) return;
 
-            // Daha önce sağa/sola kaydırdığımız (oyladığımız) kişileri bulalım (Tekrar ekrana çıkmasınlar)
+            // Daha önce oyladığımız (sağa/sola) kişileri veritabanından çek (Bir daha karşımıza çıkmasınlar)
             const mySwipesSnap = await getDocs(query(collection(db, "kaydirmalar"), where("swiperId", "==", myUid)));
             const swipedIds = new Set();
             mySwipesSnap.forEach(doc => swipedIds.add(doc.data().swipedId));
 
             const profiles = [];
-            Object.values(window.globalUsers).forEach(u => { 
-                // KENDİ ID'M DEĞİLSE ve DAHA ÖNCE KAYDIRMADIYSAM ekle
+            // Gerçek kullanıcıları (Kendim hariç ve oylamadıklarım) diziye ekle
+            Object.values(window.globalUsersById).forEach(u => {
                 if(u.uid !== myUid && !swipedIds.has(u.uid) && u.displayName) {
                     profiles.push({ 
                         uid: u.uid, name: u.displayName, age: u.age || "25", bio: u.bio || "Swinder Üyesi", 
                         img: u.avatar || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=800", 
                         isVerified: u.isVerified || u.displayName.toLowerCase().includes('çağatay') 
-                    }); 
+                    });
                 }
             });
 
-            if(profiles.length === 0) {
-                document.getElementById('empty-state').style.display = 'flex';
-                return;
-            }
+            if(profiles.length === 0) { document.getElementById('empty-state').style.display = 'flex'; return; }
 
+            // Kartları DOM'a ekle (DOM Hatası düzeltildi: highest z-index ilk eleman olacak şekilde)
             profiles.forEach((p, index) => {
                 const gt = p.isVerified ? '<span class="gold-tick">✓</span>' : '';
-                // beforeend yapıyoruz ki dizideki sıraya göre üst üste düzgün binsin
+                // z-index formülü: En üstteki kartın index'i en yüksek olur
                 swipeContainer.insertAdjacentHTML('beforeend', `
-                    <div class="swipe-card" data-uid="${p.uid}" data-name="${p.name}" data-img="${p.img}" style="z-index: ${profiles.length - index};">
+                    <div class="swipe-card" data-uid="${p.uid}" data-name="${p.name}" data-img="${p.img}" style="z-index: ${1000 - index};">
                         <div class="card-img-bg" style="background-image: url('${p.img}');"></div><div class="card-overlay"></div>
                         <div class="swipe-stamp stamp-like">LIKE</div><div class="swipe-stamp stamp-nope">NOPE</div>
                         <div class="card-info"><div class="card-details"><div class="card-name">${p.name} <span class="card-age">${p.age}</span> ${gt}</div><div class="card-bio">${p.bio}</div></div></div>
@@ -325,43 +312,57 @@
             initSwipeLogic();
         }
 
-        // SWIPE LOGIC VE ANİMASYON (Z-Index Sorunu Çözüldü)
+        // SWIPE MOTORU VE Z-INDEX HATASI GİDERİLDİ
         function initSwipeLogic() { 
-            const cards = Array.from(document.querySelectorAll('.swipe-card:not(.removed)')); 
-            if(cards.length === 0) document.getElementById('empty-state').style.display = 'flex'; 
+            const cards = Array.from(document.querySelectorAll('.swipe-card')); 
+            if(cards.length === 0) return;
+            
             cards.forEach(card => { 
-                let isDragging = false; let startX = 0, currentX = 0; 
                 const likeStamp = card.querySelector('.stamp-like'); const nopeStamp = card.querySelector('.stamp-nope'); 
-                const startDrag = (e) => { isDragging = true; startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX; card.classList.add('moving'); }; 
+                let startX = 0, currentX = 0; 
+
                 const onDrag = (e) => { 
-                    if (!isDragging) return; 
-                    currentX = (e.type.includes('mouse') ? e.pageX : e.touches[0].clientX) - startX; 
+                    const clientX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX; 
+                    currentX = clientX - startX; 
                     card.style.transform = `translateX(${currentX}px) rotate(${currentX * 0.05}deg)`; 
                     if (currentX > 0) { likeStamp.style.opacity = currentX / 100; nopeStamp.style.opacity = 0; } 
                     else { nopeStamp.style.opacity = Math.abs(currentX) / 100; likeStamp.style.opacity = 0; } 
                 }; 
                 const endDrag = (e) => { 
-                    if (!isDragging) return; 
-                    isDragging = false; card.classList.remove('moving'); 
+                    document.removeEventListener('mousemove', onDrag); document.removeEventListener('touchmove', onDrag);
+                    document.removeEventListener('mouseup', endDrag); document.removeEventListener('touchend', endDrag);
+                    card.classList.remove('moving'); 
+
                     if (currentX > 120) { card.classList.add('removed'); processSwipe(card, 'right'); }
                     else if (currentX < -120) { card.classList.add('removed'); processSwipe(card, 'left'); }
                     else { card.style.transform = `translateX(0px) rotate(0deg)`; likeStamp.style.opacity = 0; nopeStamp.style.opacity = 0; } 
                     currentX = 0; 
                 }; 
-                card.addEventListener('mousedown', startDrag); card.addEventListener('touchstart', startDrag, {passive: true}); document.addEventListener('mousemove', onDrag); document.addEventListener('touchmove', onDrag, {passive: false}); document.addEventListener('mouseup', endDrag); document.addEventListener('touchend', endDrag); 
+
+                const startDrag = (e) => { 
+                    // SADECE EN ÜSTTEKİ KART TUTULABİLİR (Z-INDEX BUG FIX)
+                    const currentTopCard = document.querySelector('.swipe-card:not(.removed)');
+                    if (card !== currentTopCard) return;
+
+                    startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX; 
+                    card.classList.add('moving'); 
+                    document.addEventListener('mousemove', onDrag); document.addEventListener('touchmove', onDrag, {passive: false}); 
+                    document.addEventListener('mouseup', endDrag); document.addEventListener('touchend', endDrag); 
+                }; 
+
+                card.addEventListener('mousedown', startDrag); card.addEventListener('touchstart', startDrag, {passive: true}); 
             }); 
         }
 
         window.buttonSwipe = function(d) { 
-            const cards = Array.from(document.querySelectorAll('.swipe-card:not(.removed)')); 
-            if(cards.length === 0) return; 
-            const topCard = cards[0]; // beforeend ile eklediğimiz için ilk eleman en üstte (z-indexi en yüksek)
-            topCard.classList.add('removed'); // Diğerlerini etkilememesi için anında kaldırıldı işaretle
+            const topCard = document.querySelector('.swipe-card:not(.removed)'); // DİĞERLERİ ETKİLENMEZ
+            if(!topCard) return; 
+            topCard.classList.add('removed'); // Anında sistemden düşer
             if(d === 'right' || d === 'super') topCard.querySelector('.stamp-like').style.opacity = 1; else topCard.querySelector('.stamp-nope').style.opacity = 1; 
             processSwipe(topCard, d); 
         }
 
-        // GERÇEK EŞLEŞME (REAL MATCH ENGINE)
+        // GERÇEK EŞLEŞME MOTORU (REAL MATCH)
         async function processSwipe(card, direction) { 
             const endX = (direction === 'right' || direction === 'super') ? window.innerWidth : -window.innerWidth; 
             card.style.transition = 'transform 0.4s ease-out, opacity 0.4s ease-out'; 
@@ -371,16 +372,15 @@
             const user = auth.currentUser; const theirUid = card.dataset.uid; const theirName = card.dataset.name; const theirImg = card.dataset.img;
             
             if (user) {
-                // Veritabanına kaydırmayı kaydet (Bir daha karşımıza çıkmasın diye)
+                // Kaydırmayı Veritabanına Yaz
                 await setDoc(doc(db, "kaydirmalar", `${user.uid}_${theirUid}`), { swiperId: user.uid, swipedId: theirUid, action: direction, timestamp: new Date() });
                 
                 if (direction === 'right' || direction === 'super') {
-                    // Karşı Taraf da beni sağa kaydırmış mı? (GERÇEK KONTROL)
+                    // KARŞI TARAF BENİ SAĞA KAYDIRMIŞ MI?
                     const theirSwipe = await getDoc(doc(db, "kaydirmalar", `${theirUid}_${user.uid}`)); 
                     
                     if(theirSwipe.exists() && (theirSwipe.data().action === 'right' || theirSwipe.data().action === 'super')) {
-                        
-                        // Zaten eşleşmiş miyiz kontrol et (Çift eşleşme olmasın)
+                        // Zaten eşleşmiş miyiz kontrol et
                         const matchQ = await getDocs(query(collection(db, "eslesmeler"), where("users", "array-contains", user.uid)));
                         let alreadyMatched = false;
                         matchQ.forEach(d => { if(d.data().users.includes(theirUid)) alreadyMatched = true; });
@@ -399,21 +399,20 @@
             setTimeout(() => { card.remove(); const rem = document.querySelectorAll('.swipe-card:not(.removed)'); if(rem.length === 0) document.getElementById('empty-state').style.display = 'flex'; }, 400); 
         }
 
-        // 🔥 MESAJLAR (DM) LİSTESİ CANLI DİNLEYİCİ 🔥
+        // 🔥 MESAJLAR (DM) CANLI DİNLEYİCİ (HATA GİDERİLDİ) 🔥
         window.listenToDMs = function() {
             const user = auth.currentUser; if(!user) return;
             const dmListContainer = document.getElementById('dm-list-container');
             
             onSnapshot(query(collection(db, "eslesmeler"), where("users", "array-contains", user.uid)), (snapshot) => {
                 dmListContainer.innerHTML = '';
-                if(snapshot.empty) { dmListContainer.innerHTML = '<div style="text-align:center; padding:40px; color:gray;">Henüz eşleşmen yok. Bol bol kaydır!</div>'; return; }
+                if(snapshot.empty) { dmListContainer.innerHTML = '<div style="text-align:center; padding:40px; color:gray;">Henüz eşleşmen yok.</div>'; return; }
                 
                 let matches = []; snapshot.forEach(d => matches.push({ id: d.id, ...d.data() })); matches.sort((a,b) => b.updatedAt.seconds - a.updatedAt.seconds); 
                 matches.forEach(match => {
-                    const theirUid = match.users.find(id => id !== user.uid);
-                    const theirIndex = match.users.indexOf(theirUid); 
-                    const theirName = match.userNames[theirIndex];
-                    const theirImg = window.globalUsers[theirUid]?.avatar || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100";
+                    const theirIndex = match.users.indexOf(user.uid) === 0 ? 1 : 0;
+                    const theirUid = match.users[theirIndex]; const theirName = match.userNames[theirIndex];
+                    const theirImg = window.globalUsersById[theirUid]?.avatar || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100";
 
                     dmListContainer.insertAdjacentHTML('beforeend', `
                     <div class="list-item" onclick="window.openChatRoom('${match.id}', '${theirName}', '${theirImg}', '${theirUid}')">
@@ -424,10 +423,10 @@
             });
         }
 
-        // SOHBET ODASI
+        // CANLI SOHBET ODASI
         let activeChatId = null; let messagesUnsubscribe = null;
         window.openChatRoom = function(chatId, partnerName, partnerImg, partnerUid) {
-            closeModal('dmListModal'); activeChatId = chatId;
+            closeModal('messagesModal'); activeChatId = chatId;
             document.getElementById('chat-header-name').innerText = partnerName; document.getElementById('chat-header-avatar').style.backgroundImage = `url('${partnerImg}')`;
             openModal('chatRoomModal');
             
@@ -453,67 +452,6 @@
                 await updateDoc(doc(db, "eslesmeler", activeChatId), { lastMessage: text, updatedAt: new Date() });
             } catch(e) {}
         }
-
-        // 🔥 DİĞER MODÜLLER (HİKAYE, KEŞFET, REELS, BİLDİRİM vb.) 🔥
-        window.loadStories = async function() {
-            const stContainer = document.getElementById('stories-container');
-            stContainer.innerHTML = `<div class="story-item" onclick="openModal('addStoryModal')"><div class="story-ring add-story"><div class="story-img" style="display:flex; justify-content:center; align-items:center; color: var(--text-muted);"><span class="material-symbols-outlined">add</span></div></div><span class="story-name">Sen</span></div>`;
-            try {
-                const snapshot = await getDocs(query(collection(db, "hikayeler"), orderBy("createdAt", "desc")));
-                snapshot.forEach(doc => {
-                    const data = doc.data(); const pInfo = window.globalUsers[data.username] || {}; const sAvatar = pInfo.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100';
-                    stContainer.insertAdjacentHTML('beforeend', `<div class="story-item" onclick="window.viewStory('${doc.id}', '${data.imageUrl}', '${data.username}', '${sAvatar}')"><div class="story-ring"><div class="story-img" style="background-image: url('${data.imageUrl}');"></div></div><span class="story-name">${data.username.split(' ')[0]}</span></div>`);
-                });
-            } catch(e){}
-        }
-
-        window.viewStory = function(id, imgUrl, username, avatarUrl) {
-            document.getElementById('view-story-img').style.backgroundImage = `url('${imgUrl}')`; document.getElementById('view-story-username').innerText = username; document.getElementById('view-story-avatar').style.backgroundImage = `url('${avatarUrl}')`;
-            openModal('viewStoryModal');
-        }
-
-        document.getElementById('btn-submit-story').addEventListener('click', async () => {
-            const user = auth.currentUser; if (!user) return; const imageUrl = document.getElementById('story-img-url').value; if (!imageUrl) return;
-            document.getElementById('btn-submit-story').innerText = "Yükleniyor...";
-            try { await addDoc(collection(db, "hikayeler"), { imageUrl, username: user.displayName, createdAt: new Date() }); closeModal('addStoryModal'); window.loadStories(); } catch (e) {} finally { document.getElementById('btn-submit-story').innerText = "Paylaş"; }
-        });
-
-        window.renderExploreGrid = function() {
-            const filterText = document.getElementById('search-input').value.toLowerCase(); const grid = document.getElementById('explore-grid'); grid.innerHTML = '';
-            let filtered = window.globalPosts.filter(p => p.username !== auth.currentUser.displayName);
-            if(filterText) filtered = filtered.filter(p => (p.caption||'').toLowerCase().includes(filterText) || (p.username||'').toLowerCase().includes(filterText));
-            if(filtered.length === 0) { grid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 40px; font-size: 13px;">Sonuç bulunamadı.</div>'; return;}
-            filtered.forEach(p => grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${p.imageUrl}');" onclick="closeModal('exploreModal'); window.openReels();"></div>`));
-        }
-        window.performSearch = () => window.renderExploreGrid();
-
-        window.renderReels = function() {
-            const rc = document.getElementById('reels-container'); rc.innerHTML = '';
-            if(window.globalPosts.length === 0) { rc.innerHTML = '<div style="color:white; text-align:center; padding-top:50vh;">Reels yok.</div>'; return; }
-            window.globalPosts.forEach(data => {
-                const pInfo = window.globalUsers[data.username] || {}; const av = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100')`;
-                rc.insertAdjacentHTML('beforeend', `<div class="reel-item" style="background-image: url('${data.imageUrl}');"><div class="reel-overlay"></div><div class="reel-content"><div class="reel-info"><div class="reel-user" style="color:white; font-weight:bold; display:flex; align-items:center; gap:10px; margin-bottom:10px;"><div style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center; background-image:${av};"></div>${data.username}</div><div style="color: rgba(255,255,255,0.9); font-size: 14px;">${data.caption || ''}</div></div></div></div>`);
-            });
-        }
-
-        window.loadNotifications = async function() {
-            const user = auth.currentUser; const list = document.getElementById('noti-list'); if(!user) return;
-            const snap = await getDocs(query(collection(db, "bildirimler"), where("to", "==", user.displayName)));
-            list.innerHTML = '';
-            if(snap.empty) { list.innerHTML = '<div style="padding:40px; text-align:center; color:gray;">Henüz bildirim yok.</div>'; return;}
-            let notis = []; snap.forEach(d => notis.push(d.data())); notis.sort((a,b) => b.createdAt.seconds - a.createdAt.seconds);
-            notis.forEach(data => {
-                const avatar = window.globalUsers[data.from]?.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100';
-                list.insertAdjacentHTML('beforeend', `<div class="list-item"><div class="list-avatar" style="background-image:url('${avatar}')"></div><div class="list-text"><strong>${data.from}</strong> ${data.text}</div></div>`);
-            });
-        }
-
-        document.getElementById('btn-submit-post').addEventListener('click', async () => {
-            const user = auth.currentUser; if (!user) return;
-            const imageUrl = document.getElementById('add-image').value; const caption = document.getElementById('add-caption').value;
-            if (!imageUrl) return; document.getElementById('btn-submit-post').innerText = "Yükleniyor...";
-            try { await addDoc(collection(db, "gonderiler"), { imageUrl, caption, username: user.displayName, likesCount: 0, createdAt: new Date() }); closeModal('addModal'); document.getElementById('add-image').value = ""; await loadAllData(); } catch (err) {} finally { document.getElementById('btn-submit-post').innerText = "Paylaş"; }
-        });
     </script>
 </body>
 </html>
