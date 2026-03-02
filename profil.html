@@ -32,7 +32,7 @@
         .btn-edit { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: var(--glass-border); color: var(--text-light); padding: 10px 0; border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.3s; width: 100%; text-align: center; }
         
         .profile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 2px;}
-        .grid-item { aspect-ratio: 1 / 1; background-size: cover; background-position: center; cursor: pointer; }
+        .grid-item { aspect-ratio: 1 / 1; background-size: cover; background-position: center; cursor: pointer; transition: 0.3s;}
 
         .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 10, 12, 0.85); backdrop-filter: blur(25px); padding: 12px 10px calc(12px + env(safe-area-inset-bottom)); border-top: var(--glass-border); z-index: 999; }
         .nav-icon-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; }
@@ -65,20 +65,18 @@
         .form-group input:focus { border-color: var(--primary-gold); }
         .btn-premium { background: var(--primary-gold); color: #000; padding: 14px; border-radius: 12px; font-weight: 700; width: 100%; border: none; cursor: pointer;}
 
-        .search-input { flex: 1; background: rgba(255,255,255,0.1); border: none; color: white; padding: 12px 20px; border-radius: 30px; outline: none;}
-        .grid-view { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; overflow-y: auto; flex: 1; }
-        
-        .reels-box { background: #000; width: 100%; height: 100dvh; position: relative; transform: translateY(100%); transition: 0.4s ease; overflow-y: scroll; scroll-snap-type: y mandatory; }
-        .modal-overlay.active .reels-box { transform: translateY(0); }
-        .reel-item { width: 100%; height: 100dvh; scroll-snap-align: start; background-size: cover; background-position: center; position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; padding-bottom: 90px; }
-        .reel-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 40%, rgba(0,0,0,0.2) 100%); pointer-events: none;}
+        /* GÖNDERİ DETAY & ORİJİNAL BOYUT */
+        .post-detail-box { background: var(--bg-dark); width: 100%; height: 90vh; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.4s; display: flex; flex-direction: column; overflow: hidden; }
+        .modal-overlay.active .post-detail-box { transform: translateY(0); }
+        .post-detail-img-container { position: relative; width: 100%; aspect-ratio: 4/5; background: black; overflow: hidden; border-bottom: var(--glass-border);}
+        .media-blur-bg { position: absolute; top: -10%; left: -10%; width: 120%; height: 120%; background-size: cover; background-position: center; filter: blur(35px) brightness(0.3); z-index: 0; }
+        .media-contain-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: contain; background-repeat: no-repeat; background-position: center; z-index: 1; }
 
         @media (max-width: 768px) {
             .modal-overlay { padding: 0; align-items: flex-end;}
             .glass-box { margin: 0; max-width: 100%; border-radius: 25px 25px 0 0; transform: translateY(100%); border-bottom: none;}
             .modal-overlay.active .glass-box { transform: translateY(0); }
             .bottom-sheet { height: 90vh; }
-            .reels-box { height: 100dvh; max-width: 100%; border-radius: 0; }
         }
     </style>
 </head>
@@ -114,9 +112,9 @@
 
     <nav class="bottom-nav">
         <button class="nav-icon-btn" onclick="window.location.href='index.html'"><span class="material-symbols-outlined">home</span></button>
-        <button class="nav-icon-btn" onclick="openExplore()"><span class="material-symbols-outlined">search</span></button>
+        <button class="nav-icon-btn" onclick="alert('Arama ana sayfadadır.')"><span class="material-symbols-outlined">search</span></button>
         <button class="nav-icon-btn add-btn" onclick="openModal('addModal')"><span class="material-symbols-outlined" style="color:black;">add</span></button>
-        <button class="nav-icon-btn" onclick="openReels()"><span class="material-symbols-outlined">movie</span></button>
+        <button class="nav-icon-btn" onclick="alert('Reels ana sayfadadır.')"><span class="material-symbols-outlined">movie</span></button>
         <button class="nav-icon-btn active"><span class="material-symbols-outlined">person</span></button>
     </nav>
 
@@ -133,9 +131,9 @@
                 <button class="btn-premium" id="btn-login">Oturum Aç</button>
             </div>
             <div class="auth-form" id="form-register">
-                <div class="form-group"><input type="text" id="reg-name" placeholder="Kullanıcı Adı"></div>
+                <div class="form-group"><input type="text" id="reg-name" placeholder="Ad Soyad veya Kullanıcı Adı"></div>
                 <div class="form-group"><input type="email" id="reg-email" placeholder="E-posta Adresi"></div>
-                <div class="form-group"><input type="password" id="reg-pass" placeholder="Şifre"></div>
+                <div class="form-group"><input type="password" id="reg-pass" placeholder="Şifre Belirleyin"></div>
                 <button class="btn-premium" id="btn-register">Hesap Oluştur</button>
             </div>
         </div>
@@ -161,9 +159,26 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="exploreModal"><div class="bottom-sheet"><div class="sheet-header" style="gap:10px;"><button class="header-icon" onclick="closeModal('exploreModal')"><span class="material-symbols-outlined">arrow_back</span></button><input type="text" class="search-input" id="search-input" placeholder="Ara..." onkeyup="performSearch()"></div><div class="grid-view" id="explore-grid" style="padding: 2px;"></div></div></div>
-    <div class="modal-overlay" id="addModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Yeni Gönderi</h2><div class="form-group"><input type="text" id="add-image" placeholder="Fotoğraf URL'si..."></div><div class="form-group"><textarea id="add-caption" rows="3" placeholder="Açıklama yaz..."></textarea></div><button type="button" id="btn-submit-post" class="btn-premium">Paylaş</button></div></div>
-    <div class="modal-overlay" id="reelsModal" style="padding:0; background: #000;"><button class="close-btn" onclick="closeModal('reelsModal')" style="z-index: 1000; top: 20px; right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button><div class="reels-box" id="reels-container"></div></div>
+    <div class="modal-overlay" id="addModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Yeni Gönderi Paylaş</h2><div class="form-group"><input type="text" id="add-image" placeholder="Fotoğraf URL'si..."></div><div class="form-group"><textarea id="add-caption" rows="3" placeholder="Açıklama yaz..."></textarea></div><button type="button" id="btn-submit-post" class="btn-premium">Akışta Paylaş</button></div></div>
+
+    <div class="modal-overlay" id="postDetailModal" style="z-index: 1600;">
+        <div class="post-detail-box">
+            <div class="sheet-header">
+                <button class="header-icon" onclick="closeModal('postDetailModal')"><span class="material-symbols-outlined">arrow_back</span></button> Gönderi
+                <button class="header-icon" id="btn-delete-post" style="margin-left:auto; color:#ff4757; display:none;" onclick="deletePostDB()"><span class="material-symbols-outlined">delete</span></button>
+            </div>
+            <div style="flex:1; overflow-y:auto; padding-bottom:30px;">
+                <div class="post-detail-img-container">
+                    <div class="media-blur-bg" id="pd-blur"></div>
+                    <div class="media-contain-img" id="pd-img"></div>
+                </div>
+                <div style="padding: 15px 20px;">
+                    <div style="font-weight:600; margin-bottom:10px;"><span id="pd-likes">0</span> beğenme</div>
+                    <div style="font-size: 14px;"><strong id="pd-user" style="margin-right:5px;">-</strong><span id="pd-caption" style="color:rgba(255,255,255,0.8);">-</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         function openModal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
@@ -179,22 +194,19 @@
                 if(e.target === m && m.id !== 'authModal') closeModal(m.id); 
             }); 
         });
-
-        window.openExplore = () => { openModal('exploreModal'); if(window.renderExploreGrid) window.renderExploreGrid(); }
-        window.openReels = () => { openModal('reelsModal'); if(window.renderReels) window.renderReels(); }
     </script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, getDocs, query, orderBy, doc, getDoc, addDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, query, orderBy, doc, getDoc, addDoc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = { apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0", authDomain: "swinder-79534.firebaseapp.com", projectId: "swinder-79534", storageBucket: "swinder-79534.firebasestorage.app", messagingSenderId: "704644873549", appId: "1:704644873549:web:d95f561ec912b94cf2cb04" };
         const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
 
-        window.globalPosts = []; window.globalUsersById = {}; window.globalUsersByName = {};
+        window.globalPosts = []; window.globalUsersById = {};
         const adminEmail = "kcagatay239@gmail.com"; 
-        let currentUserId = null; let isAdmin = false;
+        let currentUserId = null; let isAdmin = false; let activeInteractPostId = null;
 
         document.getElementById('btn-login').addEventListener('click', async () => { try { await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-pass').value); window.location.reload(); } catch (err) { alert(err.message); }});
         document.getElementById('btn-register').addEventListener('click', async () => { const name = document.getElementById('reg-name').value; const email = document.getElementById('reg-email').value; const pass = document.getElementById('reg-pass').value; if(!name || !email || !pass) return alert("Doldurun!"); document.getElementById('btn-register').innerText = "Açılıyor..."; try { const uc = await createUserWithEmailAndPassword(auth, email, pass); await updateProfile(uc.user, { displayName: name }); window.location.reload(); } catch (e) { alert(e.message); document.getElementById('btn-register').innerText = "Hesap Oluştur"; }});
@@ -226,21 +238,44 @@
 
         async function loadAllData() {
             const usersSnap = await getDocs(collection(db, "kullanicilar"));
-            window.globalUsersById = {}; window.globalUsersByName = {};
-            usersSnap.forEach(uDoc => { 
-                const uData = uDoc.data(); uData.uid = uDoc.id;
-                window.globalUsersById[uDoc.id] = uData; 
-                if(uData.displayName) window.globalUsersByName[uData.displayName] = uData; 
-            });
+            window.globalUsersById = {};
+            usersSnap.forEach(uDoc => { const d = uDoc.data(); d.uid = uDoc.id; window.globalUsersById[uDoc.id] = d; });
             const postSnap = await getDocs(query(collection(db, "gonderiler"), orderBy("createdAt", "desc")));
             window.globalPosts = []; postSnap.forEach(doc => { window.globalPosts.push({ id: doc.id, ...doc.data() }); });
         }
 
-        function renderProfileGrid() {
+        window.renderProfileGrid = function() {
             const grid = document.getElementById('my-posts'); grid.innerHTML = '';
             const myPosts = window.globalPosts.filter(p => p.username === auth.currentUser.displayName);
             document.getElementById('post-count').innerText = myPosts.length;
-            myPosts.forEach(doc => { grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${doc.imageUrl}');"></div>`); });
+            myPosts.forEach(p => { 
+                const dataStr = encodeURIComponent(JSON.stringify(p));
+                grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${p.imageUrl}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')"></div>`); 
+            });
+        }
+
+        // 🔥 PROFİLDEKİ GÖNDERİYİ AÇMA VE SİLME 🔥
+        window.openPostDetail = function(postId, dataStr) {
+            const data = JSON.parse(decodeURIComponent(dataStr)); activeInteractPostId = postId;
+            
+            document.getElementById('pd-img').style.backgroundImage = `url('${data.imageUrl}')`;
+            document.getElementById('pd-blur').style.backgroundImage = `url('${data.imageUrl}')`;
+            document.getElementById('pd-user').innerText = data.username;
+            document.getElementById('pd-caption').innerText = data.caption || '';
+            document.getElementById('pd-likes').innerText = data.likesCount || 0;
+            
+            document.getElementById('btn-delete-post').style.display = (isAdmin || auth.currentUser.displayName === data.username) ? 'block' : 'none';
+            openModal('postDetailModal');
+        }
+
+        window.deletePostDB = async function() {
+            if(!activeInteractPostId) return;
+            if(confirm("Gönderiyi kalıcı olarak silmek istediğine emin misin?")) {
+                await deleteDoc(doc(db, "gonderiler", activeInteractPostId));
+                closeModal('postDetailModal'); 
+                await loadAllData(); 
+                window.renderProfileGrid();
+            }
         }
 
         document.getElementById('btn-save-profile').addEventListener('click', async () => {
@@ -261,30 +296,11 @@
             } catch (error) { alert("Hata: " + error.message); btn.innerText = "Kaydet"; }
         });
 
-        window.renderExploreGrid = function() {
-            const filterText = document.getElementById('search-input').value.toLowerCase();
-            const grid = document.getElementById('explore-grid'); grid.innerHTML = '';
-            let filtered = window.globalPosts.filter(p => p.username !== auth.currentUser.displayName);
-            if(filterText) filtered = filtered.filter(p => (p.caption||'').toLowerCase().includes(filterText) || (p.username||'').toLowerCase().includes(filterText));
-            filtered.forEach(p => grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${p.imageUrl}');" onclick="closeModal('exploreModal'); window.openReels();"></div>`));
-        }
-        window.performSearch = () => window.renderExploreGrid();
-
-        window.renderReels = function() {
-            const rc = document.getElementById('reels-container'); rc.innerHTML = '';
-            if(window.globalPosts.length === 0) { rc.innerHTML = '<div style="color:white; text-align:center; padding-top:50vh;">Reels yok.</div>'; return; }
-            window.globalPosts.forEach(data => {
-                const pInfo = window.globalUsersByName[data.username] || {};
-                const av = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100')`;
-                rc.insertAdjacentHTML('beforeend', `<div class="reel-item" style="background-image: url('${data.imageUrl}');"><div class="reel-overlay"></div><div class="reel-content"><div class="reel-info"><div class="reel-user" style="color:white; font-weight:bold; display:flex; align-items:center; gap:10px; margin-bottom:10px;"><div style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center; background-image:${av};"></div>${data.username}</div><div style="color: rgba(255,255,255,0.9); font-size: 14px;">${data.caption || ''}</div></div></div></div>`);
-            });
-        }
-
         document.getElementById('btn-submit-post').addEventListener('click', async () => {
             const user = auth.currentUser; if (!user) return;
             const imageUrl = document.getElementById('add-image').value; const caption = document.getElementById('add-caption').value;
-            if (!imageUrl) return; document.getElementById('btn-submit-post').innerText = "Paylaşılıyor...";
-            try { await addDoc(collection(db, "gonderiler"), { imageUrl, caption, username: user.displayName, likesCount: 0, createdAt: new Date() }); closeModal('addModal'); document.getElementById('add-image').value = ""; await loadAllData(); renderProfileGrid(); } catch (err) {} finally { document.getElementById('btn-submit-post').innerText = "Paylaş"; }
+            if (!imageUrl) return; document.getElementById('btn-submit-post').innerText = "Yükleniyor...";
+            try { await addDoc(collection(db, "gonderiler"), { imageUrl, caption, username: user.displayName, likesCount: 0, createdAt: new Date() }); closeModal('addModal'); document.getElementById('add-image').value = ""; await loadAllData(); renderProfileGrid(); } catch (err) {} finally { document.getElementById('btn-submit-post').innerText = "Akışta Paylaş"; }
         });
     </script>
 </body>
