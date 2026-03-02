@@ -8,141 +8,204 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" />
 
     <style>
+        /* --- TEMEL VE GLASSMORPHISM AYARLARI --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        :root { --bg-dark: #0a0a0c; --surface: #1a1a1f; --primary-gold: #d4af37; --gold-hover: #f3e5ab; --text-light: #f5f5f7; --text-muted: #8e8e93; --glass-bg: rgba(26, 26, 31, 0.85); }
-        body { background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; }
-
-        /* ÜST MENÜ */
-        header { position: fixed; top: 0; width: 100%; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; background: var(--glass-bg); backdrop-filter: blur(15px); z-index: 100; border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: transform 0.4s ease; }
-        header.header-hidden { transform: translateY(-100%); }
-        .logo { font-size: 22px; font-weight: 800; letter-spacing: 2px; color: var(--text-light); text-decoration: none; display: flex; align-items: center; gap: 8px;}
-        .logo span { color: var(--primary-gold); }
+        :root { 
+            --primary-gold: #d4af37; --gold-hover: #f3e5ab; 
+            --text-light: #f5f5f7; --text-muted: rgba(255,255,255,0.6); 
+            
+            /* Glassmorphism Değişkenleri */
+            --glass-bg: rgba(20, 20, 25, 0.45);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+            --glass-blur: blur(24px);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
         
+        body { 
+            color: var(--text-light); 
+            overflow-x: hidden; 
+            background: #050505; /* Ortam ışıkları için ultra karanlık zemin */
+        }
+
+        /* AMBİANS IŞIKLARI (Cam efektinin belli olması için arkada dönen altın/gümüş auralar) */
+        .ambient-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; pointer-events: none; }
+        .ambient-blob-1 { position: absolute; top: -10%; left: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, rgba(212,175,55,0.12) 0%, transparent 70%); border-radius: 50%; filter: blur(60px); animation: float1 25s infinite alternate ease-in-out; }
+        .ambient-blob-2 { position: absolute; bottom: 10%; right: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%); border-radius: 50%; filter: blur(60px); animation: float2 20s infinite alternate ease-in-out; }
+        @keyframes float1 { 100% { transform: translate(10vw, 10vh); } }
+        @keyframes float2 { 100% { transform: translate(-10vw, -10vh); } }
+
+        /* ÜST MENÜ (Cam) */
+        header { position: fixed; top: 0; width: 100%; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(10, 10, 12, 0.5); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); z-index: 100; border-bottom: var(--glass-border); transition: transform 0.4s ease; }
+        header.header-hidden { transform: translateY(-100%); }
+        .logo { font-size: 22px; font-weight: 800; letter-spacing: 2px; color: var(--text-light); text-decoration: none; display: flex; align-items: center; gap: 8px; text-shadow: 0 2px 10px rgba(255,255,255,0.1);}
+        .logo span { color: var(--primary-gold); text-shadow: 0 2px 15px rgba(212,175,55,0.4); }
         .header-actions { display: flex; gap: 18px; align-items: center;}
         .header-icon { color: var(--text-light); font-size: 26px; cursor: pointer; transition: 0.3s; background: none; border: none; position: relative;}
-        .header-icon:hover { color: var(--primary-gold); }
-        .notification-dot { position: absolute; top: -2px; right: -2px; width: 10px; height: 10px; background: #ff3040; border-radius: 50%; border: 2px solid var(--bg-dark); display: none;}
+        .header-icon:hover { color: var(--primary-gold); transform: scale(1.1); }
+        .notification-dot { position: absolute; top: -2px; right: -2px; width: 10px; height: 10px; background: #ff3040; border-radius: 50%; border: 2px solid #111; display: none; box-shadow: 0 0 10px rgba(255,48,64,0.6);}
 
-        /* HİKAYELER */
-        .stories-wrapper { margin-top: 60px; padding: 20px 5% 10px; display: flex; gap: 15px; overflow-x: auto; scroll-behavior: smooth; border-bottom: 1px solid rgba(255,255,255,0.05); background: var(--bg-dark); }
+        /* HİKAYELER (Cam Kutu İçinde) */
+        .stories-wrapper { margin: 80px auto 10px; max-width: 470px; padding: 15px; display: flex; gap: 15px; overflow-x: auto; scroll-behavior: smooth; background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: var(--glass-border); border-radius: 20px; box-shadow: var(--glass-shadow); }
         .stories-wrapper::-webkit-scrollbar { display: none; }
-        .story-item { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; flex-shrink: 0; }
-        .story-ring { width: 70px; height: 70px; border-radius: 50%; padding: 3px; background: linear-gradient(45deg, #d4af37, #aa8529, #f3e5ab); display: flex; justify-content: center; align-items: center; }
-        .story-img { width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--bg-dark); background-size: cover; background-position: center; }
-        .story-name { font-size: 11px; color: var(--text-light); }
-        .story-ring.add-story { background: transparent; border: 1px dashed rgba(255,255,255,0.3); color: var(--text-light); }
+        .story-item { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; flex-shrink: 0; transition: 0.3s; }
+        .story-item:hover { transform: translateY(-3px); }
+        .story-ring { width: 66px; height: 66px; border-radius: 50%; padding: 3px; background: linear-gradient(45deg, #d4af37, #aa8529, #f3e5ab); display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(212,175,55,0.3); }
+        .story-img { width: 100%; height: 100%; border-radius: 50%; border: 2px solid rgba(25,25,30,0.8); background-size: cover; background-position: center; }
+        .story-name { font-size: 11px; color: var(--text-light); font-weight: 500;}
+        .story-ring.add-story { background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.3); box-shadow: none; color: var(--text-light); }
 
-        /* AKIŞ (FEED) */
-        .feed-container { max-width: 470px; margin: 0 auto; padding: 20px 0 80px; display: flex; flex-direction: column; gap: 25px; }
-        .post { background: var(--bg-dark); border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
-        .post-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; }
+        /* AKIŞ (FEED) - Gönderiler artık birer Cam Kart */
+        .feed-container { max-width: 470px; margin: 0 auto; padding: 10px 0 90px; display: flex; flex-direction: column; gap: 20px; }
+        
+        .post { background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: var(--glass-border); border-radius: 24px; box-shadow: var(--glass-shadow); overflow: hidden; padding-bottom: 15px; transition: transform 0.3s; }
+        
+        .post-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; }
         .post-user-info { display: flex; align-items: center; gap: 10px; cursor: pointer;}
-        .post-avatar { width: 32px; height: 32px; border-radius: 50%; background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.1); }
-        .post-username { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 4px;}
-        .gold-tick { width: 12px; height: 12px; background: var(--primary-gold); border-radius: 50%; color: #000; font-size: 8px; font-weight: bold; display: flex; justify-content: center; align-items: center;}
-        .post-options { color: var(--text-muted); cursor: pointer; background: none; border: none;}
-        .post-image { width: 100%; aspect-ratio: 4 / 5; background-size: cover; background-position: center; border-radius: 4px;}
+        .post-avatar { width: 34px; height: 34px; border-radius: 50%; background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.2); }
+        .post-username { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 4px; text-shadow: 0 2px 5px rgba(0,0,0,0.5);}
+        .gold-tick { width: 14px; height: 14px; background: var(--primary-gold); border-radius: 50%; color: #000; font-size: 10px; font-weight: bold; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 8px rgba(212,175,55,0.5);}
+        .post-options { color: var(--text-muted); cursor: pointer; background: none; border: none; font-size: 20px;}
+        
+        .post-image { width: 100%; aspect-ratio: 4 / 5; background-size: cover; background-position: center; border-bottom: var(--glass-border); border-top: var(--glass-border);}
+        
         .post-actions { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px 8px; }
         .action-left { display: flex; gap: 16px; }
-        .action-icon { color: var(--text-light); font-size: 26px; cursor: pointer; transition: 0.2s; background: none; border: none; display: flex; align-items: center;}
-        .action-icon.liked { color: #ff3040; font-variation-settings: 'FILL' 1; } 
-        .action-icon.saved { color: var(--primary-gold); font-variation-settings: 'FILL' 1; } 
-        .post-likes { padding: 0 15px; font-size: 14px; font-weight: 600; margin-bottom: 5px; }
-        .post-caption-box { padding: 0 15px; font-size: 14px; line-height: 1.4; }
-        .post-caption-box span { font-weight: 600; margin-right: 5px; cursor: pointer;}
-        .post-comments-link { padding: 0 15px; font-size: 13px; color: var(--text-muted); margin-top: 5px; cursor: pointer;}
-        .post-time { padding: 0 15px; font-size: 11px; color: var(--text-muted); margin-top: 5px; text-transform: uppercase; letter-spacing: 0.5px;}
-
-        /* ALT MENÜ */
-        .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 10, 12, 0.95); backdrop-filter: blur(15px); padding: 10px 10px calc(10px + env(safe-area-inset-bottom)); border-top: 1px solid rgba(255,255,255,0.05); z-index: 999; }
-        .nav-icon-btn { background: none; border: none; color: var(--text-light); cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
-        .nav-icon-btn .material-symbols-outlined { font-size: 28px; }
-        .nav-icon-btn.active { color: var(--primary-gold); font-variation-settings: 'FILL' 1; }
-        .nav-icon-btn.add-btn { background: var(--text-light); color: var(--bg-dark); width: 40px; height: 40px; border-radius: 12px; display: flex; justify-content: center; align-items: center; }
-        .nav-icon-btn.add-btn .material-symbols-outlined { font-size: 24px; font-weight: 600; }
-
-        /* MODALLAR GENEL */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1000; padding: 15px; }
-        .modal-overlay.active { opacity: 1; visibility: visible; }
-        .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: none; color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; transition: 0.3s; z-index: 20; display: flex; align-items: center; justify-content: center; }
-        .form-group { margin-bottom: 15px; text-align: left; }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px 15px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; outline: none; transition: 0.3s; }
-        .form-group input:focus, .form-group textarea:focus { border-color: var(--primary-gold); background: rgba(0,0,0,0.5); }
-        .btn-premium { background: var(--primary-gold); color: #000 !important; padding: 12px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; width: 100%; border: none;}
+        .action-icon { color: var(--text-light); font-size: 26px; cursor: pointer; transition: 0.3s; background: none; border: none; display: flex; align-items: center; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));}
+        .action-icon:hover { transform: scale(1.1); color: var(--text-muted); }
+        .action-icon.liked { color: #ff3040; font-variation-settings: 'FILL' 1; filter: drop-shadow(0 2px 8px rgba(255,48,64,0.4));} 
+        .action-icon.saved { color: var(--primary-gold); font-variation-settings: 'FILL' 1; filter: drop-shadow(0 2px 8px rgba(212,175,55,0.4));} 
         
-        .auth-box, .add-box { background: var(--surface); border: 1px solid rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; width: 100%; max-width: 450px; position: relative; transform: scale(0.95); transition: all 0.3s ease; }
+        .post-likes { padding: 0 15px; font-size: 14px; font-weight: 600; margin-bottom: 5px; text-shadow: 0 1px 3px rgba(0,0,0,0.3);}
+        .post-caption-box { padding: 0 15px; font-size: 14px; line-height: 1.4; color: rgba(255,255,255,0.9);}
+        .post-caption-box span { font-weight: 600; margin-right: 5px; cursor: pointer; color: white;}
+        .post-comments-link { padding: 0 15px; font-size: 13px; color: var(--text-muted); margin-top: 6px; cursor: pointer; transition: 0.2s;}
+        .post-comments-link:hover { color: var(--text-light); }
+        .post-time { padding: 0 15px; font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 5px; text-transform: uppercase; letter-spacing: 0.5px;}
+
+        /* ALT MENÜ (Cam) */
+        .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 10, 12, 0.6); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); padding: 12px 10px calc(12px + env(safe-area-inset-bottom)); border-top: var(--glass-border); z-index: 999; box-shadow: 0 -5px 25px rgba(0,0,0,0.3);}
+        .nav-icon-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+        .nav-icon-btn .material-symbols-outlined { font-size: 28px; transition: 0.3s;}
+        .nav-icon-btn:hover .material-symbols-outlined { color: var(--text-light); transform: scale(1.1);}
+        .nav-icon-btn.active .material-symbols-outlined { color: var(--primary-gold); font-variation-settings: 'FILL' 1; filter: drop-shadow(0 0 8px rgba(212,175,55,0.4));}
+        
+        /* Ortadaki Cam + Butonu */
+        .nav-icon-btn.add-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: var(--text-light); width: 44px; height: 44px; border-radius: 14px; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); backdrop-filter: blur(10px);}
+        .nav-icon-btn.add-btn:hover { background: var(--primary-gold); border-color: var(--primary-gold); color: #000; transform: translateY(-3px);}
+        .nav-icon-btn.add-btn .material-symbols-outlined { font-size: 26px; font-weight: 500; }
+
+        /* MODALLAR GENEL (Tamamen Cam) */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1000; padding: 15px; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; transition: 0.3s; z-index: 20; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);}
+        .close-btn:hover { background: var(--primary-gold); color: #000; border-color: var(--primary-gold); transform: rotate(90deg);}
+        
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 6px; color: var(--text-light); font-size: 13px; font-weight: 500; padding-left: 5px;}
+        /* Cam Form Kutuları */
+        .form-group input, .form-group textarea { width: 100%; padding: 14px 18px; background: rgba(0,0,0,0.3); border: var(--glass-border); border-radius: 12px; color: white; outline: none; transition: 0.3s; font-family: inherit; font-size: 14px; backdrop-filter: blur(10px);}
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--primary-gold); background: rgba(0,0,0,0.5); box-shadow: 0 0 15px rgba(212,175,55,0.15);}
+        .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.3); }
+        
+        .btn-premium { background: linear-gradient(135deg, #d4af37, #aa8529); color: #000 !important; padding: 14px 20px; border-radius: 12px; font-weight: 700; cursor: pointer; width: 100%; border: none; font-size: 15px; box-shadow: 0 5px 20px rgba(212,175,55,0.3); transition: 0.3s;}
+        .btn-premium:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(212,175,55,0.5); }
+
+        /* KUTULARIN (BOX) CAM TASARIMI */
+        .glass-box { background: rgba(25, 25, 30, 0.4); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border: var(--glass-border); border-radius: 24px; box-shadow: var(--glass-shadow); }
+
+        .auth-box, .add-box { width: 100%; max-width: 400px; padding: 35px 30px; position: relative; transform: scale(0.95); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .modal-overlay.active .auth-box, .modal-overlay.active .add-box { transform: scale(1); }
-        .auth-tabs { display: flex; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .tab-btn { flex: 1; background: none; border: none; color: var(--text-muted); padding: 10px 0; font-size: 16px; cursor: pointer; transition: 0.3s; position: relative; }
-        .tab-btn.active { color: var(--text-light); font-weight: 600; }
-        .tab-btn.active::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 2px; background: var(--text-light); }
+        
+        .auth-tabs { display: flex; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .tab-btn { flex: 1; background: none; border: none; color: var(--text-muted); padding: 12px 0; font-size: 15px; cursor: pointer; transition: 0.3s; position: relative; }
+        .tab-btn.active { color: var(--primary-gold); font-weight: 600; }
+        .tab-btn.active::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 2px; background: var(--primary-gold); box-shadow: 0 -2px 10px rgba(212,175,55,0.5);}
         .auth-form { display: none; }
-        .auth-form.active { display: block; }
+        .auth-form.active { display: block; animation: fadeIn 0.4s ease;}
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* YORUMLAR MODALI */
-        .comments-box { background: var(--surface); width: 100%; max-width: 500px; height: 75vh; border-radius: 20px 20px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.3s ease; display: flex; flex-direction: column; }
+        /* YORUMLAR MODALI (Cam Sheet) */
+        .comments-box { width: 100%; max-width: 500px; height: 75vh; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.1, 1, 0.3, 1); display: flex; flex-direction: column; }
         .modal-overlay.active .comments-box { transform: translateY(0); }
-        .comments-header { padding: 15px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); font-weight: 600; font-size: 16px;}
-        .comments-list { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 15px;}
-        .comment-item { display: flex; gap: 10px; font-size: 14px;}
-        .comment-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--primary-gold); flex-shrink: 0;}
-        .comment-content { flex: 1; }
-        .comment-content strong { color: var(--text-light); margin-right: 5px;}
-        .comment-content span { color: var(--text-muted); }
-        .comment-input-area { padding: 15px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; gap: 10px; background: var(--bg-dark); }
-        .comment-input-area input { flex: 1; background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 15px; border-radius: 30px; outline: none;}
-        .comment-input-area button { background: none; border: none; color: var(--primary-gold); font-weight: 600; cursor: pointer; padding: 0 10px;}
+        .box-header { padding: 18px; text-align: center; border-bottom: var(--glass-border); font-weight: 600; font-size: 16px; color: var(--text-light); display: flex; align-items: center; justify-content: center; gap: 8px;}
+        .comments-list { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 18px;}
+        .comment-item { display: flex; gap: 12px; font-size: 14px;}
+        .comment-avatar { width: 36px; height: 36px; border-radius: 50%; background: #333; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0;}
+        .comment-content { flex: 1; background: rgba(0,0,0,0.2); padding: 10px 14px; border-radius: 4px 16px 16px 16px; border: var(--glass-border);}
+        .comment-content strong { color: var(--primary-gold); margin-right: 5px; font-size: 13px;}
+        .comment-content span { color: rgba(255,255,255,0.9); line-height: 1.4;}
+        .comment-input-area { padding: 15px 20px 25px; border-top: var(--glass-border); display: flex; gap: 10px; background: rgba(0,0,0,0.3); }
+        .comment-input-area input { flex: 1; background: rgba(255,255,255,0.05); border: var(--glass-border); color: white; padding: 12px 20px; border-radius: 30px; outline: none; transition: 0.3s;}
+        .comment-input-area input:focus { border-color: var(--primary-gold); background: rgba(0,0,0,0.5);}
+        .comment-input-area button { background: var(--primary-gold); border: none; color: black; font-weight: 600; cursor: pointer; padding: 0 20px; border-radius: 30px; transition: 0.3s;}
+        .comment-input-area button:hover { background: var(--gold-hover); transform: scale(1.05);}
 
-        /* BİLDİRİMLER (KALP) MODALI */
-        .notifications-box { background: var(--surface); width: 100%; max-width: 500px; height: 80vh; border-radius: 20px 20px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.3s ease; display: flex; flex-direction: column; }
+        /* BİLDİRİMLER & DM MODALI */
+        .notifications-box { width: 100%; max-width: 500px; height: 80vh; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.1, 1, 0.3, 1); display: flex; flex-direction: column; }
         .modal-overlay.active .notifications-box { transform: translateY(0); }
-        .noti-item { display: flex; align-items: center; gap: 15px; padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .noti-avatar { width: 44px; height: 44px; border-radius: 50%; background: #333; background-size: cover; background-position: center;}
-        .noti-text { flex: 1; font-size: 14px; line-height: 1.4;}
+        .noti-item { display: flex; align-items: center; gap: 15px; padding: 15px 20px; border-bottom: var(--glass-border); transition: 0.3s;}
+        .noti-item:hover { background: rgba(255,255,255,0.05); }
+        .noti-avatar { width: 44px; height: 44px; border-radius: 50%; background: #333; border: 1px solid rgba(255,255,255,0.1); background-size: cover; background-position: center;}
+        .noti-text { flex: 1; font-size: 14px; line-height: 1.4; color: rgba(255,255,255,0.8);}
         .noti-text strong { color: var(--text-light); }
 
-        /* MESAJLAR (DM) MODALI */
-        .messages-box { background: var(--bg-dark); width: 100%; height: 100dvh; max-width: 500px; position: absolute; right: 0; transform: translateX(100%); transition: 0.3s ease; display: flex; flex-direction: column; }
+        .messages-box { width: 100%; height: 100dvh; max-width: 450px; position: absolute; right: 0; transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.1, 1, 0.3, 1); display: flex; flex-direction: column; border-radius: 0;}
         .modal-overlay.active .messages-box { transform: translateX(0); }
-        .msg-header { padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 15px; font-size: 18px; font-weight: 600; margin-top: 20px;}
-        .msg-list { flex: 1; overflow-y: auto; }
-        .msg-item { display: flex; align-items: center; gap: 15px; padding: 15px 20px; cursor: pointer; transition: 0.2s;}
-        .msg-item:hover { background: rgba(255,255,255,0.05); }
+        .msg-header { padding: 25px 20px 15px; border-bottom: var(--glass-border); display: flex; align-items: center; gap: 15px; font-size: 18px; font-weight: 600;}
 
-        /* ARAMA & REELS */
-        .explore-box { background: var(--bg-dark); width: 100%; height: 85vh; border-radius: 20px 20px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.3s ease; display: flex; flex-direction: column; padding: 20px 0;}
+        /* ARAMA (KEŞFET) */
+        .explore-box { width: 100%; height: 85vh; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.1, 1, 0.3, 1); display: flex; flex-direction: column; padding-top: 20px;}
         .modal-overlay.active .explore-box { transform: translateY(0); }
-        .explore-header { padding: 0 20px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 10px;}
-        .explore-search-input { flex: 1; background: rgba(255,255,255,0.1); border: none; color: white; padding: 10px 15px; border-radius: 20px; outline: none; font-size: 14px;}
-        .explore-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; overflow-y: auto; flex: 1; }
-        .explore-item { aspect-ratio: 1 / 1; background-size: cover; background-position: center; cursor: pointer; }
+        .explore-header { padding: 0 20px 15px; border-bottom: var(--glass-border); display: flex; align-items: center; gap: 10px;}
+        .explore-search-input { flex: 1; background: rgba(255,255,255,0.08); border: var(--glass-border); color: white; padding: 12px 20px; border-radius: 30px; outline: none; font-size: 14px; backdrop-filter: blur(5px);}
+        .explore-search-input:focus { border-color: var(--primary-gold); }
+        .explore-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; overflow-y: auto; flex: 1; padding-top: 2px;}
+        .explore-item { aspect-ratio: 1 / 1; background-size: cover; background-position: center; cursor: pointer; transition: 0.3s; opacity: 0.9;}
+        .explore-item:hover { opacity: 1; filter: brightness(1.1); }
 
-        .reels-box { background: #000; width: 100%; height: 100dvh; max-width: 450px; position: relative; transform: translateY(100%); transition: 0.3s ease; overflow-y: scroll; scroll-snap-type: y mandatory; }
+        /* REELS */
+        .reels-box { background: #000; width: 100%; height: 100dvh; max-width: 450px; position: relative; transform: translateY(100%); transition: 0.4s cubic-bezier(0.1, 1, 0.3, 1); overflow-y: scroll; scroll-snap-type: y mandatory; }
         .reels-box::-webkit-scrollbar { display: none; }
         .modal-overlay.active .reels-box { transform: translateY(0); }
         .reel-item { width: 100%; height: 100dvh; scroll-snap-align: start; background-size: cover; background-position: center; position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; padding-bottom: 90px; }
-        .reel-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%, rgba(0,0,0,0.3) 100%); pointer-events: none;}
+        .reel-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 40%, rgba(0,0,0,0.2) 100%); pointer-events: none;}
         .reel-content { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: flex-end; width: 100%; }
         .reel-info { flex: 1; padding-right: 15px; }
-        .reel-user { display: flex; align-items: center; gap: 10px; color: white; font-weight: 600; font-size: 15px; margin-bottom: 10px;}
-        .reel-avatar { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center;}
-        .reel-caption { color: white; font-size: 14px; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;}
-        .reel-actions { display: flex; flex-direction: column; gap: 20px; align-items: center; padding-bottom: 10px;}
-        .reel-action-btn { background: none; border: none; color: white; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer;}
+        .reel-user { display: flex; align-items: center; gap: 10px; color: white; font-weight: 600; font-size: 15px; margin-bottom: 12px; text-shadow: 0 2px 5px rgba(0,0,0,0.8);}
+        .reel-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center;}
+        .btn-follow-reel { background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.5); color: white; padding: 4px 14px; border-radius: 20px; font-size: 12px; margin-left: 5px; cursor: pointer; font-weight: 600;}
+        .reel-caption { color: rgba(255,255,255,0.9); font-size: 14px; line-height: 1.5; margin-bottom: 12px; text-shadow: 0 1px 4px rgba(0,0,0,0.8); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;}
+        .reel-music { display: flex; align-items: center; gap: 8px; color: white; font-size: 13px; font-weight: 500; text-shadow: 0 1px 3px rgba(0,0,0,0.8);}
+        .reel-music-icon { animation: spin 3s linear infinite; font-size: 18px !important;}
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .reel-actions { display: flex; flex-direction: column; gap: 22px; align-items: center; padding-bottom: 15px;}
+        .reel-action-btn { background: none; border: none; color: white; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8));}
+        .reel-action-btn .material-symbols-outlined { font-size: 34px; transition: 0.2s;}
+        .reel-action-btn:hover .material-symbols-outlined { transform: scale(1.1); }
+        .reel-action-btn.liked .material-symbols-outlined { color: #ff3040; font-variation-settings: 'FILL' 1; filter: drop-shadow(0 0 10px rgba(255,48,64,0.6));}
+        .reel-action-text { font-size: 13px; font-weight: 700;}
 
+        /* MOBİL DÜZENLEMELER */
         @media (max-width: 768px) { 
             body { padding-bottom: 60px; } 
-            .feed-container { max-width: 100%; padding: 0 0 60px; gap: 15px;}
+            .feed-container { padding: 0 0 60px; gap: 15px; border-radius: 0;}
+            .post { border-radius: 0; border-left: none; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.05); box-shadow: none; background: transparent; backdrop-filter: none;}
             header { padding: 10px 15px; }
-            .modal-overlay { padding: 0; align-items: flex-end; z-index: 1001;} 
-            .auth-box, .add-box { margin: 0; max-width: 100%; border-radius: 25px 25px 0 0; transform: translateY(100%); border-bottom: none; padding: 25px 20px;}
-            .modal-overlay.active .auth-box, .modal-overlay.active .add-box { transform: translateY(0); }
+            .logo { font-size: 20px; }
+            .stories-wrapper { margin-top: 55px; border-radius: 0; border-left: none; border-right: none; padding: 15px 15px 10px; background: transparent; backdrop-filter: none; box-shadow: none;}
+            .modal-overlay { padding: 0; align-items: flex-end;} 
+            .auth-box, .add-box { max-width: 100%; border-radius: 25px 25px 0 0; transform: translateY(100%); border-bottom: none; padding: 35px 20px;}
             .reels-box { height: 100dvh; max-width: 100%; border-radius: 0; }
             .messages-box { height: 100dvh; border-radius: 0; }
         }
     </style>
 </head>
 <body>
+
+    <div class="ambient-bg">
+        <div class="ambient-blob-1"></div>
+        <div class="ambient-blob-2"></div>
+    </div>
 
     <header id="main-header">
         <a href="index.html" class="logo">Swinder<span>.</span></a>
@@ -159,7 +222,7 @@
 
     <div class="stories-wrapper" id="stories-container">
         <div class="story-item" onclick="openAddStoryModal()">
-            <div class="story-ring add-story"><div class="story-img" style="background-color: #2a2a30; display:flex; justify-content:center; align-items:center; color: var(--text-light);"><span class="material-symbols-outlined">add</span></div></div>
+            <div class="story-ring add-story"><div class="story-img" style="display:flex; justify-content:center; align-items:center; color: var(--text-muted);"><span class="material-symbols-outlined">add</span></div></div>
             <span class="story-name">Hikayen</span>
         </div>
     </div>
@@ -177,51 +240,95 @@
     </nav>
 
     <div class="modal-overlay" id="commentsModal">
-        <div class="comments-box">
+        <div class="comments-box glass-box">
             <button class="close-btn" onclick="closeModal('commentsModal')" style="top: -50px; right: 10px;"><span class="material-symbols-outlined">close</span></button>
-            <div class="comments-header">Yorumlar</div>
+            <div class="box-header"><span class="material-symbols-outlined">chat_bubble</span> Yorumlar</div>
             <div class="comments-list" id="comments-list">
                 <div style="text-align: center; color: var(--text-muted); font-size: 13px; margin-top: 20px;">Yorumlar yükleniyor...</div>
             </div>
             <div class="comment-input-area">
-                <input type="text" id="new-comment-input" placeholder="Yorum ekle...">
-                <button onclick="submitComment()">Paylaş</button>
+                <input type="text" id="new-comment-input" placeholder="Bu harika araca yorum yap...">
+                <button onclick="submitComment()">Gönder</button>
             </div>
         </div>
     </div>
 
     <div class="modal-overlay" id="notificationsModal">
-        <div class="notifications-box">
+        <div class="notifications-box glass-box">
             <button class="close-btn" onclick="closeModal('notificationsModal')" style="top: -50px; right: 10px;"><span class="material-symbols-outlined">close</span></button>
-            <div class="comments-header">Bildirimler</div>
-            <div style="overflow-y: auto; flex: 1;" id="noti-list">
-                <div style="text-align: center; color: var(--text-muted); font-size: 13px; padding: 30px;">Henüz yeni bildirim yok.</div>
-            </div>
+            <div class="box-header"><span class="material-symbols-outlined">notifications</span> Bildirimler</div>
+            <div style="overflow-y: auto; flex: 1; padding: 10px 0;" id="noti-list"></div>
         </div>
     </div>
 
     <div class="modal-overlay" id="messagesModal" style="justify-content: flex-end;">
-        <div class="messages-box">
+        <div class="messages-box glass-box">
             <div class="msg-header">
                 <button class="header-icon" onclick="closeModal('messagesModal')"><span class="material-symbols-outlined">arrow_back</span></button>
                 <span id="dm-username">Mesajlar</span>
             </div>
             <div class="msg-list" id="dm-list">
-                <div class="msg-item" onclick="alert('Bu bir sistem mesajıdır.')">
+                <div class="msg-item" onclick="alert('Swinder Kurucu ekibinden sevgiler!')">
                     <div class="noti-avatar" style="background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100'); border: 2px solid var(--primary-gold);"></div>
                     <div class="noti-text">
-                        <strong>Swinder Premium</strong><br>
-                        <span style="color: var(--text-muted); font-size: 12px;">Swinder 2.0'a hoş geldin! ✨</span>
+                        <strong>Swinder Concierge</strong> <span class="gold-tick" style="display:inline-flex; width:10px; height:10px; font-size:6px; margin-left:2px;">✓</span><br>
+                        <span style="color: var(--text-muted); font-size: 12px;">Swinder Premium'a hoş geldin.</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal-overlay" id="exploreModal"><div class="explore-box"><div class="explore-header"><button class="header-icon" onclick="closeModal('exploreModal')" style="margin-right: 10px;"><span class="material-symbols-outlined">arrow_back</span></button><input type="text" class="explore-search-input" id="search-input" placeholder="Araç, marka veya kullanıcı ara..." onkeyup="performSearch()"></div><div class="explore-grid" id="explore-grid"></div></div></div>
-    <div class="modal-overlay" id="reelsModal" style="padding:0; background: #000;"><button class="close-btn" onclick="closeModal('reelsModal')" style="z-index: 1000; top: 20px; right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button><div class="reels-box" id="reels-container"></div></div>
-    <div class="modal-overlay" id="addModal"><div class="add-box"><button class="close-btn" onclick="closeModal('addModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color: var(--text-light); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 20px; text-align: center; font-size: 16px;">Yeni Gönderi Oluştur</h2><form><div class="form-group"><label>Fotoğraf Linki</label><input type="text" id="add-image"></div><div class="form-group"><label>Açıklama</label><textarea id="add-caption" rows="4"></textarea></div><button type="button" id="btn-submit-post" class="btn-premium">Paylaş</button></form></div></div>
-    <div class="modal-overlay" id="authModal"><div class="auth-box"><button class="close-btn" onclick="closeModal('authModal')"><span class="material-symbols-outlined">close</span></button><h2 style="text-align: center; margin-bottom: 20px; font-weight: 800; letter-spacing: 1px;">Swinder<span>.</span></h2><div class="auth-tabs"><button class="tab-btn active" id="tab-login" onclick="switchAuthTab('login')">Giriş Yap</button><button class="tab-btn" id="tab-register" onclick="switchAuthTab('register')">Kayıt Ol</button></div><div class="auth-form active" id="form-login"><div class="form-group"><input type="email" id="login-email" placeholder="E-posta Adresi"></div><div class="form-group"><input type="password" id="login-pass" placeholder="Şifre"></div><button class="btn-premium" id="btn-login" style="margin-top: 10px;">Giriş Yap</button></div><div class="auth-form" id="form-register"><div class="form-group"><input type="text" id="reg-name" placeholder="Kullanıcı Adı"></div><div class="form-group"><input type="email" id="reg-email" placeholder="E-posta Adresi"></div><div class="form-group"><input type="password" id="reg-pass" placeholder="Şifre"></div><button class="btn-premium" id="btn-register" style="margin-top: 10px;">Kayıt Ol</button></div></div></div>
+    <div class="modal-overlay" id="exploreModal">
+        <div class="explore-box glass-box">
+            <div class="explore-header">
+                <button class="header-icon" onclick="closeModal('exploreModal')" style="margin-right: 10px;"><span class="material-symbols-outlined">arrow_back</span></button>
+                <input type="text" class="explore-search-input" id="search-input" placeholder="Araç, marka veya kullanıcı ara..." onkeyup="performSearch()">
+            </div>
+            <div class="explore-grid" id="explore-grid"></div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="reelsModal" style="padding:0; background: #000;">
+        <button class="close-btn" onclick="closeModal('reelsModal')" style="z-index: 1000; top: 20px; right: 20px;"><span class="material-symbols-outlined">close</span></button>
+        <div class="reels-box" id="reels-container"></div>
+    </div>
+
+    <div class="modal-overlay" id="addModal">
+        <div class="add-box glass-box">
+            <button class="close-btn" onclick="closeModal('addModal')"><span class="material-symbols-outlined">close</span></button>
+            <div class="box-header" style="border:none; padding-bottom:0;"><span class="material-symbols-outlined">add_photo_alternate</span> Yeni Gönderi</div>
+            <p style="text-align:center; color:var(--text-muted); font-size:13px; margin-bottom:20px;">Vitrine yeni bir şaheser ekle.</p>
+            <form>
+                <div class="form-group"><label>Fotoğraf Linki</label><input type="text" id="add-image" placeholder="URL yapıştır..."></div>
+                <div class="form-group"><label>Açıklama</label><textarea id="add-caption" rows="3" placeholder="Örn: Garajın yeni incisi..."></textarea></div>
+                <button type="button" id="btn-submit-post" class="btn-premium">Paylaş</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="authModal">
+        <div class="auth-box glass-box">
+            <button class="close-btn" onclick="closeModal('authModal')"><span class="material-symbols-outlined">close</span></button>
+            <h2 style="text-align: center; margin-bottom: 25px; font-weight: 800; font-size: 26px; letter-spacing: 1px; color: var(--text-light); text-shadow: 0 2px 10px rgba(255,255,255,0.2);">Swinder<span style="color:var(--primary-gold);">.</span></h2>
+            <div class="auth-tabs"><button class="tab-btn active" id="tab-login" onclick="switchAuthTab('login')">Giriş Yap</button><button class="tab-btn" id="tab-register" onclick="switchAuthTab('register')">Kayıt Ol</button></div>
+            <div class="auth-form active" id="form-login">
+                <div class="form-group"><input type="email" id="login-email" placeholder="E-posta Adresi"></div>
+                <div class="form-group"><input type="password" id="login-pass" placeholder="Şifre"></div>
+                <button class="btn-premium" id="btn-login" style="margin-top: 15px;">Oturum Aç</button>
+            </div>
+            <div class="auth-form" id="form-register">
+                <div class="form-group"><input type="text" id="reg-name" placeholder="Kullanıcı Adı"></div>
+                <div class="form-group"><input type="email" id="reg-email" placeholder="E-posta Adresi"></div>
+                <div class="form-group"><input type="password" id="reg-pass" placeholder="Şifre"></div>
+                <button class="btn-premium" id="btn-register" style="margin-top: 15px;">Hesap Oluştur</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="addStoryModal"><div class="add-box glass-box"><button class="close-btn" onclick="closeModal('addStoryModal')"><span class="material-symbols-outlined">close</span></button><div class="box-header" style="border:none;"><span class="material-symbols-outlined">history_toggle_off</span> Hikayene Ekle</div><div class="form-group"><input type="text" id="story-img-url" placeholder="Görsel URL'si..."></div><button class="btn-premium" id="btn-submit-story">Hikayede Paylaş</button></div></div>
+    
+    <div class="modal-overlay" id="viewStoryModal"><div class="story-view-box"><button class="close-btn" onclick="closeModal('viewStoryModal')" style="z-index: 10; top: 20px; right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button><div class="story-view-header"><div class="story-view-avatar" id="view-story-avatar"></div><div class="story-view-username" id="view-story-username">-</div></div><div class="story-view-img" id="view-story-img"></div><div style="position: absolute; bottom: 20px; left: 15px; right: 15px; display: flex; gap: 10px;"><input type="text" placeholder="Yanıtla..." style="flex: 1; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); backdrop-filter:blur(10px); border-radius: 30px; padding: 12px 20px; color: white; outline: none;"><button class="action-icon"><span class="material-symbols-outlined">favorite</span></button><button class="action-icon"><span class="material-symbols-outlined">send</span></button></div></div></div>
 
     <script>
         let lastScrollTop = 0; const header = document.getElementById('main-header');
@@ -234,10 +341,9 @@
         window.openAddModal = () => openModal('addModal');
         window.openExplore = () => { openModal('exploreModal'); if(window.renderExploreGrid) window.renderExploreGrid(); }
         window.openReels = () => { openModal('reelsModal'); if(window.renderReels) window.renderReels(); }
-        
-        // Yeni UI Fonksiyonları
         window.openNotifications = () => { openModal('notificationsModal'); if(window.loadNotifications) window.loadNotifications(); document.getElementById('noti-dot').style.display='none';}
         window.openMessages = () => { openModal('messagesModal'); if(window.loadDMs) window.loadDMs(); }
+        window.openAddStoryModal = () => openModal('addStoryModal');
         
         window.visualShare = () => { alert("🔗 Gönderi linki panoya kopyalandı!"); }
         window.visualSave = (btn) => { btn.classList.toggle('saved'); }
@@ -248,7 +354,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, query, orderBy, doc, setDoc, updateDoc, arrayUnion, arrayRemove, getDoc, where } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = { apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0", authDomain: "swinder-79534.firebaseapp.com", projectId: "swinder-79534", storageBucket: "swinder-79534.firebasestorage.app", messagingSenderId: "704644873549", appId: "1:704644873549:web:d95f561ec912b94cf2cb04" };
@@ -270,6 +376,11 @@
                 btn.onclick = () => window.location.href = "profil.html";
                 const uSnap = await getDoc(doc(db, "kullanicilar", user.uid));
                 if(uSnap.exists() && uSnap.data().avatar) btn.innerHTML = `<div style="width: 28px; height: 28px; border-radius: 50%; background: url('${uSnap.data().avatar}') center/cover; border: 2px solid var(--text-light);"></div>`;
+                
+                // Bildirim kontrolü yap (Kırmızı nokta yansın mı?)
+                const notiSnap = await getDocs(query(collection(db, "bildirimler"), where("to", "==", user.displayName)));
+                if(!notiSnap.empty) document.getElementById('noti-dot').style.display = 'block';
+
             } else { btn.onclick = () => window.openAuthModal('login'); }
         });
 
@@ -284,21 +395,16 @@
             let currentLikes = parseInt(likesDisplay.innerText);
 
             if(isLiked) {
-                // Beğeniyi Çek
                 btnElement.classList.remove('liked');
                 likesDisplay.innerText = currentLikes - 1;
                 await updateDoc(postRef, { likedBy: arrayRemove(user.displayName), likesCount: currentLikes - 1 });
             } else {
-                // Beğen ve Bildirim Gönder
                 btnElement.classList.add('liked');
                 likesDisplay.innerText = currentLikes + 1;
                 await updateDoc(postRef, { likedBy: arrayUnion(user.displayName), likesCount: currentLikes + 1 });
                 
-                // Bildirim Tablosuna Yaz (Kendi kendine bildirim atma)
                 if(user.displayName !== postOwner) {
-                    await addDoc(collection(db, "bildirimler"), {
-                        to: postOwner, from: user.displayName, type: 'like', text: 'gönderini beğendi.', createdAt: new Date()
-                    });
+                    await addDoc(collection(db, "bildirimler"), { to: postOwner, from: user.displayName, type: 'like', text: 'gönderini beğendi.', createdAt: new Date() });
                 }
             }
         }
@@ -312,7 +418,6 @@
             list.innerHTML = '<div style="text-align:center; color:gray; font-size:13px; margin-top:20px;">Yorumlar yükleniyor...</div>';
             
             try {
-                // Yorumları alt koleksiyondan (subcollection) çek
                 const snap = await getDocs(query(collection(db, `gonderiler/${postId}/yorumlar`), orderBy("createdAt", "asc")));
                 list.innerHTML = '';
                 if(snap.empty) { list.innerHTML = '<div style="text-align:center; color:gray; font-size:13px;">İlk yorumu sen yap!</div>'; return;}
@@ -321,12 +426,7 @@
                     const data = d.data();
                     const avatar = window.globalUsers[data.username]?.avatar || '';
                     const avatarHtml = avatar ? `background-image:url('${avatar}'); background-size:cover;` : '';
-                    list.insertAdjacentHTML('beforeend', `
-                        <div class="comment-item">
-                            <div class="comment-avatar" style="${avatarHtml}"></div>
-                            <div class="comment-content"><strong>${data.username}</strong><span>${data.text}</span></div>
-                        </div>
-                    `);
+                    list.insertAdjacentHTML('beforeend', `<div class="comment-item"><div class="comment-avatar" style="${avatarHtml}"></div><div class="comment-content"><strong>${data.username}</strong><span>${data.text}</span></div></div>`);
                 });
             } catch(e) { list.innerHTML = '<div style="text-align:center; color:red;">Hata</div>'; }
         }
@@ -337,21 +437,14 @@
             const text = document.getElementById('new-comment-input').value.trim();
             if(!text || !activeCommentPostId) return;
 
-            document.getElementById('new-comment-input').value = ""; // Kutuyu temizle
+            document.getElementById('new-comment-input').value = ""; 
             try {
-                // Yorumu kaydet
-                await addDoc(collection(db, `gonderiler/${activeCommentPostId}/yorumlar`), {
-                    username: user.displayName, text: text, createdAt: new Date()
-                });
-                
-                // Gönderi sahibini bul ve ona Bildirim At
+                await addDoc(collection(db, `gonderiler/${activeCommentPostId}/yorumlar`), { username: user.displayName, text: text, createdAt: new Date() });
                 const postInfo = window.globalPosts.find(p => p.id === activeCommentPostId);
                 if(postInfo && postInfo.username !== user.displayName) {
-                    await addDoc(collection(db, "bildirimler"), {
-                        to: postInfo.username, from: user.displayName, type: 'comment', text: `yorum yaptı: "${text}"`, createdAt: new Date()
-                    });
+                    await addDoc(collection(db, "bildirimler"), { to: postInfo.username, from: user.displayName, type: 'comment', text: `yorum yaptı: "${text}"`, createdAt: new Date() });
                 }
-                window.openCommentsDB(activeCommentPostId); // Listeyi yenile
+                window.openCommentsDB(activeCommentPostId); 
             } catch(e) { alert("Yorum gönderilemedi."); }
         }
 
@@ -366,7 +459,6 @@
                 list.innerHTML = '';
                 if(snap.empty) { list.innerHTML = '<div style="padding:30px; text-align:center; color:gray;">Henüz bildirim yok.</div>'; return;}
                 
-                // Bildirimleri en yeni üstte olacak şekilde dizeceğiz (Geçici Array ile)
                 let notis = [];
                 snap.forEach(d => notis.push(d.data()));
                 notis.sort((a,b) => b.createdAt.seconds - a.createdAt.seconds);
@@ -374,46 +466,57 @@
                 notis.forEach(data => {
                     const avatar = window.globalUsers[data.from]?.avatar || '';
                     const avatarHtml = avatar ? `background-image:url('${avatar}');` : '';
-                    list.insertAdjacentHTML('beforeend', `
-                        <div class="noti-item">
-                            <div class="noti-avatar" style="${avatarHtml}"></div>
-                            <div class="noti-text"><strong>${data.from}</strong> ${data.text}</div>
-                        </div>
-                    `);
+                    list.insertAdjacentHTML('beforeend', `<div class="noti-item"><div class="noti-avatar" style="${avatarHtml}"></div><div class="noti-text"><strong>${data.from}</strong> ${data.text}</div></div>`);
                 });
-            } catch(e) { list.innerHTML = '<div style="color:red; text-align:center;">Hata</div>'; }
+            } catch(e) {}
         }
 
-        // 🔥 4. DM (GELEN KUTUSU) LİSTESİ 🔥
+        // 🔥 4. DM LİSTESİ 🔥
         window.loadDMs = async function() {
-            const user = auth.currentUser;
-            if(!user) return;
+            const user = auth.currentUser; if(!user) return;
             const list = document.getElementById('dm-list');
-            
-            // Sistemdeki diğer kullanıcıları DM listesinde göster
             try {
                 const snap = await getDocs(collection(db, "kullanicilar"));
-                let html = list.innerHTML; // Sabit mesajı tut
+                let html = `<div class="msg-item" onclick="alert('Bu bir sistem mesajıdır.')"><div class="noti-avatar" style="background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100'); border: 2px solid var(--primary-gold);"></div><div class="noti-text"><strong>Swinder Premium</strong> <span class="gold-tick" style="display:inline-flex; width:10px; height:10px; font-size:6px; margin-left:2px;">✓</span><br><span style="color: var(--text-muted); font-size: 12px;">Swinder 2.0'a hoş geldin! ✨</span></div></div>`;
                 snap.forEach(d => {
                     const u = d.data();
                     if(u.displayName && u.displayName !== user.displayName) {
                         const av = u.avatar ? `background-image:url('${u.avatar}');` : '';
-                        html += `
-                        <div class="msg-item" onclick="alert('${u.displayName} ile sohbet yakında eklenecek!')">
-                            <div class="noti-avatar" style="${av}"></div>
-                            <div class="noti-text"><strong>${u.displayName}</strong><br><span style="color:gray; font-size:12px;">Mesaj göndermek için dokun</span></div>
-                        </div>`;
+                        html += `<div class="msg-item" onclick="alert('${u.displayName} ile sohbet yakında!')"><div class="noti-avatar" style="${av}"></div><div class="noti-text"><strong>${u.displayName}</strong><br><span style="color:gray; font-size:12px;">Mesaj göndermek için dokun</span></div></div>`;
                     }
                 });
                 list.innerHTML = html;
             } catch(e){}
         }
 
-        // ANA AKIŞI (FEED) ÇEK
+        // ANA AKIŞ VE REELS & KEŞFET (Aynı Kodlar Cam Tasarıma Uyarlandı)
+        window.renderExploreGrid = function(filterText = "") {
+            const exploreGrid = document.getElementById('explore-grid'); exploreGrid.innerHTML = '';
+            const filteredPosts = window.globalPosts.filter(post => {
+                const search = filterText.toLowerCase(); const caption = post.caption ? post.caption.toLowerCase() : ""; const user = post.username ? post.username.toLowerCase() : "";
+                return caption.includes(search) || user.includes(search);
+            });
+            if(filteredPosts.length === 0) { exploreGrid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: var(--text-muted); padding: 40px; font-size: 14px;">Sonuç bulunamadı.</div>'; return;}
+            filteredPosts.forEach(post => { exploreGrid.insertAdjacentHTML('beforeend', `<div class="explore-item" style="background-image: url('${post.imageUrl}');" onclick="closeModal('exploreModal'); window.scrollTo({top: 0, behavior: 'smooth'})"></div>`); });
+        }
+        window.performSearch = function() { window.renderExploreGrid(document.getElementById('search-input').value); }
+
+        window.renderReels = function() {
+            const rc = document.getElementById('reels-container'); rc.innerHTML = '';
+            if (window.globalPosts.length === 0) { rc.innerHTML = '<div style="color: white; text-align: center; padding-top: 50vh;">Reels bulunamadı.</div>'; return; }
+            window.globalPosts.forEach(data => {
+                const pInfo = window.globalUsers[data.username] || {};
+                const isV = pInfo.isVerified || (data.username && (data.username.toLowerCase().includes('çağatay') || data.username.toLowerCase().includes('cagatay')));
+                const gt = isV ? '<span class="gold-tick" style="width:14px; height:14px; font-size:9px; margin-left:4px;">✓</span>' : '';
+                const av = pInfo.avatar ? `background-image: url('${pInfo.avatar}');` : `background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100&q=80');`;
+                const likedClass = (auth.currentUser && data.likedBy && data.likedBy.includes(auth.currentUser.displayName)) ? 'liked' : '';
+                rc.insertAdjacentHTML('beforeend', `<div class="reel-item" style="background-image: url('${data.imageUrl}');" ondblclick="toggleLikeDB(this.querySelector('.btn-like'), '${data.id}', '${data.username}')"><div class="reel-overlay"></div><div class="reel-content"><div class="reel-info"><div class="reel-user"><div class="reel-avatar" style="${av}"></div>${data.username} ${gt}<button class="btn-follow-reel">Takip Et</button></div><div class="reel-caption">${data.caption || 'Swinder Premium ✨'}</div><div class="reel-music"><span class="material-symbols-outlined reel-music-icon">graphic_eq</span> Orijinal Ses - ${data.username}</div></div><div class="reel-actions"><button class="reel-action-btn btn-like ${likedClass}" onclick="toggleLikeDB(this, '${data.id}', '${data.username}')"><span class="material-symbols-outlined">favorite</span><span class="reel-action-text" id="like-count-${data.id}">${data.likesCount||0}</span></button><button class="reel-action-btn" onclick="openCommentsDB('${data.id}')"><span class="material-symbols-outlined">chat_bubble</span><span class="reel-action-text">Yorumlar</span></button><button class="reel-action-btn" onclick="visualShare()"><span class="material-symbols-outlined">send</span></button><button class="reel-action-btn"><span class="material-symbols-outlined">more_vert</span></button></div></div></div>`);
+            });
+        }
+
         async function loadPosts() {
             const feedContainer = document.getElementById('feed-container');
             const currentUser = auth.currentUser ? auth.currentUser.displayName : null;
-
             try {
                 const usersSnap = await getDocs(collection(db, "kullanicilar"));
                 usersSnap.forEach(uDoc => { const uData = uDoc.data(); if(uData.displayName) window.globalUsers[uData.displayName] = uData; });
@@ -427,39 +530,12 @@
 
                 window.globalPosts.forEach((data) => {
                     const posterInfo = window.globalUsers[data.username] || {};
-                    const isVerified = posterInfo.isVerified || (data.username && data.username.toLowerCase().includes('çağatay'));
+                    const isVerified = posterInfo.isVerified || (data.username && (data.username.toLowerCase().includes('çağatay') || data.username.toLowerCase().includes('cagatay')));
                     const goldTickHtml = isVerified ? '<span class="gold-tick">✓</span>' : '';
                     const avatarStyle = posterInfo.avatar ? `background-image: url('${posterInfo.avatar}');` : `background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100&q=80');`;
+                    let likedClass = (currentUser && data.likedBy && data.likedBy.includes(currentUser)) ? 'liked' : '';
 
-                    // Beğeni kontrolü
-                    let likedClass = '';
-                    if(currentUser && data.likedBy && data.likedBy.includes(currentUser)) likedClass = 'liked';
-
-                    feedContainer.insertAdjacentHTML('beforeend', `
-                        <article class="post">
-                            <div class="post-header">
-                                <div class="post-user-info"><div class="post-avatar" style="${avatarStyle}"></div><span class="post-username">${data.username} ${goldTickHtml}</span></div>
-                                <button class="post-options"><span class="material-symbols-outlined">more_horiz</span></button>
-                            </div>
-                            
-                            <div class="post-image" style="background-image: url('${data.imageUrl}');" ondblclick="toggleLikeDB(this.nextElementSibling.querySelector('.action-icon'), '${data.id}', '${data.username}')"></div>
-                            
-                            <div class="post-actions">
-                                <div class="action-left">
-                                    <button class="action-icon ${likedClass}" onclick="toggleLikeDB(this, '${data.id}', '${data.username}')"><span class="material-symbols-outlined">favorite</span></button>
-                                    <button class="action-icon" onclick="openCommentsDB('${data.id}')"><span class="material-symbols-outlined">chat_bubble</span></button>
-                                    <button class="action-icon" onclick="visualShare()"><span class="material-symbols-outlined">send</span></button>
-                                </div>
-                                <button class="action-icon" onclick="visualSave(this)"><span class="material-symbols-outlined">bookmark</span></button>
-                            </div>
-                            
-                            <div class="post-likes"><span id="like-count-${data.id}">${data.likesCount || 0}</span> beğenme</div>
-                            
-                            ${data.caption ? `<div class="post-caption-box"><span>${data.username}</span> ${data.caption}</div>` : ''}
-                            
-                            <div class="post-comments-link" onclick="openCommentsDB('${data.id}')">Yorumları gör ve ekle...</div>
-                        </article>
-                    `);
+                    feedContainer.insertAdjacentHTML('beforeend', `<article class="post"><div class="post-header"><div class="post-user-info"><div class="post-avatar" style="${avatarStyle}"></div><span class="post-username">${data.username} ${goldTickHtml}</span></div><button class="post-options"><span class="material-symbols-outlined">more_horiz</span></button></div><div class="post-image" style="background-image: url('${data.imageUrl}');" ondblclick="toggleLikeDB(this.nextElementSibling.querySelector('.action-icon'), '${data.id}', '${data.username}')"></div><div class="post-actions"><div class="action-left"><button class="action-icon ${likedClass}" onclick="toggleLikeDB(this, '${data.id}', '${data.username}')"><span class="material-symbols-outlined">favorite</span></button><button class="action-icon" onclick="openCommentsDB('${data.id}')"><span class="material-symbols-outlined">chat_bubble</span></button><button class="action-icon" onclick="visualShare()"><span class="material-symbols-outlined">send</span></button></div><button class="action-icon" onclick="visualSave(this)"><span class="material-symbols-outlined">bookmark</span></button></div><div class="post-likes"><span id="like-count-${data.id}">${data.likesCount || 0}</span> beğenme</div>${data.caption ? `<div class="post-caption-box"><span>${data.username}</span> ${data.caption}</div>` : ''}<div class="post-comments-link" onclick="openCommentsDB('${data.id}')">Yorumları gör ve ekle...</div><div class="post-time">YENİ</div></article>`);
                 });
             } catch (err) { console.error(err); }
         }
@@ -470,8 +546,34 @@
             if (!imageUrl) return; document.getElementById('btn-submit-post').innerText = "Paylaşılıyor...";
             try { await addDoc(collection(db, "gonderiler"), { imageUrl: imageUrl, caption: caption, username: user.displayName, likesCount: 0, likedBy: [], createdAt: new Date() }); window.closeModal('addModal'); loadPosts(); } catch (err) {} finally { document.getElementById('btn-submit-post').innerText = "Paylaş"; }
         });
+
+        async function loadStories() {
+            const stContainer = document.getElementById('stories-container');
+            stContainer.innerHTML = `<div class="story-item" onclick="openAddStoryModal()"><div class="story-ring add-story"><div class="story-img" style="display:flex; justify-content:center; align-items:center; color: var(--text-muted);"><span class="material-symbols-outlined">add</span></div></div><span class="story-name">Hikayen</span></div>`;
+            try {
+                const snapshot = await getDocs(query(collection(db, "hikayeler"), orderBy("createdAt", "desc")));
+                snapshot.forEach(doc => {
+                    const data = doc.data(); const pInfo = window.globalUsers[data.username] || {}; const sAvatar = pInfo.avatar || '';
+                    stContainer.insertAdjacentHTML('beforeend', `<div class="story-item" onclick="window.openViewStoryModal('${doc.id}', '${data.imageUrl}', '${data.username}', '${sAvatar}')"><div class="story-ring"><div class="story-img" style="background-image: url('${data.imageUrl}');"></div></div><span class="story-name">${data.username.split(' ')[0]}</span></div>`);
+                });
+            } catch(e){}
+        }
+
+        window.openViewStoryModal = function(id, imgUrl, username, avatarUrl) {
+            document.getElementById('view-story-img').style.backgroundImage = `url('${imgUrl}')`; document.getElementById('view-story-username').innerText = username;
+            document.getElementById('view-story-avatar').style.backgroundImage = `url('${avatarUrl || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100&q=80"}')`;
+            document.getElementById('viewStoryModal').classList.add('active'); document.body.style.overflow = 'hidden';
+        }
+
+        document.getElementById('btn-submit-story').addEventListener('click', async () => {
+            const user = auth.currentUser; if (!user) return;
+            const imageUrl = document.getElementById('story-img-url').value; if (!imageUrl) return;
+            document.getElementById('btn-submit-story').innerText = "Yükleniyor...";
+            try { await addDoc(collection(db, "hikayeler"), { imageUrl: imageUrl, username: user.displayName, createdAt: new Date() }); window.closeModal('addStoryModal'); loadStories(); } 
+            catch (e) {} finally { document.getElementById('btn-submit-story').innerText = "Hikayede Paylaş"; }
+        });
         
-        loadPosts();
+        loadPosts(); loadStories();
     </script>
 </body>
 </html>
