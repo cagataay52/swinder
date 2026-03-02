@@ -130,13 +130,22 @@
         .reel-info { flex: 1; padding-right: 15px; }
         .reel-user { display: flex; align-items: center; gap: 10px; color: white; font-weight: 600; font-size: 15px; margin-bottom: 12px;}
         .reel-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center;}
-        .reel-caption { color: white; font-size: 14px; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;}
+        .btn-follow-reel { background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.5); color: white; padding: 4px 14px; border-radius: 20px; font-size: 12px; margin-left: 5px; cursor: pointer; font-weight: 600;}
+        .reel-caption { color: rgba(255,255,255,0.9); font-size: 14px; line-height: 1.5; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;}
         .reel-actions { display: flex; flex-direction: column; gap: 20px; align-items: center; padding-bottom: 15px;}
         .reel-action-btn { background: none; border: none; color: white; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));}
         .reel-action-btn .material-symbols-outlined { font-size: 34px; transition: 0.2s;}
         .reel-action-btn.liked .material-symbols-outlined { color: #ff3040; font-variation-settings: 'FILL' 1; }
 
-        /* KULLANICI PROFİLİ GÖRÜNTÜLEME MODALI (Ok tuşuna basınca) */
+        /* HİKAYE İZLEME (STORY VIEW) */
+        .story-view-box { background: #000; width: 100%; max-width: 450px; height: 85vh; border-radius: 24px; position: relative; overflow: hidden; transform: scale(0.95); transition: 0.3s ease; display: flex; flex-direction: column; }
+        .modal-overlay.active .story-view-box { transform: scale(1); }
+        .story-view-img { width: 100%; flex: 1; background-size: cover; background-position: center; }
+        .story-view-header { position: absolute; top: 0; left: 0; width: 100%; padding: 20px; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); display: flex; align-items: center; gap: 12px; z-index: 2; }
+        .story-view-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center; }
+        .story-view-username { color: #fff; font-weight: 600; font-size: 15px; display: flex; align-items: center;}
+
+        /* KULLANICI PROFİLİ GÖRÜNTÜLEME MODALI */
         .user-profile-header { display: flex; align-items: center; gap: 20px; padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.05);}
         .up-avatar { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center; flex-shrink: 0;}
         .up-info { flex: 1;}
@@ -177,11 +186,7 @@
     </header>
 
     <div class="stories-wrapper" id="stories-container">
-        <div class="story-item" onclick="openModal('addStoryModal')">
-            <div class="story-ring add-story"><div class="story-img" style="display:flex; justify-content:center; align-items:center;"><span class="material-symbols-outlined">add</span></div></div>
-            <span class="story-name">Sen</span>
         </div>
-    </div>
 
     <div class="swipe-container" id="swipe-container">
         <div class="empty-state" id="empty-state" style="display: none;">
@@ -264,6 +269,31 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="addStoryModal">
+        <div class="glass-box">
+            <button class="close-btn" onclick="closeModal('addStoryModal')"><span class="material-symbols-outlined">close</span></button>
+            <h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Hikayene Ekle</h2>
+            <div class="form-group"><label>Görsel Linki</label><input type="text" id="story-img-url" placeholder="URL yapıştır..."></div>
+            <button type="button" id="btn-submit-story" class="btn-premium">Hikayede Paylaş</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="viewStoryModal">
+        <div class="story-view-box">
+            <button class="close-btn" onclick="closeModal('viewStoryModal')" style="z-index: 10; top: 20px; right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button>
+            <div class="story-view-header">
+                <div class="story-view-avatar" id="view-story-avatar"></div>
+                <div class="story-view-username" id="view-story-username">-</div>
+            </div>
+            <div class="story-view-img" id="view-story-img"></div>
+            <div style="position: absolute; bottom: 20px; left: 15px; right: 15px; display: flex; gap: 10px;">
+                <input type="text" placeholder="Yanıtla..." style="flex: 1; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); backdrop-filter:blur(10px); border-radius: 30px; padding: 12px 20px; color: white; outline: none;">
+                <button class="header-icon"><span class="material-symbols-outlined">favorite</span></button>
+                <button class="header-icon"><span class="material-symbols-outlined">send</span></button>
+            </div>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="reelsModal" style="padding:0; background: #000;">
         <button class="close-btn" onclick="closeModal('reelsModal')" style="z-index: 1000; top: 20px; right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button>
         <div class="reels-box" id="reels-container"></div>
@@ -299,20 +329,9 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="commentsModal">
-        <div class="bottom-sheet" style="height: 70vh;">
-            <div class="sheet-header"><button class="header-icon" onclick="closeModal('commentsModal')"><span class="material-symbols-outlined">close</span></button> Yorumlar</div>
-            <div style="flex:1; overflow-y:auto; padding:15px; display:flex; flex-direction:column; gap:15px;" id="comments-list"></div>
-            <div style="padding:15px; border-top:1px solid rgba(255,255,255,0.1); display:flex; gap:10px; background:rgba(0,0,0,0.5);">
-                <input type="text" id="new-comment-input" placeholder="Yorum ekle..." style="flex:1; background:rgba(255,255,255,0.1); border:none; color:white; padding:10px 15px; border-radius:30px; outline:none;">
-                <button onclick="submitComment()" style="background:none; border:none; color:var(--primary-gold); font-weight:bold; padding:0 10px; cursor:pointer;">Paylaş</button>
-            </div>
-        </div>
-    </div>
-
     <script>
         function openModal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
-        function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = 'auto'; }
+        window.closeModal = function(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = 'auto'; }
         
         window.customAlert = function(msg) { alert(msg); }
         window.openAuthModal = (tab) => { openModal('authModal'); }
@@ -340,7 +359,6 @@
         const adminEmail = "kcagatay239@gmail.com"; 
         window.globalPosts = []; window.globalUsers = {};
         let currentUserProfile = null;
-        let activeCommentPostId = null;
 
         // AUTH
         document.getElementById('btn-login').addEventListener('click', async () => { try { await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-pass').value); window.location.reload(); } catch (err) { alert(err.message); }});
@@ -357,29 +375,73 @@
                     if(currentUserProfile.avatar) btn.innerHTML = `<div style="width: 30px; height: 30px; border-radius: 50%; background: url('${currentUserProfile.avatar}') center/cover; border: 2px solid var(--text-light);"></div>`;
                 }
 
-                // Bildirim Kontrol
                 const notiSnap = await getDocs(query(collection(db, "bildirimler"), where("to", "==", user.displayName)));
                 if(!notiSnap.empty) document.getElementById('noti-dot').style.display = 'block';
 
             } else { btn.onclick = () => openModal('authModal'); }
             
-            // Tüm verileri çek
             await loadAllData();
             loadProfilesForDeck();
+            loadStories(); // Hikayeleri çek
         });
 
         async function loadAllData() {
-            // Kullanıcıları Çek
             const usersSnap = await getDocs(collection(db, "kullanicilar"));
             usersSnap.forEach(uDoc => { const uData = uDoc.data(); if(uData.displayName) window.globalUsers[uData.displayName] = uData; });
 
-            // Gönderileri Çek (Reels ve Explore için)
             const postSnap = await getDocs(query(collection(db, "gonderiler"), orderBy("createdAt", "desc")));
             window.globalPosts = [];
             postSnap.forEach(doc => { window.globalPosts.push({ id: doc.id, ...doc.data() }); });
         }
 
-        // 🔥 TINDER KARTLARINI OLUŞTURMA 🔥
+        // 🔥 HİKAYELERİ ÇEK VE DİZ 🔥
+        async function loadStories() {
+            const stContainer = document.getElementById('stories-container');
+            stContainer.innerHTML = `<div class="story-item" onclick="openModal('addStoryModal')"><div class="story-ring add-story"><div class="story-img" style="display:flex; justify-content:center; align-items:center; color: var(--text-muted);"><span class="material-symbols-outlined">add</span></div></div><span class="story-name">Sen</span></div>`;
+            try {
+                const snapshot = await getDocs(query(collection(db, "hikayeler"), orderBy("createdAt", "desc")));
+                snapshot.forEach(doc => {
+                    const data = doc.data(); 
+                    const pInfo = window.globalUsers[data.username] || {}; 
+                    const sAvatar = pInfo.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100';
+                    stContainer.insertAdjacentHTML('beforeend', `
+                    <div class="story-item" onclick="viewStory('${doc.id}', '${data.imageUrl}', '${data.username}', '${sAvatar}')">
+                        <div class="story-ring"><div class="story-img" style="background-image: url('${data.imageUrl}');"></div></div>
+                        <span class="story-name">${data.username.split(' ')[0]}</span>
+                    </div>`);
+                });
+            } catch(e){}
+        }
+
+        window.viewStory = function(id, imgUrl, username, avatarUrl) {
+            document.getElementById('view-story-img').style.backgroundImage = `url('${imgUrl}')`; 
+            document.getElementById('view-story-username').innerText = username;
+            document.getElementById('view-story-avatar').style.backgroundImage = `url('${avatarUrl}')`;
+            openModal('viewStoryModal');
+        }
+
+        document.getElementById('btn-submit-story').addEventListener('click', async () => {
+            const user = auth.currentUser; if (!user) return openModal('authModal');
+            const imageUrl = document.getElementById('story-img-url').value; if (!imageUrl) return;
+            document.getElementById('btn-submit-story').innerText = "Yükleniyor...";
+            try { 
+                await addDoc(collection(db, "hikayeler"), { imageUrl: imageUrl, username: user.displayName, createdAt: new Date() }); 
+                closeModal('addStoryModal'); 
+                loadStories(); 
+            } 
+            catch (e) {} finally { document.getElementById('btn-submit-story').innerText = "Hikayede Paylaş"; }
+        });
+
+        // 🔥 GÖNDERİ PAYLAŞ (+) 🔥
+        document.getElementById('btn-submit-post').addEventListener('click', async () => {
+            const user = auth.currentUser; if (!user) { openModal('authModal'); return; }
+            const imageUrl = document.getElementById('add-image').value; const caption = document.getElementById('add-caption').value;
+            if (!imageUrl) return; document.getElementById('btn-submit-post').innerText = "Paylaşılıyor...";
+            try { await addDoc(collection(db, "gonderiler"), { imageUrl, caption, username: user.displayName, likesCount: 0, likedBy: [], createdAt: new Date() }); closeModal('addModal'); document.getElementById('add-image').value = ''; document.getElementById('add-caption').value=''; await loadAllData(); } 
+            catch (err) {} finally { document.getElementById('btn-submit-post').innerText = "Akışta Paylaş"; }
+        });
+
+        // 🔥 TINDER KARTLARI 🔥
         const swipeContainer = document.getElementById('swipe-container');
         let cards = [];
 
@@ -389,7 +451,6 @@
                 { username: "Lara", age: 26, bio: "Sanat galerisi işletiyorum. Kahve?", img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800", isVerified: false }
             ];
 
-            // Gerçek kullanıcıları ekle
             Object.values(window.globalUsers).forEach(u => {
                 if(u.displayName && (!auth.currentUser || u.displayName !== auth.currentUser.displayName)) {
                     dummyProfiles.push({
@@ -419,7 +480,6 @@
             initSwipeLogic();
         }
 
-        // SWIPE MOTORU (KAYDIRMA)
         function initSwipeLogic() {
             cards = Array.from(document.querySelectorAll('.swipe-card'));
             if(cards.length === 0) document.getElementById('empty-state').style.display = 'flex';
@@ -457,7 +517,7 @@
             card.style.opacity = '0';
             
             if (direction === 'right' || direction === 'super') {
-                if (Math.random() < 0.3) { // %30 Match şansı
+                if (Math.random() < 0.3) { 
                     const tName = card.querySelector('.card-name').childNodes[0].nodeValue.trim();
                     const tImg = card.querySelector('.card-img-bg').style.backgroundImage.slice(5, -2);
                     showMatchScreen(tName, tImg);
@@ -482,7 +542,7 @@
             document.getElementById('matchOverlay').classList.add('active');
         }
 
-        // 🔥 KULLANICI PROFİLİ GÖRÜNTÜLEME (Ok'a basınca) 🔥
+        // 🔥 KULLANICI PROFİLİ GÖRÜNTÜLEME 🔥
         window.openUserProfile = function(username) {
             const pInfo = window.globalUsers[username] || {};
             const isV = pInfo.isVerified || username.toLowerCase().includes('çağatay');
@@ -491,19 +551,15 @@
             document.getElementById('up-bio').innerText = pInfo.bio || 'Swinder Üyesi';
             document.getElementById('up-avatar').style.backgroundImage = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=200')`;
             
-            // O kişinin gönderilerini bul ve ızgaraya diz
-            const upGrid = document.getElementById('up-grid');
-            upGrid.innerHTML = '';
+            const upGrid = document.getElementById('up-grid'); upGrid.innerHTML = '';
             const userPosts = window.globalPosts.filter(p => p.username === username);
             if(userPosts.length === 0) upGrid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 30px; font-size:13px;">Gönderi yok.</div>';
-            userPosts.forEach(post => {
-                upGrid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${post.imageUrl}');"></div>`);
-            });
+            userPosts.forEach(post => { upGrid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${post.imageUrl}');"></div>`); });
 
             openModal('userProfileModal');
         }
 
-        // 🔥 BİLDİRİMLER 🔥
+        // BİLDİRİM VE MESAJLAR
         window.loadNotifications = async function() {
             const user = auth.currentUser; if(!user) return;
             const list = document.getElementById('noti-list');
@@ -517,7 +573,6 @@
             });
         }
 
-        // 🔥 DM KUTUSU 🔥
         window.loadDMs = async function() {
             const user = auth.currentUser; if(!user) return;
             const list = document.getElementById('dm-list');
@@ -530,20 +585,14 @@
             list.innerHTML = html;
         }
 
-        // 🔥 GÖNDERİ PAYLAŞ (+) 🔥
-        document.getElementById('btn-submit-post').addEventListener('click', async () => {
-            const user = auth.currentUser; if (!user) { openModal('authModal'); return; }
-            const imageUrl = document.getElementById('add-image').value; const caption = document.getElementById('add-caption').value;
-            if (!imageUrl) return; document.getElementById('btn-submit-post').innerText = "Paylaşılıyor...";
-            try { await addDoc(collection(db, "gonderiler"), { imageUrl, caption, username: user.displayName, likesCount: 0, likedBy: [], createdAt: new Date() }); closeModal('addModal'); loadAllData(); } 
-            catch (err) {} finally { document.getElementById('btn-submit-post').innerText = "Akışta Paylaş"; }
-        });
-
-        // 🔥 KEŞFET & REELS 🔥
+        // KEŞFET & REELS
         window.renderExploreGrid = function(filterText = "") {
             const grid = document.getElementById('explore-grid'); grid.innerHTML = '';
-            const filtered = window.globalPosts.filter(p => (p.caption||'').toLowerCase().includes(filterText.toLowerCase()) || (p.username||'').toLowerCase().includes(filterText.toLowerCase()));
-            filtered.forEach(p => grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${p.imageUrl}');"></div>`));
+            const cName = auth.currentUser ? auth.currentUser.displayName : "";
+            let filtered = window.globalPosts.filter(p => p.username !== cName); // KENDİ POSTLARIMI GİZLE
+            if(filterText) filtered = filtered.filter(p => (p.caption||'').toLowerCase().includes(filterText.toLowerCase()) || (p.username||'').toLowerCase().includes(filterText.toLowerCase()));
+            if(filtered.length === 0) { grid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 40px; font-size: 13px;">Sonuç bulunamadı.</div>'; return;}
+            filtered.forEach(p => grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${p.imageUrl}');" onclick="closeModal('exploreModal'); window.openReels();"></div>`));
         }
         window.performSearch = () => window.renderExploreGrid(document.getElementById('search-input').value);
 
@@ -561,49 +610,24 @@
                     <div class="reel-overlay"></div>
                     <div class="reel-content">
                         <div class="reel-info">
-                            <div class="reel-user"><div class="reel-avatar" style="background-image:${av};"></div>${data.username} ${gt}<button class="btn-follow-reel">Takip Et</button></div>
+                            <div class="reel-user" onclick="openUserProfile('${data.username}')"><div class="reel-avatar" style="background-image:${av};"></div>${data.username} ${gt}</div>
                             <div class="reel-caption">${data.caption || ''}</div>
-                            <div class="reel-music"><span class="material-symbols-outlined reel-music-icon">graphic_eq</span> Orijinal Ses - ${data.username}</div>
                         </div>
                         <div class="reel-actions">
                             <button class="reel-action-btn btn-like ${likedClass}" onclick="toggleLikeDB(this, '${data.id}', '${data.username}')"><span class="material-symbols-outlined">favorite</span><span class="reel-action-text" id="like-count-${data.id}">${data.likesCount||0}</span></button>
-                            <button class="reel-action-btn" onclick="openCommentsDB('${data.id}')"><span class="material-symbols-outlined">chat_bubble</span><span class="reel-action-text">Yorumlar</span></button>
-                            <button class="reel-action-btn" onclick="visualShare()"><span class="material-symbols-outlined">send</span></button>
+                            <button class="reel-action-btn" onclick="alert('Yorumlar yakında')"><span class="material-symbols-outlined">chat_bubble</span><span class="reel-action-text">Yorumlar</span></button>
                         </div>
                     </div>
                 </div>`);
             });
         }
 
-        // 🔥 BEĞENİ VE YORUM VERİTABANI İŞLEMLERİ (Reels için) 🔥
         window.toggleLikeDB = async function(btn, postId, owner) {
             const user = auth.currentUser; if(!user) return openModal('authModal');
             const isLiked = btn.classList.contains('liked'); const ref = doc(db, "gonderiler", postId);
             const countSpan = document.getElementById(`like-count-${postId}`); let count = parseInt(countSpan.innerText);
             if(isLiked) { btn.classList.remove('liked'); countSpan.innerText = count - 1; await updateDoc(ref, { likedBy: arrayRemove(user.displayName), likesCount: count - 1 }); } 
             else { btn.classList.add('liked'); countSpan.innerText = count + 1; await updateDoc(ref, { likedBy: arrayUnion(user.displayName), likesCount: count + 1 }); if(user.displayName !== owner) await addDoc(collection(db, "bildirimler"), { to: owner, from: user.displayName, text: 'gönderini beğendi.', createdAt: new Date() }); }
-        }
-
-        window.openCommentsDB = async function(postId) {
-            activeCommentPostId = postId; openModal('commentsModal');
-            const list = document.getElementById('comments-list'); list.innerHTML = '<div style="color:gray; text-align:center;">Yükleniyor...</div>';
-            const snap = await getDocs(query(collection(db, `gonderiler/${postId}/yorumlar`), orderBy("createdAt", "asc")));
-            list.innerHTML = '';
-            if(snap.empty) { list.innerHTML = '<div style="color:gray; text-align:center;">İlk yorumu sen yap!</div>'; return;}
-            snap.forEach(d => {
-                const data = d.data(); const avatar = window.globalUsers[data.username]?.avatar || '';
-                list.insertAdjacentHTML('beforeend', `<div class="comment-item"><div class="comment-avatar" style="background-image:url('${avatar}'); background-size:cover;"></div><div class="comment-content"><strong>${data.username}</strong><span>${data.text}</span></div></div>`);
-            });
-        }
-
-        window.submitComment = async function() {
-            const user = auth.currentUser; if(!user) return;
-            const text = document.getElementById('new-comment-input').value.trim(); if(!text || !activeCommentPostId) return;
-            document.getElementById('new-comment-input').value = ""; 
-            await addDoc(collection(db, `gonderiler/${activeCommentPostId}/yorumlar`), { username: user.displayName, text: text, createdAt: new Date() });
-            const postInfo = window.globalPosts.find(p => p.id === activeCommentPostId);
-            if(postInfo && postInfo.username !== user.displayName) await addDoc(collection(db, "bildirimler"), { to: postInfo.username, from: user.displayName, text: `yorum yaptı: "${text}"`, createdAt: new Date() });
-            openCommentsDB(activeCommentPostId); 
         }
     </script>
 </body>
