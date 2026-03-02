@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
 
     <style>
-        /* --- TEMEL AYARLAR VE CAM EFEKTİ --- */
+        /* --- TEMEL & GLASSMORPHISM --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; touch-action: pan-y; }
         :root { --primary-gold: #d4af37; --gold-hover: #f3e5ab; --text-light: #f5f5f7; --text-muted: rgba(255,255,255,0.6); --glass-bg: rgba(20, 20, 25, 0.45); --glass-border: 1px solid rgba(255, 255, 255, 0.08); --glass-blur: blur(24px); --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
         body { background: #050505; color: var(--text-light); overflow: hidden; }
@@ -36,7 +36,7 @@
         .story-img { width: 100%; height: 100%; border-radius: 50%; border: 2px solid #0a0a0c; background-size: cover; background-position: center; }
         .story-name { font-size: 11px; color: var(--text-light); font-weight: 500;}
 
-        /* SWIPE KARTLARI */
+        /* SWIPE TINDER KARTLARI */
         .swipe-container { position: absolute; top: 165px; bottom: 150px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 400px; display: flex; justify-content: center; align-items: center; perspective: 1000px; }
         .swipe-card { position: absolute; width: 92%; height: 95%; background: var(--glass-bg); backdrop-filter: blur(30px); border: var(--glass-border); border-radius: 24px; box-shadow: var(--glass-shadow); overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; transform-origin: 50% 100%; transition: transform 0.3s ease, opacity 0.3s ease; cursor: grab; z-index: 1; user-select: none;}
         .swipe-card.moving { transition: none; cursor: grabbing; }
@@ -74,7 +74,7 @@
         .nav-icon-btn.add-btn { background: linear-gradient(135deg, #d4af37, #aa8529); color: #000; width: 44px; height: 44px; border-radius: 12px; display: flex; justify-content: center; align-items: center;}
         .nav-icon-btn.add-btn .material-symbols-outlined { font-size: 28px; font-weight: 600; color: #000;}
 
-        /* MODALLAR VE CAM KUTULAR */
+        /* MODALLAR & CAM KUTULAR */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1500; padding: 15px; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 50; display: flex; align-items: center; justify-content: center;}
@@ -85,7 +85,7 @@
         .form-group { margin-bottom: 15px; text-align: left; width: 100%;}
         .form-group input, .form-group textarea { width: 100%; padding: 14px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; outline: none; font-size: 14px; font-family: inherit;}
         .form-group input:focus, .form-group textarea:focus { border-color: var(--primary-gold); background: rgba(0,0,0,0.8);}
-        .btn-premium { background: var(--primary-gold); color: #000; padding: 14px; border-radius: 12px; font-weight: 700; width: 100%; border: none; cursor: pointer; font-size: 15px;}
+        .btn-premium { background: var(--primary-gold); color: #000; padding: 14px; border-radius: 12px; font-weight: 700; width: 100%; border: none; cursor: pointer; font-size: 15px; transition: 0.3s;}
 
         /* AŞAĞIDAN AÇILAN EKRANLAR */
         .bottom-sheet { background: var(--bg-dark); width: 100%; height: 90vh; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.4s; display: flex; flex-direction: column; overflow: hidden;}
@@ -126,9 +126,15 @@
         .story-view-header { position: absolute; top: 0; left: 0; width: 100%; padding: 20px; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); display: flex; align-items: center; gap: 12px; z-index: 2; }
         .story-view-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center; }
 
-        .search-input { flex: 1; background: rgba(255,255,255,0.1); border: none; color: white; padding: 12px 20px; border-radius: 30px; outline: none;}
+        /* ARAMA VE PROFİL */
+        .search-input { flex: 1; background: rgba(255,255,255,0.1); border: none; color: white; padding: 12px 20px; border-radius: 30px; outline: none; font-size: 14px;}
         .grid-view { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; overflow-y: auto; flex: 1; }
         .grid-item { aspect-ratio: 1 / 1; background-size: cover; background-position: center; cursor: pointer; }
+        
+        .user-profile-header { display: flex; align-items: center; gap: 20px; padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.05);}
+        .up-avatar { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center; flex-shrink: 0;}
+        .up-info { flex: 1;}
+        .up-name { font-size: 20px; font-weight: 600; margin-bottom: 5px; display: flex; align-items: center; gap: 5px;}
         
         .reels-box { background: #000; width: 100%; height: 100dvh; position: relative; transform: translateY(100%); transition: 0.4s ease; overflow-y: scroll; scroll-snap-type: y mandatory; }
         .modal-overlay.active .reels-box { transform: translateY(0); }
@@ -213,11 +219,52 @@
 
     <div class="modal-overlay" id="messagesModal"><div class="bottom-sheet"><div class="sheet-header"><button class="header-icon" onclick="closeModal('messagesModal')"><span class="material-symbols-outlined">arrow_back</span></button>Mesajlar</div><div style="flex:1; overflow-y:auto;" id="dm-list-container"><div style="text-align:center; padding:40px; color:gray;">Sohbetler yükleniyor...</div></div></div></div>
     
-    <div class="modal-overlay" id="chatRoomModal" style="z-index: 1600;"><div class="bottom-sheet" style="height: 100dvh; border-radius: 0;"><div class="sheet-header"><button class="header-icon" onclick="closeModal('chatRoomModal'); openMessages();"><span class="material-symbols-outlined">arrow_back</span></button><div style="display:flex; align-items:center; gap:10px;"><div id="chat-header-avatar" style="width:36px; height:36px; border-radius:50%; background-size:cover; border:2px solid var(--primary-gold);"></div><span id="chat-header-name">Kullanıcı</span></div> <button class="header-icon" style="margin-left:auto; color:#ff4757;" onclick="deleteChatRoom()"><span class="material-symbols-outlined">delete</span></button></div><div class="chat-area" id="chat-messages"></div><div class="chat-input-container"><input type="text" id="chat-input" class="chat-input" placeholder="Mesaj yaz..." onkeypress="if(event.key === 'Enter') sendChatMessage()"><button class="chat-send-btn" onclick="sendChatMessage()"><span class="material-symbols-outlined">send</span></button></div></div></div>
+    <div class="modal-overlay" id="chatRoomModal" style="z-index: 1600;">
+        <div class="bottom-sheet" style="height: 100dvh; border-radius: 0;">
+            <div class="sheet-header">
+                <button class="header-icon" onclick="closeModal('chatRoomModal'); openMessages();"><span class="material-symbols-outlined">arrow_back</span></button>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <div id="chat-header-avatar" style="width:36px; height:36px; border-radius:50%; background-size:cover; border:2px solid var(--primary-gold);"></div>
+                    <span id="chat-header-name">Kullanıcı</span>
+                </div>
+                <button class="header-icon" style="margin-left:auto; color:#ff4757;" onclick="deleteChatRoom()">
+                    <span class="material-symbols-outlined">delete</span>
+                </button>
+            </div>
+            <div class="chat-area" id="chat-messages"></div>
+            <div class="chat-input-container"><input type="text" id="chat-input" class="chat-input" placeholder="Mesaj yaz..." onkeypress="if(event.key === 'Enter') sendChatMessage()"><button class="chat-send-btn" onclick="sendChatMessage()"><span class="material-symbols-outlined">send</span></button></div>
+        </div>
+    </div>
     
     <div class="modal-overlay" id="notificationsModal"><div class="bottom-sheet"><div class="sheet-header"><button class="header-icon" onclick="closeModal('notificationsModal')"><span class="material-symbols-outlined">arrow_back</span></button> Bildirimler</div><div style="flex:1; overflow-y:auto;" id="noti-list"><div style="text-align:center; padding:40px; color:gray;">Bildirim yok.</div></div></div></div>
     
-    <div class="modal-overlay" id="exploreModal"><div class="bottom-sheet"><div class="sheet-header" style="gap:10px;"><button class="header-icon" onclick="closeModal('exploreModal')"><span class="material-symbols-outlined">arrow_back</span></button><input type="text" class="search-input" id="search-input" placeholder="Keşfet..." onkeyup="performSearch()"></div><div class="grid-view" id="explore-grid" style="padding: 2px;"></div></div></div>
+    <div class="modal-overlay" id="exploreModal">
+        <div class="bottom-sheet">
+            <div class="sheet-header" style="gap:10px;">
+                <button class="header-icon" onclick="closeModal('exploreModal')"><span class="material-symbols-outlined">arrow_back</span></button>
+                <input type="text" class="search-input" id="search-input" placeholder="Kişi veya gönderi ara..." onkeyup="performSearch()">
+            </div>
+            <div id="explore-users-list" style="display: none; border-bottom: 1px solid rgba(255,255,255,0.05); max-height: 200px; overflow-y: auto;"></div>
+            <div class="grid-view" id="explore-grid" style="padding: 2px;"></div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="userProfileModal">
+        <div class="bottom-sheet">
+            <div class="sheet-header">
+                <button class="header-icon" onclick="closeModal('userProfileModal')"><span class="material-symbols-outlined">arrow_back</span></button>
+                <span id="up-title">Profil</span>
+            </div>
+            <div class="user-profile-header">
+                <div class="up-avatar" id="up-avatar"></div>
+                <div class="up-info">
+                    <div class="up-name" id="up-name">-</div>
+                    <div class="up-bio" id="up-bio" style="color:gray;">-</div>
+                </div>
+            </div>
+            <div class="grid-view" id="up-grid" style="padding-top: 2px;"></div>
+        </div>
+    </div>
     
     <div class="modal-overlay" id="addModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Yeni Gönderi</h2><div class="form-group"><input type="text" id="add-image" placeholder="Fotoğraf URL'si..."></div><div class="form-group"><textarea id="add-caption" rows="3" placeholder="Açıklama yaz..."></textarea></div><button type="button" id="btn-submit-post" class="btn-premium">Akışta Paylaş</button></div></div>
     
@@ -254,14 +301,15 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, getDocs, doc, getDoc, addDoc, query, orderBy, setDoc, where, updateDoc, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, getDoc, addDoc, query, orderBy, setDoc, where, updateDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = { apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0", authDomain: "swinder-79534.firebaseapp.com", projectId: "swinder-79534", storageBucket: "swinder-79534.firebasestorage.app", messagingSenderId: "704644873549", appId: "1:704644873549:web:d95f561ec912b94cf2cb04" };
         const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
 
         const adminEmail = "kcagatay239@gmail.com"; 
-        window.globalUsersById = {}; window.globalUsersByName = {}; let currentUserProfile = null;
+        window.globalUsersById = {}; window.globalPosts = []; let currentUserProfile = null;
 
+        // AUTH
         document.getElementById('btn-login').addEventListener('click', async () => { try { await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-pass').value); window.location.reload(); } catch (err) { alert(err.message); }});
         document.getElementById('btn-register').addEventListener('click', async () => { 
             const name = document.getElementById('reg-name').value; const email = document.getElementById('reg-email').value; const pass = document.getElementById('reg-pass').value;
@@ -288,12 +336,8 @@
 
         async function loadAllData() {
             const usersSnap = await getDocs(collection(db, "kullanicilar"));
-            window.globalUsersById = {}; window.globalUsersByName = {};
-            usersSnap.forEach(uDoc => { 
-                const uData = uDoc.data(); uData.uid = uDoc.id;
-                window.globalUsersById[uDoc.id] = uData; 
-                if(uData.displayName) window.globalUsersByName[uData.displayName] = uData; 
-            });
+            window.globalUsersById = {}; 
+            usersSnap.forEach(uDoc => { const d = uDoc.data(); d.uid = uDoc.id; window.globalUsersById[uDoc.id] = d; });
             const postSnap = await getDocs(query(collection(db, "gonderiler"), orderBy("createdAt", "desc")));
             window.globalPosts = []; postSnap.forEach(doc => { window.globalPosts.push({ id: doc.id, ...doc.data() }); });
         }
@@ -305,13 +349,14 @@
             const myUid = auth.currentUser ? auth.currentUser.uid : null; 
             if(!myUid) return;
 
+            // DAHA ÖNCE OYLADIĞIM KİŞİLERİ ÇEK
             const mySwipesSnap = await getDocs(query(collection(db, "kaydirmalar"), where("swiperId", "==", myUid)));
             const swipedIds = new Set();
             mySwipesSnap.forEach(doc => swipedIds.add(doc.data().swipedId));
 
             const profiles = [];
             Object.values(window.globalUsersById).forEach(u => {
-                // KENDİNİ GÖRME ENGELLENDİ & DAHA ÖNCE OYLANANLAR ENGELLENDİ
+                // KENDİMİ VE DAHA ÖNCE OYLADIKLARIMI GİZLE
                 if(u.uid !== myUid && !swipedIds.has(u.uid) && u.displayName) {
                     profiles.push({ uid: u.uid, name: u.displayName, age: u.age || "25", bio: u.bio || "Swinder Üyesi", img: u.avatar || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=800", isVerified: u.isVerified || u.displayName.toLowerCase().includes('çağatay') });
                 }
@@ -319,7 +364,7 @@
 
             if(profiles.length === 0) { document.getElementById('empty-state').style.display = 'flex'; return; }
 
-            // Z-INDEX BUG FIX: Son eleman en üstte kalsın diye ters döngü ve net z-index
+            // Z-INDEX BUG FIX
             profiles.reverse().forEach((p, index) => {
                 const gt = p.isVerified ? '<span class="gold-tick">✓</span>' : '';
                 swipeContainer.insertAdjacentHTML('beforeend', `
@@ -332,18 +377,17 @@
             initSwipeLogic();
         }
 
-        // TEST İÇİN SIFIRLAMA BUTONU
+        // TEST İÇİN SIFIRLAMA
         window.resetSwipes = async function() {
             const user = auth.currentUser; if(!user) return;
-            const mySwipesSnap = await getDocs(query(collection(db, "kaydirmalar"), where("swiperId", "==", user.uid)));
-            mySwipesSnap.forEach(async (d) => { await deleteDoc(doc(db, "kaydirmalar", d.id)); });
-            alert("Geçmişin sıfırlandı. Sayfayı yenile.");
+            const snap = await getDocs(query(collection(db, "kaydirmalar"), where("swiperId", "==", user.uid)));
+            for(const d of snap.docs) { await deleteDoc(doc(db, "kaydirmalar", d.id)); }
+            alert("Geçmişin sıfırlandı. Sayfayı yenile!"); window.location.reload();
         }
 
         function initSwipeLogic() { 
             const cards = Array.from(document.querySelectorAll('.swipe-card:not(.removed)')); 
             if(cards.length === 0) return;
-            
             cards.forEach(card => { 
                 const likeStamp = card.querySelector('.stamp-like'); const nopeStamp = card.querySelector('.stamp-nope'); 
                 let startX = 0, currentX = 0; 
@@ -376,8 +420,7 @@
 
         window.buttonSwipe = function(d) { 
             const topCard = document.querySelector('.swipe-card:not(.removed)'); 
-            if(!topCard) return; 
-            topCard.classList.add('removed'); 
+            if(!topCard) return; topCard.classList.add('removed'); 
             if(d === 'right' || d === 'super') topCard.querySelector('.stamp-like').style.opacity = 1; else topCard.querySelector('.stamp-nope').style.opacity = 1; 
             processSwipe(topCard, d); 
         }
@@ -395,8 +438,9 @@
                     if(theirSwipe.exists() && (theirSwipe.data().action === 'right' || theirSwipe.data().action === 'super')) {
                         const matchQ = await getDocs(query(collection(db, "eslesmeler"), where("users", "array-contains", user.uid)));
                         let alreadyMatched = false; matchQ.forEach(d => { if(d.data().users.includes(theirUid)) alreadyMatched = true; });
+
                         if(!alreadyMatched) {
-                            const matchRef = await addDoc(collection(db, "eslesmeler"), { users: [user.uid, theirUid], userNames: [user.displayName, theirName], lastMessage: "Yeni Eşleşme! Hemen yaz.", updatedAt: new Date() });
+                            const matchRef = await addDoc(collection(db, "eslesmeler"), { users: [user.uid, theirUid], userNames: [user.displayName, theirName], lastMessage: "Yeni Eşleşme!", updatedAt: new Date() });
                             document.getElementById('match-my-avatar').style.backgroundImage = `url('${currentUserProfile?.avatar || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=200"}')`;
                             document.getElementById('match-their-avatar').style.backgroundImage = `url('${theirImg}')`;
                             document.getElementById('match-text').innerHTML = `Sen ve <strong>${theirName}</strong> birbirinizi beğendiniz!`;
@@ -409,7 +453,7 @@
             setTimeout(() => { card.remove(); const rem = document.querySelectorAll('.swipe-card:not(.removed)'); if(rem.length === 0) document.getElementById('empty-state').style.display = 'flex'; }, 400); 
         }
 
-        // 🔥 MESAJLAR (DM) & SİLME ÖZELLİĞİ EKLENDİ 🔥
+        // 🔥 MESAJLAR (DM) LİSTESİ VE SİLME ÖZELLİĞİ 🔥
         window.listenToDMs = function() {
             const user = auth.currentUser; if(!user) return;
             const dmListContainer = document.getElementById('dm-list-container');
@@ -435,11 +479,13 @@
 
         let activeChatId = null; let messagesUnsubscribe = null;
         window.openChatRoom = function(chatId, partnerName, partnerImg, partnerUid) {
-            closeModal('dmListModal'); activeChatId = chatId;
+            closeModal('messagesModal'); activeChatId = chatId;
             document.getElementById('chat-header-name').innerText = partnerName; document.getElementById('chat-header-avatar').style.backgroundImage = `url('${partnerImg}')`;
             openModal('chatRoomModal');
+            
             const chatArea = document.getElementById('chat-messages'); chatArea.innerHTML = '';
             if(messagesUnsubscribe) messagesUnsubscribe();
+
             messagesUnsubscribe = onSnapshot(query(collection(db, `eslesmeler/${chatId}/mesajlar`), orderBy("timestamp", "asc")), (snapshot) => {
                 chatArea.innerHTML = '';
                 snapshot.forEach(doc => {
@@ -457,26 +503,74 @@
             try { await addDoc(collection(db, `eslesmeler/${activeChatId}/mesajlar`), { senderId: auth.currentUser.uid, text: text, timestamp: new Date() }); await updateDoc(doc(db, "eslesmeler", activeChatId), { lastMessage: text, updatedAt: new Date() }); } catch(e) {}
         }
 
-        // SOHBET SİLME FONKSİYONU
         window.deleteChatRoom = async function() {
             if(!activeChatId) return;
-            if(confirm("Bu eşleşmeyi ve mesajları kalıcı olarak silmek istediğine emin misin?")) {
+            if(confirm("Bu eşleşmeyi ve sohbeti tamamen silmek istediğine emin misin?")) {
                 try {
                     await deleteDoc(doc(db, "eslesmeler", activeChatId));
                     closeModal('chatRoomModal');
-                    window.openMessages(); // Listeye geri dön
-                } catch(e) { alert("Silinemedi."); }
+                    window.openMessages(); 
+                } catch(e) {}
             }
         }
 
-        // 🔥 DİĞER EKLENTİLER (HİKAYE, KEŞFET, REELS, GÖNDERİ) 🔥
+        // 🔥 INSTAGRAM TARZI KİŞİ BULMA (KEŞFET) 🔥
+        window.renderExploreGrid = function() {
+            const filterText = document.getElementById('search-input').value.toLowerCase(); 
+            const grid = document.getElementById('explore-grid'); grid.innerHTML = '';
+            const userList = document.getElementById('explore-users-list'); userList.innerHTML = '';
+
+            const myName = auth.currentUser ? auth.currentUser.displayName : "";
+
+            if(filterText) {
+                let matchedUsers = Object.values(window.globalUsersById).filter(u => u.displayName && u.displayName.toLowerCase().includes(filterText));
+                if (matchedUsers.length > 0) {
+                    userList.style.display = 'block';
+                    matchedUsers.forEach(u => {
+                        const av = u.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100';
+                        userList.insertAdjacentHTML('beforeend', `
+                            <div class="list-item" onclick="closeModal('exploreModal'); window.openUserProfile('${u.displayName}')" style="padding: 10px 20px;">
+                                <div class="list-avatar" style="background-image: url('${av}'); width: 40px; height: 40px;"></div>
+                                <div class="list-text"><strong style="color:white; font-size:15px;">${u.displayName}</strong></div>
+                            </div>
+                        `);
+                    });
+                } else { userList.style.display = 'none'; }
+            } else { userList.style.display = 'none'; }
+
+            let filteredPosts = window.globalPosts.filter(p => p.username !== myName);
+            if(filterText) filteredPosts = filteredPosts.filter(p => (p.caption||'').toLowerCase().includes(filterText) || (p.username||'').toLowerCase().includes(filterText));
+            if(filteredPosts.length === 0 && (!filterText || userList.innerHTML === '')) { grid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 40px; font-size: 13px;">Sonuç bulunamadı.</div>'; return;}
+            filteredPosts.forEach(p => grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${p.imageUrl}');" onclick="closeModal('exploreModal'); window.openReels();"></div>`));
+        }
+        window.performSearch = () => window.renderExploreGrid();
+
+        // 🔥 KULLANICI PROFİLİ AÇMA (KEŞFET'TEN TIKLANINCA) 🔥
+        window.openUserProfile = function(username) {
+            let pInfo = {};
+            Object.values(window.globalUsersById).forEach(u => { if(u.displayName === username) pInfo = u; });
+            const isV = pInfo.isVerified || username.toLowerCase().includes('çağatay');
+            document.getElementById('up-title').innerText = username;
+            document.getElementById('up-name').innerHTML = `${username} ${isV ? '<span class="gold-tick" style="display:inline-flex;">✓</span>' : ''}`;
+            document.getElementById('up-bio').innerText = pInfo.bio || 'Swinder Üyesi';
+            document.getElementById('up-avatar').style.backgroundImage = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=200')`;
+            const upGrid = document.getElementById('up-grid'); upGrid.innerHTML = '';
+            const userPosts = window.globalPosts.filter(p => p.username === username);
+            if(userPosts.length === 0) upGrid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 30px; font-size:13px;">Gönderi yok.</div>';
+            userPosts.forEach(post => { upGrid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${post.imageUrl}');"></div>`); });
+            openModal('userProfileModal');
+        }
+
+        // DİĞER MODÜLLER (Hikayeler, Reels, Gönderi Ekleme)
         window.loadStories = async function() {
             const stContainer = document.getElementById('stories-container');
             stContainer.innerHTML = `<div class="story-item" onclick="openModal('addStoryModal')"><div class="story-ring add-story"><div class="story-img" style="display:flex; justify-content:center; align-items:center; color: var(--text-muted);"><span class="material-symbols-outlined">add</span></div></div><span class="story-name">Sen</span></div>`;
             try {
                 const snapshot = await getDocs(query(collection(db, "hikayeler"), orderBy("createdAt", "desc")));
                 snapshot.forEach(doc => {
-                    const data = doc.data(); const pInfo = window.globalUsersByName[data.username] || {}; const sAvatar = pInfo.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100';
+                    const data = doc.data(); 
+                    let sAvatar = 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100';
+                    Object.values(window.globalUsersById).forEach(u => { if(u.displayName === data.username && u.avatar) sAvatar = u.avatar; });
                     stContainer.insertAdjacentHTML('beforeend', `<div class="story-item" onclick="window.viewStory('${doc.id}', '${data.imageUrl}', '${data.username}', '${sAvatar}')"><div class="story-ring"><div class="story-img" style="background-image: url('${data.imageUrl}');"></div></div><span class="story-name">${data.username.split(' ')[0]}</span></div>`);
                 });
             } catch(e){}
@@ -492,21 +586,13 @@
             try { await addDoc(collection(db, "hikayeler"), { imageUrl, username: user.displayName, createdAt: new Date() }); closeModal('addStoryModal'); window.loadStories(); } catch (e) {} finally { document.getElementById('btn-submit-story').innerText = "Paylaş"; }
         });
 
-        window.renderExploreGrid = function() {
-            const filterText = document.getElementById('search-input').value.toLowerCase(); const grid = document.getElementById('explore-grid'); grid.innerHTML = '';
-            let filtered = window.globalPosts.filter(p => p.username !== auth.currentUser.displayName);
-            if(filterText) filtered = filtered.filter(p => (p.caption||'').toLowerCase().includes(filterText) || (p.username||'').toLowerCase().includes(filterText));
-            if(filtered.length === 0) { grid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 40px; font-size: 13px;">Sonuç bulunamadı.</div>'; return;}
-            filtered.forEach(p => grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${p.imageUrl}');" onclick="closeModal('exploreModal'); window.openReels();"></div>`));
-        }
-        window.performSearch = () => window.renderExploreGrid();
-
         window.renderReels = function() {
             const rc = document.getElementById('reels-container'); rc.innerHTML = '';
             if(window.globalPosts.length === 0) { rc.innerHTML = '<div style="color:white; text-align:center; padding-top:50vh;">Reels yok.</div>'; return; }
             window.globalPosts.forEach(data => {
-                const pInfo = window.globalUsersByName[data.username] || {}; const av = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100')`;
-                rc.insertAdjacentHTML('beforeend', `<div class="reel-item" style="background-image: url('${data.imageUrl}');"><div class="reel-overlay"></div><div class="reel-content"><div class="reel-info"><div class="reel-user" style="color:white; font-weight:bold; display:flex; align-items:center; gap:10px; margin-bottom:10px;"><div style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center; background-image:${av};"></div>${data.username}</div><div style="color: rgba(255,255,255,0.9); font-size: 14px;">${data.caption || ''}</div></div></div></div>`);
+                let av = 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100';
+                Object.values(window.globalUsersById).forEach(u => { if(u.displayName === data.username && u.avatar) av = u.avatar; });
+                rc.insertAdjacentHTML('beforeend', `<div class="reel-item" style="background-image: url('${data.imageUrl}');"><div class="reel-overlay"></div><div class="reel-content"><div class="reel-info"><div class="reel-user" style="color:white; font-weight:bold; display:flex; align-items:center; gap:10px; margin-bottom:10px;"><div style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center; background-image:url('${av}');"></div>${data.username}</div><div style="color: rgba(255,255,255,0.9); font-size: 14px;">${data.caption || ''}</div></div></div></div>`);
             });
         }
 
@@ -515,6 +601,19 @@
             if (!imageUrl) return; document.getElementById('btn-submit-post').innerText = "Yükleniyor...";
             try { await addDoc(collection(db, "gonderiler"), { imageUrl, caption, username: user.displayName, likesCount: 0, createdAt: new Date() }); closeModal('addModal'); document.getElementById('add-image').value = ""; await loadAllData(); } catch (err) {} finally { document.getElementById('btn-submit-post').innerText = "Akışta Paylaş"; }
         });
+
+        window.loadNotifications = async function() {
+            const user = auth.currentUser; const list = document.getElementById('noti-list'); if(!user) return;
+            const snap = await getDocs(query(collection(db, "bildirimler"), where("to", "==", user.displayName)));
+            list.innerHTML = '';
+            if(snap.empty) { list.innerHTML = '<div style="padding:40px; text-align:center; color:gray;">Bildirim yok.</div>'; return;}
+            let notis = []; snap.forEach(d => notis.push(d.data())); notis.sort((a,b) => b.createdAt.seconds - a.createdAt.seconds);
+            notis.forEach(data => {
+                let av = 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100';
+                Object.values(window.globalUsersById).forEach(u => { if(u.displayName === data.from && u.avatar) av = u.avatar; });
+                list.insertAdjacentHTML('beforeend', `<div class="list-item"><div class="list-avatar" style="background-image:url('${av}')"></div><div class="list-text"><strong>${data.from}</strong> ${data.text}</div></div>`);
+            });
+        }
     </script>
 </body>
 </html>
