@@ -89,7 +89,8 @@
         .sheet-header { padding: 20px; border-bottom: var(--glass-border); display: flex; align-items: center; gap: 15px; font-size: 16px; font-weight: 600; z-index: 10; background: rgba(10,10,12,0.95);}
         .list-item { display: flex; align-items: center; gap: 15px; padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer;}
         .list-avatar { width: 48px; height: 48px; border-radius: 50%; background: #222; background-size: cover; background-position: center; flex-shrink: 0;}
-        .list-text { flex: 1; font-size: 14px; line-height: 1.4;}
+        
+        .media-blur-bg { position: absolute; top: -10%; left: -10%; width: 120%; height: 120%; background-size: cover; background-position: center; filter: blur(35px) brightness(0.3); z-index: 0; }
 
         /* REELS */
         .reels-box { background: #000; width: 100%; height: 100dvh; position: relative; transform: translateY(100%); transition: 0.4s; overflow-y: scroll; scroll-snap-type: y mandatory; }
@@ -105,19 +106,31 @@
         .reel-action-btn { background: none; border: none; color: white; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));}
         .reel-action-btn.liked .material-symbols-outlined { color: #ff3040; font-variation-settings: 'FILL' 1; }
 
-        /* KEŞFET */
+        /* KEŞFET VE ARAMA */
         .search-input { flex: 1; background: rgba(255,255,255,0.1); border: none; color: white; padding: 12px 20px; border-radius: 30px; outline: none; font-size: 14px;}
         .explore-users-container { display: none; max-height: 250px; overflow-y: auto; border-bottom: var(--glass-border); }
         .grid-view { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; overflow-y: auto; flex: 1; align-content: start;}
         .grid-item { aspect-ratio: 1 / 1; background-size: cover; background-position: center; cursor: pointer; }
 
-        /* POST DETAY */
-        .post-detail-box { background: #121214; width: 100%; height: 90vh; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.4s; display: flex; flex-direction: column; overflow: hidden; }
+        /* 🔥 YENİ: KULLANICI PROFİLİ (Instagram Tarzı) 🔥 */
+        .up-header-top { display: flex; align-items: center; padding: 20px 20px 15px; gap: 20px;}
+        .up-avatar-container { width: 86px; height: 86px; border-radius: 50%; padding: 2px; background: linear-gradient(45deg, #d4af37, #aa8529, #f3e5ab); flex-shrink: 0;}
+        .up-avatar { width: 100%; height: 100%; border-radius: 50%; background-size: cover; background-position: center; border: 3px solid #121214;}
+        .up-stats { display: flex; flex: 1; justify-content: space-around; text-align: center; }
+        .up-stat-item { font-size: 12px; color: rgba(255,255,255,0.7); }
+        .up-stat-item span { display: block; font-size: 16px; font-weight: bold; color: white; margin-bottom: 2px;}
+        .up-bio-container { padding: 0 20px 15px; }
+        .up-name { font-size: 16px; font-weight: bold; color: white; margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
+        .up-bio { font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.4; white-space: pre-wrap; }
+        .up-actions { display: flex; gap: 10px; padding: 0 20px 20px; }
+        .btn-up-action { flex: 1; padding: 8px 0; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; border: none; transition: 0.2s;}
+
+        /* GÖNDERİ DETAY MODALI */
+        .post-detail-box { background: var(--bg-dark); width: 100%; height: 90vh; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.4s; display: flex; flex-direction: column; overflow: hidden; }
         .modal-overlay.active .post-detail-box { transform: translateY(0); }
         .post-detail-img-container { position: relative; width: 100%; height: 50vh; display: flex; justify-content: center; align-items: center; background: black; overflow: hidden; border-bottom: var(--glass-border);}
-        .media-blur-bg { position: absolute; top: -10%; left: -10%; width: 120%; height: 120%; background-size: cover; background-position: center; filter: blur(35px) brightness(0.3); z-index: 0; }
 
-        /* CHAT */
+        /* CHAT VE YORUM KUTUSU */
         .chat-area { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #050505;}
         .chat-msg { display: flex; flex-direction: column; max-width: 80%; }
         .chat-msg.mine { align-self: flex-end; align-items: flex-end; }
@@ -143,7 +156,16 @@
 
         .vip-badge { color: #00d2ff; margin-left: 5px; font-size: 16px; vertical-align: middle; filter: drop-shadow(0 0 5px rgba(0,210,255,0.5));}
 
-        /* 🔥 TERCİHLER & FİLTRE & GHOST MODU STİLLERİ 🔥 */
+        /* 🔥 YENİ: KUSURSUZ HİKAYE TEPKİ (REACTIONS) UI 🔥 */
+        .story-reaction-bar { position: absolute; bottom: calc(20px + env(safe-area-inset-bottom)); left: 15px; right: 15px; display: flex; gap: 12px; align-items: center; z-index: 20;}
+        .story-reply-input { flex: 1; height: 44px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.3); border-radius: 22px; color: white; padding: 0 20px; font-size: 14px; backdrop-filter: blur(10px); outline: none; transition: 0.3s;}
+        .story-reply-input::placeholder { color: rgba(255,255,255,0.6); }
+        .story-reply-input:focus { border-color: white; background: rgba(0,0,0,0.6); }
+        .story-react-btn { font-size: 28px; background: none; border: none; cursor: pointer; padding: 0; line-height: 1; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); transition: transform 0.2s;}
+        .story-react-btn:active { transform: scale(1.3); }
+        .story-send-btn { width: 44px; height: 44px; border-radius: 50%; background: var(--primary-gold); display: flex; justify-content: center; align-items: center; border: none; cursor: pointer; flex-shrink: 0;}
+
+        /* FİLTRE & GHOST MODU STİLLERİ */
         .pref-slider { -webkit-appearance: none; width: 100%; height: 6px; border-radius: 5px; background: rgba(255,255,255,0.2); outline: none; margin: 15px 0;}
         .pref-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--primary-gold); cursor: pointer; }
         .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
@@ -192,7 +214,7 @@
         <button class="nav-icon-btn" onclick="openExplore()"><span class="material-symbols-outlined">search</span></button>
         <button class="nav-icon-btn add-btn" onclick="openModal('addModal')"><span class="material-symbols-outlined">add</span></button>
         <button class="nav-icon-btn" onclick="openReels()"><span class="material-symbols-outlined">movie</span></button>
-        <button class="nav-icon-btn" id="mobile-profile-btn" onclick="window.location.href='profil.html'"><span class="material-symbols-outlined">person</span></button>
+        <button class="nav-icon-btn" onclick="window.location.assign('profil.html')"><span class="material-symbols-outlined">person</span></button>
     </nav>
 
     <div class="modal-overlay" id="authModal" style="z-index: 9999;">
@@ -208,7 +230,6 @@
         <div class="glass-box">
             <button class="close-btn" onclick="closeModal('preferencesModal')"><span class="material-symbols-outlined">close</span></button>
             <h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Filtre ve Gizlilik</h2>
-            
             <div style="margin-bottom: 25px;">
                 <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
                     <span style="color:gray; font-size:14px;">Maksimum Mesafe</span>
@@ -216,7 +237,6 @@
                 </div>
                 <input type="range" min="1" max="100" value="50" class="pref-slider" id="max-distance-slider" oninput="document.getElementById('dist-val').innerText = this.value + ' km'">
             </div>
-
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 25px; padding:15px; background:rgba(0,0,0,0.5); border-radius:12px; border:1px solid rgba(212,175,55,0.2);">
                 <div>
                     <strong style="color:white; display:block;">Hayalet Modu (Ghost)</strong>
@@ -227,7 +247,6 @@
                     <span class="slider"></span>
                 </label>
             </div>
-
             <button class="btn-premium" onclick="savePreferences()" style="margin-bottom: 10px;">Kaydet ve Yenile</button>
             <button onclick="requestPushPermission()" style="background:rgba(255,255,255,0.1); color:white; border:none; padding:12px; border-radius:12px; font-weight:600; width:100%; cursor:pointer;">Bildirimlere İzin Ver 🔔</button>
         </div>
@@ -237,12 +256,39 @@
     <div class="modal-overlay" id="chatRoomModal" style="z-index: 1600;"><div class="bottom-sheet" style="height: 100dvh; border-radius: 0;"><div class="sheet-header"><button class="header-icon" onclick="closeModal('chatRoomModal'); openMessages();"><span class="material-symbols-outlined">arrow_back</span></button><div style="display:flex; align-items:center; gap:10px;"><div id="chat-header-avatar" style="width:36px; height:36px; border-radius:50%; background-size:cover; border:2px solid var(--primary-gold);"></div><span id="chat-header-name">Kullanıcı</span></div><button class="header-icon" style="margin-left:auto; color:#ff4757;" onclick="deleteChatRoom()"><span class="material-symbols-outlined">delete</span></button></div><div class="chat-area" id="chat-messages"></div><div class="chat-input-container"><input type="text" id="chat-input" class="chat-input" placeholder="Mesaj yaz..." onkeypress="if(event.key === 'Enter') sendChatMessage()"><button class="chat-send-btn" onclick="sendChatMessage()"><span class="material-symbols-outlined">send</span></button></div></div></div>
     <div class="modal-overlay" id="notificationsModal"><div class="bottom-sheet"><div class="sheet-header"><button class="header-icon" onclick="closeModal('notificationsModal')"><span class="material-symbols-outlined">arrow_back</span></button> Bildirimler</div><div style="flex:1; overflow-y:auto;" id="noti-list"></div></div></div>
     <div class="modal-overlay" id="exploreModal"><div class="bottom-sheet"><div class="sheet-header" style="gap:10px;"><button class="header-icon" onclick="closeModal('exploreModal')"><span class="material-symbols-outlined">arrow_back</span></button><input type="text" class="search-input" id="search-input" placeholder="Ara..." onkeyup="performSearch()"></div><div class="explore-users-container" id="explore-users-list"></div><div class="grid-view" id="explore-grid" style="padding: 2px;"></div></div></div>
-    
-    <div class="modal-overlay" id="userProfileModal" style="z-index: 1550;"><div class="bottom-sheet"><div class="sheet-header"><button class="header-icon" onclick="closeModal('userProfileModal')"><span class="material-symbols-outlined">arrow_back</span></button><span id="up-title" style="font-weight:bold;">Profil</span></div><div style="padding: 20px 20px 10px; display:flex; align-items:center;"><div class="up-avatar" id="up-avatar" style="width: 80px; height: 80px; border-radius:50%; background-size:cover; border:2px solid var(--primary-gold); flex-shrink:0;"></div><div class="profile-stats-header"><div class="ps-item"><span id="up-post-count">0</span>Gönderi</div><div class="ps-item"><span id="up-follower-count">0</span>Takipçi</div><div class="ps-item"><span id="up-following-count">0</span>Takip</div></div></div><div style="padding: 0 20px 15px;"><strong id="up-name" style="font-size: 16px; color: white;">-</strong><br><span id="up-bio" style="color:gray; font-size: 14px; line-height:1.4;">-</span></div><div style="padding: 0 20px 20px; display: flex; gap: 10px;"><button id="btn-follow-user" class="btn-follow" style="flex: 1; padding: 10px; font-size: 14px; border-radius: 8px; background: var(--primary-gold); color: black; border: none; font-weight: bold; cursor: pointer;" onclick="toggleFollowDB(this)">Takip Et</button></div><div class="grid-view" id="up-grid" style="border-top: var(--glass-border); padding-top: 2px;"></div></div></div>
+
+    <div class="modal-overlay" id="userProfileModal" style="z-index: 1550;">
+        <div class="bottom-sheet">
+            <div class="sheet-header">
+                <button class="header-icon" onclick="closeModal('userProfileModal')"><span class="material-symbols-outlined">arrow_back</span></button>
+                <span id="up-title" style="font-weight:bold;">Profil</span>
+            </div>
+            
+            <div class="up-header-top">
+                <div class="up-avatar-container"><div class="up-avatar" id="up-avatar"></div></div>
+                <div class="up-stats">
+                    <div class="up-stat-item"><span id="up-post-count">0</span>Gönderi</div>
+                    <div class="up-stat-item"><span id="up-follower-count">0</span>Takipçi</div>
+                    <div class="up-stat-item"><span id="up-following-count">0</span>Takip</div>
+                </div>
+            </div>
+            
+            <div class="up-bio-container">
+                <div class="up-name" id="up-name">-</div>
+                <div class="up-bio" id="up-bio">-</div>
+            </div>
+
+            <div class="up-actions">
+                <button id="btn-follow-user" class="btn-up-action btn-follow" onclick="toggleFollowDB(this)">Takip Et</button>
+            </div>
+            
+            <div class="grid-view" id="up-grid" style="border-top: var(--glass-border); padding-top: 2px;"></div>
+        </div>
+    </div>
 
     <div class="modal-overlay" id="postDetailModal" style="z-index: 1600;"><div class="post-detail-box"><div class="sheet-header"><button class="header-icon" onclick="closeModal('postDetailModal')"><span class="material-symbols-outlined">arrow_back</span></button> Gönderi <div id="admin-controls" style="margin-left:auto; display:none; gap:15px;"><button class="header-icon" style="color:var(--primary-gold);" onclick="editPostDB()"><span class="material-symbols-outlined">edit</span></button><button class="header-icon" style="color:#ff4757;" onclick="deletePostDB()"><span class="material-symbols-outlined">delete</span></button></div></div><div style="flex:1; overflow-y:auto; padding-bottom:30px;"><div class="post-detail-img-container"><div class="media-blur-bg" id="pd-blur"></div><img id="pd-img" src="" style="max-width:100%; max-height:100%; object-fit:contain; position:relative; z-index:1;" /></div><div style="padding: 15px 20px;"><div style="display:flex; gap:15px; margin-bottom:15px;"><button class="header-icon" id="pd-btn-like" onclick="toggleLikeDB(this)"><span class="material-symbols-outlined">favorite</span></button><button class="header-icon" onclick="openCommentsDB()"><span class="material-symbols-outlined">chat_bubble</span></button></div><div style="font-weight:600; margin-bottom:10px;"><span id="pd-likes">0</span> beğenme</div><div style="font-size: 14px;"><strong id="pd-user" style="margin-right:5px; cursor:pointer;" onclick="openUserProfile(this.innerText)">-</strong><span id="pd-caption" style="color:rgba(255,255,255,0.8);">-</span></div></div></div></div></div>
     
-    <div class="modal-overlay" id="addModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Yeni Gönderi</h2><div class="form-group"><input type="text" id="add-image" placeholder="Fotoğraf URL'si..."></div><div class="form-group"><textarea id="add-caption" rows="3" placeholder="Açıklama..."></textarea></div><button type="button" id="btn-submit-post" class="btn-premium">Paylaş</button></div></div>
+    <div class="modal-overlay" id="addModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Yeni Gönderi</h2><div class="form-group"><input type="text" id="add-image" placeholder="Fotoğraf URL'si..."></div><div class="form-group"><textarea id="add-caption" rows="3" placeholder="Açıklama yaz..."></textarea></div><button type="button" id="btn-submit-post" class="btn-premium">Paylaş</button></div></div>
     <div class="modal-overlay" id="addStoryModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addStoryModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color:white; font-size:18px; text-align:center; margin-bottom:20px;">Hikaye Ekle</h2><div class="form-group"><input type="text" id="story-img-url" placeholder="Görsel URL..."></div><button id="btn-submit-story" class="btn-premium">Paylaş</button></div></div>
 
     <div class="modal-overlay" id="viewStoryModal" style="z-index: 1800; background:#000;">
@@ -255,21 +301,27 @@
                 <div id="view-story-username" style="color:white; font-weight:600; font-size:14px; text-shadow:0 1px 3px rgba(0,0,0,0.8);"></div>
                 <button class="header-icon" style="margin-left:auto;" onclick="closeModal('viewStoryModal')"><span class="material-symbols-outlined">close</span></button>
             </div>
+            
             <div style="flex:1; position:relative; overflow:hidden; display:flex; justify-content:center; align-items:center; background:#000;">
                 <div class="media-blur-bg" id="view-story-blur"></div>
                 <img id="view-story-img" src="" style="max-width:100%; max-height:100%; object-fit:contain; position:relative; z-index:1;" />
             </div>
+
             <div class="story-reaction-bar" id="story-reaction-bar">
-                <input type="text" id="story-reply-input" class="story-reply-input" placeholder="Yanıtla...">
+                <input type="text" id="story-reply-input" class="story-reply-input" placeholder="Mesaj gönder...">
                 <button class="story-react-btn" onclick="sendStoryReaction('🔥')">🔥</button>
                 <button class="story-react-btn" onclick="sendStoryReaction('❤️')">❤️</button>
-                <button class="story-react-btn" style="background:var(--primary-gold);" onclick="sendStoryReaction('text')"><span class="material-symbols-outlined" style="color:black; font-size:20px;">send</span></button>
+                <button class="story-send-btn" onclick="sendStoryReaction('text')"><span class="material-symbols-outlined" style="color:black; font-size:20px;">send</span></button>
             </div>
-            <div id="btn-delete-story" style="position:absolute; bottom:40px; left:50%; transform:translateX(-50%); z-index:20; display:none;"><button onclick="deleteStoryDB()" style="background:rgba(255,71,87,0.8); color:white; border:none; padding:10px 20px; border-radius:20px; font-weight:bold; cursor:pointer;">Sil</button></div>
+            
+            <div id="btn-delete-story" style="position:absolute; bottom:30px; left:50%; transform:translateX(-50%); z-index:20; display:none;">
+                <button onclick="deleteStoryDB()" style="background:rgba(255,71,87,0.8); color:white; border:none; padding:10px 20px; border-radius:20px; font-weight:bold; cursor:pointer;"><span class="material-symbols-outlined" style="vertical-align:middle; font-size:18px;">delete</span> Sil</button>
+            </div>
         </div>
     </div>
 
     <div class="modal-overlay" id="commentsModal" style="z-index: 1700;"><div class="bottom-sheet" style="height: 70vh;"><div class="sheet-header"><button class="header-icon" onclick="closeModal('commentsModal')"><span class="material-symbols-outlined">close</span></button> Yorumlar</div><div style="flex:1; overflow-y:auto; padding:15px; display:flex; flex-direction:column; gap:15px;" id="comments-list"></div><div class="chat-input-container"><input type="text" id="new-comment-input" placeholder="Yorum ekle..." class="chat-input"><button onclick="submitComment()" style="background:none; border:none; color:var(--primary-gold); font-weight:bold; padding:0 10px; cursor:pointer;">Paylaş</button></div></div></div>
+
     <div class="modal-overlay" id="reelsModal" style="padding:0; background: #000;"><button class="close-btn" onclick="closeModal('reelsModal')" style="z-index: 1000; top: 20px; right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button><div class="reels-box" id="reels-container"></div></div>
     <div class="match-overlay" id="matchOverlay"><div class="match-title">Eşleştiniz!</div><div class="match-avatars"><div class="m-avatar left" id="match-my-avatar"></div><div class="m-avatar right" id="match-their-avatar"></div></div><div style="color: white; font-size: 16px; margin-bottom: 30px;" id="match-text"></div><div style="display:flex; flex-direction:column; gap:15px;"><button class="btn-msg" id="btn-match-msg"><span class="material-symbols-outlined">send</span> Mesaj Gönder</button><button class="btn-keep" onclick="closeMatch()">Devam Et</button></div></div>
 
@@ -279,23 +331,14 @@
         function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = 'auto'; if(id === 'viewStoryModal') clearTimeout(window.storyTimeout); }
         function switchAuthTab(tab) { document.getElementById('tab-login').classList.remove('active'); document.getElementById('tab-register').classList.remove('active'); document.getElementById('tab-' + tab).classList.add('active'); document.getElementById('form-login').classList.remove('active'); document.getElementById('form-register').classList.remove('active'); document.getElementById('form-' + tab).classList.add('active'); }
         document.querySelectorAll('.modal-overlay').forEach(m => { m.addEventListener('click', (e) => { if(e.target === m && m.id !== 'authModal' && m.id !== 'splash-screen') closeModal(m.id); }); });
+
         window.openExplore = () => { openModal('exploreModal'); if(window.renderExploreGrid) window.renderExploreGrid(); }
         window.openReels = () => { openModal('reelsModal'); if(window.renderReels) window.renderReels(); }
         window.openNotifications = () => { openModal('notificationsModal'); document.getElementById('noti-dot').style.display='none'; if(window.loadNotifications) window.loadNotifications(); }
         window.openMessages = () => { openModal('messagesModal'); if(window.loadDMs) window.loadDMs(); }
         window.closeMatch = () => document.getElementById('matchOverlay').classList.remove('active');
+        
         function hideSplash() { const spl = document.getElementById('splash-screen'); if(spl) { spl.style.opacity = '0'; setTimeout(() => spl.style.visibility = 'hidden', 600); } }
-
-        // 🔥 PUSH BİLDİRİM İZNİ (WEB API) 🔥
-        window.requestPushPermission = function() {
-            if (!("Notification" in window)) { alert("Tarayıcınız bildirimleri desteklemiyor."); return; }
-            Notification.requestPermission().then(permission => { if (permission === "granted") alert("Bildirimler başarıyla açıldı! 🔔"); });
-        }
-        window.sendSystemPush = function(title, body) {
-            if ("Notification" in window && Notification.permission === "granted") {
-                new Notification(title, { body: body, icon: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=192" });
-            }
-        }
     </script>
 
     <script type="module">
@@ -312,7 +355,6 @@
         window.globalUsersById = {}; window.globalUsersByName = {}; window.globalPosts = []; let currentUserProfile = null;
         window.activeInteractPostId = null; window.activeInteractOwner = null; window.activeInteractStoryId = null; window.activeStoryOwner = null;
 
-        // 🔥 MESAFE HESAPLAMA MOTORU (HAVERSINE) 🔥
         function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
             const R = 6371; const dLat = (lat2-lat1)*(Math.PI/180); const dLon = (lon2-lon1)*(Math.PI/180);
             const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1*(Math.PI/180)) * Math.cos(lat2*(Math.PI/180)) * Math.sin(dLon/2) * Math.sin(dLon/2);
@@ -326,12 +368,7 @@
             if (user) { 
                 closeModal('authModal'); 
                 await setDoc(doc(db, "kullanicilar", user.uid), { displayName: user.displayName, email: user.email }, { merge: true });
-                
-                // 🔥 GERÇEK KONUM ALMA 🔥
-                if(navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition((pos) => { updateDoc(doc(db, "kullanicilar", user.uid), { lat: pos.coords.latitude, lng: pos.coords.longitude }); });
-                }
-
+                if(navigator.geolocation) { navigator.geolocation.getCurrentPosition((pos) => { updateDoc(doc(db, "kullanicilar", user.uid), { lat: pos.coords.latitude, lng: pos.coords.longitude }); }); }
                 const snap = await getDoc(doc(db, "kullanicilar", user.uid));
                 if(snap.exists()) {
                     currentUserProfile = { uid: user.uid, following: [], followers: [], maxDistance: 50, ghostMode: false, ...snap.data() };
@@ -339,36 +376,20 @@
                     document.getElementById('dist-val').innerText = currentUserProfile.maxDistance + " km";
                     document.getElementById('ghost-mode-toggle').checked = currentUserProfile.ghostMode;
                 }
-
-                // Bildirim Dinleyici (Push Destekli)
                 let initNoti = true;
                 onSnapshot(query(collection(db, "bildirimler"), where("to", "==", user.displayName)), (s) => { 
                     if(!s.empty) document.getElementById('noti-dot').style.display = 'block'; 
-                    s.docChanges().forEach(change => {
-                        if(change.type === 'added' && !initNoti) { window.sendSystemPush("Yeni Bildirim 💖", change.doc.data().text); }
-                    });
+                    s.docChanges().forEach(change => { if(change.type === 'added' && !initNoti) { window.sendSystemPush("Yeni Bildirim 💖", change.doc.data().text); } });
                     initNoti = false;
                 });
-
-                await loadAllData(); loadProfilesForDeck(); window.listenToDMs(); window.loadStories();
-                hideSplash();
+                await loadAllData(); loadProfilesForDeck(); window.listenToDMs(); window.loadStories(); hideSplash();
             } else { hideSplash(); openModal('authModal'); }
         });
 
-        // 🔥 FİLTRE VE GHOST MODU KAYDETME 🔥
         window.savePreferences = async function() {
-            if(!auth.currentUser) return;
-            const maxD = parseInt(document.getElementById('max-distance-slider').value);
-            const ghost = document.getElementById('ghost-mode-toggle').checked;
-            
-            if(ghost && !currentUserProfile.isPremium && auth.currentUser.email !== adminEmail) {
-                document.getElementById('ghost-mode-toggle').checked = false;
-                return alert("Hayalet Modu sadece Premium (💎) üyeler içindir.");
-            }
-
-            await updateDoc(doc(db, "kullanicilar", auth.currentUser.uid), { maxDistance: maxD, ghostMode: ghost });
-            alert("Tercihler kaydedildi! Yenileniyor...");
-            window.location.reload();
+            if(!auth.currentUser) return; const maxD = parseInt(document.getElementById('max-distance-slider').value); const ghost = document.getElementById('ghost-mode-toggle').checked;
+            if(ghost && !currentUserProfile.isPremium && auth.currentUser.email !== adminEmail) { document.getElementById('ghost-mode-toggle').checked = false; return alert("Hayalet Modu sadece VIP (💎) içindir."); }
+            await updateDoc(doc(db, "kullanicilar", auth.currentUser.uid), { maxDistance: maxD, ghostMode: ghost }); alert("Kaydedildi!"); window.location.reload();
         }
 
         async function loadAllData() {
@@ -380,8 +401,23 @@
         window.toggleFollowDB = async function(btnElement, targetName=null) {
             const user = auth.currentUser; if(!user) return; const tName = targetName || document.getElementById('up-title').innerText; const targetUser = window.globalUsersByName[tName]; if(!targetUser) return;
             const isFollowing = btnElement.classList.contains('following'); const myRef = doc(db, "kullanicilar", user.uid); const targetRef = doc(db, "kullanicilar", targetUser.uid); const countEl = document.getElementById('up-follower-count'); let count = countEl ? parseInt(countEl.innerText) : 0;
-            if(isFollowing) { btnElement.classList.remove('following'); btnElement.innerText = "Takip Et"; btnElement.style.background = "var(--primary-gold)"; btnElement.style.color = "black"; if(countEl && tName === document.getElementById('up-title').innerText) countEl.innerText = count - 1; await updateDoc(myRef, { following: arrayRemove(targetUser.uid) }); await updateDoc(targetRef, { followers: arrayRemove(user.uid) }); if(currentUserProfile && currentUserProfile.following) currentUserProfile.following = currentUserProfile.following.filter(id => id !== targetUser.uid); } else { btnElement.classList.add('following'); btnElement.innerText = "Takibi Bırak"; btnElement.style.background = "rgba(255,255,255,0.2)"; btnElement.style.color = "white"; if(countEl && tName === document.getElementById('up-title').innerText) countEl.innerText = count + 1; await updateDoc(myRef, { following: arrayUnion(targetUser.uid) }); await updateDoc(targetRef, { followers: arrayUnion(user.uid) }); if(currentUserProfile) { if(!currentUserProfile.following) currentUserProfile.following=[]; currentUserProfile.following.push(targetUser.uid); } await addDoc(collection(db, "bildirimler"), { to: tName, from: user.displayName, text: 'seni takip etmeye başladı.', createdAt: new Date() }); }
+            if(isFollowing) {
+                btnElement.classList.remove('following'); btnElement.innerText = "Takip Et"; btnElement.style.background = "var(--primary-gold)"; btnElement.style.color = "black";
+                if(countEl && tName === document.getElementById('up-title').innerText) countEl.innerText = count - 1;
+                await updateDoc(myRef, { following: arrayRemove(targetUser.uid) }); await updateDoc(targetRef, { followers: arrayRemove(user.uid) });
+                if(currentUserProfile && currentUserProfile.following) currentUserProfile.following = currentUserProfile.following.filter(id => id !== targetUser.uid);
+            } else {
+                btnElement.classList.add('following'); btnElement.innerText = "Takibi Bırak"; btnElement.style.background = "rgba(255,255,255,0.15)"; btnElement.style.color = "white";
+                if(countEl && tName === document.getElementById('up-title').innerText) countEl.innerText = count + 1;
+                await updateDoc(myRef, { following: arrayUnion(targetUser.uid) }); await updateDoc(targetRef, { followers: arrayUnion(user.uid) });
+                if(currentUserProfile) { if(!currentUserProfile.following) currentUserProfile.following=[]; currentUserProfile.following.push(targetUser.uid); }
+                await addDoc(collection(db, "bildirimler"), { to: tName, from: user.displayName, text: 'seni takip etmeye başladı.', createdAt: new Date() });
+            }
         }
+
+        window.editPostDB = async function() { if(!window.activeInteractPostId) return; const currentCaption = document.getElementById('pd-caption').innerText; const newCaption = prompt("Açıklamayı düzenle:", currentCaption); if(newCaption !== null) { await updateDoc(doc(db, "gonderiler", window.activeInteractPostId), { caption: newCaption }); document.getElementById('pd-caption').innerText = newCaption; const p = window.globalPosts.find(x => x.id === window.activeInteractPostId); if(p) p.caption = newCaption; window.renderExploreGrid(); } }
+        window.deletePostDB = async function() { if(!window.activeInteractPostId) return; if(confirm("Gönderiyi silmek istediğine emin misin?")) { await deleteDoc(doc(db, "gonderiler", window.activeInteractPostId)); closeModal('postDetailModal'); await loadAllData(); window.renderExploreGrid(); } }
+        window.deleteStoryDB = async function() { if(!window.activeInteractStoryId) return; if(confirm("Hikayeni silmek istediğine emin misin?")) { await deleteDoc(doc(db, "hikayeler", window.activeInteractStoryId)); closeModal('viewStoryModal'); window.loadStories(); } }
 
         window.toggleLikeDB = async function(btnElement, forcePostId=null, forceOwner=null) {
             const user = auth.currentUser; if(!user) return; const postId = forcePostId || window.activeInteractPostId; const owner = forceOwner || window.activeInteractOwner; if(!postId) return;
@@ -389,7 +425,6 @@
             if(isLiked) { btnElement.classList.remove('liked'); if(likeSpan && window.activeInteractPostId===postId) likeSpan.innerText = currentLikes - 1; await updateDoc(postRef, { likedBy: arrayRemove(user.displayName), likesCount: currentLikes - 1 }); if(postData) postData.likesCount -= 1; } 
             else { btnElement.classList.add('liked'); if(likeSpan && window.activeInteractPostId===postId) likeSpan.innerText = currentLikes + 1; await updateDoc(postRef, { likedBy: arrayUnion(user.displayName), likesCount: currentLikes + 1 }); if(postData) postData.likesCount += 1; if(owner && owner !== user.displayName) await addDoc(collection(db, "bildirimler"), { to: owner, from: user.displayName, text: 'gönderini beğendi.', createdAt: new Date() }); }
         }
-
         window.openCommentsDB = async function(postId=null) {
             const pId = postId || window.activeInteractPostId; if(!pId) return; window.activeInteractPostId = pId; openModal('commentsModal');
             const list = document.getElementById('comments-list'); list.innerHTML = '<div style="color:gray; text-align:center;">Yükleniyor...</div>';
@@ -436,7 +471,6 @@
             const progress = document.getElementById('story-progress-fill'); if(progress) { progress.style.transition = 'none'; progress.style.width = '0%'; setTimeout(() => { progress.style.transition = 'width 5s linear'; progress.style.width = '100%'; }, 50); } clearTimeout(window.storyTimeout); window.storyTimeout = setTimeout(() => { closeModal('viewStoryModal'); }, 5000);
         }
 
-        // 🔥 GHOST MODU UYGULANMIŞ KEŞFET 🔥
         window.renderExploreGrid = async function() {
             const myUid = auth.currentUser ? auth.currentUser.uid : null;
             const likedMeSnap = await getDocs(query(collection(db, "kaydirmalar"), where("swipedId", "==", myUid), where("action", "in", ["right", "super"])));
@@ -445,7 +479,6 @@
             const filterText = document.getElementById('search-input').value.toLowerCase(); const grid = document.getElementById('explore-grid'); grid.innerHTML = ''; const userList = document.getElementById('explore-users-list'); userList.innerHTML = '';
             
             let matchedUsers = Object.values(window.globalUsersById).filter(u => u.displayName && u.displayName.toLowerCase().includes(filterText) && u.uid !== myUid);
-            // GHOST FILTER
             matchedUsers = matchedUsers.filter(u => !u.ghostMode || likedMeIds.has(u.uid));
 
             if(filterText && matchedUsers.length > 0) { userList.style.display = 'block'; matchedUsers.forEach(u => { const av = u.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100'; const isP = u.isPremium ? ' <span class="material-symbols-outlined vip-badge">workspace_premium</span>' : ''; userList.insertAdjacentHTML('beforeend', `<div class="list-item" onclick="closeModal('exploreModal'); window.openUserProfile('${u.displayName}')" style="padding: 10px 20px;"><div class="list-avatar" style="background-image: url('${av}'); width: 40px; height: 40px;"></div><div class="list-text"><strong style="color:white; font-size:15px;">${u.displayName}${isP}</strong></div></div>`); }); } else { userList.style.display = 'none'; }
@@ -468,9 +501,13 @@
         }
 
         window.openUserProfile = function(username) {
-            let pInfo = window.globalUsersByName[username] || {}; const isV = pInfo.isVerified || username.toLowerCase().includes('çağatay'); const isP = pInfo.isPremium ? ' <span class="material-symbols-outlined vip-badge">workspace_premium</span>' : ''; document.getElementById('up-title').innerText = username; document.getElementById('up-name').innerHTML = `${username} ${isV ? '<span class="gold-tick" style="display:inline-flex;">✓</span>' : ''} ${isP}`; document.getElementById('up-bio').innerText = pInfo.bio || 'Swinder Üyesi'; document.getElementById('up-avatar').style.backgroundImage = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=200')`;
+            let pInfo = window.globalUsersByName[username] || {}; const isV = pInfo.isVerified || username.toLowerCase().includes('çağatay'); const isP = pInfo.isPremium ? ' <span class="material-symbols-outlined vip-badge">workspace_premium</span>' : ''; 
+            document.getElementById('up-title').innerText = username; 
+            document.getElementById('up-name').innerHTML = `${username} ${isV ? '<span class="gold-tick" style="display:inline-flex;">✓</span>' : ''} ${isP}`; 
+            document.getElementById('up-bio').innerText = pInfo.bio || 'Swinder Üyesi'; 
+            document.getElementById('up-avatar').style.backgroundImage = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=200')`;
             const userPosts = window.globalPosts.filter(p => p.username === username); document.getElementById('up-post-count').innerText = userPosts.length; document.getElementById('up-follower-count').innerText = (pInfo.followers || []).length; document.getElementById('up-following-count').innerText = (pInfo.following || []).length;
-            const btnFollow = document.getElementById('btn-follow-user'); if(auth.currentUser && auth.currentUser.displayName === username) { btnFollow.style.display = 'none'; } else { btnFollow.style.display = 'block'; if(currentUserProfile && currentUserProfile.following && currentUserProfile.following.includes(pInfo.uid)) { btnFollow.classList.add('following'); btnFollow.innerText="Takibi Bırak"; btnFollow.style.background="rgba(255,255,255,0.1)"; btnFollow.style.color="white"; } else { btnFollow.classList.remove('following'); btnFollow.innerText="Takip Et"; btnFollow.style.background="var(--primary-gold)"; btnFollow.style.color="black"; } }
+            const btnFollow = document.getElementById('btn-follow-user'); if(auth.currentUser && auth.currentUser.displayName === username) { btnFollow.style.display = 'none'; } else { btnFollow.style.display = 'block'; if(currentUserProfile && currentUserProfile.following && currentUserProfile.following.includes(pInfo.uid)) { btnFollow.classList.add('following'); btnFollow.innerText="Takibi Bırak"; btnFollow.style.background="rgba(255,255,255,0.15)"; btnFollow.style.color="white"; } else { btnFollow.classList.remove('following'); btnFollow.innerText="Takip Et"; btnFollow.style.background="var(--primary-gold)"; btnFollow.style.color="black"; } }
             const upGrid = document.getElementById('up-grid'); upGrid.innerHTML = ''; if(userPosts.length === 0) upGrid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 30px; font-size:13px;">Gönderi yok.</div>'; userPosts.forEach(p => { const dataStr = safeEncode(JSON.stringify(p)); upGrid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${p.imageUrl.replace(/'/g, "\\'")}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')"></div>`); }); openModal('userProfileModal');
         }
 
@@ -482,46 +519,32 @@
             });
         }
 
-        // 🔥 MESAFE & GHOST MODU FİLTRELİ SWIPE ALGORİTMASI 🔥
         const swipeContainer = document.getElementById('swipe-container'); 
         function loadProfilesForDeck() { 
             const myUid = auth.currentUser ? auth.currentUser.uid : null; if(!myUid) return; 
-            
             getDocs(query(collection(db, "kaydirmalar"), where("swiperId", "==", myUid))).then(async mySwipesSnap => { 
                 const swipedIds = new Set(); mySwipesSnap.forEach(doc => swipedIds.add(doc.data().swipedId)); 
-                
-                // Beni beğenenleri çek (Ghost Mode bypass için)
                 const likedMeSnap = await getDocs(query(collection(db, "kaydirmalar"), where("swipedId", "==", myUid), where("action", "in", ["right", "super"])));
                 const likedMeIds = new Set(); likedMeSnap.forEach(doc => likedMeIds.add(doc.data().swiperId));
-
-                const profiles = []; 
-                const myLat = currentUserProfile.lat; const myLng = currentUserProfile.lng; const maxD = currentUserProfile.maxDistance || 50;
+                const profiles = []; const myLat = currentUserProfile.lat; const myLng = currentUserProfile.lng; const maxD = currentUserProfile.maxDistance || 50;
 
                 Object.values(window.globalUsersById).forEach(u => { 
                     if(u.uid !== myUid && !swipedIds.has(u.uid) && u.displayName) { 
-                        // Ghost Mode Kontrolü
-                        if (u.ghostMode && !likedMeIds.has(u.uid)) return; // Beni sağa kaydırmadıysa onu göremem
-                        
-                        // Mesafe Kontrolü
-                        let distance = 0;
-                        if(myLat && u.lat) { distance = getDistanceFromLatLonInKm(myLat, myLng, u.lat, u.lng); }
-                        if(myLat && u.lat && distance > maxD) return; // Çok uzakta, atla
-
+                        if (u.ghostMode && !likedMeIds.has(u.uid)) return;
+                        let distance = 0; if(myLat && u.lat) { distance = getDistanceFromLatLonInKm(myLat, myLng, u.lat, u.lng); }
+                        if(myLat && u.lat && distance > maxD) return; 
                         profiles.push({ uid: u.uid, name: u.displayName, age: u.age || "25", bio: (u.bio || "Swinder Üyesi") + (distance>0 ? ` • ${Math.round(distance)} km uzakta` : ''), img: u.avatar || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=800", isVerified: u.isVerified || u.displayName.toLowerCase().includes('çağatay'), isPremium: u.isPremium }); 
                     } 
                 }); 
-                
                 if(profiles.length === 0) { document.getElementById('empty-state').style.display = 'flex'; return; } 
                 profiles.reverse().forEach((p, index) => { const gt = p.isVerified ? '<span class="gold-tick">✓</span>' : ''; const isP = p.isPremium ? '<span class="material-symbols-outlined vip-badge">workspace_premium</span>' : ''; swipeContainer.insertAdjacentHTML('beforeend', `<div class="swipe-card" data-uid="${p.uid}" data-name="${p.name}" data-img="${p.img}" style="z-index: ${1000 - index};"><div class="card-img-bg" style="background-image: url('${p.img.replace(/'/g, "\\'")}');"></div><div class="card-overlay"></div><div class="swipe-stamp stamp-like">LIKE</div><div class="swipe-stamp stamp-nope">NOPE</div><div class="card-info"><div class="card-details"><div class="card-name">${p.name} <span class="card-age">${p.age}</span> ${gt} ${isP}</div><div class="card-bio">${p.bio}</div></div></div></div>`); }); initSwipeLogic(); 
             }); 
         }
-
         window.resetSwipes = async function() { const user = auth.currentUser; if(!user) return; const snap = await getDocs(query(collection(db, "kaydirmalar"), where("swiperId", "==", user.uid))); for(const d of snap.docs) { await deleteDoc(doc(db, "kaydirmalar", d.id)); } alert("Sıfırlandı."); window.location.reload(); }
         function initSwipeLogic() { const cards = Array.from(document.querySelectorAll('.swipe-card:not(.removed)')); if(cards.length === 0) return; cards.forEach(card => { const likeStamp = card.querySelector('.stamp-like'); const nopeStamp = card.querySelector('.stamp-nope'); let startX = 0, currentX = 0; const onDrag = (e) => { const clientX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX; currentX = clientX - startX; card.style.transform = `translateX(${currentX}px) rotate(${currentX * 0.05}deg)`; if (currentX > 0) { likeStamp.style.opacity = currentX / 100; nopeStamp.style.opacity = 0; } else { nopeStamp.style.opacity = Math.abs(currentX) / 100; likeStamp.style.opacity = 0; } }; const endDrag = (e) => { document.removeEventListener('mousemove', onDrag); document.removeEventListener('touchmove', onDrag); document.removeEventListener('mouseup', endDrag); document.removeEventListener('touchend', endDrag); card.classList.remove('moving'); if (currentX > 120) { card.classList.add('removed'); processSwipe(card, 'right'); } else if (currentX < -120) { card.classList.add('removed'); processSwipe(card, 'left'); } else { card.style.transform = `translateX(0px) rotate(0deg)`; likeStamp.style.opacity = 0; nopeStamp.style.opacity = 0; } currentX = 0; }; const startDrag = (e) => { const currentTopCard = document.querySelector('.swipe-card:not(.removed)'); if (card !== currentTopCard) return; startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX; card.classList.add('moving'); document.addEventListener('mousemove', onDrag); document.addEventListener('touchmove', onDrag, {passive: false}); document.addEventListener('mouseup', endDrag); document.addEventListener('touchend', endDrag); }; card.addEventListener('mousedown', startDrag); card.addEventListener('touchstart', startDrag, {passive: true}); }); }
         window.buttonSwipe = function(d) { const topCard = document.querySelector('.swipe-card:not(.removed)'); if(!topCard) return; topCard.classList.add('removed'); if(d === 'right' || d === 'super') topCard.querySelector('.stamp-like').style.opacity = 1; else topCard.querySelector('.stamp-nope').style.opacity = 1; processSwipe(topCard, d); }
         async function processSwipe(card, direction) { const endX = (direction === 'right' || direction === 'super') ? window.innerWidth : -window.innerWidth; card.style.transition = 'transform 0.4s ease-out, opacity 0.4s ease-out'; card.style.transform = `translateX(${endX}px) rotate(${direction === 'left' ? -30 : 30}deg)`; card.style.opacity = '0'; const user = auth.currentUser; const theirUid = card.dataset.uid; const theirName = card.dataset.name; const theirImg = card.dataset.img; if (user) { await setDoc(doc(db, "kaydirmalar", `${user.uid}_${theirUid}`), { swiperId: user.uid, swipedId: theirUid, action: direction, timestamp: new Date() }); if (direction === 'right' || direction === 'super') { const theirSwipe = await getDoc(doc(db, "kaydirmalar", `${theirUid}_${user.uid}`)); if(theirSwipe.exists() && (theirSwipe.data().action === 'right' || theirSwipe.data().action === 'super')) { const matchQ = await getDocs(query(collection(db, "eslesmeler"), where("users", "array-contains", user.uid))); let alreadyMatched = false; matchQ.forEach(d => { if(d.data().users.includes(theirUid)) alreadyMatched = true; }); if(!alreadyMatched) { const matchRef = await addDoc(collection(db, "eslesmeler"), { users: [user.uid, theirUid], userNames: [user.displayName, theirName], lastMessage: "Yeni Eşleşme!", updatedAt: new Date() }); window.sendSystemPush("Yeni Eşleşme! 🎉", `Sen ve ${theirName} birbirinizi beğendiniz.`); document.getElementById('match-my-avatar').style.backgroundImage = `url('${currentUserProfile?.avatar || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=200"}')`; document.getElementById('match-their-avatar').style.backgroundImage = `url('${theirImg}')`; document.getElementById('match-text').innerHTML = `Sen ve <strong>${theirName}</strong> birbirinizi beğendiniz!`; document.getElementById('btn-match-msg').onclick = () => { window.closeMatch(); window.openChatRoom(matchRef.id, theirName, theirImg, theirUid); }; document.getElementById('matchOverlay').classList.add('active'); } } } } setTimeout(() => { card.remove(); const rem = document.querySelectorAll('.swipe-card:not(.removed)'); if(rem.length === 0) document.getElementById('empty-state').style.display = 'flex'; }, 400); }
 
-        // DM SİSTEMİ VE PUSH BİLDİRİMLER
         window.listenToDMs = function() { 
             const user = auth.currentUser; if(!user) return; 
             const dmListContainer = document.getElementById('dm-list-container'); 
