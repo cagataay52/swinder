@@ -27,7 +27,10 @@
         .profile-stats { display: flex; gap: 15px; flex: 1; justify-content: space-evenly; margin-left: 20px; }
         .stat-item { display: flex; flex-direction: column; align-items: center; color: var(--text-light); font-size: 13px; }
         .stat-item span { font-weight: 700; font-size: 18px; margin-bottom: 2px; }
-        .profile-bio { padding: 0 20px; font-size: 14px; line-height: 1.5; margin-bottom: 20px; }
+        
+        .profile-bio { padding: 0 20px; font-size: 14px; line-height: 1.5; margin-bottom: 15px; }
+        .profile-actions { padding: 0 20px; margin-bottom: 20px; }
+        .btn-edit { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: var(--glass-border); color: var(--text-light); padding: 10px 0; border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.3s; width: 100%; text-align: center; }
         
         .profile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 2px;}
         .grid-item { aspect-ratio: 1 / 1; background-size: cover; background-position: center; cursor: pointer; }
@@ -37,7 +40,6 @@
         .nav-icon-btn .material-symbols-outlined { font-size: 30px; }
         .nav-icon-btn.active { color: var(--text-light); }
         .nav-icon-btn.add-btn { background: linear-gradient(135deg, #d4af37, #aa8529); color: #000; width: 44px; height: 44px; border-radius: 12px; display: flex; justify-content: center; align-items: center;}
-        .nav-icon-btn.add-btn .material-symbols-outlined { color: #000; font-weight: 600; font-size: 28px;}
 
         /* MODALLAR */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1500; padding: 15px; }
@@ -102,13 +104,18 @@
             </div>
         </div>
         <div class="profile-bio"><strong id="bio-name">Kullanıcı</strong><br><span id="bio-text" style="color:gray;">Lüks araç ve yaşam tarzı.</span></div>
+        
+        <div class="profile-actions">
+            <button class="btn-edit" onclick="openModal('profileEditModal')">Profili Düzenle</button>
+        </div>
+
         <div class="profile-grid" id="my-posts"></div>
     </main>
 
     <nav class="bottom-nav">
         <button class="nav-icon-btn" onclick="window.location.href='index.html'"><span class="material-symbols-outlined">home</span></button>
         <button class="nav-icon-btn" onclick="openExplore()"><span class="material-symbols-outlined">search</span></button>
-        <button class="nav-icon-btn add-btn" onclick="openModal('addModal')"><span class="material-symbols-outlined">add</span></button>
+        <button class="nav-icon-btn add-btn" onclick="openModal('addModal')"><span class="material-symbols-outlined" style="color:black;">add</span></button>
         <button class="nav-icon-btn" onclick="openReels()"><span class="material-symbols-outlined">movie</span></button>
         <button class="nav-icon-btn active"><span class="material-symbols-outlined">person</span></button>
     </nav>
@@ -138,13 +145,23 @@
         <div class="bottom-sheet" style="height: auto;">
             <div class="sheet-header">Ayarlar <button class="header-icon" onclick="closeModal('settingsModal')" style="margin-left:auto;"><span class="material-symbols-outlined">close</span></button></div>
             <div>
-                <div class="list-item" onclick="closeModal('settingsModal'); alert('Profili Düzenle Yakında!');"><span class="material-symbols-outlined">edit</span> Profili Düzenle</div>
                 <div class="list-item" onclick="logoutApp()" style="color: #ff4757;"><span class="material-symbols-outlined">logout</span> Çıkış Yap</div>
             </div>
         </div>
     </div>
 
-    <div class="modal-overlay" id="exploreModal"><div class="bottom-sheet"><div class="sheet-header" style="gap:10px;"><button class="header-icon" onclick="closeModal('exploreModal')"><span class="material-symbols-outlined">arrow_back</span></button><input type="text" class="search-input" id="search-input" placeholder="Keşfet..." onkeyup="performSearch()"></div><div class="grid-view" id="explore-grid" style="padding: 2px;"></div></div></div>
+    <div class="modal-overlay" id="profileEditModal">
+        <div class="glass-box" style="max-height: 90vh; overflow-y: auto;">
+            <button class="close-btn" onclick="closeModal('profileEditModal')"><span class="material-symbols-outlined">close</span></button>
+            <h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Profili Düzenle</h2>
+            <div class="form-group"><label style="color:gray;">Kullanıcı Adı</label><input type="text" id="edit-username"></div>
+            <div class="form-group"><label style="color:gray;">Profil Fotoğrafı URL</label><input type="text" id="edit-avatar"></div>
+            <div class="form-group"><label style="color:gray;">Biyografi</label><textarea id="edit-bio" rows="3"></textarea></div>
+            <button class="btn-premium" id="btn-save-profile">Kaydet</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="exploreModal"><div class="bottom-sheet"><div class="sheet-header" style="gap:10px;"><button class="header-icon" onclick="closeModal('exploreModal')"><span class="material-symbols-outlined">arrow_back</span></button><input type="text" class="search-input" id="search-input" placeholder="Ara..." onkeyup="performSearch()"></div><div class="grid-view" id="explore-grid" style="padding: 2px;"></div></div></div>
     <div class="modal-overlay" id="addModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Yeni Gönderi</h2><div class="form-group"><input type="text" id="add-image" placeholder="Fotoğraf URL'si..."></div><div class="form-group"><textarea id="add-caption" rows="3" placeholder="Açıklama yaz..."></textarea></div><button type="button" id="btn-submit-post" class="btn-premium">Paylaş</button></div></div>
     <div class="modal-overlay" id="reelsModal" style="padding:0; background: #000;"><button class="close-btn" onclick="closeModal('reelsModal')" style="z-index: 1000; top: 20px; right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button><div class="reels-box" id="reels-container"></div></div>
 
@@ -159,14 +176,12 @@
             document.getElementById('form-' + tab).classList.add('active');
         }
 
-        // Dışarı tıklayınca kapanmasın (Sadece Login Ekranı için)
         document.querySelectorAll('.modal-overlay').forEach(m => { 
             m.addEventListener('click', (e) => { 
                 if(e.target === m && m.id !== 'authModal') closeModal(m.id); 
             }); 
         });
 
-        // ALT MENÜ BUTONLARI (PROFIL İÇİNDEN AÇILABİLMESİ İÇİN)
         window.openExplore = () => { openModal('exploreModal'); if(window.renderExploreGrid) window.renderExploreGrid(); }
         window.openReels = () => { openModal('reelsModal'); if(window.renderReels) window.renderReels(); }
     </script>
@@ -174,14 +189,15 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, getDocs, query, orderBy, doc, getDoc, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, query, orderBy, doc, getDoc, addDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = { apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0", authDomain: "swinder-79534.firebaseapp.com", projectId: "swinder-79534", storageBucket: "swinder-79534.firebasestorage.app", messagingSenderId: "704644873549", appId: "1:704644873549:web:d95f561ec912b94cf2cb04" };
         const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
 
         window.globalPosts = []; window.globalUsers = {};
+        const adminEmail = "kcagatay239@gmail.com"; 
+        let currentUserId = null; let isAdmin = false;
 
-        // AUTH
         document.getElementById('btn-login').addEventListener('click', async () => { try { await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-pass').value); window.location.reload(); } catch (err) { alert(err.message); }});
         document.getElementById('btn-register').addEventListener('click', async () => { const name = document.getElementById('reg-name').value; const email = document.getElementById('reg-email').value; const pass = document.getElementById('reg-pass').value; if(!name || !email || !pass) return alert("Doldurun!"); document.getElementById('btn-register').innerText = "Açılıyor..."; try { const uc = await createUserWithEmailAndPassword(auth, email, pass); await updateProfile(uc.user, { displayName: name }); window.location.reload(); } catch (e) { alert(e.message); document.getElementById('btn-register').innerText = "Hesap Oluştur"; }});
         
@@ -190,9 +206,18 @@
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 closeModal('authModal');
+                currentUserId = user.uid;
+                if(user.email && user.email.toLowerCase() === adminEmail.toLowerCase()) isAdmin = true;
+
                 document.getElementById('display-name').innerText = user.displayName; document.getElementById('bio-name').innerText = user.displayName;
+                document.getElementById('edit-username').value = user.displayName;
+
                 const snap = await getDoc(doc(db, "kullanicilar", user.uid));
-                if(snap.exists() && snap.data().avatar) document.getElementById('display-avatar').style.backgroundImage = `url('${snap.data().avatar}')`;
+                if(snap.exists()) {
+                    const u = snap.data();
+                    if(u.avatar) { document.getElementById('display-avatar').style.backgroundImage = `url('${u.avatar}')`; document.getElementById('edit-avatar').value = u.avatar; }
+                    if(u.bio) { document.getElementById('bio-text').innerText = u.bio; document.getElementById('edit-bio').value = u.bio;}
+                }
                 
                 await loadAllData();
                 renderProfileGrid();
@@ -208,13 +233,31 @@
             window.globalPosts = []; postSnap.forEach(doc => { window.globalPosts.push({ id: doc.id, ...doc.data() }); });
         }
 
-        // PROFİL IZGARASINI DOLDUR
         function renderProfileGrid() {
             const grid = document.getElementById('my-posts'); grid.innerHTML = '';
             const myPosts = window.globalPosts.filter(p => p.username === auth.currentUser.displayName);
             document.getElementById('post-count').innerText = myPosts.length;
             myPosts.forEach(doc => { grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${doc.imageUrl}');"></div>`); });
         }
+
+        // PROFİL DÜZENLEME (14 Gün)
+        document.getElementById('btn-save-profile').addEventListener('click', async () => {
+            if(!currentUserId) return; const btn = document.getElementById('btn-save-profile'); btn.innerText = "Kaydediliyor...";
+            const newUsername = document.getElementById('edit-username').value.trim(); const avatar = document.getElementById('edit-avatar').value; const bio = document.getElementById('edit-bio').value;
+            if(!newUsername) { alert("Kullanıcı adı boş bırakılamaz!"); btn.innerText = "Kaydet"; return; }
+            try {
+                const userRef = doc(db, "kullanicilar", currentUserId); const userSnap = await getDoc(userRef); const userData = userSnap.exists() ? userSnap.data() : {};
+                let updates = { avatar, bio };
+                if (newUsername !== auth.currentUser.displayName) {
+                    if (!isAdmin && userData.lastUsernameChangeDate) {
+                        const diffDays = Math.abs(new Date() - new Date(userData.lastUsernameChangeDate)) / (1000 * 60 * 60 * 24); 
+                        if (diffDays < 14) { alert(`14 günde bir isim değiştirebilirsiniz. Kalan: ${Math.ceil(14 - diffDays)} gün.`); btn.innerText = "Kaydet"; return; }
+                    }
+                    await updateProfile(auth.currentUser, { displayName: newUsername }); updates.displayName = newUsername; updates.lastUsernameChangeDate = new Date().toISOString(); 
+                }
+                await setDoc(userRef, updates, { merge: true }); closeModal('profileEditModal'); window.location.reload(); 
+            } catch (error) { alert("Hata: " + error.message); btn.innerText = "Kaydet"; }
+        });
 
         // ARAMA VE REELS
         window.renderExploreGrid = function() {
@@ -236,7 +279,6 @@
             });
         }
 
-        // GÖNDERİ PAYLAŞ (+)
         document.getElementById('btn-submit-post').addEventListener('click', async () => {
             const user = auth.currentUser; if (!user) return;
             const imageUrl = document.getElementById('add-image').value; const caption = document.getElementById('add-caption').value;
