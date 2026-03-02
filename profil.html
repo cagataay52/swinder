@@ -6,91 +6,127 @@
     <title>Profilim - Swinder</title>
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" />
+    <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
 
     <style>
+        /* TEMEL GLASSMORPHISM */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        :root { --bg-dark: #0a0a0c; --surface: #1a1a1f; --primary-gold: #d4af37; --gold-hover: #f3e5ab; --text-light: #f5f5f7; --text-muted: #8e8e93; --glass-bg: rgba(26, 26, 31, 0.85); }
-        body { background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; padding-bottom: 70px; }
+        :root { --primary-gold: #d4af37; --gold-hover: #f3e5ab; --text-light: #f5f5f7; --text-muted: rgba(255,255,255,0.6); --glass-bg: rgba(20, 20, 25, 0.45); --glass-border: 1px solid rgba(255, 255, 255, 0.08); --glass-blur: blur(24px); --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        body { background: #050505; color: var(--text-light); overflow-x: hidden; padding-bottom: 70px; }
 
-        header { position: sticky; top: 0; width: 100%; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; background: var(--bg-dark); z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .header-username { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 5px; color: var(--text-light); }
-        .gold-tick { width: 14px; height: 14px; background: var(--primary-gold); border-radius: 50%; color: #000; font-size: 10px; font-weight: bold; display: none; justify-content: center; align-items: center;}
-        .header-icon { color: var(--text-light); font-size: 28px; cursor: pointer; background: none; border: none; }
+        /* AMBİANS IŞIKLARI */
+        .ambient-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
+        .ambient-blob-1 { position: absolute; top: -10%; left: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, transparent 70%); border-radius: 50%; filter: blur(60px); animation: float1 20s infinite alternate ease-in-out; }
+        .ambient-blob-2 { position: absolute; bottom: 10%; right: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(255,48,64,0.1) 0%, transparent 70%); border-radius: 50%; filter: blur(60px); animation: float2 25s infinite alternate ease-in-out; }
+        @keyframes float1 { 100% { transform: translate(10vw, 10vh); } }
+        @keyframes float2 { 100% { transform: translate(-10vw, -10vh); } }
 
+        /* ÜST MENÜ */
+        header { position: sticky; top: 0; width: 100%; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: rgba(10, 10, 12, 0.6); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); z-index: 100; border-bottom: var(--glass-border); }
+        .header-username { font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 8px; color: var(--text-light); letter-spacing: 0.5px;}
+        .gold-tick { width: 16px; height: 16px; background: var(--primary-gold); border-radius: 50%; color: #000; font-size: 10px; font-weight: bold; display: none; justify-content: center; align-items: center; box-shadow: 0 0 10px rgba(212,175,55,0.5);}
+        .header-icon { color: var(--text-light); font-size: 28px; cursor: pointer; background: none; border: none; transition: 0.3s;}
+        .header-icon:hover { color: var(--primary-gold); transform: scale(1.1);}
+
+        /* PROFİL İÇERİĞİ */
         .profile-container { max-width: 600px; margin: 0 auto; padding: 20px 0; }
-
-        .profile-header-top { display: flex; align-items: center; justify-content: space-between; padding: 0 20px; margin-bottom: 15px; }
+        .profile-header-top { display: flex; align-items: center; justify-content: space-between; padding: 0 20px; margin-bottom: 20px; }
         .profile-avatar-container { position: relative; }
-        .profile-ring { width: 85px; height: 85px; border-radius: 50%; padding: 3px; background: linear-gradient(45deg, #d4af37, #aa8529, #f3e5ab); }
-        .profile-avatar { width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--bg-dark); background-image: url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=400&q=80'); background-size: cover; background-position: center; }
-        .profile-stats { display: flex; gap: 20px; flex: 1; justify-content: space-evenly; margin-left: 20px; }
+        .profile-ring { width: 90px; height: 90px; border-radius: 50%; padding: 3px; background: linear-gradient(45deg, #d4af37, #aa8529, #f3e5ab); box-shadow: 0 4px 15px rgba(212,175,55,0.3);}
+        .profile-avatar { width: 100%; height: 100%; border-radius: 50%; border: 3px solid #050505; background-size: cover; background-position: center; }
+        
+        .profile-stats { display: flex; gap: 15px; flex: 1; justify-content: space-evenly; margin-left: 20px; }
         .stat-item { display: flex; flex-direction: column; align-items: center; color: var(--text-light); font-size: 13px; }
         .stat-item span { font-weight: 700; font-size: 18px; margin-bottom: 2px; }
 
-        .profile-bio { padding: 0 20px; font-size: 14px; line-height: 1.4; color: var(--text-light); margin-bottom: 15px; }
-        .bio-name { font-weight: 600; margin-bottom: 2px; color: var(--text-light); }
-        .bio-category { color: var(--text-muted); font-size: 13px; margin-bottom: 2px; }
-        .bio-link { color: #e0f2fe; text-decoration: none; font-weight: 500; font-size: 13px; display: inline-block; margin-top: 3px;}
+        .profile-bio { padding: 0 20px; font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.9); margin-bottom: 20px; }
+        .bio-name { font-weight: 600; margin-bottom: 3px; color: white; font-size: 15px;}
+        .bio-category { color: var(--text-muted); font-size: 13px; margin-bottom: 4px; }
+        .bio-link { color: #e0f2fe; text-decoration: none; font-weight: 500; font-size: 13px; display: inline-block; margin-top: 5px;}
 
         .profile-actions { padding: 0 20px; margin-bottom: 20px; }
-        .btn-edit { background: var(--surface); border: 1px solid rgba(255,255,255,0.1); color: var(--text-light); padding: 8px 0; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.3s; width: 100%; text-align: center; }
-        .btn-edit:hover { background: rgba(255,255,255,0.1); }
+        .btn-edit { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: var(--glass-border); color: var(--text-light); padding: 10px 0; border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.3s; width: 100%; text-align: center; }
+        .btn-edit:hover { background: rgba(255,255,255,0.2); }
 
-        .profile-tabs { display: flex; justify-content: space-around; border-top: 1px solid rgba(255,255,255,0.1); }
-        .tab-item { flex: 1; text-align: center; padding: 12px 0; color: var(--text-muted); cursor: pointer; transition: 0.3s; border-bottom: 2px solid transparent; display: flex; justify-content: center;}
+        .profile-tabs { display: flex; justify-content: space-around; border-top: var(--glass-border); }
+        .tab-item { flex: 1; text-align: center; padding: 15px 0; color: var(--text-muted); cursor: pointer; transition: 0.3s; border-bottom: 2px solid transparent;}
         .tab-item.active { color: var(--text-light); border-bottom: 2px solid var(--text-light); }
 
-        .profile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-        .grid-item { position: relative; aspect-ratio: 1 / 1; background-size: cover; background-position: center; cursor: pointer; }
-        
-        .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 10, 12, 0.95); backdrop-filter: blur(15px); padding: 10px 10px calc(10px + env(safe-area-inset-bottom)); border-top: 1px solid rgba(255,255,255,0.05); z-index: 999; }
-        .nav-icon-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
-        .nav-icon-btn .material-symbols-outlined { font-size: 28px; }
-        .nav-icon-btn.active { color: var(--text-light); font-variation-settings: 'FILL' 1; }
-        .nav-icon-btn.add-btn { background: var(--text-light); color: var(--bg-dark); width: 40px; height: 40px; border-radius: 12px; display: flex; justify-content: center; align-items: center; }
-        .nav-icon-btn.add-btn .material-symbols-outlined { font-size: 24px; font-weight: 600; }
+        .profile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 2px;}
+        .grid-item { position: relative; aspect-ratio: 1 / 1; background-size: cover; background-position: center; cursor: pointer; transition: 0.3s; opacity: 0.9;}
+        .grid-item:hover { opacity: 1; filter: brightness(1.1);}
 
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1000; padding: 15px; }
+        /* ALT MENÜ (STANDART) */
+        .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 10, 12, 0.85); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); padding: 12px 10px calc(12px + env(safe-area-inset-bottom)); border-top: var(--glass-border); z-index: 999; }
+        .nav-icon-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+        .nav-icon-btn .material-symbols-outlined { font-size: 30px; }
+        .nav-icon-btn.active { color: var(--text-light); font-variation-settings: 'FILL' 1; filter: drop-shadow(0 0 8px rgba(255,255,255,0.3));}
+        .nav-icon-btn.add-btn { background: var(--text-light); color: var(--bg-dark); width: 44px; height: 44px; border-radius: 12px; display: flex; justify-content: center; align-items: center; }
+        .nav-icon-btn.add-btn .material-symbols-outlined { font-size: 26px; font-weight: 600; color: #000;}
+
+        /* MODALLAR VE CAM KUTULAR */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1500; padding: 15px; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
-        .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.5); border: none; color: white; font-size: 20px; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; z-index: 20;}
+        .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; z-index: 20; display: flex; align-items: center; justify-content: center;}
         
-        .form-group { margin-bottom: 15px; text-align: left; }
-        .form-group label { display: block; margin-bottom: 5px; color: var(--text-muted); font-size: 13px; }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px 15px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; outline: none; transition: 0.3s; font-family: inherit; }
+        .glass-box { background: rgba(25, 25, 30, 0.4); backdrop-filter: blur(30px); border: var(--glass-border); border-radius: 24px; box-shadow: var(--glass-shadow); padding: 30px; width: 100%; max-width: 400px; transform: scale(0.95); transition: 0.3s ease; display: flex; flex-direction: column;}
+        .modal-overlay.active .glass-box { transform: scale(1); }
+
+        .form-group { margin-bottom: 15px; text-align: left; width: 100%;}
+        .form-group label { display: block; margin-bottom: 5px; font-size: 13px; color: var(--text-light); padding-left: 5px;}
+        .form-group input, .form-group textarea { width: 100%; padding: 14px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; outline: none; font-size: 14px; font-family: inherit;}
         .form-group input:focus, .form-group textarea:focus { border-color: var(--primary-gold); }
-        .btn-premium { background: var(--primary-gold); color: #000; padding: 12px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; width: 100%; border: none; font-size: 14px;}
+        .btn-premium { background: var(--primary-gold); color: #000; padding: 14px; border-radius: 12px; font-weight: 700; width: 100%; border: none; cursor: pointer; font-size: 15px; transition: 0.3s;}
         .btn-delete { background: rgba(255,71,87,0.1); border: 1px solid #ff4757; color: #ff4757; padding: 12px; border-radius: 10px; cursor: pointer; width: 100%; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600;}
 
-        .edit-box { background: var(--surface); padding: 30px 20px; border-radius: 20px; width: 100%; max-width: 500px; position: relative; transform: scale(0.95); transition: 0.3s ease; max-height: 90vh; overflow-y: auto;}
-        .post-detail-box { background: var(--bg-dark); width: 100%; max-width: 450px; border-radius: 20px; overflow: hidden; transform: scale(0.95); transition: 0.3s ease; display: flex; flex-direction: column; max-height: 90vh;}
-        .modal-overlay.active .edit-box, .modal-overlay.active .post-detail-box { transform: scale(1); }
+        /* AŞAĞIDAN AÇILAN EKRANLAR (Keşfet, Gönderi Detay vb.) */
+        .bottom-sheet { background: var(--bg-dark); width: 100%; height: 85vh; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.4s cubic-bezier(0.1, 1, 0.3, 1); display: flex; flex-direction: column; }
+        .modal-overlay.active .bottom-sheet { transform: translateY(0); }
         
-        .post-detail-img { width: 100%; aspect-ratio: 4/5; background-size: cover; background-position: center; }
-        .post-detail-info { padding: 20px; overflow-y: auto; }
-        .post-detail-caption { font-size: 14px; color: var(--text-light); margin-bottom: 20px; line-height: 1.4; }
+        .sheet-header { padding: 20px; border-bottom: var(--glass-border); display: flex; align-items: center; gap: 15px; font-size: 16px; font-weight: 600;}
+        .search-input { flex: 1; background: rgba(255,255,255,0.1); border: none; color: white; padding: 12px 20px; border-radius: 30px; outline: none; font-size: 14px;}
+        .grid-view { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; overflow-y: auto; flex: 1; }
+
+        /* REELS EKRANI */
+        .reels-box { background: #000; width: 100%; height: 100dvh; max-width: 450px; position: relative; transform: translateY(100%); transition: 0.4s cubic-bezier(0.1, 1, 0.3, 1); overflow-y: scroll; scroll-snap-type: y mandatory; }
+        .reels-box::-webkit-scrollbar { display: none; }
+        .modal-overlay.active .reels-box { transform: translateY(0); }
+        .reel-item { width: 100%; height: 100dvh; scroll-snap-align: start; background-size: cover; background-position: center; position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; padding-bottom: 90px; }
+        .reel-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 40%, rgba(0,0,0,0.2) 100%); pointer-events: none;}
+        .reel-content { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: flex-end; width: 100%; }
+        .reel-info { flex: 1; padding-right: 15px; }
+        .reel-user { display: flex; align-items: center; gap: 10px; color: white; font-weight: 600; font-size: 15px; margin-bottom: 12px;}
+        .reel-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center;}
+        .reel-caption { color: rgba(255,255,255,0.9); font-size: 14px; line-height: 1.5; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;}
+        .reel-actions { display: flex; flex-direction: column; gap: 20px; align-items: center; padding-bottom: 15px;}
+        .reel-action-btn { background: none; border: none; color: white; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer;}
+        .reel-action-btn .material-symbols-outlined { font-size: 34px; transition: 0.2s;}
+        .reel-action-btn.liked .material-symbols-outlined { color: #ff3040; font-variation-settings: 'FILL' 1; }
 
         @media (max-width: 768px) {
-            .modal-overlay { padding: 0; align-items: flex-end; }
-            .edit-box, .post-detail-box { border-radius: 25px 25px 0 0; transform: translateY(100%); margin: 0; border: none; border-top: 1px solid rgba(255,255,255,0.1); }
-            .modal-overlay.active .edit-box, .modal-overlay.active .post-detail-box { transform: translateY(0); }
+            .modal-overlay { padding: 0; align-items: flex-end;}
+            .glass-box { margin: 0; max-width: 100%; border-radius: 25px 25px 0 0; transform: translateY(100%); border-bottom: none;}
+            .modal-overlay.active .glass-box { transform: translateY(0); }
+            .reels-box { height: 100dvh; max-width: 100%; border-radius: 0; }
         }
     </style>
 </head>
 <body>
 
+    <div class="ambient-bg"><div class="ambient-blob-1"></div><div class="ambient-blob-2"></div></div>
+
     <header>
         <div class="header-username">
+            <span class="material-symbols-outlined" style="font-size:20px; cursor:pointer;" onclick="window.location.href='index.html'">lock</span>
             <span id="header-username-text">Yükleniyor...</span>
             <span class="gold-tick" id="gold-tick">✓</span>
         </div>
-        <button class="header-icon"><span class="material-symbols-outlined">menu</span></button>
+        <button class="header-icon" onclick="openModal('profileEditModal')"><span class="material-symbols-outlined">menu</span></button>
     </header>
 
     <main class="profile-container">
         <div class="profile-header-top">
-            <div class="profile-avatar-container">
-                <div class="profile-ring"><div class="profile-avatar" id="display-avatar"></div></div>
-            </div>
+            <div class="profile-avatar-container"><div class="profile-ring"><div class="profile-avatar" id="display-avatar"></div></div></div>
             <div class="profile-stats">
                 <div class="stat-item"><span id="post-count">0</span>Gönderi</div>
                 <div class="stat-item"><span>12.4B</span>Takipçi</div>
@@ -106,7 +142,7 @@
         </div>
 
         <div class="profile-actions">
-            <button class="btn-edit" onclick="openProfileEditModal()">Profili Düzenle</button>
+            <button class="btn-edit" onclick="openModal('profileEditModal')">Profili Düzenle</button>
         </div>
 
         <div class="profile-tabs">
@@ -115,25 +151,62 @@
         </div>
 
         <div class="profile-grid" id="my-posts">
-            </div>
+            <div style="grid-column: span 3; text-align: center; color: var(--text-muted); padding: 40px; font-size: 13px;">Yükleniyor...</div>
+        </div>
     </main>
 
     <nav class="bottom-nav">
         <button class="nav-icon-btn" onclick="window.location.href='index.html'"><span class="material-symbols-outlined">home</span></button>
-        <button class="nav-icon-btn"><span class="material-symbols-outlined">search</span></button>
-        <button class="nav-icon-btn add-btn" onclick="window.location.href='index.html'"><span class="material-symbols-outlined">add</span></button>
-        <button class="nav-icon-btn"><span class="material-symbols-outlined">movie</span></button>
+        <button class="nav-icon-btn" onclick="openExplore()"><span class="material-symbols-outlined">search</span></button>
+        <button class="nav-icon-btn add-btn" onclick="openModal('addModal')"><span class="material-symbols-outlined">add</span></button>
+        <button class="nav-icon-btn" onclick="openReels()"><span class="material-symbols-outlined">movie</span></button>
         <button class="nav-icon-btn active"><span class="material-symbols-outlined">person</span></button>
     </nav>
 
+    <div class="modal-overlay" id="addModal">
+        <div class="glass-box">
+            <button class="close-btn" onclick="closeModal('addModal')"><span class="material-symbols-outlined">close</span></button>
+            <h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Yeni Gönderi Paylaş</h2>
+            <div class="form-group"><label>Fotoğraf / Video Linki</label><input type="text" id="add-image" placeholder="Medya URL'si..."></div>
+            <div class="form-group"><label>Açıklama</label><textarea id="add-caption" rows="3" placeholder="Takipçilerinle paylaş..."></textarea></div>
+            <button type="button" id="btn-submit-post" class="btn-premium">Akışta Paylaş</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="exploreModal">
+        <div class="bottom-sheet">
+            <div class="sheet-header">
+                <button class="header-icon" onclick="closeModal('exploreModal')"><span class="material-symbols-outlined">arrow_back</span></button>
+                <input type="text" class="search-input" id="search-input" placeholder="Ara..." onkeyup="performSearch()">
+            </div>
+            <div class="grid-view" id="explore-grid"></div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="reelsModal" style="padding:0; background: #000;">
+        <button class="close-btn" onclick="closeModal('reelsModal')" style="z-index: 1000; top: 20px; right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button>
+        <div class="reels-box" id="reels-container"></div>
+    </div>
+
+    <div class="modal-overlay" id="profileEditModal">
+        <div class="glass-box" style="max-height: 90vh; overflow-y: auto;">
+            <button class="close-btn" onclick="closeModal('profileEditModal')"><span class="material-symbols-outlined">close</span></button>
+            <h2 style="color: var(--text-light); font-weight: 600; margin-bottom: 20px; text-align: center; font-size: 16px;">Profili Düzenle</h2>
+            <div class="form-group"><label>Kullanıcı Adı <span style="font-size: 11px; color: var(--primary-gold);">(14 gün kuralı geçerlidir)</span></label><input type="text" id="edit-username"></div>
+            <div class="form-group"><label>Profil Fotoğrafı (URL)</label><input type="text" id="edit-avatar"></div>
+            <div class="form-group"><label>Biyografi</label><textarea id="edit-bio" rows="3"></textarea></div>
+            <div class="form-group"><label>Web Sitesi</label><input type="text" id="edit-website"></div>
+            <button class="btn-premium" id="btn-save-profile" style="margin-top: 10px;">Kaydet</button>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="postDetailModal">
-        <div class="post-detail-box">
-            <button class="close-btn" onclick="closePostDetailModal()"><span class="material-symbols-outlined">close</span></button>
-            <div class="post-detail-img" id="modalPostImg"></div>
-            <div class="post-detail-info">
-                <div class="post-detail-caption" id="modalPostCaption">-</div>
-                <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;"><span id="modalPostLikes">0</span> beğenme</div>
-                
+        <div class="bottom-sheet" style="height: 80vh; max-width:450px; margin: 0 auto; border-radius: 20px 20px 0 0;">
+            <button class="close-btn" onclick="closeModal('postDetailModal')" style="top: -50px; right: 10px;"><span class="material-symbols-outlined">close</span></button>
+            <div id="modalPostImg" style="width: 100%; aspect-ratio: 4/5; background-size: cover; background-position: center;"></div>
+            <div style="padding: 20px; overflow-y: auto;">
+                <div style="font-size: 14px; color: white; margin-bottom: 15px;" id="modalPostCaption">-</div>
+                <div style="font-size: 13px; color: gray; margin-bottom: 20px;"><span id="modalPostLikes">0</span> beğenme</div>
                 <div id="admin-controls" style="display: none;">
                     <button id="btn-delete-post" class="btn-delete"><span class="material-symbols-outlined">delete</span> Gönderiyi Sil</button>
                 </div>
@@ -141,227 +214,188 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="profileEditModal">
-        <div class="edit-box">
-            <button class="close-btn" onclick="closeProfileEditModal()"><span class="material-symbols-outlined">close</span></button>
-            <h2 style="color: var(--text-light); font-weight: 600; margin-bottom: 20px; text-align: center; font-size: 16px;">Profili Düzenle</h2>
-            
-            <div class="form-group">
-                <label>Kullanıcı Adı <span style="font-size: 11px; color: var(--primary-gold);">(14 günde bir değişir)</span></label>
-                <input type="text" id="edit-username" placeholder="Kullanıcı adınız">
-            </div>
-            
-            <div class="form-group"><label>Profil Fotoğrafı (URL)</label><input type="text" id="edit-avatar"></div>
-            <div class="form-group"><label>Biyografi</label><textarea id="edit-bio" rows="3"></textarea></div>
-            <div class="form-group"><label>Web Sitesi</label><input type="text" id="edit-website"></div>
-            
-            <button class="btn-premium" id="btn-save-profile" style="margin-top: 10px;">Kaydet</button>
-        </div>
-    </div>
-
     <script>
-        function openProfileEditModal() { document.getElementById('profileEditModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
-        function closeProfileEditModal() { document.getElementById('profileEditModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
-        function closePostDetailModal() { document.getElementById('postDetailModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
-        document.querySelectorAll('.modal-overlay').forEach(modal => { modal.addEventListener('click', (e) => { if(e.target === modal) { modal.classList.remove('active'); document.body.style.overflow = 'auto'; }}); });
+        function openModal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
+        window.closeModal = function(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = 'auto'; }
+        
+        window.openExplore = () => { openModal('exploreModal'); if(window.renderExploreGrid) window.renderExploreGrid(); }
+        window.openReels = () => { openModal('reelsModal'); if(window.renderReels) window.renderReels(); }
+
+        document.querySelectorAll('.modal-overlay').forEach(m => { m.addEventListener('click', (e) => { if(e.target === m) closeModal(m.id); }); });
     </script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, query, where, getDocs, doc, getDoc, setDoc, deleteDoc, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, query, where, getDocs, doc, getDoc, setDoc, deleteDoc, orderBy, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0",
-            authDomain: "swinder-79534.firebaseapp.com",
-            projectId: "swinder-79534",
-            storageBucket: "swinder-79534.firebasestorage.app",
-            messagingSenderId: "704644873549",
-            appId: "1:704644873549:web:d95f561ec912b94cf2cb04"
-        };
+        const firebaseConfig = { apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0", authDomain: "swinder-79534.firebaseapp.com", projectId: "swinder-79534", storageBucket: "swinder-79534.firebasestorage.app", messagingSenderId: "704644873549", appId: "1:704644873549:web:d95f561ec912b94cf2cb04" };
+        const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        let currentUserId = null;
-        let isAdmin = false; 
-        let currentTab = 'my';
-        let activePostId = null;
-
-        // =================================================================
-        // DİKKAT: BURAYA KENDİ E-POSTANI YAZ! (Admin yetkisi için)
-        // =================================================================
+        // KESİN YÖNETİCİ KURALI
         const adminEmail = "kcagatay239@gmail.com"; 
+        
+        window.globalPosts = []; window.globalUsers = {};
+        let currentUserId = null; let isAdmin = false; let currentTab = 'my'; let activePostId = null;
 
         onAuthStateChanged(auth, async (user) => {
             if (!user) { window.location.href = "index.html"; return; }
             
             currentUserId = user.uid;
-            
-            const usernameLower = user.displayName ? user.displayName.toLowerCase() : "kullanıcı";
             document.getElementById('header-username-text').innerText = user.displayName;
             document.getElementById('display-name').innerText = user.displayName;
             document.getElementById('edit-username').value = user.displayName || "";
             
-            // Admin Kontrolü
             if(user.email && user.email.toLowerCase() === adminEmail.toLowerCase()) {
                 isAdmin = true;
                 document.getElementById('tab-admin').style.display = 'flex'; 
                 document.getElementById('role-text').innerText = "Kurucu • Sistem Yöneticisi";
             }
 
-            // Profili Veritabanından Çek
-            const userRef = doc(db, "kullanicilar", user.uid);
-            const userSnap = await getDoc(userRef);
-            if (userSnap.exists()) {
-                const userData = userSnap.data();
-                if(userData.avatar) document.getElementById('display-avatar').style.backgroundImage = `url('${userData.avatar}')`;
-                if(userData.bio) document.getElementById('bio-text').innerText = userData.bio;
-                if(userData.website) { 
-                    document.getElementById('bio-link').innerText = userData.website.replace(/^https?:\/\//, ''); 
-                    document.getElementById('bio-link').href = userData.website.startsWith('http') ? userData.website : 'https://' + userData.website; 
-                }
-                
-                if(userData.isVerified || isAdmin || usernameLower.includes('çağatay') || usernameLower.includes('cagatay')) {
-                    document.getElementById('gold-tick').style.display = 'inline-flex';
-                }
+            const snap = await getDoc(doc(db, "kullanicilar", user.uid));
+            if (snap.exists()) {
+                const u = snap.data();
+                if(u.avatar) document.getElementById('display-avatar').style.backgroundImage = `url('${u.avatar}')`;
+                if(u.bio) document.getElementById('bio-text').innerText = u.bio;
+                if(u.website) { document.getElementById('bio-link').innerText = u.website.replace(/^https?:\/\//, ''); document.getElementById('bio-link').href = u.website.startsWith('http') ? u.website : 'https://' + u.website; }
+                if(u.isVerified || isAdmin || (user.displayName||'').toLowerCase().includes('çağatay')) document.getElementById('gold-tick').style.display = 'inline-flex';
 
-                document.getElementById('edit-avatar').value = userData.avatar || "";
-                document.getElementById('edit-bio').value = userData.bio || "";
-                document.getElementById('edit-website').value = userData.website || "";
+                document.getElementById('edit-avatar').value = u.avatar || "";
+                document.getElementById('edit-bio').value = u.bio || "";
+                document.getElementById('edit-website').value = u.website || "";
             }
 
+            await loadAllData();
             loadPosts();
         });
 
+        async function loadAllData() {
+            const uSnap = await getDocs(collection(db, "kullanicilar"));
+            uSnap.forEach(d => { if(d.data().displayName) window.globalUsers[d.data().displayName] = d.data(); });
+            const pSnap = await getDocs(query(collection(db, "gonderiler"), orderBy("createdAt", "desc")));
+            window.globalPosts = []; pSnap.forEach(d => window.globalPosts.push({ id: d.id, ...d.data() }));
+        }
+
         window.switchTab = function(tabName) {
-            currentTab = tabName;
-            document.getElementById('tab-my').classList.remove('active');
-            document.getElementById('tab-admin').classList.remove('active');
-            document.getElementById('tab-' + tabName).classList.add('active');
-            loadPosts();
+            currentTab = tabName; document.getElementById('tab-my').classList.remove('active'); document.getElementById('tab-admin').classList.remove('active');
+            document.getElementById('tab-' + tabName).classList.add('active'); loadPosts();
         }
 
         async function loadPosts() {
             const grid = document.getElementById('my-posts');
-            grid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: var(--text-muted); padding: 40px; font-size: 13px;">Yükleniyor...</div>';
+            grid.innerHTML = '<div style="grid-column:span 3; text-align:center; padding:40px; font-size:13px; color:gray;">Yükleniyor...</div>';
             
-            let q;
+            let filtered = window.globalPosts;
             if (currentTab === 'my') {
-                q = query(collection(db, "gonderiler"), where("username", "==", auth.currentUser.displayName));
-            } else {
-                q = query(collection(db, "gonderiler"), orderBy("createdAt", "desc"));
+                filtered = window.globalPosts.filter(p => p.username === auth.currentUser.displayName);
+                document.getElementById('post-count').innerText = filtered.length;
             }
-            
-            try {
-                const snapshot = await getDocs(q);
-                grid.innerHTML = ''; 
-                
-                if (currentTab === 'my') document.getElementById('post-count').innerText = snapshot.size;
-                
-                if (snapshot.empty) { 
-                    grid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: var(--text-muted); padding: 40px; font-size: 13px;">Henüz hiç gönderi yok.</div>'; 
-                    return; 
-                }
 
-                snapshot.forEach((doc) => {
-                    const data = doc.data();
-                    const dataStr = encodeURIComponent(JSON.stringify(data));
-                    
-                    grid.insertAdjacentHTML('beforeend', `
-                    <div class="grid-item" style="background-image: url('${data.imageUrl}');" onclick="openPostDetail('${doc.id}', '${dataStr}')"></div>
-                    `);
-                });
-            } catch (error) { grid.innerHTML = `<div style="grid-column: span 3; text-align: center; color: red;">Hata oluştu.</div>`; console.log(error);}
+            grid.innerHTML = ''; 
+            if (filtered.length === 0) { grid.innerHTML = '<div style="grid-column:span 3; text-align:center; padding:40px; font-size:13px; color:gray;">Gönderi bulunamadı.</div>'; return; }
+
+            filtered.forEach(data => {
+                const dataStr = encodeURIComponent(JSON.stringify(data));
+                grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${data.imageUrl}');" onclick="openPostDetail('${data.id}', '${dataStr}')"></div>`);
+            });
+        }
+
+        // ==============================================
+        // EKSİK OLAN: YENİ GÖNDERİ PAYLAŞMA KODU EKLENDİ
+        // ==============================================
+        document.getElementById('btn-submit-post').addEventListener('click', async () => {
+            const user = auth.currentUser; if (!user) return;
+            const imageUrl = document.getElementById('add-image').value; const caption = document.getElementById('add-caption').value;
+            if (!imageUrl) return alert("Medya URL'si gereklidir!");
+            document.getElementById('btn-submit-post').innerText = "Yükleniyor...";
+            try { 
+                await addDoc(collection(db, "gonderiler"), { imageUrl: imageUrl, caption: caption, username: user.displayName, likesCount: 0, likedBy: [], createdAt: new Date() }); 
+                closeModal('addModal'); document.getElementById('add-image').value = ""; document.getElementById('add-caption').value = "";
+                await loadAllData(); loadPosts(); 
+            } catch (err) { alert(err.message); } finally { document.getElementById('btn-submit-post').innerText = "Akışta Paylaş"; }
+        });
+
+        // ==============================================
+        // KEŞFET (ARAMA) MANTIĞI DÜZELTİLDİ (Kendi postların görünmez)
+        // ==============================================
+        window.renderExploreGrid = function(filterText = "") {
+            const grid = document.getElementById('explore-grid'); grid.innerHTML = '';
+            const cName = auth.currentUser ? auth.currentUser.displayName : "";
+            
+            let filtered = window.globalPosts.filter(p => p.username !== cName); // Kendi postlarımızı gizliyoruz
+            if(filterText) {
+                filtered = filtered.filter(p => (p.caption||'').toLowerCase().includes(filterText.toLowerCase()) || (p.username||'').toLowerCase().includes(filterText.toLowerCase()));
+            }
+            if(filtered.length === 0) { grid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 40px; font-size: 13px;">Keşfedilecek içerik bulunamadı.</div>'; return;}
+            
+            filtered.forEach(p => grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${p.imageUrl}');" onclick="window.location.href='index.html'"></div>`));
+        }
+        window.performSearch = () => window.renderExploreGrid(document.getElementById('search-input').value);
+
+        // ==============================================
+        // REELS (Profil sayfasından çıkmadan izle)
+        // ==============================================
+        window.renderReels = function() {
+            const rc = document.getElementById('reels-container'); rc.innerHTML = '';
+            if(window.globalPosts.length === 0) { rc.innerHTML = '<div style="color:white; text-align:center; padding-top:50vh;">Reels yok.</div>'; return; }
+            window.globalPosts.forEach(data => {
+                const pInfo = window.globalUsers[data.username] || {};
+                const isV = pInfo.isVerified || (data.username && data.username.toLowerCase().includes('çağatay'));
+                const gt = isV ? '<span class="gold-tick" style="width:14px; height:14px; font-size:9px; margin-left:4px; display:inline-flex;">✓</span>' : '';
+                const av = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100')`;
+                const likedClass = (auth.currentUser && data.likedBy && data.likedBy.includes(auth.currentUser.displayName)) ? 'liked' : '';
+                
+                rc.insertAdjacentHTML('beforeend', `
+                <div class="reel-item" style="background-image: url('${data.imageUrl}');" ondblclick="alert('Beğeni ana sayfada aktif')">
+                    <div class="reel-overlay"></div>
+                    <div class="reel-content">
+                        <div class="reel-info">
+                            <div class="reel-user"><div class="reel-avatar" style="background-image:${av};"></div>${data.username} ${gt}</div>
+                            <div class="reel-caption">${data.caption || ''}</div>
+                        </div>
+                        <div class="reel-actions">
+                            <button class="reel-action-btn ${likedClass}"><span class="material-symbols-outlined">favorite</span><span class="reel-action-text">${data.likesCount||0}</span></button>
+                            <button class="reel-action-btn"><span class="material-symbols-outlined">chat_bubble</span><span class="reel-action-text">Yorumlar</span></button>
+                        </div>
+                    </div>
+                </div>`);
+            });
         }
 
         window.openPostDetail = function(docId, dataStr) {
-            const data = JSON.parse(decodeURIComponent(dataStr));
-            activePostId = docId;
-
+            const data = JSON.parse(decodeURIComponent(dataStr)); activePostId = docId;
             document.getElementById('modalPostImg').style.backgroundImage = `url('${data.imageUrl}')`;
             document.getElementById('modalPostCaption').innerHTML = `<strong>${data.username}</strong> ${data.caption || ''}`;
             document.getElementById('modalPostLikes').innerText = data.likesCount || 0;
-
-            if (isAdmin || auth.currentUser.displayName === data.username) {
-                document.getElementById('admin-controls').style.display = 'block';
-            } else {
-                document.getElementById('admin-controls').style.display = 'none';
-            }
-
-            document.getElementById('postDetailModal').classList.add('active'); 
-            document.body.style.overflow = 'hidden';
+            document.getElementById('admin-controls').style.display = (isAdmin || auth.currentUser.displayName === data.username) ? 'block' : 'none';
+            openModal('postDetailModal');
         }
 
         document.getElementById('btn-delete-post').addEventListener('click', async () => {
             if(!activePostId) return;
-            if(confirm("Bu gönderiyi silmek istediğine emin misin?")) {
-                try {
-                    document.getElementById('btn-delete-post').innerText = "Siliniyor...";
-                    await deleteDoc(doc(db, "gonderiler", activePostId));
-                    closePostDetailModal(); 
-                    loadPosts(); 
-                } catch (error) { alert("Hata: " + error.message); }
-                finally { document.getElementById('btn-delete-post').innerHTML = '<span class="material-symbols-outlined">delete</span> Gönderiyi Sil'; }
+            if(confirm("Bu gönderiyi siliyoruz?")) {
+                try { document.getElementById('btn-delete-post').innerText = "Siliniyor..."; await deleteDoc(doc(db, "gonderiler", activePostId)); closeModal('postDetailModal'); await loadAllData(); loadPosts(); } 
+                catch (error) {} finally { document.getElementById('btn-delete-post').innerHTML = '<span class="material-symbols-outlined">delete</span> Gönderiyi Sil'; }
             }
         });
 
-        // 🔥 PROFİL VE KULLANICI ADI GÜNCELLEME (14 GÜN KURALI) 🔥
         document.getElementById('btn-save-profile').addEventListener('click', async () => {
-            if(!currentUserId) return;
-            const btn = document.getElementById('btn-save-profile');
-            btn.innerText = "Kaydediliyor...";
-
-            const newUsername = document.getElementById('edit-username').value.trim();
-            const avatar = document.getElementById('edit-avatar').value;
-            const bio = document.getElementById('edit-bio').value;
-            const website = document.getElementById('edit-website').value;
-            
+            if(!currentUserId) return; const btn = document.getElementById('btn-save-profile'); btn.innerText = "Kaydediliyor...";
+            const newUsername = document.getElementById('edit-username').value.trim(); const avatar = document.getElementById('edit-avatar').value; const bio = document.getElementById('edit-bio').value; const website = document.getElementById('edit-website').value;
             if(!newUsername) { alert("Kullanıcı adı boş bırakılamaz!"); btn.innerText = "Kaydet"; return; }
-
             try {
-                const userRef = doc(db, "kullanicilar", currentUserId);
-                const userSnap = await getDoc(userRef);
-                const userData = userSnap.exists() ? userSnap.data() : {};
-                
+                const userRef = doc(db, "kullanicilar", currentUserId); const userSnap = await getDoc(userRef); const userData = userSnap.exists() ? userSnap.data() : {};
                 let updates = { avatar, bio, website };
-                
-                // İSİM DEĞİŞİKLİĞİ KONTROLÜ
                 if (newUsername !== auth.currentUser.displayName) {
-                    
-                    // EĞER ADMİN DEĞİLSE 14 GÜN KURALINA TAKILIR
-                    if (!isAdmin) {
-                        if (userData.lastUsernameChangeDate) {
-                            const lastChange = new Date(userData.lastUsernameChangeDate);
-                            const now = new Date();
-                            const diffTime = Math.abs(now - lastChange);
-                            const diffDays = diffTime / (1000 * 60 * 60 * 24); 
-                            
-                            if (diffDays < 14) {
-                                const remainingDays = Math.ceil(14 - diffDays);
-                                alert(`Kullanıcı adınızı sadece 14 günde bir değiştirebilirsiniz.\nLütfen ${remainingDays} gün daha bekleyin.`);
-                                btn.innerText = "Kaydet";
-                                return; // İŞLEMİ DURDUR
-                            }
-                        }
+                    if (!isAdmin && userData.lastUsernameChangeDate) {
+                        const diffDays = Math.abs(new Date() - new Date(userData.lastUsernameChangeDate)) / (1000 * 60 * 60 * 24); 
+                        if (diffDays < 14) { alert(`Kullanıcı adınızı sadece 14 günde bir değiştirebilirsiniz.\nLütfen ${Math.ceil(14 - diffDays)} gün daha bekleyin.`); btn.innerText = "Kaydet"; return; }
                     }
-                    
-                    // Kuralları geçtiyse (veya Adminse) ismi Firebase Auth ve Firestore'da güncelle
-                    await updateProfile(auth.currentUser, { displayName: newUsername });
-                    updates.displayName = newUsername;
-                    updates.lastUsernameChangeDate = new Date().toISOString(); // Tarihi kaydet
+                    await updateProfile(auth.currentUser, { displayName: newUsername }); updates.displayName = newUsername; updates.lastUsernameChangeDate = new Date().toISOString(); 
                 }
-
-                await setDoc(userRef, updates, { merge: true });
-                closeProfileEditModal(); 
-                window.location.reload(); 
-            } catch (error) { 
-                alert("Hata: " + error.message); 
-                btn.innerText = "Kaydet"; 
-            }
+                await setDoc(userRef, updates, { merge: true }); closeModal('profileEditModal'); window.location.reload(); 
+            } catch (error) { alert("Hata: " + error.message); btn.innerText = "Kaydet"; }
         });
-
     </script>
 </body>
 </html>
