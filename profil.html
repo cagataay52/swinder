@@ -51,8 +51,14 @@
         .sheet-header { padding: 20px; border-bottom: var(--glass-border); display: flex; align-items: center; gap: 15px; font-size: 16px; font-weight: 600;}
         .list-item { display: flex; align-items: center; gap: 15px; padding: 18px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; font-size: 16px; font-weight: 500;}
 
+        /* AUTH EKRANI */
         .glass-box { background: rgba(25, 25, 30, 0.4); backdrop-filter: blur(30px); border: var(--glass-border); border-radius: 24px; padding: 30px; width: 100%; max-width: 400px; transform: scale(0.95); transition: 0.3s ease;}
         .modal-overlay.active .glass-box { transform: scale(1); }
+        .auth-tabs { display: flex; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .tab-btn { flex: 1; background: none; border: none; color: var(--text-muted); padding: 10px; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 15px; }
+        .tab-btn.active { color: var(--primary-gold); border-bottom: 2px solid var(--primary-gold); }
+        .auth-form { display: none; } .auth-form.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .form-group { margin-bottom: 15px; text-align: left; width: 100%;}
         .form-group input, .form-group textarea { width: 100%; padding: 14px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; outline: none; font-size: 14px;}
@@ -67,18 +73,6 @@
         .modal-overlay.active .reels-box { transform: translateY(0); }
         .reel-item { width: 100%; height: 100dvh; scroll-snap-align: start; background-size: cover; background-position: center; position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; padding-bottom: 90px; }
         .reel-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 40%, rgba(0,0,0,0.2) 100%); pointer-events: none;}
-        .reel-content { position: relative; z-index: 3; display: flex; justify-content: space-between; align-items: flex-end; width: 100%; }
-        
-        .reel-info { flex: 1; padding-right: 15px; }
-        .reel-user { display: flex; align-items: center; gap: 10px; color: white; font-weight: 600; font-size: 15px; margin-bottom: 12px; cursor: pointer; text-shadow: 0 2px 4px rgba(0,0,0,0.8);}
-        .reel-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center;}
-        
-        .btn-follow { background: transparent; border: 1px solid white; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-left: 5px; cursor: pointer; transition: 0.3s;}
-        .btn-follow.following { background: rgba(255,255,255,0.2); border-color: transparent;}
-        
-        .reel-actions { display: flex; flex-direction: column; gap: 20px; align-items: center; padding-bottom: 15px;}
-        .reel-action-btn { background: none; border: none; color: white; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));}
-        .reel-action-btn.liked .material-symbols-outlined { color: #ff3040; font-variation-settings: 'FILL' 1; }
 
         /* GÖNDERİ DETAY & ORİJİNAL BOYUT */
         .post-detail-box { background: var(--bg-dark); width: 100%; height: 90vh; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.4s; display: flex; flex-direction: column; overflow: hidden; }
@@ -139,10 +133,33 @@
         <button class="nav-icon-btn active"><span class="material-symbols-outlined">person</span></button>
     </nav>
 
+    <div class="modal-overlay" id="authModal" style="z-index: 9999;">
+        <div class="glass-box">
+            <h2 style="text-align: center; margin-bottom: 15px; font-family: 'Grand Hotel', cursive; font-size: 40px; color: var(--text-light);">Swinder</h2>
+            <div class="auth-tabs">
+                <button class="tab-btn active" id="tab-login" onclick="switchAuthTab('login')">Giriş Yap</button>
+                <button class="tab-btn" id="tab-register" onclick="switchAuthTab('register')">Kayıt Ol</button>
+            </div>
+            <div class="auth-form active" id="form-login">
+                <div class="form-group"><input type="email" id="login-email" placeholder="E-posta Adresi"></div>
+                <div class="form-group"><input type="password" id="login-pass" placeholder="Şifre"></div>
+                <button class="btn-premium" id="btn-login">Oturum Aç</button>
+            </div>
+            <div class="auth-form" id="form-register">
+                <div class="form-group"><input type="text" id="reg-name" placeholder="Ad Soyad veya Kullanıcı Adı"></div>
+                <div class="form-group"><input type="email" id="reg-email" placeholder="E-posta Adresi"></div>
+                <div class="form-group"><input type="password" id="reg-pass" placeholder="Şifre Belirleyin"></div>
+                <button class="btn-premium" id="btn-register">Hesap Oluştur</button>
+            </div>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="settingsModal">
         <div class="bottom-sheet" style="height: auto;">
             <div class="sheet-header">Ayarlar <button class="header-icon" onclick="closeModal('settingsModal')" style="margin-left:auto;"><span class="material-symbols-outlined">close</span></button></div>
-            <div><div class="list-item" onclick="logoutApp()" style="color: #ff4757;"><span class="material-symbols-outlined">logout</span> Çıkış Yap</div></div>
+            <div>
+                <div class="list-item" onclick="logoutApp()" style="color: #ff4757;"><span class="material-symbols-outlined">logout</span> Çıkış Yap</div>
+            </div>
         </div>
     </div>
 
@@ -157,11 +174,15 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="exploreModal"><div class="bottom-sheet"><div class="sheet-header" style="gap:10px;"><button class="header-icon" onclick="closeModal('exploreModal')"><span class="material-symbols-outlined">arrow_back</span></button><input type="text" class="search-input" id="search-input" placeholder="Ara..." onkeyup="performSearch()"></div><div class="explore-users-container" id="explore-users-list"></div><div class="grid-view" id="explore-grid" style="padding: 2px;"></div></div></div>
+    <div class="modal-overlay" id="addModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Yeni Gönderi Paylaş</h2><div class="form-group"><input type="text" id="add-image" placeholder="Fotoğraf URL'si..."></div><div class="form-group"><textarea id="add-caption" rows="3" placeholder="Açıklama yaz..."></textarea></div><button type="button" id="btn-submit-post" class="btn-premium">Paylaş</button></div></div>
+    <div class="modal-overlay" id="reelsModal" style="padding:0; background: #000;"><button class="close-btn" onclick="closeModal('reelsModal')" style="z-index: 1000; top: 20px; right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button><div class="reels-box" id="reels-container"></div></div>
+
     <div class="modal-overlay" id="postDetailModal" style="z-index: 1600;">
         <div class="post-detail-box">
             <div class="sheet-header">
                 <button class="header-icon" onclick="closeModal('postDetailModal')"><span class="material-symbols-outlined">arrow_back</span></button> Gönderi
-                <div id="admin-controls" style="margin-left:auto; display:none; gap:10px;">
+                <div id="admin-controls" style="margin-left:auto; display:none; gap:15px;">
                     <button class="header-icon" style="color:var(--primary-gold);" onclick="editPostDB()"><span class="material-symbols-outlined">edit</span></button>
                     <button class="header-icon" style="color:#ff4757;" onclick="deletePostDB()"><span class="material-symbols-outlined">delete</span></button>
                 </div>
@@ -172,9 +193,6 @@
                     <div class="media-contain-img" id="pd-img"></div>
                 </div>
                 <div style="padding: 15px 20px;">
-                    <div style="display:flex; gap:15px; margin-bottom:15px;">
-                        <button class="header-icon" id="pd-btn-like" onclick="toggleLikeDB(this)"><span class="material-symbols-outlined">favorite</span></button>
-                    </div>
                     <div style="font-weight:600; margin-bottom:10px;"><span id="pd-likes">0</span> beğenme</div>
                     <div style="font-size: 14px;"><strong id="pd-user" style="margin-right:5px;">-</strong><span id="pd-caption" style="color:rgba(255,255,255,0.8);">-</span></div>
                 </div>
@@ -182,88 +200,63 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="exploreModal"><div class="bottom-sheet"><div class="sheet-header" style="gap:10px;"><button class="header-icon" onclick="closeModal('exploreModal')"><span class="material-symbols-outlined">arrow_back</span></button><input type="text" class="search-input" id="search-input" placeholder="Kişi veya gönderi ara..." onkeyup="performSearch()"></div><div class="explore-users-container" id="explore-users-list"></div><div class="grid-view" id="explore-grid" style="padding: 2px;"></div></div></div>
-    
-    <div class="modal-overlay" id="userProfileModal" style="z-index: 1550;"><div class="bottom-sheet"><div class="sheet-header"><button class="header-icon" onclick="closeModal('userProfileModal')"><span class="material-symbols-outlined">arrow_back</span></button><span id="up-title">Profil</span></div><div class="user-profile-header"><div class="up-avatar" id="up-avatar"></div><div class="up-info"><div class="up-name" id="up-name">-</div><div class="up-bio" id="up-bio" style="color:gray;">-</div><button id="btn-follow-user" class="btn-follow" style="margin-top:10px; background:var(--primary-gold); color:black; border:none; padding:8px 20px; font-weight:bold; border-radius:8px;" onclick="toggleFollowDB(this)">Takip Et</button></div></div><div class="grid-view" id="up-grid" style="padding-top: 2px;"></div></div></div>
-    
-    <div class="modal-overlay" id="addModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Yeni Gönderi Paylaş</h2><div class="form-group"><input type="text" id="add-image" placeholder="Fotoğraf URL'si..."></div><div class="form-group"><textarea id="add-caption" rows="3" placeholder="Açıklama yaz..."></textarea></div><button type="button" id="btn-submit-post" class="btn-premium">Akışta Paylaş</button></div></div>
-    <div class="modal-overlay" id="reelsModal" style="padding:0; background: #000;"><button class="close-btn" onclick="closeModal('reelsModal')" style="z-index: 1000; top: 20px; right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button><div class="reels-box" id="reels-container"></div></div>
+    <div class="modal-overlay" id="userProfileModal" style="z-index: 1550;"><div class="bottom-sheet"><div class="sheet-header"><button class="header-icon" onclick="closeModal('userProfileModal')"><span class="material-symbols-outlined">arrow_back</span></button><span id="up-title">Profil</span></div>
+    <div class="profile-header-top" style="padding: 15px 20px 5px;"><div class="profile-ring"><div class="profile-avatar" id="up-avatar" style="width: 75px; height: 75px; border-radius:50%; background-size:cover; border:2px solid #000;"></div></div><div class="profile-stats"><div class="stat-item"><span id="up-post-count">0</span>Gönderi</div><div class="stat-item"><span id="up-follower-count">0</span>Takipçi</div><div class="stat-item"><span id="up-following-count">0</span>Takip</div></div></div>
+    <div class="profile-bio" style="padding: 0 20px; margin-bottom: 10px;"><strong id="up-name" style="font-size: 16px; color: white;">-</strong><br><span id="up-bio" style="color:gray; font-size: 14px;">-</span></div>
+    <div style="padding: 0 20px 15px; display: flex; gap: 10px;"><button id="btn-follow-user" class="btn-follow" style="flex: 1; padding: 10px; font-size: 14px; border-radius: 8px; background: var(--primary-gold); color: black; border: none; font-weight: bold;" onclick="toggleFollowDB(this)">Takip Et</button></div>
+    <div class="grid-view" id="up-grid" style="border-top: var(--glass-border); padding-top: 2px;"></div></div></div>
 
     <script>
         function openModal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
         window.closeModal = function(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = 'auto'; }
+        window.switchAuthTab = function(tab) { document.getElementById('tab-login').classList.remove('active'); document.getElementById('tab-register').classList.remove('active'); document.getElementById('tab-' + tab).classList.add('active'); document.getElementById('form-login').classList.remove('active'); document.getElementById('form-register').classList.remove('active'); document.getElementById('form-' + tab).classList.add('active'); }
+        document.querySelectorAll('.modal-overlay').forEach(m => { m.addEventListener('click', (e) => { if(e.target === m && m.id !== 'authModal') closeModal(m.id); }); });
         window.openExplore = () => { openModal('exploreModal'); if(window.renderExploreGrid) window.renderExploreGrid(); }
         window.openReels = () => { openModal('reelsModal'); if(window.renderReels) window.renderReels(); }
     </script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, getDocs, doc, getDoc, addDoc, query, orderBy, setDoc, updateDoc, arrayUnion, arrayRemove, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, collection, getDocs, query, orderBy, doc, getDoc, addDoc, setDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = { apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0", authDomain: "swinder-79534.firebaseapp.com", projectId: "swinder-79534", storageBucket: "swinder-79534.firebasestorage.app", messagingSenderId: "704644873549", appId: "1:704644873549:web:d95f561ec912b94cf2cb04" };
         const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
 
+        window.globalPosts = []; window.globalUsersById = {}; window.globalUsersByName = {};
         const adminEmail = "kcagatay239@gmail.com"; 
-        window.globalUsersById = {}; window.globalUsersByName = {}; window.globalPosts = []; 
-        let currentUserProfile = null; let currentUserId = null; let isAdmin = false; let activeInteractPostId = null;
+        let currentUserId = null; let isAdmin = false; let activeInteractPostId = null; let currentUserProfile = null;
 
+        document.getElementById('btn-login').addEventListener('click', async () => { try { await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-pass').value); window.location.reload(); } catch (err) { alert(err.message); }});
+        document.getElementById('btn-register').addEventListener('click', async () => { const name = document.getElementById('reg-name').value; const email = document.getElementById('reg-email').value; const pass = document.getElementById('reg-pass').value; if(!name || !email || !pass) return alert("Doldurun!"); document.getElementById('btn-register').innerText = "Açılıyor..."; try { const uc = await createUserWithEmailAndPassword(auth, email, pass); await updateProfile(uc.user, { displayName: name }); window.location.reload(); } catch (e) { alert(e.message); document.getElementById('btn-register').innerText = "Hesap Oluştur"; }});
         window.logoutApp = async function() { await signOut(auth); window.location.href = "index.html"; }
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                currentUserId = user.uid; if(user.email && user.email.toLowerCase() === adminEmail.toLowerCase()) isAdmin = true;
+                closeModal('authModal'); currentUserId = user.uid; if(user.email && user.email.toLowerCase() === adminEmail.toLowerCase()) isAdmin = true;
                 document.getElementById('display-name').innerText = user.displayName; document.getElementById('bio-name').innerText = user.displayName; document.getElementById('edit-username').value = user.displayName;
-
                 const snap = await getDoc(doc(db, "kullanicilar", user.uid));
                 if(snap.exists()) {
                     currentUserProfile = { uid: user.uid, following: [], followers: [], ...snap.data() };
                     if(currentUserProfile.avatar) { document.getElementById('display-avatar').style.backgroundImage = `url('${currentUserProfile.avatar}')`; document.getElementById('edit-avatar').value = currentUserProfile.avatar; }
                     if(currentUserProfile.bio) { document.getElementById('bio-text').innerText = currentUserProfile.bio; document.getElementById('edit-bio').value = currentUserProfile.bio; }
-                    
-                    document.getElementById('follower-count').innerText = (currentUserProfile.followers || []).length;
-                    document.getElementById('following-count').innerText = (currentUserProfile.following || []).length;
+                    document.getElementById('follower-count').innerText = (currentUserProfile.followers || []).length; document.getElementById('following-count').innerText = (currentUserProfile.following || []).length;
                 }
-                await loadAllData(); window.renderProfileGrid();
-            } else { window.location.href = "index.html"; }
+                await loadAllData(); renderProfileGrid();
+            } else { openModal('authModal'); }
         });
 
         async function loadAllData() {
-            const usersSnap = await getDocs(collection(db, "kullanicilar"));
-            window.globalUsersById = {}; window.globalUsersByName = {};
+            const usersSnap = await getDocs(collection(db, "kullanicilar")); window.globalUsersById = {}; window.globalUsersByName = {};
             usersSnap.forEach(uDoc => { const d = uDoc.data(); d.uid = uDoc.id; window.globalUsersById[uDoc.id] = d; if(d.displayName) window.globalUsersByName[d.displayName] = d; });
-            const postSnap = await getDocs(query(collection(db, "gonderiler"), orderBy("createdAt", "desc")));
-            window.globalPosts = []; postSnap.forEach(doc => { window.globalPosts.push({ id: doc.id, ...doc.data() }); });
+            const postSnap = await getDocs(query(collection(db, "gonderiler"), orderBy("createdAt", "desc"))); window.globalPosts = []; postSnap.forEach(doc => { window.globalPosts.push({ id: doc.id, ...doc.data() }); });
         }
 
         window.renderProfileGrid = function() {
             const grid = document.getElementById('my-posts'); grid.innerHTML = '';
             const myPosts = window.globalPosts.filter(p => p.username === auth.currentUser.displayName);
             document.getElementById('post-count').innerText = myPosts.length;
-            myPosts.forEach(p => { 
-                const dataStr = encodeURIComponent(JSON.stringify(p));
-                grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${p.imageUrl}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')"></div>`); 
-            });
-        }
-
-        // 🔥 GERÇEK TAKİP ET SİSTEMİ 🔥
-        window.toggleFollowDB = async function(btnElement, targetName=null) {
-            const user = auth.currentUser; if(!user) return;
-            const tName = targetName || document.getElementById('up-title').innerText;
-            const targetUser = window.globalUsersByName[tName]; if(!targetUser) return;
-            const isFollowing = btnElement.classList.contains('following');
-            const myRef = doc(db, "kullanicilar", user.uid); const targetRef = doc(db, "kullanicilar", targetUser.uid);
-
-            if(isFollowing) {
-                btnElement.classList.remove('following'); btnElement.innerText = "Takip Et"; btnElement.style.background = "var(--primary-gold)"; btnElement.style.color = "black";
-                await updateDoc(myRef, { following: arrayRemove(targetUser.uid) }); await updateDoc(targetRef, { followers: arrayRemove(user.uid) });
-                if(currentUserProfile && currentUserProfile.following) currentUserProfile.following = currentUserProfile.following.filter(id => id !== targetUser.uid);
-            } else {
-                btnElement.classList.add('following'); btnElement.innerText = "Takip Ediliyor"; btnElement.style.background = "rgba(255,255,255,0.2)"; btnElement.style.color = "white";
-                await updateDoc(myRef, { following: arrayUnion(targetUser.uid) }); await updateDoc(targetRef, { followers: arrayUnion(user.uid) });
-                if(currentUserProfile) { if(!currentUserProfile.following) currentUserProfile.following=[]; currentUserProfile.following.push(targetUser.uid); }
-                await addDoc(collection(db, "bildirimler"), { to: tName, from: user.displayName, text: 'seni takip etmeye başladı.', createdAt: new Date() });
-            }
+            myPosts.forEach(p => { const dataStr = encodeURIComponent(JSON.stringify(p)); grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${p.imageUrl}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')"></div>`); });
         }
 
         window.openPostDetail = function(postId, dataStr) {
@@ -271,53 +264,32 @@
             const data = JSON.parse(decodeURIComponent(dataStr)); activeInteractPostId = postId;
             document.getElementById('pd-img').style.backgroundImage = `url('${data.imageUrl}')`; document.getElementById('pd-blur').style.backgroundImage = `url('${data.imageUrl}')`;
             document.getElementById('pd-user').innerText = data.username; document.getElementById('pd-caption').innerText = data.caption || ''; document.getElementById('pd-likes').innerText = data.likesCount || 0;
-            const btnLike = document.getElementById('pd-btn-like'); if(auth.currentUser && data.likedBy && data.likedBy.includes(auth.currentUser.displayName)) btnLike.classList.add('liked'); else btnLike.classList.remove('liked');
-            
             document.getElementById('admin-controls').style.display = (isAdmin || auth.currentUser.displayName === data.username) ? 'flex' : 'none';
             openModal('postDetailModal');
         }
 
-        // 🔥 GÖNDERİ DÜZENLE (EDİT) 🔥
         window.editPostDB = async function() {
-            if(!activeInteractPostId) return;
-            const currentCaption = document.getElementById('pd-caption').innerText;
+            if(!activeInteractPostId) return; const currentCaption = document.getElementById('pd-caption').innerText;
             const newCaption = prompt("Açıklamayı düzenle:", currentCaption);
-            if(newCaption !== null) {
-                await updateDoc(doc(db, "gonderiler", activeInteractPostId), { caption: newCaption });
-                document.getElementById('pd-caption').innerText = newCaption;
-                const p = window.globalPosts.find(x => x.id === activeInteractPostId); if(p) p.caption = newCaption;
-                window.renderProfileGrid(); 
-            }
+            if(newCaption !== null) { await updateDoc(doc(db, "gonderiler", activeInteractPostId), { caption: newCaption }); document.getElementById('pd-caption').innerText = newCaption; const p = window.globalPosts.find(x => x.id === activeInteractPostId); if(p) p.caption = newCaption; window.renderProfileGrid(); }
         }
-
-        // 🔥 GÖNDERİ SİL 🔥
         window.deletePostDB = async function() {
             if(!activeInteractPostId) return;
-            if(confirm("Gönderiyi kalıcı olarak silmek istediğine emin misin?")) {
-                await deleteDoc(doc(db, "gonderiler", activeInteractPostId));
-                closeModal('postDetailModal'); await loadAllData(); window.renderProfileGrid();
-            }
+            if(confirm("Gönderiyi kalıcı olarak silmek istediğine emin misin?")) { await deleteDoc(doc(db, "gonderiler", activeInteractPostId)); closeModal('postDetailModal'); await loadAllData(); window.renderProfileGrid(); }
         }
 
-        // DİĞER MODÜLLER
-        window.toggleLikeDB = async function(btnElement, forcePostId=null) {
-            const user = auth.currentUser; if(!user) return; const postId = forcePostId || activeInteractPostId; if(!postId) return;
-            const isLiked = btnElement.classList.contains('liked'); const postRef = doc(db, "gonderiler", postId); const likeSpan = document.getElementById('pd-likes'); const postData = window.globalPosts.find(p=>p.id===postId); let currentLikes = postData ? (postData.likesCount||0) : 0;
-            if(isLiked) { btnElement.classList.remove('liked'); if(likeSpan && activeInteractPostId===postId) likeSpan.innerText = currentLikes - 1; await updateDoc(postRef, { likedBy: arrayRemove(user.displayName), likesCount: currentLikes - 1 }); if(postData) postData.likesCount -= 1; } 
-            else { btnElement.classList.add('liked'); if(likeSpan && activeInteractPostId===postId) likeSpan.innerText = currentLikes + 1; await updateDoc(postRef, { likedBy: arrayUnion(user.displayName), likesCount: currentLikes + 1 }); if(postData) postData.likesCount += 1; }
-        }
+        document.getElementById('btn-save-profile').addEventListener('click', async () => {
+            if(!currentUserId) return; const btn = document.getElementById('btn-save-profile'); btn.innerText = "Kaydediliyor...";
+            const newUsername = document.getElementById('edit-username').value.trim(); const avatar = document.getElementById('edit-avatar').value; const bio = document.getElementById('edit-bio').value;
+            if(!newUsername) { alert("Kullanıcı adı boş bırakılamaz!"); btn.innerText = "Kaydet"; return; }
+            try {
+                const userRef = doc(db, "kullanicilar", currentUserId); const userSnap = await getDoc(userRef); const userData = userSnap.exists() ? userSnap.data() : {}; let updates = { avatar, bio };
+                if (newUsername !== auth.currentUser.displayName) { if (!isAdmin && userData.lastUsernameChangeDate) { const diffDays = Math.abs(new Date() - new Date(userData.lastUsernameChangeDate)) / (1000 * 60 * 60 * 24); if (diffDays < 14) { alert(`14 günde bir isim değiştirebilirsiniz. Kalan: ${Math.ceil(14 - diffDays)} gün.`); btn.innerText = "Kaydet"; return; } } await updateProfile(auth.currentUser, { displayName: newUsername }); updates.displayName = newUsername; updates.lastUsernameChangeDate = new Date().toISOString(); }
+                await setDoc(userRef, updates, { merge: true }); closeModal('profileEditModal'); window.location.reload(); 
+            } catch (error) { alert("Hata: " + error.message); btn.innerText = "Kaydet"; }
+        });
 
-        window.openUserProfile = function(username) {
-            let pInfo = {}; Object.values(window.globalUsersById).forEach(u => { if(u.displayName === username) pInfo = u; });
-            const isV = pInfo.isVerified || username.toLowerCase().includes('çağatay'); document.getElementById('up-title').innerText = username; document.getElementById('up-name').innerHTML = `${username} ${isV ? '<span class="gold-tick" style="display:inline-flex;">✓</span>' : ''}`; document.getElementById('up-bio').innerText = pInfo.bio || 'Swinder Üyesi'; document.getElementById('up-avatar').style.backgroundImage = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=200')`;
-            const btnFollow = document.getElementById('btn-follow-user');
-            if(auth.currentUser.displayName === username) { btnFollow.style.display = 'none'; } else { btnFollow.style.display = 'block'; if(currentUserProfile && currentUserProfile.following && currentUserProfile.following.includes(pInfo.uid)) { btnFollow.classList.add('following'); btnFollow.innerText="Takip Ediliyor"; btnFollow.style.background="rgba(255,255,255,0.2)"; btnFollow.style.color="white";} else { btnFollow.classList.remove('following'); btnFollow.innerText="Takip Et"; btnFollow.style.background="var(--primary-gold)"; btnFollow.style.color="black";} }
-            const upGrid = document.getElementById('up-grid'); upGrid.innerHTML = ''; const userPosts = window.globalPosts.filter(p => p.username === username);
-            if(userPosts.length === 0) upGrid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 30px; font-size:13px;">Gönderi yok.</div>';
-            userPosts.forEach(p => { const dataStr = encodeURIComponent(JSON.stringify(p)); upGrid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${p.imageUrl}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')"></div>`); });
-            openModal('userProfileModal');
-        }
-
+        // KEŞFET VE ARAMA
         window.renderExploreGrid = function() {
             const filterText = document.getElementById('search-input').value.toLowerCase(); const grid = document.getElementById('explore-grid'); grid.innerHTML = ''; const userList = document.getElementById('explore-users-list'); userList.innerHTML = '';
             if(filterText) { let matchedUsers = Object.values(window.globalUsersById).filter(u => u.displayName && u.displayName.toLowerCase().includes(filterText)); if (matchedUsers.length > 0) { userList.style.display = 'block'; matchedUsers.forEach(u => { const av = u.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100'; userList.insertAdjacentHTML('beforeend', `<div class="list-item" onclick="closeModal('exploreModal'); window.openUserProfile('${u.displayName}')" style="padding: 10px 20px;"><div class="list-avatar" style="background-image: url('${av}'); width: 40px; height: 40px;"></div><div class="list-text"><strong style="color:white; font-size:15px;">${u.displayName}</strong></div></div>`); }); } else { userList.style.display = 'none'; } } else { userList.style.display = 'none'; }
@@ -328,23 +300,48 @@
         }
         window.performSearch = () => window.renderExploreGrid();
 
+        // KULLANICI PROFİLİ GÖRÜNTÜLEME
+        window.openUserProfile = function(username) {
+            let pInfo = window.globalUsersByName[username] || {};
+            const isV = pInfo.isVerified || username.toLowerCase().includes('çağatay'); document.getElementById('up-title').innerText = username; document.getElementById('up-name').innerHTML = `${username} ${isV ? '<span class="gold-tick" style="display:inline-flex;">✓</span>' : ''}`; document.getElementById('up-bio').innerText = pInfo.bio || 'Swinder Üyesi'; document.getElementById('up-avatar').style.backgroundImage = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=200')`;
+            document.getElementById('up-post-count').innerText = window.globalPosts.filter(p => p.username === username).length; document.getElementById('up-follower-count').innerText = (pInfo.followers || []).length; document.getElementById('up-following-count').innerText = (pInfo.following || []).length;
+            const btnFollow = document.getElementById('btn-follow-user');
+            if(auth.currentUser && auth.currentUser.displayName === username) { btnFollow.style.display = 'none'; } else { btnFollow.style.display = 'block'; if(currentUserProfile && currentUserProfile.following && currentUserProfile.following.includes(pInfo.uid)) { btnFollow.classList.add('following'); btnFollow.innerText="Takibi Bırak"; btnFollow.style.background="rgba(255,255,255,0.1)"; btnFollow.style.color="white"; } else { btnFollow.classList.remove('following'); btnFollow.innerText="Takip Et"; btnFollow.style.background="var(--primary-gold)"; btnFollow.style.color="black"; } }
+            const upGrid = document.getElementById('up-grid'); upGrid.innerHTML = ''; const userPosts = window.globalPosts.filter(p => p.username === username);
+            if(userPosts.length === 0) upGrid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 30px; font-size:13px;">Gönderi yok.</div>';
+            userPosts.forEach(p => { const dataStr = encodeURIComponent(JSON.stringify(p)); upGrid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${p.imageUrl}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')"></div>`); });
+            openModal('userProfileModal');
+        }
+
+        // TAKİP SİSTEMİ
+        window.toggleFollowDB = async function(btnElement, targetName=null) {
+            const user = auth.currentUser; if(!user) return; const tName = targetName || document.getElementById('up-title').innerText; const targetUser = window.globalUsersByName[tName]; if(!targetUser) return;
+            const isFollowing = btnElement.classList.contains('following'); const myRef = doc(db, "kullanicilar", user.uid); const targetRef = doc(db, "kullanicilar", targetUser.uid);
+            const countEl = document.getElementById('up-follower-count'); let count = countEl ? parseInt(countEl.innerText) : 0;
+            if(isFollowing) {
+                btnElement.classList.remove('following'); btnElement.innerText = "Takip Et"; btnElement.style.background = "var(--primary-gold)"; btnElement.style.color = "black";
+                if(countEl && tName === document.getElementById('up-title').innerText) countEl.innerText = count - 1;
+                await updateDoc(myRef, { following: arrayRemove(targetUser.uid) }); await updateDoc(targetRef, { followers: arrayRemove(user.uid) });
+                if(currentUserProfile && currentUserProfile.following) currentUserProfile.following = currentUserProfile.following.filter(id => id !== targetUser.uid);
+            } else {
+                btnElement.classList.add('following'); btnElement.innerText = "Takibi Bırak"; btnElement.style.background = "rgba(255,255,255,0.1)"; btnElement.style.color = "white";
+                if(countEl && tName === document.getElementById('up-title').innerText) countEl.innerText = count + 1;
+                await updateDoc(myRef, { following: arrayUnion(targetUser.uid) }); await updateDoc(targetRef, { followers: arrayUnion(user.uid) });
+                if(currentUserProfile) { if(!currentUserProfile.following) currentUserProfile.following=[]; currentUserProfile.following.push(targetUser.uid); }
+                await addDoc(collection(db, "bildirimler"), { to: tName, from: user.displayName, text: 'seni takip etmeye başladı.', createdAt: new Date() });
+            }
+        }
+
         window.renderReels = function() {
             const rc = document.getElementById('reels-container'); rc.innerHTML = '';
             if(window.globalPosts.length === 0) { rc.innerHTML = '<div style="color:white; text-align:center; padding-top:50vh;">Reels yok.</div>'; return; }
             window.globalPosts.forEach(data => {
-                const pInfo = window.globalUsersByName[data.username] || {}; const av = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100')`; const likedClass = (auth.currentUser && data.likedBy && data.likedBy.includes(auth.currentUser.displayName)) ? 'liked' : ''; const isFollowing = currentUserProfile && currentUserProfile.following && currentUserProfile.following.includes(pInfo.uid); const followBtnHtml = (auth.currentUser.displayName !== data.username) ? `<button class="btn-follow ${isFollowing ? 'following' : ''}" onclick="event.stopPropagation(); toggleFollowDB(this, '${data.username}')">${isFollowing ? 'Takip Ediliyor' : 'Takip Et'}</button>` : '';
-                rc.insertAdjacentHTML('beforeend', `<div class="reel-item"><div class="media-blur-bg" style="background-image: url('${data.imageUrl}');"></div><div class="media-contain-img" style="background-image: url('${data.imageUrl}');" ondblclick="toggleLikeDB(this.parentElement.querySelector('.btn-like'), '${data.id}', '${data.username}')"></div><div class="reel-overlay"></div><div class="reel-content"><div class="reel-info"><div class="reel-user" onclick="closeModal('reelsModal'); window.openUserProfile('${data.username}')"><div class="reel-avatar" style="background-image:${av};"></div>${data.username} ${followBtnHtml}</div><div class="reel-caption">${data.caption || ''}</div></div><div class="reel-actions"><button class="reel-action-btn btn-like ${likedClass}" onclick="toggleLikeDB(this, '${data.id}', '${data.username}')"><span class="material-symbols-outlined">favorite</span><span class="reel-action-text" id="like-count-${data.id}">${data.likesCount||0}</span></button></div></div></div>`);
+                const pInfo = window.globalUsersByName[data.username] || {}; const av = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100')`;
+                rc.insertAdjacentHTML('beforeend', `<div class="reel-item"><div class="media-blur-bg" style="background-image: url('${data.imageUrl}');"></div><div class="media-contain-img" style="background-image: url('${data.imageUrl}');"></div><div class="reel-overlay"></div><div class="reel-content"><div class="reel-info"><div class="reel-user" onclick="closeModal('reelsModal'); window.openUserProfile('${data.username}')"><div class="reel-avatar" style="background-image:${av};"></div>${data.username}</div><div style="color: rgba(255,255,255,0.9); font-size: 14px;">${data.caption || ''}</div></div></div></div>`);
             });
         }
 
-        document.getElementById('btn-submit-post').addEventListener('click', async () => { const user = auth.currentUser; if (!user) return; const imageUrl = document.getElementById('add-image').value; const caption = document.getElementById('add-caption').value; if (!imageUrl) return; document.getElementById('btn-submit-post').innerText = "Yükleniyor..."; try { await addDoc(collection(db, "gonderiler"), { imageUrl, caption, username: user.displayName, likesCount: 0, createdAt: new Date() }); closeModal('addModal'); document.getElementById('add-image').value = ""; await loadAllData(); renderProfileGrid(); } catch (err) {} finally { document.getElementById('btn-submit-post').innerText = "Paylaş"; }});
-        
-        document.getElementById('btn-save-profile').addEventListener('click', async () => {
-            if(!currentUserId) return; const btn = document.getElementById('btn-save-profile'); btn.innerText = "Kaydediliyor...";
-            const newUsername = document.getElementById('edit-username').value.trim(); const avatar = document.getElementById('edit-avatar').value; const bio = document.getElementById('edit-bio').value;
-            if(!newUsername) { alert("Kullanıcı adı boş bırakılamaz!"); btn.innerText = "Kaydet"; return; }
-            try { const userRef = doc(db, "kullanicilar", currentUserId); const userSnap = await getDoc(userRef); const userData = userSnap.exists() ? userSnap.data() : {}; let updates = { avatar, bio }; if (newUsername !== auth.currentUser.displayName) { if (!isAdmin && userData.lastUsernameChangeDate) { const diffDays = Math.abs(new Date() - new Date(userData.lastUsernameChangeDate)) / (1000 * 60 * 60 * 24); if (diffDays < 14) { alert(`14 günde bir isim değiştirebilirsiniz. Kalan: ${Math.ceil(14 - diffDays)} gün.`); btn.innerText = "Kaydet"; return; } } await updateProfile(auth.currentUser, { displayName: newUsername }); updates.displayName = newUsername; updates.lastUsernameChangeDate = new Date().toISOString(); } await setDoc(userRef, updates, { merge: true }); closeModal('profileEditModal'); window.location.reload(); } catch (error) { alert("Hata: " + error.message); btn.innerText = "Kaydet"; }
-        });
+        document.getElementById('btn-submit-post').addEventListener('click', async () => { const user = auth.currentUser; if (!user) return; const imageUrl = document.getElementById('add-image').value; const caption = document.getElementById('add-caption').value; if (!imageUrl) return; document.getElementById('btn-submit-post').innerText = "Yükleniyor..."; try { await addDoc(collection(db, "gonderiler"), { imageUrl, caption, username: user.displayName, likesCount: 0, createdAt: new Date() }); closeModal('addModal'); document.getElementById('add-image').value = ""; await loadAllData(); renderProfileGrid(); } catch (err) {} finally { document.getElementById('btn-submit-post').innerText = "Akışta Paylaş"; }});
     </script>
 </body>
 </html>
