@@ -11,7 +11,11 @@
     <style>
         /* --- TEMEL & GLASSMORPHISM --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; touch-action: pan-y; }
-        :root { --primary-gold: #d4af37; --gold-hover: #f3e5ab; --text-light: #f5f5f7; --text-muted: rgba(255,255,255,0.6); --glass-bg: rgba(20, 20, 25, 0.45); --glass-border: 1px solid rgba(255, 255, 255, 0.08); --glass-blur: blur(24px); --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        :root { 
+            --primary-gold: #d4af37; --gold-hover: #f3e5ab; 
+            --text-light: #f5f5f7; --text-muted: rgba(255,255,255,0.6); 
+            --glass-bg: rgba(20, 20, 25, 0.45); --glass-border: 1px solid rgba(255, 255, 255, 0.08); --glass-blur: blur(24px); --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
         body { background: #050505; color: var(--text-light); overflow: hidden; }
 
         /* AMBİANS IŞIKLARI */
@@ -72,7 +76,10 @@
         .nav-icon-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
         .nav-icon-btn .material-symbols-outlined { font-size: 30px; transition: 0.2s;}
         .nav-icon-btn.active { color: var(--text-light); font-variation-settings: 'FILL' 1; filter: drop-shadow(0 0 8px rgba(255,255,255,0.3));}
-        .nav-icon-btn.add-btn { background: var(--text-light); color: var(--bg-dark); width: 44px; height: 44px; border-radius: 12px; display: flex; justify-content: center; align-items: center;}
+        
+        /* 🔥 BEMBEYAZ İKON SORUNU ÇÖZÜLDÜ: ALTIN RENK & SİYAH ARTI 🔥 */
+        .nav-icon-btn.add-btn { background: linear-gradient(135deg, #d4af37, #aa8529); color: #000; width: 44px; height: 44px; border-radius: 12px; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(212,175,55,0.4);}
+        .nav-icon-btn.add-btn .material-symbols-outlined { font-size: 28px; font-weight: 600; color: #000;}
 
         /* MODALLAR & CAM KUTULAR */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1500; padding: 15px; }
@@ -92,26 +99,24 @@
         .modal-overlay.active .bottom-sheet { transform: translateY(0); }
         .sheet-header { padding: 20px; border-bottom: var(--glass-border); display: flex; align-items: center; gap: 15px; font-size: 16px; font-weight: 600; background: rgba(20,20,25,0.8); backdrop-filter: blur(10px); z-index: 10;}
         
-        /* 🔥 SOHBET / DM EKRANI TASARIMI 🔥 */
-        .msg-list-item { display: flex; align-items: center; gap: 15px; padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: 0.2s;}
-        .msg-list-item:hover { background: rgba(255,255,255,0.05); }
-        .msg-avatar { width: 50px; height: 50px; border-radius: 50%; background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0;}
-        
+        /* BİLDİRİM & MESAJ LİSTELERİ */
+        .list-item { display: flex; align-items: center; gap: 15px; padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: 0.2s;}
+        .list-item:hover { background: rgba(255,255,255,0.05); }
+        .list-avatar { width: 48px; height: 48px; border-radius: 50%; background: #222; background-size: cover; background-position: center; flex-shrink: 0;}
+        .list-text { flex: 1; font-size: 14px; line-height: 1.4;}
+        .list-text strong { color: var(--text-light); }
+
+        /* SOHBET EKRANI */
         .chat-area { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #050505;}
         .chat-msg { display: flex; flex-direction: column; max-width: 80%; }
         .chat-msg.mine { align-self: flex-end; align-items: flex-end; }
         .chat-msg.theirs { align-self: flex-start; align-items: flex-start; }
-        
         .chat-bubble { padding: 12px 16px; border-radius: 20px; font-size: 14px; line-height: 1.4; word-break: break-word;}
-        .chat-msg.mine .chat-bubble { background: linear-gradient(135deg, #d4af37, #aa8529); color: #000; border-bottom-right-radius: 4px; box-shadow: 0 4px 10px rgba(212,175,55,0.2);}
-        .chat-msg.theirs .chat-bubble { background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; border-bottom-left-radius: 4px; backdrop-filter: blur(10px);}
-        
-        .chat-time { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
-        
+        .chat-msg.mine .chat-bubble { background: linear-gradient(135deg, #d4af37, #aa8529); color: #000; border-bottom-right-radius: 4px;}
+        .chat-msg.theirs .chat-bubble { background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; border-bottom-left-radius: 4px;}
         .chat-input-container { padding: 15px 20px; background: rgba(20,20,25,0.9); border-top: var(--glass-border); display: flex; gap: 10px; align-items: center;}
-        .chat-input { flex: 1; background: rgba(255,255,255,0.1); border: none; color: white; padding: 14px 20px; border-radius: 30px; outline: none; font-size: 14px;}
-        .chat-send-btn { background: var(--primary-gold); width: 45px; height: 45px; border-radius: 50%; border: none; display: flex; justify-content: center; align-items: center; color: black; cursor: pointer; transition: 0.2s;}
-        .chat-send-btn:hover { transform: scale(1.1); background: var(--gold-hover);}
+        .chat-input { flex: 1; background: rgba(255,255,255,0.1); border: none; color: white; padding: 14px 20px; border-radius: 30px; outline: none;}
+        .chat-send-btn { background: var(--primary-gold); width: 45px; height: 45px; border-radius: 50%; border: none; display: flex; justify-content: center; align-items: center; color: black; cursor: pointer;}
 
         /* EŞLEŞME (MATCH) EKRANI */
         .match-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: 0.5s ease;}
@@ -122,8 +127,7 @@
         .m-avatar { width: 120px; height: 120px; border-radius: 50%; border: 4px solid var(--primary-gold); background-size: cover; background-position: center; box-shadow: 0 0 30px rgba(212,175,55,0.5); transform: translateX(100px); opacity: 0; transition: 0.6s ease; }
         .m-avatar.left { transform: translateX(-100px); }
         .match-overlay.active .m-avatar { transform: translateX(0); opacity: 1; }
-        .btn-msg { background: linear-gradient(135deg, #d4af37, #aa8529); color: black; padding: 15px 30px; border-radius: 30px; font-weight: 700; border: none; font-size: 16px; cursor: pointer; display: flex; align-items: center; gap: 8px; margin-bottom: 15px; width: 250px; justify-content: center;}
-        .btn-keep { background: transparent; border: 2px solid rgba(255,255,255,0.3); color: white; padding: 15px 30px; border-radius: 30px; font-weight: 600; font-size: 16px; cursor: pointer; width: 250px;}
+        .btn-msg { background: linear-gradient(135deg, #d4af37, #aa8529); color: black; padding: 15px 30px; border-radius: 30px; font-weight: 700; border: none; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;}
 
         /* KEŞFET VE REELS */
         .search-input { flex: 1; background: rgba(255,255,255,0.1); border: none; color: white; padding: 12px 20px; border-radius: 30px; outline: none; font-size: 14px;}
@@ -140,7 +144,7 @@
             .modal-overlay { padding: 0; align-items: flex-end;}
             .glass-box { margin: 0; max-width: 100%; border-radius: 25px 25px 0 0; transform: translateY(100%); border-bottom: none;}
             .modal-overlay.active .glass-box { transform: translateY(0); }
-            .messages-box { height: 100dvh; max-width: 100%; border-radius: 0; }
+            .bottom-sheet { height: 90vh; border-radius: 20px 20px 0 0; }
         }
     </style>
 </head>
@@ -150,7 +154,7 @@
 
     <header>
         <div class="header-left">
-            <button class="header-icon" onclick="openDMList()"><span class="material-symbols-outlined">send</span></button>
+            <button class="header-icon" onclick="openMessages()"><span class="material-symbols-outlined">send</span></button>
         </div>
         <a href="index.html" class="logo">Swinder</a>
         <div class="header-right">
@@ -161,7 +165,8 @@
         </div>
     </header>
 
-    <div class="stories-wrapper" id="stories-container"></div>
+    <div class="stories-wrapper" id="stories-container">
+        </div>
 
     <div class="swipe-container" id="swipe-container">
         <div class="empty-state" id="empty-state" style="display: none;">
@@ -197,11 +202,11 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="dmListModal">
-        <div class="bottom-sheet messages-box">
+    <div class="modal-overlay" id="messagesModal">
+        <div class="bottom-sheet">
             <div class="sheet-header">
-                <button class="header-icon" onclick="closeModal('dmListModal')"><span class="material-symbols-outlined">arrow_back</span></button>
-                Mesajlar (Eşleşmeler)
+                <button class="header-icon" onclick="closeModal('messagesModal')"><span class="material-symbols-outlined">arrow_back</span></button>
+                Mesajlar
             </div>
             <div style="flex:1; overflow-y:auto;" id="dm-list-container">
                 <div style="text-align:center; padding:40px; color:gray;">Yükleniyor...</div>
@@ -212,14 +217,13 @@
     <div class="modal-overlay" id="chatRoomModal" style="z-index: 1600;">
         <div class="bottom-sheet" style="height: 100dvh; border-radius: 0;">
             <div class="sheet-header">
-                <button class="header-icon" onclick="closeModal('chatRoomModal'); openDMList();"><span class="material-symbols-outlined">arrow_back</span></button>
+                <button class="header-icon" onclick="closeModal('chatRoomModal'); openMessages();"><span class="material-symbols-outlined">arrow_back</span></button>
                 <div style="display:flex; align-items:center; gap:10px;">
                     <div id="chat-header-avatar" style="width:36px; height:36px; border-radius:50%; background-size:cover; border:2px solid var(--primary-gold);"></div>
                     <span id="chat-header-name">Kullanıcı</span>
                 </div>
             </div>
-            <div class="chat-area" id="chat-messages">
-                </div>
+            <div class="chat-area" id="chat-messages"></div>
             <div class="chat-input-container">
                 <input type="text" id="chat-input" class="chat-input" placeholder="Mesaj yaz..." onkeypress="if(event.key === 'Enter') sendChatMessage()">
                 <button class="chat-send-btn" onclick="sendChatMessage()"><span class="material-symbols-outlined">send</span></button>
@@ -232,7 +236,19 @@
             <div class="sheet-header">
                 <button class="header-icon" onclick="closeModal('notificationsModal')"><span class="material-symbols-outlined">arrow_back</span></button> Bildirimler
             </div>
-            <div style="flex:1; overflow-y:auto;" id="noti-list"></div>
+            <div style="flex:1; overflow-y:auto;" id="noti-list">
+                <div style="text-align:center; padding:40px; color:gray;">Yükleniyor...</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="exploreModal">
+        <div class="bottom-sheet">
+            <div class="sheet-header" style="gap:10px;">
+                <button class="header-icon" onclick="closeModal('exploreModal')"><span class="material-symbols-outlined">arrow_back</span></button>
+                <input type="text" class="search-input" id="search-input" placeholder="Keşfet... (Arama)" onkeyup="performSearch()">
+            </div>
+            <div class="grid-view" id="explore-grid" style="padding: 2px;"></div>
         </div>
     </div>
 
@@ -244,6 +260,13 @@
             <div class="form-group"><textarea id="add-caption" rows="3" placeholder="Açıklama yaz..."></textarea></div>
             <button type="button" id="btn-submit-post" class="btn-premium">Akışta Paylaş</button>
         </div>
+    </div>
+
+    <div class="modal-overlay" id="addStoryModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addStoryModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color:white; font-size:18px; text-align:center; margin-bottom:20px;">Hikayene Ekle</h2><div class="form-group"><input type="text" id="story-img-url" placeholder="Görsel URL..."></div><button id="btn-submit-story" class="btn-premium">Paylaş</button></div></div>
+
+    <div class="modal-overlay" id="reelsModal" style="padding:0; background: #000;">
+        <button class="close-btn" onclick="closeModal('reelsModal')" style="z-index: 1000; top: 20px; right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button>
+        <div class="reels-box" id="reels-container"></div>
     </div>
 
     <div class="match-overlay" id="matchOverlay">
@@ -259,15 +282,22 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="exploreModal"><div class="bottom-sheet"><div class="sheet-header" style="gap:10px;"><button class="header-icon" onclick="closeModal('exploreModal')"><span class="material-symbols-outlined">arrow_back</span></button><input type="text" class="search-input" id="search-input" placeholder="Ara..." onkeyup="performSearch()"></div><div class="grid-view" id="explore-grid"></div></div></div>
-    <div class="modal-overlay" id="reelsModal" style="padding:0; background: #000;"><button class="close-btn" onclick="closeModal('reelsModal')" style="z-index: 1000; top: 20px; right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button><div class="reels-box" id="reels-container"></div></div>
-    <div class="modal-overlay" id="addStoryModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addStoryModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color:white; font-size:18px; text-align:center; margin-bottom:20px;">Hikayene Ekle</h2><div class="form-group"><input type="text" id="story-img-url" placeholder="Görsel URL..."></div><button id="btn-submit-story" class="btn-premium">Paylaş</button></div></div>
-    
     <script>
         function openModal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
         window.closeModal = function(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = 'auto'; }
+        
         window.openAuthModal = () => openModal('authModal');
         window.closeMatch = () => document.getElementById('matchOverlay').classList.remove('active');
+        
+        // Arama (Keşfet) Butonu
+        window.openExplore = () => { openModal('exploreModal'); if(window.renderExploreGrid) window.renderExploreGrid(); }
+        // Reels Butonu
+        window.openReels = () => { openModal('reelsModal'); if(window.renderReels) window.renderReels(); }
+        // Bildirimler Butonu
+        window.openNotifications = () => { openModal('notificationsModal'); document.getElementById('noti-dot').style.display='none'; if(window.loadNotifications) window.loadNotifications(); }
+        // Mesajlar Butonu
+        window.openMessages = () => { openModal('dmListModal'); if(window.loadDMs) window.loadDMs(); }
+        
         document.querySelectorAll('.modal-overlay').forEach(m => { m.addEventListener('click', (e) => { if(e.target === m) closeModal(m.id); }); });
     </script>
 
@@ -281,6 +311,7 @@
 
         const adminEmail = "kcagatay239@gmail.com"; 
         window.globalUsers = {};
+        window.globalPosts = [];
         let currentUserProfile = null;
 
         // AUTH
@@ -303,35 +334,107 @@
                     if(!snapshot.empty) document.getElementById('noti-dot').style.display = 'block';
                 });
 
-                // Canlı DM Listesi Dinleyici
-                listenToDMs();
-
             } else { btn.onclick = () => openModal('authModal'); }
             
-            await loadAllUsers();
+            await loadAllData();
             loadProfilesForDeck();
+            loadStories(); // HİKAYELER ÇAĞRILDI
         });
 
-        async function loadAllUsers() {
+        async function loadAllData() {
             const usersSnap = await getDocs(collection(db, "kullanicilar"));
-            usersSnap.forEach(uDoc => { window.globalUsers[uDoc.id] = { uid: uDoc.id, ...uDoc.data() }; });
+            usersSnap.forEach(uDoc => { window.globalUsers[uDoc.id] = { uid: uDoc.id, ...uDoc.data() }; window.globalUsers[uDoc.data().displayName] = uDoc.data(); });
+            
+            const postSnap = await getDocs(query(collection(db, "gonderiler"), orderBy("createdAt", "desc")));
+            window.globalPosts = [];
+            postSnap.forEach(doc => { window.globalPosts.push({ id: doc.id, ...doc.data() }); });
         }
 
-        // ========================================================
-        // 🔥 1. TINDER MATCH (EŞLEŞME) SİSTEMİ 🔥
-        // ========================================================
+        // ==============================================
+        // HİKAYELER (Tamir Edildi)
+        // ==============================================
+        window.loadStories = async function() {
+            const stContainer = document.getElementById('stories-container');
+            stContainer.innerHTML = `<div class="story-item" onclick="openModal('addStoryModal')"><div class="story-ring add-story"><div class="story-img" style="display:flex; justify-content:center; align-items:center; color: var(--text-muted);"><span class="material-symbols-outlined">add</span></div></div><span class="story-name">Sen</span></div>`;
+            try {
+                const snapshot = await getDocs(query(collection(db, "hikayeler"), orderBy("createdAt", "desc")));
+                snapshot.forEach(doc => {
+                    const data = doc.data(); 
+                    const pInfo = window.globalUsers[data.username] || {}; 
+                    const sAvatar = pInfo.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100';
+                    stContainer.insertAdjacentHTML('beforeend', `
+                    <div class="story-item" onclick="alert('Hikaye izleme yakında')">
+                        <div class="story-ring"><div class="story-img" style="background-image: url('${data.imageUrl}');"></div></div>
+                        <span class="story-name">${data.username.split(' ')[0]}</span>
+                    </div>`);
+                });
+            } catch(e){ console.log(e); }
+        }
+
+        document.getElementById('btn-submit-story').addEventListener('click', async () => {
+            const user = auth.currentUser; if (!user) return openModal('authModal');
+            const imageUrl = document.getElementById('story-img-url').value; if (!imageUrl) return;
+            document.getElementById('btn-submit-story').innerText = "Yükleniyor...";
+            try { await addDoc(collection(db, "hikayeler"), { imageUrl: imageUrl, username: user.displayName, createdAt: new Date() }); window.closeModal('addStoryModal'); loadStories(); } 
+            catch (e) {} finally { document.getElementById('btn-submit-story').innerText = "Paylaş"; }
+        });
+
+        // ==============================================
+        // KEŞFET / ARAMA (Gizleme eklendi)
+        // ==============================================
+        window.renderExploreGrid = function(filterText = "") {
+            const grid = document.getElementById('explore-grid'); 
+            if(!grid) return;
+            grid.innerHTML = '';
+            
+            const cName = auth.currentUser ? auth.currentUser.displayName : "";
+            // Kendi gönderilerini gizle
+            let filtered = window.globalPosts.filter(p => p.username !== cName); 
+            
+            if(filterText) {
+                filtered = filtered.filter(p => (p.caption||'').toLowerCase().includes(filterText.toLowerCase()) || (p.username||'').toLowerCase().includes(filterText.toLowerCase()));
+            }
+            
+            if(filtered.length === 0) { grid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 40px; font-size: 13px;">Sonuç bulunamadı.</div>'; return;}
+            
+            filtered.forEach(p => grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${p.imageUrl}');" onclick="closeModal('exploreModal'); window.openReels();"></div>`));
+        }
+        window.performSearch = () => window.renderExploreGrid(document.getElementById('search-input').value);
+
+        // ==============================================
+        // BİLDİRİMLER (Tamir Edildi)
+        // ==============================================
+        window.loadNotifications = async function() {
+            const user = auth.currentUser; 
+            const list = document.getElementById('noti-list');
+            if(!user) { list.innerHTML = '<div style="padding:40px; text-align:center; color:gray;">Giriş yapmalısın.</div>'; return; }
+            
+            list.innerHTML = '<div style="padding:40px; text-align:center; color:gray;">Yükleniyor...</div>';
+            try {
+                const snap = await getDocs(query(collection(db, "bildirimler"), where("to", "==", user.displayName)));
+                list.innerHTML = '';
+                if(snap.empty) { list.innerHTML = '<div style="padding:40px; text-align:center; color:gray;">Henüz bildirim yok.</div>'; return;}
+                
+                let notis = []; snap.forEach(d => notis.push(d.data())); notis.sort((a,b) => b.createdAt.seconds - a.createdAt.seconds);
+                
+                notis.forEach(data => {
+                    const avatar = window.globalUsers[data.from]?.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100';
+                    list.insertAdjacentHTML('beforeend', `<div class="list-item"><div class="list-avatar" style="background-image:url('${avatar}')"></div><div class="list-text"><strong>${data.from}</strong> ${data.text}</div></div>`);
+                });
+            } catch(e) { console.log(e); }
+        }
+
+        // ==============================================
+        // TINDER KARTLARI
+        // ==============================================
         const swipeContainer = document.getElementById('swipe-container');
         let cards = [];
-
         function loadProfilesForDeck() {
             const myUid = auth.currentUser ? auth.currentUser.uid : null;
             const profiles = [];
-
-            // Sahte/Manken Profiller (Uygulama boş kalmasın diye)
             profiles.push({ uid: "dummy_1", name: "Masha", age: 24, bio: "Lüks Araçlar ✨", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800", isVerified: true });
             profiles.push({ uid: "dummy_2", name: "Lara", age: 26, bio: "Sanat galerisi işletiyorum.", img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800", isVerified: false });
 
-            // Gerçek Kullanıcıları Ekle
             Object.values(window.globalUsers).forEach(u => {
                 if(myUid && u.uid !== myUid && u.displayName) {
                     profiles.push({ uid: u.uid, name: u.displayName, age: u.age || "25", bio: u.bio || "Swinder Üyesi", img: u.avatar || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=800", isVerified: u.isVerified || u.displayName.toLowerCase().includes('çağatay') });
@@ -399,160 +502,119 @@
             card.style.transform = `translateX(${endX}px) rotate(${direction === 'left' ? -30 : 30}deg)`;
             card.style.opacity = '0';
 
-            const user = auth.currentUser;
-            const theirUid = card.dataset.uid;
-            const theirName = card.dataset.name;
-            const theirImg = card.dataset.img;
+            const user = auth.currentUser; const theirUid = card.dataset.uid; const theirName = card.dataset.name; const theirImg = card.dataset.img;
 
             if (user && (direction === 'right' || direction === 'super')) {
-                // Kendi Beğenimizi Veritabanına Yaz
                 await setDoc(doc(db, "kaydirmalar", `${user.uid}_${theirUid}`), { action: direction, timestamp: new Date() });
-
-                // Karşı taraf da bizi beğenmiş mi? Veya Manken (Dummy) ise %40 eşleşme şansı ver.
                 let isMatch = false;
-                if (theirUid.startsWith('dummy_')) {
-                    isMatch = Math.random() < 0.4;
-                } else {
-                    const theirSwipe = await getDoc(doc(db, "kaydirmalar", `${theirUid}_${user.uid}`));
-                    if(theirSwipe.exists() && (theirSwipe.data().action === 'right' || theirSwipe.data().action === 'super')) isMatch = true;
-                }
+                if (theirUid.startsWith('dummy_')) { isMatch = Math.random() < 0.4; } 
+                else { const theirSwipe = await getDoc(doc(db, "kaydirmalar", `${theirUid}_${user.uid}`)); if(theirSwipe.exists() && (theirSwipe.data().action === 'right' || theirSwipe.data().action === 'super')) isMatch = true; }
 
                 if (isMatch) {
-                    // EŞLEŞTİ! Yeni bir Mesajlaşma Odası (Chat Room) oluştur
-                    const matchRef = await addDoc(collection(db, "eslesmeler"), {
-                        users: [user.uid, theirUid],
-                        userNames: [user.displayName, theirName],
-                        lastMessage: "Yeni Eşleşme!",
-                        updatedAt: new Date()
-                    });
-                    
-                    // Ekranı Göster
+                    const matchRef = await addDoc(collection(db, "eslesmeler"), { users: [user.uid, theirUid], userNames: [user.displayName, theirName], lastMessage: "Yeni Eşleşme!", updatedAt: new Date() });
                     document.getElementById('match-my-avatar').style.backgroundImage = `url('${currentUserProfile?.avatar || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=200"}')`;
                     document.getElementById('match-their-avatar').style.backgroundImage = `url('${theirImg}')`;
                     document.getElementById('match-text').innerHTML = `Sen ve <strong>${theirName}</strong> birbirinizi beğendiniz!`;
-                    
-                    // Mesaj Gönder butonunu ayarla
-                    const btnMsg = document.getElementById('btn-match-msg');
-                    btnMsg.onclick = () => { closeMatch(); openChatRoom(matchRef.id, theirName, theirImg, theirUid); };
-                    
+                    document.getElementById('btn-match-msg').onclick = () => { closeMatch(); openChatRoom(matchRef.id, theirName, theirImg, theirUid); };
                     document.getElementById('matchOverlay').classList.add('active');
                 }
             }
-
             setTimeout(() => { card.remove(); cards = Array.from(document.querySelectorAll('.swipe-card')); if(cards.length === 0) document.getElementById('empty-state').style.display = 'flex'; }, 400);
         }
 
-        // ========================================================
-        // 🔥 2. CANLI MESAJLAŞMA (DM) SİSTEMİ 🔥
-        // ========================================================
-        let activeChatId = null;
-        let activeChatPartnerId = null;
-        let messagesUnsubscribe = null; // Eski sohbetin dinleyicisini kapatmak için
+        // ==============================================
+        // DM (MESAJLAR)
+        // ==============================================
+        let activeChatId = null; let activeChatPartnerId = null; let messagesUnsubscribe = null; 
 
-        window.openDMList = function() {
-            if(!auth.currentUser) return openModal('authModal');
-            openModal('dmListModal');
-        }
-
-        // DM Listesini Canlı Dinle (Senin UID'nin geçtiği eşleşmeleri bulur)
-        function listenToDMs() {
+        window.loadDMs = async function() {
             if(!auth.currentUser) return;
             const dmListContainer = document.getElementById('dm-list-container');
             
-            // Not: Firestore'da 'array-contains' ile kendi uid'mizin olduğu odaları dinliyoruz
             onSnapshot(query(collection(db, "eslesmeler"), where("users", "array-contains", auth.currentUser.uid)), (snapshot) => {
                 dmListContainer.innerHTML = '';
                 if(snapshot.empty) { dmListContainer.innerHTML = '<div style="text-align:center; padding:40px; color:gray;">Henüz eşleşmen yok.</div>'; return; }
                 
-                let matches = [];
-                snapshot.forEach(d => matches.push({ id: d.id, ...d.data() }));
-                matches.sort((a,b) => b.updatedAt.seconds - a.updatedAt.seconds); // En son yazılan en üste
-                
+                let matches = []; snapshot.forEach(d => matches.push({ id: d.id, ...d.data() })); matches.sort((a,b) => b.updatedAt.seconds - a.updatedAt.seconds); 
                 matches.forEach(match => {
-                    // Karşı tarafı bul
                     const theirIndex = match.users.indexOf(auth.currentUser.uid) === 0 ? 1 : 0;
-                    const theirUid = match.users[theirIndex];
-                    const theirName = match.userNames[theirIndex];
-                    
-                    // Dummy veya Gerçek resim
+                    const theirUid = match.users[theirIndex]; const theirName = match.userNames[theirIndex];
                     let theirImg = "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100";
-                    if(window.globalUsers[theirUid] && window.globalUsers[theirUid].avatar) {
-                        theirImg = window.globalUsers[theirUid].avatar;
-                    } else if (theirUid === 'dummy_1') theirImg = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200";
+                    if(window.globalUsers[theirUid] && window.globalUsers[theirUid].avatar) theirImg = window.globalUsers[theirUid].avatar;
+                    else if (theirUid === 'dummy_1') theirImg = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200";
                     else if (theirUid === 'dummy_2') theirImg = "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200";
 
-                    const html = `
-                    <div class="msg-list-item" onclick="openChatRoom('${match.id}', '${theirName}', '${theirImg}', '${theirUid}')">
-                        <div class="msg-avatar" style="background-image: url('${theirImg}');"></div>
-                        <div style="flex:1;">
-                            <strong style="color:white; font-size:15px;">${theirName}</strong><br>
-                            <span style="color:gray; font-size:13px;">${match.lastMessage}</span>
-                        </div>
-                    </div>`;
-                    dmListContainer.insertAdjacentHTML('beforeend', html);
+                    dmListContainer.insertAdjacentHTML('beforeend', `
+                    <div class="list-item" onclick="openChatRoom('${match.id}', '${theirName}', '${theirImg}', '${theirUid}')">
+                        <div class="list-avatar" style="background-image: url('${theirImg}');"></div>
+                        <div class="list-text"><strong style="font-size:15px;">${theirName}</strong><br><span style="color:gray; font-size:13px;">${match.lastMessage}</span></div>
+                    </div>`);
                 });
             });
         }
 
-        // SOHBET ODASINI AÇ VE MESAJLARI DİNLE
         window.openChatRoom = function(chatId, partnerName, partnerImg, partnerUid) {
-            closeModal('dmListModal');
-            activeChatId = chatId;
-            activeChatPartnerId = partnerUid;
-            
-            document.getElementById('chat-header-name').innerText = partnerName;
-            document.getElementById('chat-header-avatar').style.backgroundImage = `url('${partnerImg}')`;
+            closeModal('dmListModal'); activeChatId = chatId; activeChatPartnerId = partnerUid;
+            document.getElementById('chat-header-name').innerText = partnerName; document.getElementById('chat-header-avatar').style.backgroundImage = `url('${partnerImg}')`;
             openModal('chatRoomModal');
-
-            const chatArea = document.getElementById('chat-messages');
-            chatArea.innerHTML = '';
-
-            // Eski dinleyiciyi kapat (başka bir sohbete geçmiş olabiliriz)
+            
+            const chatArea = document.getElementById('chat-messages'); chatArea.innerHTML = '';
             if(messagesUnsubscribe) messagesUnsubscribe();
 
-            // Bu sohbet odasının mesajlarını canlı dinle
             messagesUnsubscribe = onSnapshot(query(collection(db, `eslesmeler/${chatId}/mesajlar`), orderBy("timestamp", "asc")), (snapshot) => {
                 chatArea.innerHTML = '';
                 snapshot.forEach(doc => {
-                    const msg = doc.data();
-                    const isMine = msg.senderId === auth.currentUser.uid;
+                    const msg = doc.data(); const isMine = msg.senderId === auth.currentUser.uid;
                     const date = msg.timestamp ? new Date(msg.timestamp.toDate()).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '';
-                    
-                    chatArea.insertAdjacentHTML('beforeend', `
-                    <div class="chat-msg ${isMine ? 'mine' : 'theirs'}">
-                        <div class="chat-bubble">${msg.text}</div>
-                        <div class="chat-time">${date}</div>
-                    </div>`);
+                    chatArea.insertAdjacentHTML('beforeend', `<div class="chat-msg ${isMine ? 'mine' : 'theirs'}"><div class="chat-bubble">${msg.text}</div><div class="chat-time">${date}</div></div>`);
                 });
-                // En alta kaydır
                 chatArea.scrollTop = chatArea.scrollHeight;
             });
         }
 
-        // MESAJ GÖNDERME FONKSİYONU
         window.sendChatMessage = async function() {
-            const input = document.getElementById('chat-input');
-            const text = input.value.trim();
-            if(!text || !activeChatId) return;
-
-            input.value = ""; // Kutuyu temizle
-            
+            const input = document.getElementById('chat-input'); const text = input.value.trim();
+            if(!text || !activeChatId) return; input.value = ""; 
             try {
-                // Mesajı alt koleksiyona ekle
-                await addDoc(collection(db, `eslesmeler/${activeChatId}/mesajlar`), {
-                    senderId: auth.currentUser.uid,
-                    text: text,
-                    timestamp: new Date()
-                });
-                
-                // Ana sohbet odasının son mesajını ve tarihini güncelle (DM listesi güncellensin diye)
-                await updateDoc(doc(db, "eslesmeler", activeChatId), {
-                    lastMessage: text,
-                    updatedAt: new Date()
-                });
-            } catch(e) { alert("Mesaj gönderilemedi."); }
+                await addDoc(collection(db, `eslesmeler/${activeChatId}/mesajlar`), { senderId: auth.currentUser.uid, text: text, timestamp: new Date() });
+                await updateDoc(doc(db, "eslesmeler", activeChatId), { lastMessage: text, updatedAt: new Date() });
+            } catch(e) {}
         }
 
+        // ==============================================
+        // REELS 
+        // ==============================================
+        window.renderReels = function() {
+            const rc = document.getElementById('reels-container'); rc.innerHTML = '';
+            if (window.globalPosts.length === 0) { rc.innerHTML = '<div style="color: white; text-align: center; padding-top: 50vh;">Reels bulunamadı.</div>'; return; }
+            window.globalPosts.forEach(data => {
+                const pInfo = window.globalUsers[data.username] || {};
+                const isV = pInfo.isVerified || (data.username && data.username.toLowerCase().includes('çağatay'));
+                const gt = isV ? '<span class="gold-tick" style="width:14px; height:14px; font-size:9px; margin-left:4px; display:inline-flex;">✓</span>' : '';
+                const av = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100')`;
+                rc.insertAdjacentHTML('beforeend', `
+                <div class="reel-item" style="background-image: url('${data.imageUrl}');" ondblclick="alert('Kalp butonunu kullanınız.')">
+                    <div class="reel-overlay"></div>
+                    <div class="reel-content">
+                        <div class="reel-info">
+                            <div class="reel-user"><div class="reel-avatar" style="background-image:${av};"></div>${data.username} ${gt}</div>
+                            <div class="reel-caption">${data.caption || 'Swinder Premium'}</div>
+                        </div>
+                    </div>
+                </div>`);
+            });
+        }
+
+        // ==============================================
+        // GÖNDERİ PAYLAŞ (+)
+        // ==============================================
+        document.getElementById('btn-submit-post').addEventListener('click', async () => {
+            const user = auth.currentUser; if (!user) return openModal('authModal');
+            const imageUrl = document.getElementById('add-image').value; const caption = document.getElementById('add-caption').value;
+            if (!imageUrl) return; document.getElementById('btn-submit-post').innerText = "Paylaşılıyor...";
+            try { await addDoc(collection(db, "gonderiler"), { imageUrl, caption, username: user.displayName, likesCount: 0, likedBy: [], createdAt: new Date() }); closeModal('addModal'); document.getElementById('add-image').value = ""; document.getElementById('add-caption').value = ""; await loadAllData(); } 
+            catch (err) {} finally { document.getElementById('btn-submit-post').innerText = "Akışta Paylaş"; }
+        });
     </script>
 </body>
 </html>
