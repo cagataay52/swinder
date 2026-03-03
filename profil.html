@@ -92,18 +92,6 @@
         .explore-users-container { display: none; max-height: 250px; overflow-y: auto; border-bottom: var(--glass-border); }
         .explore-scroll-area { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
 
-        .chat-area { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #050505;}
-        .chat-msg { display: flex; flex-direction: column; max-width: 80%; }
-        .chat-msg.mine { align-self: flex-end; align-items: flex-end; }
-        .chat-msg.theirs { align-self: flex-start; align-items: flex-start; }
-        .chat-bubble { padding: 12px 16px; border-radius: 20px; font-size: 14px; line-height: 1.4; word-break: break-word;}
-        .chat-msg.mine .chat-bubble { background: linear-gradient(135deg, #d4af37, #aa8529); color: #000; border-bottom-right-radius: 4px;}
-        .chat-msg.theirs .chat-bubble { background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; border-bottom-left-radius: 4px;}
-        .chat-time { font-size: 10px; color: gray; margin-top: 4px; }
-        .chat-input-container { padding: 15px 20px; background: rgba(20,20,25,0.9); border-top: var(--glass-border); display: flex; gap: 8px; align-items: center;}
-        .chat-input { flex: 1; background: rgba(255,255,255,0.1); border: none; color: white; padding: 14px 20px; border-radius: 30px; outline: none; font-size:14px;}
-        .chat-send-btn { background: var(--primary-gold); width: 45px; height: 45px; border-radius: 50%; border: none; display: flex; justify-content: center; align-items: center; color: black; cursor: pointer; transition: transform 0.2s;}
-
         .up-header-top { display: flex; align-items: center; padding: 20px 20px 15px; gap: 20px;}
         .up-avatar-container { width: 86px; height: 86px; border-radius: 50%; padding: 2px; background: linear-gradient(45deg, #d4af37, #aa8529, #f3e5ab); flex-shrink: 0;}
         .up-avatar { width: 100%; height: 100%; border-radius: 50%; background-size: cover; background-position: center; border: 3px solid #121214;}
@@ -120,8 +108,7 @@
             .modal-overlay { padding: 0; align-items: flex-end;}
             .glass-box { margin: 0; max-width: 100%; border-radius: 25px 25px 0 0; transform: translateY(100%); border-bottom: none;}
             .modal-overlay.active .glass-box { transform: translateY(0); }
-            .bottom-sheet, .post-detail-box { height: 90vh; border-radius: 20px 20px 0 0; }
-            .reels-box { height: 100dvh; max-width: 100%; border-radius: 0; }
+            .post-detail-box { height: 90vh; border-radius: 20px 20px 0 0; }
         }
     </style>
 </head>
@@ -179,60 +166,38 @@
             <button class="close-btn" onclick="closeModal('profileEditModal')"><span class="material-symbols-outlined">close</span></button>
             <h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Profili Düzenle</h2>
             <div class="form-group"><label style="color:gray; font-size:12px;">Kullanıcı Adı</label><input type="text" id="edit-username"></div>
-            <div class="form-group"><label style="color:gray; font-size:12px;">Doğum Tarihi (Gerçek Yaş İçin)</label><input type="date" id="edit-birthdate"></div>
-            <div class="form-group"><label style="color:gray; font-size:12px;">Profil Fotoğrafı URL</label><input type="text" id="edit-avatar"></div>
+            <div class="form-group"><label style="color:gray; font-size:12px;">Doğum Tarihi</label><input type="date" id="edit-birthdate"></div>
+            <div class="form-group">
+                <label style="color:gray; font-size:12px;">Profil Fotoğrafı (Galeriden Seç)</label>
+                <input type="file" id="edit-avatar-file" accept="image/*" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 12px; color: white;">
+            </div>
             <div class="form-group"><label style="color:gray; font-size:12px;">Biyografi</label><textarea id="edit-bio" rows="3"></textarea></div>
             <button class="btn-premium" id="btn-save-profile">Kaydet</button>
         </div>
     </div>
 
+    <div class="modal-overlay" id="addModal">
+        <div class="glass-box">
+            <button class="close-btn" onclick="closeModal('addModal')"><span class="material-symbols-outlined">close</span></button>
+            <h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Yeni Gönderi/Video</h2>
+            <div class="form-group">
+                <label style="color:gray; font-size:12px;">Galeriden Seç (Fotoğraf/Video)</label>
+                <input type="file" id="add-image-file" accept="image/*, video/*" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 12px; color: white;">
+            </div>
+            <div class="form-group"><textarea id="add-caption" rows="3" placeholder="Açıklama..."></textarea></div>
+            <button type="button" id="btn-submit-post" class="btn-premium">Paylaş</button>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="exploreModal"><div class="bottom-sheet"><div class="sheet-header" style="gap:10px;"><button class="header-icon" onclick="closeModal('exploreModal')"><span class="material-symbols-outlined">arrow_back</span></button><input type="text" class="search-input" id="search-input" placeholder="Kişi veya gönderi ara..." onkeyup="performSearch()"></div><div class="explore-users-container" id="explore-users-list"></div><div class="explore-scroll-area"><div class="grid-view" id="explore-grid"></div></div></div></div>
     <div class="modal-overlay" id="reelsModal" style="padding:0; background: #000;"><button class="close-btn" onclick="closeModal('reelsModal')" style="z-index: 1000; top: calc(20px + env(safe-area-inset-top)); right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button><div class="reels-box" id="reels-container"></div></div>
+
+    <div class="modal-overlay" id="postDetailModal" style="z-index: 1600;"><div class="post-detail-box"><div class="sheet-header"><button class="header-icon" onclick="closeModal('postDetailModal')"><span class="material-symbols-outlined">arrow_back</span></button> Gönderi Detayı <div id="admin-controls" style="margin-left:auto; display:none; gap:15px;"><button class="header-icon" style="color:var(--primary-gold);" onclick="editPostDB()"><span class="material-symbols-outlined">edit</span></button><button class="header-icon" style="color:#ff4757;" onclick="deletePostDB()"><span class="material-symbols-outlined">delete</span></button></div></div><div style="flex:1; overflow-y:auto; padding-bottom:30px;"><div class="post-detail-img-container"><div class="media-blur-bg" id="pd-blur"></div><div id="pd-media-container" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center; z-index:1;"></div></div><div style="padding: 15px 20px;"><div style="display:flex; gap:15px; margin-bottom:15px;"><button class="header-icon" id="pd-btn-like" onclick="toggleLikeDB(this)"><span class="material-symbols-outlined">favorite</span></button><button class="header-icon" onclick="openCommentsDB()"><span class="material-symbols-outlined">chat_bubble</span></button><button class="header-icon" onclick="openShareModal()"><span class="material-symbols-outlined">send</span></button></div><div style="font-weight:600; margin-bottom:10px;"><span id="pd-likes">0</span> beğenme</div><div style="font-size: 14px;"><strong id="pd-user" style="margin-right:5px; cursor:pointer;" onclick="closeModal('postDetailModal'); window.openUserProfile(this.dataset.user)">-</strong><span id="pd-caption" style="color:rgba(255,255,255,0.8);">-</span></div></div></div></div></div>
     
-    <div class="modal-overlay" id="addModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Yeni Gönderi/Video</h2><div class="form-group"><input type="text" id="add-image" placeholder="Medya URL'si (Resim veya MP4/MOV)..."></div><div class="form-group"><textarea id="add-caption" rows="3" placeholder="Açıklama..."></textarea></div><button type="button" id="btn-submit-post" class="btn-premium">Paylaş</button></div></div>
-
-    <div class="modal-overlay" id="postDetailModal" style="z-index: 1600;">
-        <div class="post-detail-box">
-            <div class="sheet-header">
-                <button class="header-icon" onclick="closeModal('postDetailModal')"><span class="material-symbols-outlined">arrow_back</span></button> Gönderi Detayı
-                <div id="admin-controls" style="margin-left:auto; display:flex; gap:15px;">
-                    <button class="header-icon" style="color:var(--primary-gold);" onclick="editPostDB()"><span class="material-symbols-outlined">edit</span></button>
-                    <button class="header-icon" style="color:#ff4757;" onclick="deletePostDB()"><span class="material-symbols-outlined">delete</span></button>
-                </div>
-            </div>
-            <div style="flex:1; overflow-y:auto; padding-bottom:30px;">
-                <div class="post-detail-img-container">
-                    <div class="media-blur-bg" id="pd-blur"></div>
-                    <div id="pd-media-container" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center; z-index:1;"></div>
-                </div>
-                <div style="padding: 15px 20px;">
-                    <div style="display:flex; gap:15px; margin-bottom:15px;">
-                        <button class="header-icon" id="pd-btn-like" onclick="toggleLikeDB(this)"><span class="material-symbols-outlined">favorite</span></button>
-                        <button class="header-icon" onclick="openCommentsDB()"><span class="material-symbols-outlined">chat_bubble</span></button>
-                        <button class="header-icon" onclick="openShareModal()"><span class="material-symbols-outlined">send</span></button>
-                    </div>
-                    <div style="font-weight:600; margin-bottom:10px;"><span id="pd-likes">0</span> beğenme</div>
-                    <div style="font-size: 14px;"><strong id="pd-user" style="margin-right:5px; cursor:pointer;" onclick="closeModal('postDetailModal'); window.openUserProfile(this.dataset.user)">-</strong><span id="pd-caption" style="color:rgba(255,255,255,0.8);">-</span></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="userProfileModal" style="z-index: 1550;">
-        <div class="bottom-sheet">
-            <div class="sheet-header"><button class="header-icon" onclick="closeModal('userProfileModal')"><span class="material-symbols-outlined">arrow_back</span></button><span id="up-title" style="font-weight:bold;">Profil</span></div>
-            <div class="up-header-top"><div class="up-avatar-container"><div class="up-avatar" id="up-avatar"></div></div><div class="up-stats"><div class="up-stat-item"><span id="up-post-count">0</span>Gönderi</div><div class="up-stat-item"><span id="up-follower-count">0</span>Takipçi</div><div class="up-stat-item"><span id="up-following-count">0</span>Takip</div></div></div>
-            <div class="up-bio-container"><div class="up-name" id="up-name">-</div><div class="up-bio" id="up-bio">-</div></div>
-            <div class="up-actions"><button id="btn-follow-user" class="btn-up-action btn-follow" onclick="toggleFollowDB(this)">Takip Et</button></div>
-            <div class="explore-scroll-area" style="border-top: var(--glass-border); padding-top: 2px;"><div class="grid-view" id="up-grid"></div></div>
-        </div>
-    </div>
+    <div class="modal-overlay" id="userProfileModal" style="z-index: 1550;"><div class="bottom-sheet"><div class="sheet-header"><button class="header-icon" onclick="closeModal('userProfileModal')"><span class="material-symbols-outlined">arrow_back</span></button><span id="up-title" style="font-weight:bold;">Profil</span></div><div class="up-header-top"><div class="up-avatar-container"><div class="up-avatar" id="up-avatar"></div></div><div class="up-stats"><div class="up-stat-item"><span id="up-post-count">0</span>Gönderi</div><div class="up-stat-item"><span id="up-follower-count">0</span>Takipçi</div><div class="up-stat-item"><span id="up-following-count">0</span>Takip</div></div></div><div class="up-bio-container"><div class="up-name" id="up-name">-</div><div class="up-bio" id="up-bio">-</div></div><div class="up-actions"><button id="btn-follow-user" class="btn-up-action btn-follow" onclick="toggleFollowDB(this)">Takip Et</button></div><div class="explore-scroll-area" style="border-top: var(--glass-border); padding-top: 2px;"><div class="grid-view" id="up-grid"></div></div></div></div>
 
     <div class="modal-overlay" id="commentsModal" style="z-index: 1700;"><div class="bottom-sheet" style="height: 70vh;"><div class="sheet-header"><button class="header-icon" onclick="closeModal('commentsModal')"><span class="material-symbols-outlined">close</span></button> Yorumlar</div><div style="flex:1; overflow-y:auto; padding:15px; display:flex; flex-direction:column; gap:15px;" id="comments-list"></div><div class="chat-input-container"><input type="text" id="new-comment-input" placeholder="Yorum ekle..." class="chat-input"><button onclick="submitComment()" style="background:none; border:none; color:var(--primary-gold); font-weight:bold; padding:0 10px; cursor:pointer;">Paylaş</button></div></div></div>
-    
     <div class="modal-overlay" id="shareModal" style="z-index: 1750;"><div class="bottom-sheet" style="height: 60vh;"><div class="sheet-header"><button class="header-icon" onclick="closeModal('shareModal')"><span class="material-symbols-outlined">close</span></button> Kime Gönderilsin?</div><div style="flex:1; overflow-y:auto;" id="share-list-container"></div></div></div>
-
-    <div class="modal-overlay" id="chatRoomModal" style="z-index: 1600;"><div class="bottom-sheet" style="height: 100dvh; border-radius: 0;"><div class="sheet-header" style="padding-top: calc(15px + env(safe-area-inset-top));"><button class="header-icon" onclick="closeModal('chatRoomModal');"><span class="material-symbols-outlined">arrow_back</span></button><div style="display:flex; align-items:center; gap:10px;"><div id="chat-header-avatar" style="width:36px; height:36px; border-radius:50%; background-size:cover; border:2px solid var(--primary-gold);"></div><span id="chat-header-name">Kullanıcı</span></div><button class="header-icon" style="margin-left:auto; color:#ff4757;" onclick="deleteChatRoom()"><span class="material-symbols-outlined">delete</span></button></div><div class="chat-area" id="chat-messages"></div><div class="chat-input-container"><input type="text" id="chat-input" class="chat-input" placeholder="Mesaj yaz..." onkeypress="if(event.key === 'Enter') sendChatMessage()"><button class="chat-send-btn" id="btn-mic" style="background:#ff3040; color:white;" onmousedown="startVoiceRecord(event)" onmouseup="stopVoiceRecord(event)" ontouchstart="startVoiceRecord(event)" ontouchend="stopVoiceRecord(event)"><span class="material-symbols-outlined">mic</span></button><button class="chat-send-btn" onclick="sendChatMessage()"><span class="material-symbols-outlined">send</span></button></div></div></div>
 
     <script>
         function openModal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
@@ -248,52 +213,35 @@
             sessionStorage.setItem("swinder_splashed", "true");
             const spl = document.getElementById('splash-screen'); if(spl) { spl.style.opacity = '0'; setTimeout(() => spl.style.display = 'none', 400); } 
         }
-
         window.isVideo = function(url) { if(!url) return false; return url.match(/\.(mp4|webm|ogg|mov)(\?.*)?$/i) !== null || url.includes('video'); }
-
-        let mediaRecorder; let audioChunks = []; let isRecording = false; let recordTimeout;
-        window.startVoiceRecord = async function(e) {
-            if(e) e.preventDefault(); if(isRecording) return;
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                mediaRecorder = new MediaRecorder(stream);
-                mediaRecorder.start(); isRecording = true; audioChunks = [];
-                document.getElementById('btn-mic').style.transform = 'scale(1.3)';
-                document.getElementById('chat-input').placeholder = "🎤 Kaydediliyor...";
-                mediaRecorder.addEventListener("dataavailable", event => { audioChunks.push(event.data); });
-                recordTimeout = setTimeout(() => { window.stopVoiceRecord(); }, 60000);
-            } catch(err) { alert("Mikrofon izni reddedildi!"); }
-        };
-        window.stopVoiceRecord = function(e) {
-            if(e) e.preventDefault(); if(!isRecording || mediaRecorder.state === "inactive") return;
-            clearTimeout(recordTimeout); mediaRecorder.stop(); isRecording = false;
-            document.getElementById('btn-mic').style.transform = 'scale(1)';
-            document.getElementById('chat-input').placeholder = "Mesaj yaz...";
-            mediaRecorder.addEventListener("stop", () => {
-                let mime = mediaRecorder.mimeType || 'audio/mp4';
-                const audioBlob = new Blob(audioChunks, { type: mime });
-                const reader = new FileReader(); reader.readAsDataURL(audioBlob);
-                reader.onloadend = async function() {
-                    if(!window.activeChatId) return;
-                    await window.sendBase64Message("[SES] " + reader.result, "🎤 Sesli Mesaj");
-                }
-            });
-        };
     </script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, getDocs, query, orderBy, doc, getDoc, setDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, query, orderBy, doc, getDoc, setDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = { apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0", authDomain: "swinder-79534.firebaseapp.com", projectId: "swinder-79534", storageBucket: "swinder-79534.firebasestorage.app", messagingSenderId: "704644873549", appId: "1:704644873549:web:d95f561ec912b94cf2cb04" };
         const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
+
+        // 🔥 YENİ: CLOUDINARY YÜKLEME MOTORU 🔥
+        const CLOUD_NAME = "dv9c3ygco";
+        const UPLOAD_PRESET = "ntc9cq4y";
+        window.uploadMedia = async function(file) {
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", UPLOAD_PRESET);
+            const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, { method: 'POST', body: formData });
+            const data = await res.json();
+            if(data.error) throw new Error(data.error.message);
+            return data.secure_url;
+        }
 
         const safeEncode = (str) => encodeURIComponent(str || '').replace(/'/g, "%27");
         window.globalPosts = []; window.globalUsersById = {}; window.globalUsersByName = {};
         const adminEmail = "kcagatay239@gmail.com"; 
         let currentUserId = null; let isAdmin = false; let currentUserProfile = null;
-        window.activeInteractPostId = null; window.activeShareUrl = null; window.activeChatId = null; let messagesUnsubscribe = null;
+        window.activeInteractPostId = null; window.activeShareUrl = null;
 
         window.logoutApp = async function() { await signOut(auth); window.location.href = "index.html"; }
 
@@ -310,10 +258,9 @@
                         currentUserProfile = { uid: user.uid, following: [], followers: [], birthdate: "", ...snap.data() };
                         const isP = currentUserProfile.isPremium ? ' <span class="material-symbols-outlined vip-badge">workspace_premium</span>' : '';
                         document.getElementById('display-name').innerHTML = safeName + isP; document.getElementById('bio-name').innerHTML = safeName + isP; 
-                        
                         document.getElementById('edit-birthdate').value = currentUserProfile.birthdate || '';
                         
-                        if(currentUserProfile.avatar) { document.getElementById('display-avatar').style.backgroundImage = `url('${currentUserProfile.avatar}')`; document.getElementById('edit-avatar').value = currentUserProfile.avatar; }
+                        if(currentUserProfile.avatar) { document.getElementById('display-avatar').style.backgroundImage = `url('${currentUserProfile.avatar}')`; }
                         if(currentUserProfile.bio) { document.getElementById('bio-text').innerText = currentUserProfile.bio; document.getElementById('edit-bio').value = currentUserProfile.bio; }
                         document.getElementById('follower-count').innerText = (currentUserProfile.followers || []).length; document.getElementById('following-count').innerText = (currentUserProfile.following || []).length;
                     }
@@ -328,10 +275,8 @@
             const postSnap = await getDocs(query(collection(db, "gonderiler"), orderBy("createdAt", "desc"))); window.globalPosts = []; postSnap.forEach(doc => { window.globalPosts.push({ id: doc.id, ...doc.data() }); });
         }
 
-        // 🔥 REELS GERİ GELDİ (PROFİL SAYFASI İÇİN) 🔥
         window.renderReels = function() {
-            const rc = document.getElementById('reels-container'); rc.innerHTML = ''; 
-            if(window.globalPosts.length === 0) { rc.innerHTML = '<div style="color:white; text-align:center; padding-top:50vh;">Gönderi yok.</div>'; return; }
+            const rc = document.getElementById('reels-container'); rc.innerHTML = ''; if(window.globalPosts.length === 0) { rc.innerHTML = '<div style="color:white; text-align:center; padding-top:50vh;">Reels yok.</div>'; return; }
             window.globalPosts.forEach(data => {
                 const pInfo = window.globalUsersByName[data.username] || {}; const av = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100')`; const likedClass = (auth.currentUser && data.likedBy && data.likedBy.includes(auth.currentUser.displayName)) ? 'liked' : ''; const isP = pInfo.isPremium ? ' <span class="material-symbols-outlined vip-badge">workspace_premium</span>' : '';
                 const mediaHtml = window.isVideo(data.imageUrl) ? `<video src="${data.imageUrl}" autoplay loop muted playsinline style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;" ondblclick="toggleLikeDB(this.parentElement.querySelector('.btn-like'), '${data.id}', '${data.username}')"></video>` : `<img src="${data.imageUrl}" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;" ondblclick="toggleLikeDB(this.parentElement.querySelector('.btn-like'), '${data.id}', '${data.username}')"/>`;
@@ -413,7 +358,7 @@
         window.openShareModal = async function() {
             if(!window.activeShareUrl) return; const user = auth.currentUser; if(!user) return; openModal('shareModal');
             const listContainer = document.getElementById('share-list-container'); listContainer.innerHTML = '<div style="text-align:center; padding:20px; color:gray;">Eşleşmeler Yükleniyor...</div>';
-            const snapshot = await getDocs(query(collection(db, "eslesmeler"))); // 🔥 EŞLEŞMELERİ CHAT'TEN ÇEK 🔥
+            const snapshot = await getDocs(query(collection(db, "eslesmeler"))); 
             listContainer.innerHTML = ''; let found = false;
             snapshot.forEach(d => {
                 const match = { id: d.id, ...d.data() }; 
@@ -429,51 +374,39 @@
             if(!window.activeShareUrl || !chatId) return;
             try { await addDoc(collection(db, `eslesmeler/${chatId}/mesajlar`), { senderId: auth.currentUser.uid, text: "[PAYLAŞIM] " + window.activeShareUrl, timestamp: new Date(), read: false }); await updateDoc(doc(db, "eslesmeler", chatId), { lastMessage: "🖼️ Bir gönderi paylaştı.", updatedAt: new Date() }); alert("Paylaşıldı!"); closeModal('shareModal'); } catch(e) {}
         }
-        
-        window.sendBase64Message = async function(base64Text, shortDesc) {
-            if(!window.activeChatId) return;
-            try { await addDoc(collection(db, `eslesmeler/${window.activeChatId}/mesajlar`), { senderId: auth.currentUser.uid, text: base64Text, timestamp: new Date(), read: false }); await updateDoc(doc(db, "eslesmeler", window.activeChatId), { lastMessage: shortDesc, updatedAt: new Date() }); } catch(e) {}
-        }
-        window.sendChatMessage = function() { const input = document.getElementById('chat-input'); const text = input.value.trim(); if(!text) return; input.value = ""; window.sendBase64Message(text, text); }
-        window.deleteChatRoom = async function() { if(!window.activeChatId) return; if(confirm("Sohbeti kalıcı olarak silmek istediğine emin misin?")) { try { await deleteDoc(doc(db, "eslesmeler", window.activeChatId)); closeModal('chatRoomModal'); window.openMessages(); } catch(e) {} } }
-        
-        window.openChatRoom = function(chatId, partnerName, partnerImg, partnerUid) { 
-            closeModal('messagesModal'); window.activeChatId = chatId; document.getElementById('chat-header-name').innerText = partnerName; document.getElementById('chat-header-avatar').style.backgroundImage = `url('${partnerImg.replace(/'/g, "\\'")}')`; openModal('chatRoomModal'); 
-            const chatArea = document.getElementById('chat-messages'); chatArea.innerHTML = '<div style="color:gray; text-align:center; margin-top:20px;">Mesajlar yükleniyor...</div>'; 
-            if(messagesUnsubscribe) messagesUnsubscribe(); 
-            try {
-                messagesUnsubscribe = onSnapshot(query(collection(db, `eslesmeler/${chatId}/mesajlar`), orderBy("timestamp", "asc")), (snapshot) => { 
-                    chatArea.innerHTML = ''; let msgs = []; const myUid = auth.currentUser ? auth.currentUser.uid : null; if(!myUid) return;
-                    snapshot.forEach(docSnap => { 
-                        let m = docSnap.data(); m.id = docSnap.id; msgs.push(m);
-                        if(m.senderId !== myUid && !m.read) { updateDoc(doc(db, `eslesmeler/${chatId}/mesajlar/${docSnap.id}`), { read: true }).catch(e=>{}); }
-                    }); 
-                    if(msgs.length === 0) { chatArea.innerHTML = '<div style="color:gray; text-align:center; margin-top:20px;">İlk mesajı sen gönder!</div>'; return; }
-                    let lastMyMsgId = null; for(let i=msgs.length-1; i>=0; i--) { if(msgs[i].senderId === myUid) { lastMyMsgId = msgs[i].id; break; } }
-                    msgs.forEach(msg => { 
-                        const isMine = msg.senderId === myUid; let timeStr = "";
-                        try { if(msg.timestamp && msg.timestamp.toDate) timeStr = msg.timestamp.toDate().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}); } catch(e) {}
-                        let displayMsg = msg.text || "";
-                        if(displayMsg.startsWith("[PAYLAŞIM] ")) { const url = displayMsg.replace("[PAYLAŞIM] ", ""); if(window.isVideo(url)) displayMsg = `<video src="${url}" autoplay loop muted playsinline style="width:100%; border-radius:12px;"></video><div style="font-size:11px; margin-top:5px; color:var(--primary-gold); text-align:center;">Gönderi Paylaşıldı</div>`; else displayMsg = `<img src="${url}" style="width:100%; border-radius:12px;"/><div style="font-size:11px; margin-top:5px; color:var(--primary-gold); text-align:center;">Gönderi Paylaşıldı</div>`; } else if(displayMsg.startsWith("[SES] ")) { displayMsg = `<audio controls src="${displayMsg.replace('[SES] ', '')}" style="height:35px; width:200px; outline:none;"></audio>`; }
-                        let seenHtml = (isMine && msg.id === lastMyMsgId && msg.read) ? `<div style="font-size:10px; color:#3498db; text-align:right; margin-top:4px;">Görüldü ✓✓</div>` : '';
-                        chatArea.insertAdjacentHTML('beforeend', `<div class="chat-msg ${isMine ? 'mine' : 'theirs'}"><div class="chat-bubble">${displayMsg}</div><div class="chat-time">${timeStr}</div>${seenHtml}</div>`); 
-                    }); 
-                    chatArea.scrollTop = chatArea.scrollHeight; 
-                }, (error) => { chatArea.innerHTML = '<div style="color:#ff4757; text-align:center; margin-top:20px;">Bağlantı koptu.</div>'; }); 
-            } catch(err) { chatArea.innerHTML = '<div style="color:#ff4757; text-align:center; margin-top:20px;">Mesajlar yüklenemedi.</div>'; }
-        }
 
         window.editPostDB = async function() { if(!window.activeInteractPostId) return; const currentCaption = document.getElementById('pd-caption').innerText; const newCaption = prompt("Açıklamayı düzenle:", currentCaption); if(newCaption !== null) { await updateDoc(doc(db, "gonderiler", window.activeInteractPostId), { caption: newCaption }); document.getElementById('pd-caption').innerText = newCaption; const p = window.globalPosts.find(x => x.id === window.activeInteractPostId); if(p) p.caption = newCaption; window.renderProfileGrid(); } }
         window.deletePostDB = async function() { if(!window.activeInteractPostId) return; if(confirm("Gönderiyi silmek istediğine emin misin?")) { await deleteDoc(doc(db, "gonderiler", window.activeInteractPostId)); closeModal('postDetailModal'); await loadAllData(); window.renderProfileGrid(); } }
         window.grantPremium = async function() { if(!isAdmin) return; const tName = document.getElementById('admin-target-user').value.trim(); if(!tName) return alert("Kullanıcı adı girin."); const usersSnap = await getDocs(collection(db, "kullanicilar")); let targetUid = null; usersSnap.forEach(d => { if(d.data().displayName === tName) targetUid = d.id; }); if(!targetUid) return alert("Kullanıcı bulunamadı!"); try { await updateDoc(doc(db, "kullanicilar", targetUid), { isPremium: true }); alert(tName + " VIP yapıldı!"); closeModal('adminModal'); } catch(e) { alert("Hata."); } }
 
-        document.getElementById('btn-submit-post').addEventListener('click', async () => { const user = auth.currentUser; if (!user) return; const imageUrl = document.getElementById('add-image').value; const caption = document.getElementById('add-caption').value; if (!imageUrl) return; document.getElementById('btn-submit-post').innerText = "Yükleniyor..."; try { await addDoc(collection(db, "gonderiler"), { imageUrl, caption, username: user.displayName, likesCount: 0, createdAt: new Date() }); closeModal('addModal'); document.getElementById('add-image').value = ""; await loadAllData(); window.renderExploreGrid(); } catch (err) {} finally { document.getElementById('btn-submit-post').innerText = "Paylaş"; }});
+        // 🔥 PROFİL: CLOUDINARY ENTEGRELİ PAYLAŞIM VE PROFİL DÜZENLEME 🔥
+        document.getElementById('btn-submit-post').addEventListener('click', async () => { 
+            const user = auth.currentUser; if (!user) return; 
+            const fileInput = document.getElementById('add-image-file'); const file = fileInput.files[0];
+            const caption = document.getElementById('add-caption').value; 
+            if (!file) return alert("Lütfen galeriden bir fotoğraf veya video seçin!"); 
+            const btn = document.getElementById('btn-submit-post'); btn.innerText = "Yükleniyor (Bekleyin)..."; 
+            try { 
+                const imageUrl = await window.uploadMedia(file);
+                await addDoc(collection(db, "gonderiler"), { imageUrl, caption, username: user.displayName, likesCount: 0, createdAt: new Date() }); 
+                closeModal('addModal'); fileInput.value = ""; document.getElementById('add-caption').value = ""; await loadAllData(); renderProfileGrid(); 
+            } catch (err) { alert("Hata: " + err.message); } finally { btn.innerText = "Paylaş"; }
+        });
         
         document.getElementById('btn-save-profile').addEventListener('click', async () => {
             if(!currentUserId) return; const btn = document.getElementById('btn-save-profile'); btn.innerText = "Kaydediliyor...";
-            const newUsername = document.getElementById('edit-username').value.trim(); const avatar = document.getElementById('edit-avatar').value; const bio = document.getElementById('edit-bio').value; const bdate = document.getElementById('edit-birthdate').value;
+            const newUsername = document.getElementById('edit-username').value.trim(); 
+            const fileInput = document.getElementById('edit-avatar-file'); const file = fileInput.files[0];
+            const bio = document.getElementById('edit-bio').value; const bdate = document.getElementById('edit-birthdate').value;
             if(!newUsername) { alert("Kullanıcı adı boş bırakılamaz!"); btn.innerText = "Kaydet"; return; }
-            try { const userRef = doc(db, "kullanicilar", currentUserId); const userSnap = await getDoc(userRef); const userData = userSnap.exists() ? userSnap.data() : {}; let updates = { avatar, bio, birthdate: bdate }; if (newUsername !== auth.currentUser.displayName) { if (!isAdmin && userData.lastUsernameChangeDate) { const diffDays = Math.abs(new Date() - new Date(userData.lastUsernameChangeDate)) / (1000 * 60 * 60 * 24); if (diffDays < 14) { alert(`14 günde bir isim değiştirebilirsiniz. Kalan: ${Math.ceil(14 - diffDays)} gün.`); btn.innerText = "Kaydet"; return; } } await updateProfile(auth.currentUser, { displayName: newUsername }); updates.displayName = newUsername; updates.lastUsernameChangeDate = new Date().toISOString(); } await setDoc(userRef, updates, { merge: true }); closeModal('profileEditModal'); window.location.reload(); } catch (error) { alert("Hata: " + error.message); btn.innerText = "Kaydet"; }
+            try { 
+                const userRef = doc(db, "kullanicilar", currentUserId); const userSnap = await getDoc(userRef); const userData = userSnap.exists() ? userSnap.data() : {}; 
+                let finalAvatarUrl = userData.avatar || "";
+                if(file) { btn.innerText = "Fotoğraf Yükleniyor..."; finalAvatarUrl = await window.uploadMedia(file); }
+                let updates = { avatar: finalAvatarUrl, bio, birthdate: bdate }; 
+                if (newUsername !== auth.currentUser.displayName) { if (!isAdmin && userData.lastUsernameChangeDate) { const diffDays = Math.abs(new Date() - new Date(userData.lastUsernameChangeDate)) / (1000 * 60 * 60 * 24); if (diffDays < 14) { alert(`14 günde bir isim değiştirebilirsiniz. Kalan: ${Math.ceil(14 - diffDays)} gün.`); btn.innerText = "Kaydet"; return; } } await updateProfile(auth.currentUser, { displayName: newUsername }); updates.displayName = newUsername; updates.lastUsernameChangeDate = new Date().toISOString(); } 
+                await setDoc(userRef, updates, { merge: true }); closeModal('profileEditModal'); window.location.reload(); 
+            } catch (error) { alert("Hata: " + error.message); btn.innerText = "Kaydet"; }
         });
     </script>
 </body>
