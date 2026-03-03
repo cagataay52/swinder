@@ -68,14 +68,15 @@
         .action-btn { width: 60px; height: 60px; border-radius: 50%; background: rgba(20,20,25,0.6); backdrop-filter: blur(15px); border: var(--glass-border); display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s;}
         .btn-dislike { color: #ff4757; } .btn-superlike { width: 50px; height: 50px; color: #3498db; } .btn-like { color: #2ecc71; }
 
-        /* 🔥 ALT MENÜ VE PWA OPTİMİZASYONU 🔥 */
-        .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 10, 12, 0.85); backdrop-filter: blur(20px); padding: 12px 10px calc(12px + env(safe-area-inset-bottom)); border-top: var(--glass-border); z-index: 999;}
+        /* 🔥 ALT MENÜ BOŞLUĞU İYİLEŞTİRİLDİ 🔥 */
+        .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 10, 12, 0.85); backdrop-filter: blur(20px); padding: 10px 10px calc(8px + env(safe-area-inset-bottom)); border-top: var(--glass-border); z-index: 999;}
         .nav-icon-btn { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .nav-icon-btn .material-symbols-outlined { font-size: 30px; }
         .nav-icon-btn.active { color: white; }
         .nav-icon-btn.add-btn { background: linear-gradient(135deg, #d4af37, #aa8529); color: #000; width: 44px; height: 44px; border-radius: 12px;}
         .nav-icon-btn.add-btn .material-symbols-outlined { color: #000; font-weight: 600;}
 
+        /* MODALLAR VE ORTAK UI */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: 0.3s; z-index: 1500; padding: 15px; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .close-btn { position: absolute; top: calc(15px + env(safe-area-inset-top)); right: 15px; background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 50; display: flex; align-items: center; justify-content: center;}
@@ -86,6 +87,7 @@
         .form-group input, .form-group textarea { width: 100%; padding: 14px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; outline: none; font-size: 14px;}
         .btn-premium { background: var(--primary-gold); color: #000; padding: 14px; border-radius: 12px; font-weight: 700; width: 100%; border: none; cursor: pointer; font-size: 15px;}
 
+        /* VIP ORTALANMIŞ GİRİŞ EKRANI */
         .auth-box { background: rgba(15, 15, 20, 0.85); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 35px; padding: 40px 30px; width: 100%; max-width: 380px; text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.05); transform: scale(0.9); transition: all 0.4s ease; margin: auto;}
         .modal-overlay.active .auth-box { transform: scale(1); }
         .auth-tabs { display: flex; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
@@ -94,7 +96,6 @@
         .auth-form { display: none; } .auth-form.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 🔥 MODAL (BOTTOM SHEET) PWA UYUMU 🔥 */
         .bottom-sheet { background: #121214; width: 100%; height: 90vh; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.4s; display: flex; flex-direction: column; overflow: hidden; padding-bottom: env(safe-area-inset-bottom);}
         .modal-overlay.active .bottom-sheet { transform: translateY(0); }
         .sheet-header { padding: 20px; border-bottom: var(--glass-border); display: flex; align-items: center; gap: 15px; font-size: 16px; font-weight: 600; z-index: 10; background: rgba(10,10,12,0.95);}
@@ -102,6 +103,7 @@
         .list-avatar { width: 48px; height: 48px; border-radius: 50%; background: #222; background-size: cover; background-position: center; flex-shrink: 0;}
         .list-text { flex: 1; font-size: 14px; line-height: 1.4;}
 
+        /* REELS */
         .reels-box { background: #000; width: 100%; height: 100dvh; position: relative; transform: translateY(100%); transition: 0.4s; overflow-y: scroll; scroll-snap-type: y mandatory; }
         .modal-overlay.active .reels-box { transform: translateY(0); }
         .reel-item { width: 100%; height: 100dvh; scroll-snap-align: start; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center;}
@@ -115,7 +117,7 @@
         .reel-action-btn { background: none; border: none; color: white; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));}
         .reel-action-btn.liked .material-symbols-outlined { color: #ff3040; font-variation-settings: 'FILL' 1; }
 
-        /* 🔥 INSTAGRAM KEŞFET GRID MANTIĞI 🔥 */
+        /* KEŞFET */
         .search-input { flex: 1; background: rgba(255,255,255,0.1); border: none; color: white; padding: 12px 20px; border-radius: 30px; outline: none; font-size: 14px;}
         .explore-users-container { display: none; max-height: 250px; overflow-y: auto; border-bottom: var(--glass-border); }
         .explore-scroll-area { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
@@ -232,9 +234,12 @@
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 25px; padding:15px; background:rgba(0,0,0,0.5); border-radius:12px; border:1px solid rgba(212,175,55,0.2);">
                 <div>
                     <strong style="color:white; display:block;">Hayalet Modu (Ghost)</strong>
-                    <span style="font-size:12px; color:gray;">Sadece sağa kaydırdığın kişiler seni görebilir. (💎)</span>
+                    <span style="font-size:12px; color:gray;">Sadece sağa kaydırdığın kişiler seni görebilir. Sadece VIP (💎) özel.</span>
                 </div>
-                <label class="switch"><input type="checkbox" id="ghost-mode-toggle"><span class="slider"></span></label>
+                <label class="switch">
+                    <input type="checkbox" id="ghost-mode-toggle">
+                    <span class="slider"></span>
+                </label>
             </div>
             <button class="btn-premium" onclick="savePreferences()" style="margin-bottom: 10px;">Kaydet ve Yenile</button>
             <button onclick="requestPushPermission()" style="background:rgba(255,255,255,0.1); color:white; border:none; padding:12px; border-radius:12px; font-weight:600; width:100%; cursor:pointer;">Bildirimlere İzin Ver 🔔</button>
@@ -243,7 +248,21 @@
 
     <div class="modal-overlay" id="messagesModal"><div class="bottom-sheet"><div class="sheet-header"><button class="header-icon" onclick="closeModal('messagesModal')"><span class="material-symbols-outlined">arrow_back</span></button>Mesajlar</div><div style="flex:1; overflow-y:auto;" id="dm-list-container"></div></div></div>
     
-    <div class="modal-overlay" id="chatRoomModal" style="z-index: 1600;"><div class="bottom-sheet" style="height: 100dvh; border-radius: 0;"><div class="sheet-header"><button class="header-icon" onclick="closeModal('chatRoomModal'); openMessages();"><span class="material-symbols-outlined">arrow_back</span></button><div style="display:flex; align-items:center; gap:10px;"><div id="chat-header-avatar" style="width:36px; height:36px; border-radius:50%; background-size:cover; border:2px solid var(--primary-gold);"></div><span id="chat-header-name">Kullanıcı</span></div><button class="header-icon" style="margin-left:auto; color:#ff4757;" onclick="deleteChatRoom()"><span class="material-symbols-outlined">delete</span></button></div><div class="chat-area" id="chat-messages"></div><div class="chat-input-container"><input type="text" id="chat-input" class="chat-input" placeholder="Mesaj yaz..." onkeypress="if(event.key === 'Enter') sendChatMessage()"><button class="chat-send-btn" id="btn-mic" style="background:#ff3040; color:white;" onmousedown="startVoiceRecord(event)" onmouseup="stopVoiceRecord(event)" ontouchstart="startVoiceRecord(event)" ontouchend="stopVoiceRecord(event)"><span class="material-symbols-outlined">mic</span></button><button class="chat-send-btn" onclick="sendChatMessage()"><span class="material-symbols-outlined">send</span></button></div></div></div>
+    <div class="modal-overlay" id="chatRoomModal" style="z-index: 1600;">
+        <div class="bottom-sheet" style="height: 100dvh; border-radius: 0;">
+            <div class="sheet-header" style="padding-top: calc(15px + env(safe-area-inset-top));">
+                <button class="header-icon" onclick="closeModal('chatRoomModal'); openMessages();"><span class="material-symbols-outlined">arrow_back</span></button>
+                <div style="display:flex; align-items:center; gap:10px;"><div id="chat-header-avatar" style="width:36px; height:36px; border-radius:50%; background-size:cover; border:2px solid var(--primary-gold);"></div><span id="chat-header-name">Kullanıcı</span></div>
+                <button class="header-icon" style="margin-left:auto; color:#ff4757;" onclick="deleteChatRoom()"><span class="material-symbols-outlined">delete</span></button>
+            </div>
+            <div class="chat-area" id="chat-messages"></div>
+            <div class="chat-input-container">
+                <input type="text" id="chat-input" class="chat-input" placeholder="Mesaj yaz..." onkeypress="if(event.key === 'Enter') sendChatMessage()">
+                <button class="chat-send-btn" id="btn-mic" style="background:#ff3040; color:white;" onmousedown="startVoiceRecord(event)" onmouseup="stopVoiceRecord(event)" ontouchstart="startVoiceRecord(event)" ontouchend="stopVoiceRecord(event)"><span class="material-symbols-outlined">mic</span></button>
+                <button class="chat-send-btn" onclick="sendChatMessage()"><span class="material-symbols-outlined">send</span></button>
+            </div>
+        </div>
+    </div>
     
     <div class="modal-overlay" id="notificationsModal"><div class="bottom-sheet"><div class="sheet-header"><button class="header-icon" onclick="closeModal('notificationsModal')"><span class="material-symbols-outlined">arrow_back</span></button> Bildirimler</div><div style="flex:1; overflow-y:auto;" id="noti-list"></div></div></div>
     
@@ -260,10 +279,25 @@
 
     <div class="modal-overlay" id="userProfileModal" style="z-index: 1550;">
         <div class="bottom-sheet">
-            <div class="sheet-header"><button class="header-icon" onclick="closeModal('userProfileModal')"><span class="material-symbols-outlined">arrow_back</span></button><span id="up-title" style="font-weight:bold;">Profil</span></div>
-            <div class="up-header-top"><div class="up-avatar-container"><div class="up-avatar" id="up-avatar"></div></div><div class="up-stats"><div class="up-stat-item"><span id="up-post-count">0</span>Gönderi</div><div class="up-stat-item"><span id="up-follower-count">0</span>Takipçi</div><div class="up-stat-item"><span id="up-following-count">0</span>Takip</div></div></div>
-            <div class="up-bio-container"><div class="up-name" id="up-name">-</div><div class="up-bio" id="up-bio">-</div></div>
-            <div class="up-actions"><button id="btn-follow-user" class="btn-up-action btn-follow" onclick="toggleFollowDB(this)">Takip Et</button></div>
+            <div class="sheet-header">
+                <button class="header-icon" onclick="closeModal('userProfileModal')"><span class="material-symbols-outlined">arrow_back</span></button>
+                <span id="up-title" style="font-weight:bold;">Profil</span>
+            </div>
+            <div class="up-header-top">
+                <div class="up-avatar-container"><div class="up-avatar" id="up-avatar"></div></div>
+                <div class="up-stats">
+                    <div class="up-stat-item"><span id="up-post-count">0</span>Gönderi</div>
+                    <div class="up-stat-item"><span id="up-follower-count">0</span>Takipçi</div>
+                    <div class="up-stat-item"><span id="up-following-count">0</span>Takip</div>
+                </div>
+            </div>
+            <div class="up-bio-container">
+                <div class="up-name" id="up-name">-</div>
+                <div class="up-bio" id="up-bio">-</div>
+            </div>
+            <div class="up-actions">
+                <button id="btn-follow-user" class="btn-up-action btn-follow" onclick="toggleFollowDB(this)">Takip Et</button>
+            </div>
             <div class="explore-scroll-area" style="border-top: var(--glass-border); padding-top: 2px;"><div class="grid-view" id="up-grid"></div></div>
         </div>
     </div>
@@ -284,7 +318,9 @@
     </div>
 
     <div class="modal-overlay" id="commentsModal" style="z-index: 1700;"><div class="bottom-sheet" style="height: 70vh;"><div class="sheet-header"><button class="header-icon" onclick="closeModal('commentsModal')"><span class="material-symbols-outlined">close</span></button> Yorumlar</div><div style="flex:1; overflow-y:auto; padding:15px; display:flex; flex-direction:column; gap:15px;" id="comments-list"></div><div class="chat-input-container"><input type="text" id="new-comment-input" placeholder="Yorum ekle..." class="chat-input"><button onclick="submitComment()" style="background:none; border:none; color:var(--primary-gold); font-weight:bold; padding:0 10px; cursor:pointer;">Paylaş</button></div></div></div>
-    <div class="modal-overlay" id="reelsModal" style="padding:0; background: #000;"><button class="close-btn" onclick="closeModal('reelsModal')" style="z-index: 1000; top: 20px; right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button><div class="reels-box" id="reels-container"></div></div>
+    
+    <div class="modal-overlay" id="reelsModal" style="padding:0; background: #000;"><button class="close-btn" onclick="closeModal('reelsModal')" style="z-index: 1000; top: calc(20px + env(safe-area-inset-top)); right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button><div class="reels-box" id="reels-container"></div></div>
+    
     <div class="match-overlay" id="matchOverlay"><div class="match-title">Eşleştiniz!</div><div class="match-avatars"><div class="m-avatar left" id="match-my-avatar"></div><div class="m-avatar right" id="match-their-avatar"></div></div><div style="color: white; font-size: 16px; margin-bottom: 30px;" id="match-text"></div><div style="display:flex; flex-direction:column; gap:15px;"><button class="btn-msg" id="btn-match-msg"><span class="material-symbols-outlined">send</span> Mesaj Gönder</button><button class="btn-keep" onclick="closeMatch()">Devam Et</button></div></div>
     <div class="modal-overlay" id="shareModal" style="z-index: 1750;"><div class="bottom-sheet" style="height: 60vh;"><div class="sheet-header"><button class="header-icon" onclick="closeModal('shareModal')"><span class="material-symbols-outlined">close</span></button> Kime Gönderilsin?</div><div style="flex:1; overflow-y:auto;" id="share-list-container"></div></div></div>
 
@@ -360,7 +396,11 @@
         window.globalUsersById = {}; window.globalUsersByName = {}; window.globalPosts = []; let currentUserProfile = null;
         window.activeInteractPostId = null; window.activeInteractOwner = null; window.activeInteractStoryId = null; window.activeStoryOwner = null; window.activeShareUrl = null; window.activeChatId = null; let messagesUnsubscribe = null;
 
-        function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) { const R = 6371; const dLat = (lat2-lat1)*(Math.PI/180); const dLon = (lon2-lon1)*(Math.PI/180); const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1*(Math.PI/180)) * Math.cos(lat2*(Math.PI/180)) * Math.sin(dLon/2) * Math.sin(dLon/2); return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))); }
+        function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+            const R = 6371; const dLat = (lat2-lat1)*(Math.PI/180); const dLon = (lon2-lon1)*(Math.PI/180);
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1*(Math.PI/180)) * Math.cos(lat2*(Math.PI/180)) * Math.sin(dLon/2) * Math.sin(dLon/2);
+            return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+        }
 
         document.getElementById('btn-login').addEventListener('click', async () => { try { await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-pass').value); window.location.reload(); } catch (err) { alert(err.message); }});
         
@@ -486,22 +526,6 @@
             });
         }
         window.performSearch = () => window.renderExploreGrid();
-
-        window.openUserProfile = function(username) {
-            let pInfo = window.globalUsersByName[username] || {}; const isV = pInfo.isVerified || username.toLowerCase().includes('çağatay'); const isP = pInfo.isPremium ? ' <span class="material-symbols-outlined vip-badge">workspace_premium</span>' : ''; 
-            document.getElementById('up-title').innerText = username; document.getElementById('up-name').innerHTML = `${username} ${isV ? '<span class="gold-tick" style="display:inline-flex;">✓</span>' : ''} ${isP}`; 
-            document.getElementById('up-bio').innerText = pInfo.bio || 'Swinder VIP Üyesi'; document.getElementById('up-avatar').style.backgroundImage = pInfo.avatar ? `url('${pInfo.avatar.replace(/'/g, "\\'")}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=200')`;
-            const userPosts = window.globalPosts.filter(p => p.username === username); document.getElementById('up-post-count').innerText = userPosts.length; document.getElementById('up-follower-count').innerText = (pInfo.followers || []).length; document.getElementById('up-following-count').innerText = (pInfo.following || []).length;
-            const btnFollow = document.getElementById('btn-follow-user'); if(auth.currentUser && auth.currentUser.displayName === username) { btnFollow.style.display = 'none'; } else { btnFollow.style.display = 'block'; if(currentUserProfile && currentUserProfile.following && currentUserProfile.following.includes(pInfo.uid)) { btnFollow.classList.add('following'); btnFollow.innerText="Takibi Bırak"; btnFollow.style.background="rgba(255,255,255,0.15)"; btnFollow.style.color="white"; } else { btnFollow.classList.remove('following'); btnFollow.innerText="Takip Et"; btnFollow.style.background="var(--primary-gold)"; btnFollow.style.color="black"; } }
-            const upGrid = document.getElementById('up-grid'); upGrid.innerHTML = ''; if(userPosts.length === 0) upGrid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 30px; font-size:13px;">Gönderi yok.</div>'; userPosts.forEach(p => { const dataStr = safeEncode(JSON.stringify(p)); const isVid = window.isVideo(p.imageUrl); const bgUrl = isVid ? 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400' : p.imageUrl; const iconHtml = isVid ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : ''; upGrid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${bgUrl.replace(/'/g, "\\'")}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')">${iconHtml}</div>`); }); openModal('userProfileModal');
-        }
-
-        window.toggleFollowDB = async function(btnElement) {
-            const user = auth.currentUser; if(!user) return; const tName = document.getElementById('up-title').innerText; const targetUser = window.globalUsersByName[tName]; if(!targetUser) return;
-            const isFollowing = btnElement.classList.contains('following'); const myRef = doc(db, "kullanicilar", user.uid); const targetRef = doc(db, "kullanicilar", targetUser.uid); const countEl = document.getElementById('up-follower-count'); let count = countEl ? parseInt(countEl.innerText) : 0;
-            if(isFollowing) { btnElement.classList.remove('following'); btnElement.innerText = "Takip Et"; btnElement.style.background = "var(--primary-gold)"; btnElement.style.color = "black"; if(countEl) countEl.innerText = count - 1; await updateDoc(myRef, { following: arrayRemove(targetUser.uid) }); await updateDoc(targetRef, { followers: arrayRemove(user.uid) }); if(currentUserProfile && currentUserProfile.following) currentUserProfile.following = currentUserProfile.following.filter(id => id !== targetUser.uid); } 
-            else { btnElement.classList.add('following'); btnElement.innerText = "Takibi Bırak"; btnElement.style.background = "rgba(255,255,255,0.15)"; btnElement.style.color = "white"; if(countEl) countEl.innerText = count + 1; await updateDoc(myRef, { following: arrayUnion(targetUser.uid) }); await updateDoc(targetRef, { followers: arrayUnion(user.uid) }); if(currentUserProfile) { if(!currentUserProfile.following) currentUserProfile.following=[]; currentUserProfile.following.push(targetUser.uid); } }
-        }
 
         const swipeContainer = document.getElementById('swipe-container'); 
         function loadProfilesForDeck() { 

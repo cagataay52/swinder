@@ -24,7 +24,7 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; -webkit-tap-highlight-color: transparent;}
         :root { --primary-gold: #d4af37; --text-light: #f5f5f7; --glass-bg: rgba(20, 20, 25, 0.45); --glass-border: 1px solid rgba(255, 255, 255, 0.08); }
-        /* 🔥 ALT BOŞLUK (PADDİNG) DÜZELTİLDİ 🔥 */
+        /* 🔥 PWA İÇİN ALT BOŞLUK DÜZELTİLDİ 🔥 */
         body { background: #050505; color: var(--text-light); overflow-x: hidden; padding-bottom: calc(70px + env(safe-area-inset-bottom)); }
 
         #splash-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #050505; z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease, visibility 0.5s; }
@@ -46,13 +46,13 @@
         .profile-actions { padding: 0 20px; margin-bottom: 20px; }
         .btn-edit { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: var(--glass-border); color: var(--text-light); padding: 10px 0; border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.3s; width: 100%; text-align: center; }
         
-        /* 🔥 INSTAGRAM BİREBİR KUSURSUZ KARE GRID SİSTEMİ 🔥 */
+        /* 🔥 INSTAGRAM BİREBİR KUSURSUZ KARE SİSTEMİ 🔥 */
         .profile-grid, .grid-view { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; width: 100%; margin-top: 2px;}
         .grid-item { width: 100%; height: 0; padding-bottom: 100%; position: relative; background-color: #1a1a1a; background-size: cover; background-position: center; cursor: pointer;}
         .grid-video-icon { position:absolute; top:8px; right:8px; color:white; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8)); font-size: 22px;}
 
         /* 🔥 ALT MENÜ VE PWA OPTİMİZASYONU 🔥 */
-        .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 10, 12, 0.85); backdrop-filter: blur(20px); padding: 12px 10px calc(12px + env(safe-area-inset-bottom)); border-top: var(--glass-border); z-index: 999; }
+        .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 10, 12, 0.85); backdrop-filter: blur(20px); padding: 10px 10px calc(8px + env(safe-area-inset-bottom)); border-top: var(--glass-border); z-index: 999; }
         .nav-icon-btn { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .nav-icon-btn .material-symbols-outlined { font-size: 30px; }
         .nav-icon-btn.active { color: white; }
@@ -61,8 +61,8 @@
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .close-btn { position: absolute; top: calc(15px + env(safe-area-inset-top)); right: 15px; background: rgba(255,255,255,0.1); border: none; color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 50; display: flex; justify-content: center; align-items: center;}
         
-        /* 🔥 BOTTOM SHEET PWA UYUMU 🔥 */
-        .bottom-sheet { background: #121214; width: 100%; height: auto; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.4s; display: flex; flex-direction: column; overflow: hidden; padding-bottom: env(safe-area-inset-bottom);}
+        /* 🔥 BOTTOM SHEET %90 EKRAN SABİTLENDİ (ÇEYREK EKRAN HATASI ÇÖZÜLDÜ) 🔥 */
+        .bottom-sheet { background: #121214; width: 100%; height: 90vh; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.4s; display: flex; flex-direction: column; overflow: hidden; padding-bottom: env(safe-area-inset-bottom);}
         .modal-overlay.active .bottom-sheet { transform: translateY(0); }
         
         .sheet-header { padding: 20px; border-bottom: var(--glass-border); display: flex; align-items: center; gap: 15px; font-size: 16px; font-weight: 600; background:rgba(10,10,12,0.95); z-index:10;}
@@ -116,6 +116,7 @@
         </div>
         <div class="profile-bio"><strong id="bio-name">-</strong><br><span id="bio-text" style="color:gray;">Biyografi yükleniyor...</span></div>
         <div class="profile-actions"><button class="btn-edit" onclick="openModal('profileEditModal')">Profili Düzenle</button></div>
+        
         <div class="profile-grid" id="my-posts"></div>
     </main>
 
@@ -123,7 +124,7 @@
         <button class="nav-icon-btn" onclick="window.location.assign('index.html')"><span class="material-symbols-outlined">home</span></button>
         <button class="nav-icon-btn" onclick="openExplore()"><span class="material-symbols-outlined">search</span></button>
         <button class="nav-icon-btn" style="background: linear-gradient(135deg, #d4af37, #aa8529); color: #000; width: 44px; height: 44px; border-radius: 12px; display: flex; justify-content: center; align-items: center;" onclick="openModal('addModal')"><span class="material-symbols-outlined" style="font-weight:600; font-size:28px;">add</span></button>
-        <button class="nav-icon-btn" onclick="window.location.assign('index.html')"><span class="material-symbols-outlined">movie</span></button>
+        <button class="nav-icon-btn" onclick="openReels()"><span class="material-symbols-outlined">movie</span></button>
         <button class="nav-icon-btn active"><span class="material-symbols-outlined">person</span></button>
     </nav>
 
@@ -198,7 +199,11 @@
         window.openExplore = () => { openModal('exploreModal'); if(window.renderExploreGrid) window.renderExploreGrid(); }
 
         const fallbackTimer = setTimeout(() => { hideSplash(); }, 2000);
-        function hideSplash() { clearTimeout(fallbackTimer); const spl = document.getElementById('splash-screen'); if(spl) { spl.style.opacity = '0'; setTimeout(() => spl.style.display = 'none', 400); } }
+        function hideSplash() { 
+            clearTimeout(fallbackTimer);
+            sessionStorage.setItem("swinder_splashed", "true");
+            const spl = document.getElementById('splash-screen'); if(spl) { spl.style.opacity = '0'; setTimeout(() => spl.style.display = 'none', 400); } 
+        }
 
         window.isVideo = function(url) { if(!url) return false; return url.match(/\.(mp4|webm|ogg|mov)(\?.*)?$/i) !== null || url.includes('video'); }
     </script>
@@ -215,7 +220,7 @@
         window.globalPosts = []; window.globalUsersById = {}; window.globalUsersByName = {};
         const adminEmail = "kcagatay239@gmail.com"; 
         let currentUserId = null; let isAdmin = false; let currentUserProfile = null;
-        window.activeInteractPostId = null;
+        window.activeInteractPostId = null; window.activeShareUrl = null;
 
         window.logoutApp = async function() { await signOut(auth); window.location.href = "index.html"; }
 
@@ -298,7 +303,7 @@
         }
 
         window.openPostDetail = function(postId, dataStr) {
-            const data = JSON.parse(decodeURIComponent(dataStr)); window.activeInteractPostId = postId;
+            const data = JSON.parse(decodeURIComponent(dataStr)); window.activeInteractPostId = postId; window.activeShareUrl = data.imageUrl; 
             const mediaContainer = document.getElementById('pd-media-container');
             if(window.isVideo(data.imageUrl)) { mediaContainer.innerHTML = `<video src="${data.imageUrl}" autoplay loop playsinline controls style="max-width:100%; max-height:100%; position:relative; z-index:1;"></video>`; document.getElementById('pd-blur').style.backgroundImage = 'none'; } else { mediaContainer.innerHTML = `<img src="${data.imageUrl}" style="max-width:100%; max-height:100%; object-fit:contain; position:relative; z-index:1;" />`; document.getElementById('pd-blur').style.backgroundImage = `url('${data.imageUrl.replace(/'/g, "\\'")}')`; }
             const isP = window.globalUsersByName[data.username]?.isPremium ? ' <span class="material-symbols-outlined vip-badge">workspace_premium</span>' : ''; 
@@ -318,7 +323,7 @@
         window.deletePostDB = async function() { if(!window.activeInteractPostId) return; if(confirm("Gönderiyi silmek istediğine emin misin?")) { await deleteDoc(doc(db, "gonderiler", window.activeInteractPostId)); closeModal('postDetailModal'); await loadAllData(); window.renderProfileGrid(); } }
         window.grantPremium = async function() { if(!isAdmin) return; const tName = document.getElementById('admin-target-user').value.trim(); if(!tName) return alert("Kullanıcı adı girin."); const usersSnap = await getDocs(collection(db, "kullanicilar")); let targetUid = null; usersSnap.forEach(d => { if(d.data().displayName === tName) targetUid = d.id; }); if(!targetUid) return alert("Kullanıcı bulunamadı!"); try { await updateDoc(doc(db, "kullanicilar", targetUid), { isPremium: true }); alert(tName + " VIP yapıldı!"); closeModal('adminModal'); } catch(e) { alert("Hata."); } }
 
-        document.getElementById('btn-submit-post').addEventListener('click', async () => { const user = auth.currentUser; if (!user) return; const imageUrl = document.getElementById('add-image').value; const caption = document.getElementById('add-caption').value; if (!imageUrl) return; document.getElementById('btn-submit-post').innerText = "Yükleniyor..."; try { await addDoc(collection(db, "gonderiler"), { imageUrl, caption, username: user.displayName, likesCount: 0, createdAt: new Date() }); closeModal('addModal'); document.getElementById('add-image').value = ""; await loadAllData(); renderProfileGrid(); } catch (err) {} finally { document.getElementById('btn-submit-post').innerText = "Paylaş"; }});
+        document.getElementById('btn-submit-post').addEventListener('click', async () => { const user = auth.currentUser; if (!user) return; const imageUrl = document.getElementById('add-image').value; const caption = document.getElementById('add-caption').value; if (!imageUrl) return; document.getElementById('btn-submit-post').innerText = "Yükleniyor..."; try { await addDoc(collection(db, "gonderiler"), { imageUrl, caption, username: user.displayName, likesCount: 0, createdAt: new Date() }); closeModal('addModal'); document.getElementById('add-image').value = ""; await loadAllData(); window.renderExploreGrid(); } catch (err) {} finally { document.getElementById('btn-submit-post').innerText = "Paylaş"; }});
         
         document.getElementById('btn-save-profile').addEventListener('click', async () => {
             if(!currentUserId) return; const btn = document.getElementById('btn-save-profile'); btn.innerText = "Kaydediliyor...";
