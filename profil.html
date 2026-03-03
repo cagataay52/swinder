@@ -66,6 +66,7 @@
         .form-group { margin-bottom: 15px; text-align: left; width: 100%;}
         .form-group input, .form-group textarea { width: 100%; padding: 14px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; outline: none; font-size: 14px;}
         .btn-premium { background: var(--primary-gold); color: #000; padding: 14px; border-radius: 12px; font-weight: 700; width: 100%; border: none; cursor: pointer;}
+        .vip-badge { color: #00d2ff; margin-left: 5px; font-size: 16px; vertical-align: middle; filter: drop-shadow(0 0 5px rgba(0,210,255,0.5));}
 
         .post-detail-box { background: #121214; width: 100%; height: 90vh; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.4s; display: flex; flex-direction: column; overflow: hidden; }
         .modal-overlay.active .post-detail-box { transform: translateY(0); }
@@ -134,7 +135,7 @@
             <button class="close-btn" onclick="closeModal('profileEditModal')"><span class="material-symbols-outlined">close</span></button>
             <h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Profili Düzenle</h2>
             <div class="form-group"><label style="color:gray; font-size:12px;">Kullanıcı Adı</label><input type="text" id="edit-username"></div>
-            <div class="form-group"><label style="color:gray; font-size:12px;">Doğum Tarihi (Gerçek Yaş İçin)</label><input type="date" id="edit-birthdate"></div>
+            <div class="form-group"><label style="color:gray; font-size:12px;">Doğum Tarihi (Yaş Hesaplaması İçin)</label><input type="date" id="edit-birthdate"></div>
             <div class="form-group"><label style="color:gray; font-size:12px;">Profil Fotoğrafı URL</label><input type="text" id="edit-avatar"></div>
             <div class="form-group"><label style="color:gray; font-size:12px;">Biyografi</label><textarea id="edit-bio" rows="3"></textarea></div>
             <button class="btn-premium" id="btn-save-profile">Kaydet</button>
