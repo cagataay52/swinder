@@ -112,12 +112,12 @@
         .chat-input { flex: 1; background: rgba(255,255,255,0.1); border: none; color: white; padding: 14px 20px; border-radius: 30px; outline: none; font-size:14px;}
         .chat-send-btn { background: var(--primary-gold); width: 45px; height: 45px; border-radius: 50%; border: none; display: flex; justify-content: center; align-items: center; color: black; cursor: pointer; transition: transform 0.2s;}
 
-        /* YAZIYOR... (TYPING) ANİMASYONU CSS */
-        .typing-dots { display: flex; align-items: center; gap: 4px; padding: 12px 16px; height: 38px; width: fit-content; }
-        .typing-dots span { width: 6px; height: 6px; background: rgba(255,255,255,0.7); border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; }
-        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
-        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
-        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+        /* 🔥 YAZIYOR... ANİMASYONU CSS 🔥 */
+        .typing-indicator-box { display: flex; align-items: center; gap: 4px; padding: 12px 16px; height: 38px; width: fit-content; }
+        .typing-dot { width: 6px; height: 6px; background: rgba(255,255,255,0.7); border-radius: 50%; animation: typeBounce 1.4s infinite ease-in-out both; }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typeBounce { 0%, 80%, 100% { transform: scale(0); opacity: 0.5;} 40% { transform: scale(1); opacity: 1;} }
 
         @media (max-width: 768px) {
             .modal-overlay { padding: 0; align-items: flex-end;}
@@ -210,7 +210,7 @@
     
     <div class="modal-overlay" id="reelsModal" style="padding:0; background: #000;"><button class="close-btn" onclick="closeModal('reelsModal')" style="z-index: 1000; top: calc(20px + env(safe-area-inset-top)); right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button><div class="reels-box" id="reels-container"></div></div>
 
-    <div class="modal-overlay" id="postDetailModal" style="z-index: 1600;"><div class="post-detail-box"><div class="sheet-header"><button class="header-icon" onclick="closeModal('postDetailModal')"><span class="material-symbols-outlined">arrow_back</span></button> Gönderi Detayı <div id="admin-controls" style="margin-left:auto; display:none; gap:15px;"><button class="header-icon" style="color:var(--primary-gold);" onclick="editPostDB()"><span class="material-symbols-outlined">edit</span></button><button class="header-icon" style="color:#ff4757;" onclick="deletePostDB()"><span class="material-symbols-outlined">delete</span></button></div></div><div style="flex:1; overflow-y:auto; padding-bottom:30px;"><div class="post-detail-img-container"><div class="media-blur-bg" id="pd-blur"></div><div id="pd-media-container" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center; z-index:1;"></div></div><div style="padding: 15px 20px;"><div style="display:flex; gap:15px; margin-bottom:15px;"><button class="header-icon" id="pd-btn-like" onclick="toggleLikeDB(this)"><span class="material-symbols-outlined">favorite</span></button><button class="header-icon" onclick="openCommentsDB()"><span class="material-symbols-outlined">chat_bubble</span></button><button class="header-icon" onclick="openShareModal()"><span class="material-symbols-outlined">send</span></button></div><div style="font-weight:600; margin-bottom:10px;"><span id="pd-likes">0</span> beğenme</div><div style="font-size: 14px;"><strong id="pd-user" style="margin-right:5px; cursor:pointer;" onclick="closeModal('postDetailModal'); window.openUserProfile(this.dataset.user)">-</strong><span id="pd-caption" style="color:rgba(255,255,255,0.8);">-</span></div></div></div></div></div>
+    <div class="modal-overlay" id="postDetailModal" style="z-index: 1600;"><div class="post-detail-box"><div class="sheet-header"><button class="header-icon" onclick="closeModal('postDetailModal')"><span class="material-symbols-outlined">arrow_back</span></button> Gönderi <div id="admin-controls" style="margin-left:auto; display:none; gap:15px;"><button class="header-icon" style="color:var(--primary-gold);" onclick="editPostDB()"><span class="material-symbols-outlined">edit</span></button><button class="header-icon" style="color:#ff4757;" onclick="deletePostDB()"><span class="material-symbols-outlined">delete</span></button></div></div><div style="flex:1; overflow-y:auto; padding-bottom:30px;"><div class="post-detail-img-container"><div class="media-blur-bg" id="pd-blur"></div><div id="pd-media-container" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center; z-index:1;"></div></div><div style="padding: 15px 20px;"><div style="display:flex; gap:15px; margin-bottom:15px;"><button class="header-icon" id="pd-btn-like" onclick="toggleLikeDB(this)"><span class="material-symbols-outlined">favorite</span></button><button class="header-icon" onclick="openCommentsDB()"><span class="material-symbols-outlined">chat_bubble</span></button><button class="header-icon" onclick="openShareModal()"><span class="material-symbols-outlined">send</span></button></div><div style="font-weight:600; margin-bottom:10px;"><span id="pd-likes">0</span> beğenme</div><div style="font-size: 14px;"><strong id="pd-user" style="margin-right:5px; cursor:pointer;" onclick="closeModal('postDetailModal'); window.openUserProfile(this.dataset.user)">-</strong><span id="pd-caption" style="color:rgba(255,255,255,0.8);">-</span></div></div></div></div></div>
     
     <div class="modal-overlay" id="userProfileModal" style="z-index: 1550;"><div class="bottom-sheet"><div class="sheet-header"><button class="header-icon" onclick="closeModal('userProfileModal')"><span class="material-symbols-outlined">arrow_back</span></button><span id="up-title" style="font-weight:bold;">Profil</span></div><div class="up-header-top"><div class="up-avatar-container"><div class="up-avatar" id="up-avatar"></div></div><div class="up-stats"><div class="up-stat-item"><span id="up-post-count">0</span>Gönderi</div><div class="up-stat-item"><span id="up-follower-count">0</span>Takipçi</div><div class="up-stat-item"><span id="up-following-count">0</span>Takip</div></div></div><div class="up-bio-container"><div class="up-name" id="up-name">-</div><div class="up-bio" id="up-bio">-</div></div><div class="up-actions"><button id="btn-follow-user" class="btn-up-action btn-follow" onclick="toggleFollowDB(this)">Takip Et</button></div><div class="explore-scroll-area" style="border-top: var(--glass-border); padding-top: 2px;"><div class="grid-view" id="up-grid"></div></div></div></div>
 
@@ -291,13 +291,12 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, getDocs, query, orderBy, doc, getDoc, setDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, query, doc, getDoc, setDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = { apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0", authDomain: "swinder-79534.firebaseapp.com", projectId: "swinder-79534", storageBucket: "swinder-79534.firebasestorage.app", messagingSenderId: "704644873549", appId: "1:704644873549:web:d95f561ec912b94cf2cb04" };
         const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
 
-        const CLOUD_NAME = "dv9c3ygco";
-        const UPLOAD_PRESET = "ntc9cq4y";
+        const CLOUD_NAME = "dv9c3ygco"; const UPLOAD_PRESET = "ntc9cq4y";
         window.uploadMedia = async function(file) {
             const formData = new FormData(); formData.append("file", file); formData.append("upload_preset", UPLOAD_PRESET);
             const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, { method: 'POST', body: formData });
@@ -305,9 +304,9 @@
         }
 
         const safeEncode = (str) => encodeURIComponent(str || '').replace(/'/g, "%27");
+        window.globalPosts = []; window.globalUsersById = {}; window.globalUsersByName = {};
         const adminEmail = "kcagatay239@gmail.com"; 
-        
-        window.globalUsersById = {}; window.globalUsersByName = {}; window.globalPosts = []; let currentUserProfile = null;
+        let currentUserId = null; let isAdmin = false; let currentUserProfile = null;
         window.activeInteractPostId = null; window.activeShareUrl = null; window.activeChatId = null; window.chatDocUnsubscribe = null;
 
         window.logoutApp = async function() { await signOut(auth); window.location.href = "index.html"; }
@@ -325,7 +324,6 @@
                         currentUserProfile = { uid: user.uid, following: [], followers: [], birthdate: "", ...snap.data() };
                         const isP = currentUserProfile.isPremium ? ' <span class="material-symbols-outlined vip-badge">workspace_premium</span>' : '';
                         document.getElementById('display-name').innerHTML = safeName + isP; document.getElementById('bio-name').innerHTML = safeName + isP; 
-                        
                         document.getElementById('edit-birthdate').value = currentUserProfile.birthdate || '';
                         if(currentUserProfile.avatar) { document.getElementById('display-avatar').style.backgroundImage = `url('${currentUserProfile.avatar}')`; }
                         if(currentUserProfile.bio) { document.getElementById('bio-text').innerText = currentUserProfile.bio; document.getElementById('edit-bio').value = currentUserProfile.bio; }
@@ -338,7 +336,9 @@
         async function loadAllData() {
             const usersSnap = await getDocs(collection(db, "kullanicilar")); window.globalUsersById = {}; window.globalUsersByName = {};
             usersSnap.forEach(uDoc => { const d = uDoc.data(); d.uid = uDoc.id; window.globalUsersById[uDoc.id] = d; if(d.displayName) window.globalUsersByName[d.displayName] = d; });
-            const postSnap = await getDocs(query(collection(db, "gonderiler"), orderBy("createdAt", "desc"))); window.globalPosts = []; postSnap.forEach(doc => { window.globalPosts.push({ id: doc.id, ...doc.data() }); });
+            const postSnap = await getDocs(collection(db, "gonderiler")); window.globalPosts = []; 
+            postSnap.forEach(doc => { window.globalPosts.push({ id: doc.id, ...doc.data() }); });
+            window.globalPosts.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
         }
 
         // 🔥 REELS OBSERVER MOTORU (SESLER KARIŞMAZ) 🔥
@@ -355,9 +355,9 @@
             window.reelsObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     const vid = entry.target.querySelector('video');
-                    if(vid) { if(entry.isIntersecting) { vid.play().catch(e=>{}); } else { vid.pause(); vid.currentTime = 0; } }
+                    if(vid) { if(entry.isIntersecting) { vid.play().catch(e=>{}); } else { vid.pause(); } }
                 });
-            }, { threshold: 0.6 });
+            }, { threshold: 0.5 });
             document.querySelectorAll('.reel-item').forEach(item => window.reelsObserver.observe(item));
         }
 
@@ -427,8 +427,11 @@
 
         window.openCommentsDB = async function(postId=null) {
             const pId = postId || window.activeInteractPostId; if(!pId) return; window.activeInteractPostId = pId; openModal('commentsModal'); const list = document.getElementById('comments-list'); list.innerHTML = '<div style="color:gray; text-align:center;">Yükleniyor...</div>';
-            const snap = await getDocs(query(collection(db, `gonderiler/${pId}/yorumlar`), orderBy("createdAt", "asc"))); list.innerHTML = ''; if(snap.empty) { list.innerHTML = '<div style="color:gray; text-align:center;">İlk yorumu sen yap!</div>'; return;}
-            snap.forEach(d => { const data = d.data(); const avatar = window.globalUsersByName[data.username]?.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100'; list.insertAdjacentHTML('beforeend', `<div class="list-item" style="padding:0; border:none;"><div class="list-avatar" style="background-image:url('${avatar}'); width:36px; height:36px;"></div><div class="list-text"><strong style="color:var(--primary-gold);">${data.username}</strong> <span style="color:white;">${data.text}</span></div></div>`); });
+            const snap = await getDocs(collection(db, `gonderiler/${pId}/yorumlar`)); list.innerHTML = ''; 
+            if(snap.empty) { list.innerHTML = '<div style="color:gray; text-align:center;">İlk yorumu sen yap!</div>'; return;}
+            let comments = []; snap.forEach(d => comments.push(d.data()));
+            comments.sort((a,b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0));
+            comments.forEach(data => { const avatar = window.globalUsersByName[data.username]?.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100'; list.insertAdjacentHTML('beforeend', `<div class="list-item" style="padding:0; border:none;"><div class="list-avatar" style="background-image:url('${avatar}'); width:36px; height:36px;"></div><div class="list-text"><strong style="color:var(--primary-gold);">${data.username}</strong> <span style="color:white;">${data.text}</span></div></div>`); });
         }
         window.submitComment = async function() { const user = auth.currentUser; if(!user || !window.activeInteractPostId) return; const text = document.getElementById('new-comment-input').value.trim(); if(!text) return; document.getElementById('new-comment-input').value = ""; await addDoc(collection(db, `gonderiler/${window.activeInteractPostId}/yorumlar`), { username: user.displayName, text: text, createdAt: new Date() }); openCommentsDB(window.activeInteractPostId); }
 
@@ -452,7 +455,7 @@
             try { await addDoc(collection(db, `eslesmeler/${chatId}/mesajlar`), { senderId: auth.currentUser.uid, text: "[PAYLAŞIM] " + window.activeShareUrl, timestamp: new Date(), read: false }); await updateDoc(doc(db, "eslesmeler", chatId), { lastMessage: "🖼️ Bir gönderi paylaştı.", updatedAt: new Date() }); alert("Paylaşıldı!"); closeModal('shareModal'); } catch(e) {}
         }
         
-        // 🔥 YAZIYOR... (TYPING) İZLEYİCİ İLE SOHBET 🔥
+        // 🔥 YAZIYOR... MOTORU (PROFİL EKRANI) 🔥
         window.openChatRoom = function(chatId, partnerName, partnerImg, partnerUid) { 
             closeModal('messagesModal'); window.activeChatId = chatId; document.getElementById('chat-header-name').innerText = partnerName; document.getElementById('chat-header-avatar').style.backgroundImage = `url('${partnerImg.replace(/'/g, "\\'")}')`; openModal('chatRoomModal'); 
             const chatArea = document.getElementById('chat-messages'); chatArea.innerHTML = '<div style="color:gray; text-align:center; margin-top:20px;">Mesajlar yükleniyor...</div>'; 
@@ -465,18 +468,20 @@
                         const typingInfo = docSnap.data().typing || {}; let isThemTyping = false; const myUid = auth.currentUser ? auth.currentUser.uid : null;
                         for(let key in typingInfo) { if(key !== myUid && typingInfo[key] > Date.now() - 3000) isThemTyping = true; }
                         const existingTyping = document.getElementById('typing-indicator');
-                        if(isThemTyping && !existingTyping) { chatArea.insertAdjacentHTML('beforeend', `<div id="typing-indicator" class="chat-msg theirs"><div class="chat-bubble typing-dots"><span></span><span></span><span></span></div></div>`); chatArea.scrollTop = chatArea.scrollHeight; } 
+                        if(isThemTyping && !existingTyping) { chatArea.insertAdjacentHTML('beforeend', `<div id="typing-indicator" class="chat-msg theirs"><div class="chat-bubble typing-indicator-box"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`); chatArea.scrollTop = chatArea.scrollHeight; } 
                         else if(!isThemTyping && existingTyping) { existingTyping.remove(); }
                     }
                 });
 
-                messagesUnsubscribe = onSnapshot(query(collection(db, `eslesmeler/${chatId}/mesajlar`), orderBy("timestamp", "asc")), (snapshot) => { 
+                messagesUnsubscribe = onSnapshot(collection(db, `eslesmeler/${chatId}/mesajlar`), (snapshot) => { 
                     const existingTyping = document.getElementById('typing-indicator'); if(existingTyping) existingTyping.remove();
                     chatArea.innerHTML = ''; let msgs = []; const myUid = auth.currentUser ? auth.currentUser.uid : null; if(!myUid) return;
                     snapshot.forEach(docSnap => { 
                         let m = docSnap.data(); m.id = docSnap.id; msgs.push(m);
                         if(m.senderId !== myUid && !m.read) { updateDoc(doc(db, `eslesmeler/${chatId}/mesajlar/${docSnap.id}`), { read: true }).catch(e=>{}); }
                     }); 
+                    msgs.sort((a,b) => (a.timestamp?.seconds || 0) - (b.timestamp?.seconds || 0));
+                    
                     if(msgs.length === 0) { chatArea.innerHTML = '<div style="color:gray; text-align:center; margin-top:20px;">İlk mesajı sen gönder!</div>'; return; }
                     let lastMyMsgId = null; for(let i=msgs.length-1; i>=0; i--) { if(msgs[i].senderId === myUid) { lastMyMsgId = msgs[i].id; break; } }
                     msgs.forEach(msg => { 
