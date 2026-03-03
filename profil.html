@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Profilim - Swinder</title>
     
     <link rel="manifest" href="manifest.json">
@@ -24,9 +24,9 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; -webkit-tap-highlight-color: transparent;}
         :root { --primary-gold: #d4af37; --text-light: #f5f5f7; --glass-bg: rgba(20, 20, 25, 0.45); --glass-border: 1px solid rgba(255, 255, 255, 0.08); }
-        body { background: #050505; color: var(--text-light); overflow-x: hidden; padding-bottom: 70px; }
+        /* 🔥 ALT BOŞLUK (PADDİNG) DÜZELTİLDİ 🔥 */
+        body { background: #050505; color: var(--text-light); overflow-x: hidden; padding-bottom: calc(70px + env(safe-area-inset-bottom)); }
 
-        /* AÇILIŞ EKRANI */
         #splash-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #050505; z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease, visibility 0.5s; }
         .splash-logo { font-family: 'Grand Hotel', cursive; font-size: 70px; color: var(--primary-gold); animation: splashPulse 1.5s infinite alternate; text-shadow: 0 0 20px rgba(212,175,55,0.4); }
         @keyframes splashPulse { 0% { transform: scale(1); opacity: 0.8;} 100% { transform: scale(1.1); opacity: 1;} }
@@ -46,6 +46,12 @@
         .profile-actions { padding: 0 20px; margin-bottom: 20px; }
         .btn-edit { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: var(--glass-border); color: var(--text-light); padding: 10px 0; border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.3s; width: 100%; text-align: center; }
         
+        /* 🔥 INSTAGRAM BİREBİR KUSURSUZ KARE GRID SİSTEMİ 🔥 */
+        .profile-grid, .grid-view { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; width: 100%; margin-top: 2px;}
+        .grid-item { width: 100%; height: 0; padding-bottom: 100%; position: relative; background-color: #1a1a1a; background-size: cover; background-position: center; cursor: pointer;}
+        .grid-video-icon { position:absolute; top:8px; right:8px; color:white; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8)); font-size: 22px;}
+
+        /* 🔥 ALT MENÜ VE PWA OPTİMİZASYONU 🔥 */
         .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 10, 12, 0.85); backdrop-filter: blur(20px); padding: 12px 10px calc(12px + env(safe-area-inset-bottom)); border-top: var(--glass-border); z-index: 999; }
         .nav-icon-btn { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .nav-icon-btn .material-symbols-outlined { font-size: 30px; }
@@ -53,9 +59,12 @@
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: 0.3s; z-index: 1500; padding: 15px; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
-        .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: none; color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 50;}
-        .bottom-sheet { background: #121214; width: 100%; height: auto; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.4s; display: flex; flex-direction: column; overflow: hidden; padding-bottom: 30px;}
+        .close-btn { position: absolute; top: calc(15px + env(safe-area-inset-top)); right: 15px; background: rgba(255,255,255,0.1); border: none; color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 50; display: flex; justify-content: center; align-items: center;}
+        
+        /* 🔥 BOTTOM SHEET PWA UYUMU 🔥 */
+        .bottom-sheet { background: #121214; width: 100%; height: auto; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.4s; display: flex; flex-direction: column; overflow: hidden; padding-bottom: env(safe-area-inset-bottom);}
         .modal-overlay.active .bottom-sheet { transform: translateY(0); }
+        
         .sheet-header { padding: 20px; border-bottom: var(--glass-border); display: flex; align-items: center; gap: 15px; font-size: 16px; font-weight: 600; background:rgba(10,10,12,0.95); z-index:10;}
         .list-item { display: flex; align-items: center; gap: 15px; padding: 18px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; font-size: 16px; font-weight: 500;}
         .glass-box { background: rgba(25, 25, 30, 0.4); border: var(--glass-border); border-radius: 24px; padding: 30px; width: 100%; max-width: 400px; transform: scale(0.95); transition: 0.3s;}
@@ -70,47 +79,15 @@
         .post-detail-img-container { position: relative; width: 100%; height: 50vh; display: flex; justify-content: center; align-items: center; background: black; overflow: hidden; border-bottom: var(--glass-border);}
         .media-blur-bg { position: absolute; top: -10%; left: -10%; width: 120%; height: 120%; background-size: cover; background-position: center; filter: blur(35px) brightness(0.3); z-index: 0; }
 
-        /* REELS */
-        .reels-box { background: #000; width: 100%; height: 100dvh; position: relative; transform: translateY(100%); transition: 0.4s; overflow-y: scroll; scroll-snap-type: y mandatory; }
-        .modal-overlay.active .reels-box { transform: translateY(0); }
-        .reel-item { width: 100%; height: 100dvh; scroll-snap-align: start; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center;}
-        .reel-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 35%, rgba(0,0,0,0.3) 100%); z-index: 2; pointer-events: none;}
-        .reel-content { position: absolute; bottom: calc(90px + env(safe-area-inset-bottom)); left:0; padding:20px; z-index: 3; display: flex; justify-content: space-between; align-items: flex-end; width: 100%; }
-        .reel-user { display: flex; align-items: center; gap: 10px; color: white; font-weight: 600; font-size: 15px; margin-bottom: 12px; cursor: pointer;}
-        .reel-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center;}
-        .btn-follow { background: transparent; border: 1px solid white; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-left: 5px;}
-        .btn-follow.following { background: rgba(255,255,255,0.2); border-color: transparent;}
-        .reel-actions { display: flex; flex-direction: column; gap: 20px; align-items: center;}
-        .reel-action-btn { background: none; border: none; color: white; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));}
-        .reel-action-btn.liked .material-symbols-outlined { color: #ff3040; font-variation-settings: 'FILL' 1; }
-
-        /* 🔥 KEŞFET (YENİ INSTAGRAM STYLE GRID) 🔥 */
+        .explore-scroll-area { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
         .search-input { flex: 1; background: rgba(255,255,255,0.1); border: none; color: white; padding: 12px 20px; border-radius: 30px; outline: none; font-size: 14px;}
         .explore-users-container { display: none; max-height: 250px; overflow-y: auto; border-bottom: var(--glass-border); }
-        .explore-scroll-area { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
-        .grid-view { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; width: 100%; }
-        .grid-item { width: 100%; height: 0; padding-bottom: 100%; position: relative; background-size: cover; background-position: center; cursor: pointer; }
-        .grid-video-icon { position:absolute; top:5px; right:5px; color:white; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));}
-
-        /* KULLANICI PROFİLİ */
-        .up-header-top { display: flex; align-items: center; padding: 20px 20px 15px; gap: 20px;}
-        .up-avatar-container { width: 86px; height: 86px; border-radius: 50%; padding: 2px; background: linear-gradient(45deg, #d4af37, #aa8529, #f3e5ab); flex-shrink: 0;}
-        .up-avatar { width: 100%; height: 100%; border-radius: 50%; background-size: cover; background-position: center; border: 3px solid #121214;}
-        .up-stats { display: flex; flex: 1; justify-content: space-around; text-align: center; }
-        .up-stat-item { font-size: 12px; color: rgba(255,255,255,0.7); }
-        .up-stat-item span { display: block; font-size: 16px; font-weight: bold; color: white; margin-bottom: 2px;}
-        .up-bio-container { padding: 0 20px 15px; }
-        .up-name { font-size: 16px; font-weight: bold; color: white; margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
-        .up-bio { font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.4; white-space: pre-wrap; }
-        .up-actions { display: flex; gap: 10px; padding: 0 20px 20px; }
-        .btn-up-action { flex: 1; padding: 8px 0; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; border: none; transition: 0.2s;}
 
         @media (max-width: 768px) {
             .modal-overlay { padding: 0; align-items: flex-end;}
             .glass-box { margin: 0; max-width: 100%; border-radius: 25px 25px 0 0; transform: translateY(100%); border-bottom: none;}
             .modal-overlay.active .glass-box { transform: translateY(0); }
-            .bottom-sheet, .post-detail-box { height: 90vh; border-radius: 20px 20px 0 0; }
-            .reels-box { height: 100dvh; max-width: 100%; border-radius: 0; }
+            .post-detail-box { height: 90vh; border-radius: 20px 20px 0 0; }
         }
     </style>
 </head>
@@ -146,7 +123,7 @@
         <button class="nav-icon-btn" onclick="window.location.assign('index.html')"><span class="material-symbols-outlined">home</span></button>
         <button class="nav-icon-btn" onclick="openExplore()"><span class="material-symbols-outlined">search</span></button>
         <button class="nav-icon-btn" style="background: linear-gradient(135deg, #d4af37, #aa8529); color: #000; width: 44px; height: 44px; border-radius: 12px; display: flex; justify-content: center; align-items: center;" onclick="openModal('addModal')"><span class="material-symbols-outlined" style="font-weight:600; font-size:28px;">add</span></button>
-        <button class="nav-icon-btn" onclick="openReels()"><span class="material-symbols-outlined">movie</span></button>
+        <button class="nav-icon-btn" onclick="window.location.assign('index.html')"><span class="material-symbols-outlined">movie</span></button>
         <button class="nav-icon-btn active"><span class="material-symbols-outlined">person</span></button>
     </nav>
 
@@ -176,7 +153,6 @@
     </div>
 
     <div class="modal-overlay" id="exploreModal"><div class="bottom-sheet"><div class="sheet-header" style="gap:10px;"><button class="header-icon" onclick="closeModal('exploreModal')"><span class="material-symbols-outlined">arrow_back</span></button><input type="text" class="search-input" id="search-input" placeholder="Kişi veya gönderi ara..." onkeyup="performSearch()"></div><div class="explore-users-container" id="explore-users-list"></div><div class="explore-scroll-area"><div class="grid-view" id="explore-grid"></div></div></div></div>
-    <div class="modal-overlay" id="reelsModal" style="padding:0; background: #000;"><button class="close-btn" onclick="closeModal('reelsModal')" style="z-index: 1000; top: 20px; right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button><div class="reels-box" id="reels-container"></div></div>
     <div class="modal-overlay" id="addModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Yeni Gönderi/Video</h2><div class="form-group"><input type="text" id="add-image" placeholder="Medya URL'si (Resim veya MP4)..."></div><div class="form-group"><textarea id="add-caption" rows="3" placeholder="Açıklama..."></textarea></div><button type="button" id="btn-submit-post" class="btn-premium">Paylaş</button></div></div>
 
     <div class="modal-overlay" id="postDetailModal" style="z-index: 1600;">
@@ -220,7 +196,6 @@
         document.querySelectorAll('.modal-overlay').forEach(m => { m.addEventListener('click', (e) => { if(e.target === m && m.id !== 'splash-screen') closeModal(m.id); }); });
         
         window.openExplore = () => { openModal('exploreModal'); if(window.renderExploreGrid) window.renderExploreGrid(); }
-        window.openReels = () => { openModal('reelsModal'); if(window.renderReels) window.renderReels(); }
 
         const fallbackTimer = setTimeout(() => { hideSplash(); }, 2000);
         function hideSplash() { clearTimeout(fallbackTimer); const spl = document.getElementById('splash-screen'); if(spl) { spl.style.opacity = '0'; setTimeout(() => spl.style.display = 'none', 400); } }
@@ -240,7 +215,7 @@
         window.globalPosts = []; window.globalUsersById = {}; window.globalUsersByName = {};
         const adminEmail = "kcagatay239@gmail.com"; 
         let currentUserId = null; let isAdmin = false; let currentUserProfile = null;
-        window.activeInteractPostId = null; window.activeShareUrl = null;
+        window.activeInteractPostId = null;
 
         window.logoutApp = async function() { await signOut(auth); window.location.href = "index.html"; }
 
@@ -275,7 +250,6 @@
             const postSnap = await getDocs(query(collection(db, "gonderiler"), orderBy("createdAt", "desc"))); window.globalPosts = []; postSnap.forEach(doc => { window.globalPosts.push({ id: doc.id, ...doc.data() }); });
         }
 
-        // 🔥 KEŞFET TIKLAMA SORUNU ÇÖZÜLDÜ (DATA-USER KULLANIMI) 🔥
         window.renderExploreGrid = async function() {
             const myUid = auth.currentUser ? auth.currentUser.uid : null;
             const filterText = document.getElementById('search-input').value.toLocaleLowerCase('tr-TR'); const grid = document.getElementById('explore-grid'); grid.innerHTML = ''; const userList = document.getElementById('explore-users-list'); userList.innerHTML = '';
@@ -313,15 +287,6 @@
             else { btnElement.classList.add('following'); btnElement.innerText = "Takibi Bırak"; btnElement.style.background = "rgba(255,255,255,0.15)"; btnElement.style.color = "white"; if(countEl) countEl.innerText = count + 1; await updateDoc(myRef, { following: arrayUnion(targetUser.uid) }); await updateDoc(targetRef, { followers: arrayUnion(user.uid) }); if(currentUserProfile) { if(!currentUserProfile.following) currentUserProfile.following=[]; currentUserProfile.following.push(targetUser.uid); } }
         }
 
-        window.renderReels = function() {
-            const rc = document.getElementById('reels-container'); rc.innerHTML = ''; if(window.globalPosts.length === 0) { rc.innerHTML = '<div style="color:white; text-align:center; padding-top:50vh;">Reels yok.</div>'; return; }
-            window.globalPosts.forEach(data => {
-                const pInfo = window.globalUsersByName[data.username] || {}; const av = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100')`; const likedClass = (auth.currentUser && data.likedBy && data.likedBy.includes(auth.currentUser.displayName)) ? 'liked' : ''; const isP = pInfo.isPremium ? ' <span class="material-symbols-outlined vip-badge">workspace_premium</span>' : '';
-                const mediaHtml = window.isVideo(data.imageUrl) ? `<video src="${data.imageUrl}" autoplay loop muted playsinline style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;" ondblclick="toggleLikeDB(this.parentElement.querySelector('.btn-like'), '${data.id}', '${data.username}')"></video>` : `<img src="${data.imageUrl}" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;" ondblclick="toggleLikeDB(this.parentElement.querySelector('.btn-like'), '${data.id}', '${data.username}')"/>`;
-                rc.insertAdjacentHTML('beforeend', `<div class="reel-item"><div class="media-blur-bg" style="background-image: url('${data.imageUrl.replace(/'/g, "\\'")}');"></div>${mediaHtml}<div class="reel-overlay"></div><div class="reel-content"><div class="reel-info"><div class="reel-user" data-user="${data.username.replace(/"/g, '&quot;')}" onclick="closeModal('reelsModal'); window.openUserProfile(this.dataset.user)"><div class="reel-avatar" style="background-image:${av};"></div>${data.username}${isP}</div><div class="reel-caption">${data.caption || ''}</div></div><div class="reel-actions"><button class="reel-action-btn btn-like ${likedClass}" onclick="toggleLikeDB(this, '${data.id}', '${data.username}')"><span class="material-symbols-outlined">favorite</span><span class="reel-action-text" id="like-count-${data.id}">${data.likesCount||0}</span></button></div></div></div>`);
-            });
-        }
-
         function renderProfileGrid() {
             const grid = document.getElementById('my-posts'); grid.innerHTML = ''; 
             if(!auth.currentUser || !window.globalPosts) return;
@@ -333,10 +298,12 @@
         }
 
         window.openPostDetail = function(postId, dataStr) {
-            const data = JSON.parse(decodeURIComponent(dataStr)); window.activeInteractPostId = postId; window.activeShareUrl = data.imageUrl; 
+            const data = JSON.parse(decodeURIComponent(dataStr)); window.activeInteractPostId = postId;
             const mediaContainer = document.getElementById('pd-media-container');
             if(window.isVideo(data.imageUrl)) { mediaContainer.innerHTML = `<video src="${data.imageUrl}" autoplay loop playsinline controls style="max-width:100%; max-height:100%; position:relative; z-index:1;"></video>`; document.getElementById('pd-blur').style.backgroundImage = 'none'; } else { mediaContainer.innerHTML = `<img src="${data.imageUrl}" style="max-width:100%; max-height:100%; object-fit:contain; position:relative; z-index:1;" />`; document.getElementById('pd-blur').style.backgroundImage = `url('${data.imageUrl.replace(/'/g, "\\'")}')`; }
-            document.getElementById('pd-user').dataset.user = data.username; document.getElementById('pd-user').innerHTML = data.username; document.getElementById('pd-caption').innerText = data.caption || ''; document.getElementById('pd-likes').innerText = data.likesCount || 0;
+            const isP = window.globalUsersByName[data.username]?.isPremium ? ' <span class="material-symbols-outlined vip-badge">workspace_premium</span>' : ''; 
+            document.getElementById('pd-user').dataset.user = data.username; document.getElementById('pd-user').innerHTML = data.username + isP; 
+            document.getElementById('pd-caption').innerText = data.caption || ''; document.getElementById('pd-likes').innerText = data.likesCount || 0;
             const btnLike = document.getElementById('pd-btn-like'); if(auth.currentUser && data.likedBy && data.likedBy.includes(auth.currentUser.displayName)) btnLike.classList.add('liked'); else btnLike.classList.remove('liked'); openModal('postDetailModal');
         }
 

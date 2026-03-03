@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Swinder - VIP Arkadaşlık</title>
     
     <link rel="manifest" href="manifest.json">
@@ -26,7 +26,6 @@
         :root { --primary-gold: #d4af37; --text-light: #f5f5f7; --glass-bg: rgba(20, 20, 25, 0.45); --glass-border: 1px solid rgba(255, 255, 255, 0.08); }
         body { background: #050505; color: var(--text-light); overflow: hidden; }
 
-        /* AÇILIŞ EKRANI */
         #splash-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #050505; z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease, visibility 0.5s; }
         .splash-logo { font-family: 'Grand Hotel', cursive; font-size: 70px; color: var(--primary-gold); animation: splashPulse 1.5s infinite alternate; text-shadow: 0 0 20px rgba(212,175,55,0.4); }
         @keyframes splashPulse { 0% { transform: scale(1); opacity: 0.8;} 100% { transform: scale(1.1); opacity: 1;} }
@@ -50,7 +49,6 @@
         .story-img { width: 100%; height: 100%; border-radius: 50%; border: 2px solid #0a0a0c; background-size: cover; background-position: center; }
         .story-name { font-size: 11px; color: var(--text-light); font-weight: 500;}
 
-        /* SWIPE KARTLARI */
         .swipe-container { position: absolute; top: calc(165px + env(safe-area-inset-top)); bottom: 150px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 400px; display: flex; justify-content: center; align-items: center; perspective: 1000px; }
         .swipe-card { position: absolute; width: 92%; height: 95%; background: var(--glass-bg); backdrop-filter: blur(20px); border: var(--glass-border); border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; transform-origin: 50% 100%; transition: transform 0.3s ease, opacity 0.3s ease; cursor: grab; z-index: 1; user-select: none;}
         .swipe-card.moving { transition: none; cursor: grabbing; }
@@ -66,10 +64,11 @@
         .empty-state { position: absolute; text-align: center; color: rgba(255,255,255,0.6); font-size: 16px; display: flex; flex-direction: column; align-items: center; gap: 15px; z-index: 0;}
         .btn-reset-swipes { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: 600;}
 
-        .action-buttons { position: absolute; bottom: 85px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 350px; display: flex; justify-content: space-evenly; align-items: center; z-index: 90;}
+        .action-buttons { position: absolute; bottom: calc(85px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); width: 100%; max-width: 350px; display: flex; justify-content: space-evenly; align-items: center; z-index: 90;}
         .action-btn { width: 60px; height: 60px; border-radius: 50%; background: rgba(20,20,25,0.6); backdrop-filter: blur(15px); border: var(--glass-border); display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s;}
         .btn-dislike { color: #ff4757; } .btn-superlike { width: 50px; height: 50px; color: #3498db; } .btn-like { color: #2ecc71; }
 
+        /* 🔥 ALT MENÜ VE PWA OPTİMİZASYONU 🔥 */
         .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 10, 12, 0.85); backdrop-filter: blur(20px); padding: 12px 10px calc(12px + env(safe-area-inset-bottom)); border-top: var(--glass-border); z-index: 999;}
         .nav-icon-btn { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .nav-icon-btn .material-symbols-outlined { font-size: 30px; }
@@ -77,10 +76,9 @@
         .nav-icon-btn.add-btn { background: linear-gradient(135deg, #d4af37, #aa8529); color: #000; width: 44px; height: 44px; border-radius: 12px;}
         .nav-icon-btn.add-btn .material-symbols-outlined { color: #000; font-weight: 600;}
 
-        /* MODALLAR VE ORTAK UI */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: 0.3s; z-index: 1500; padding: 15px; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
-        .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 50; display: flex; align-items: center; justify-content: center;}
+        .close-btn { position: absolute; top: calc(15px + env(safe-area-inset-top)); right: 15px; background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 50; display: flex; align-items: center; justify-content: center;}
         
         .glass-box { background: rgba(25, 25, 30, 0.4); border: var(--glass-border); border-radius: 24px; padding: 30px; width: 100%; max-width: 400px; transform: scale(0.95); transition: 0.3s; display: flex; flex-direction: column;}
         .modal-overlay.active .glass-box { transform: scale(1); }
@@ -88,7 +86,6 @@
         .form-group input, .form-group textarea { width: 100%; padding: 14px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; outline: none; font-size: 14px;}
         .btn-premium { background: var(--primary-gold); color: #000; padding: 14px; border-radius: 12px; font-weight: 700; width: 100%; border: none; cursor: pointer; font-size: 15px;}
 
-        /* VIP ORTALANMIŞ GİRİŞ EKRANI */
         .auth-box { background: rgba(15, 15, 20, 0.85); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 35px; padding: 40px 30px; width: 100%; max-width: 380px; text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.05); transform: scale(0.9); transition: all 0.4s ease; margin: auto;}
         .modal-overlay.active .auth-box { transform: scale(1); }
         .auth-tabs { display: flex; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
@@ -97,14 +94,14 @@
         .auth-form { display: none; } .auth-form.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .bottom-sheet { background: #121214; width: 100%; height: 90vh; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.4s; display: flex; flex-direction: column; overflow: hidden;}
+        /* 🔥 MODAL (BOTTOM SHEET) PWA UYUMU 🔥 */
+        .bottom-sheet { background: #121214; width: 100%; height: 90vh; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.4s; display: flex; flex-direction: column; overflow: hidden; padding-bottom: env(safe-area-inset-bottom);}
         .modal-overlay.active .bottom-sheet { transform: translateY(0); }
         .sheet-header { padding: 20px; border-bottom: var(--glass-border); display: flex; align-items: center; gap: 15px; font-size: 16px; font-weight: 600; z-index: 10; background: rgba(10,10,12,0.95);}
         .list-item { display: flex; align-items: center; gap: 15px; padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer;}
         .list-avatar { width: 48px; height: 48px; border-radius: 50%; background: #222; background-size: cover; background-position: center; flex-shrink: 0;}
         .list-text { flex: 1; font-size: 14px; line-height: 1.4;}
 
-        /* REELS */
         .reels-box { background: #000; width: 100%; height: 100dvh; position: relative; transform: translateY(100%); transition: 0.4s; overflow-y: scroll; scroll-snap-type: y mandatory; }
         .modal-overlay.active .reels-box { transform: translateY(0); }
         .reel-item { width: 100%; height: 100dvh; scroll-snap-align: start; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center;}
@@ -118,13 +115,13 @@
         .reel-action-btn { background: none; border: none; color: white; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));}
         .reel-action-btn.liked .material-symbols-outlined { color: #ff3040; font-variation-settings: 'FILL' 1; }
 
-        /* 🔥 KEŞFET (YENİ INSTAGRAM STYLE GRID) 🔥 */
+        /* 🔥 INSTAGRAM KEŞFET GRID MANTIĞI 🔥 */
         .search-input { flex: 1; background: rgba(255,255,255,0.1); border: none; color: white; padding: 12px 20px; border-radius: 30px; outline: none; font-size: 14px;}
         .explore-users-container { display: none; max-height: 250px; overflow-y: auto; border-bottom: var(--glass-border); }
         .explore-scroll-area { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
         .grid-view { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; width: 100%; }
-        .grid-item { width: 100%; height: 0; padding-bottom: 100%; position: relative; background-size: cover; background-position: center; cursor: pointer; }
-        .grid-video-icon { position:absolute; top:5px; right:5px; color:white; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));}
+        .grid-item { width: 100%; height: 0; padding-bottom: 100%; position: relative; background-color: #1a1a1a; background-size: cover; background-position: center; cursor: pointer; }
+        .grid-video-icon { position:absolute; top:8px; right:8px; color:white; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); font-size: 22px;}
 
         /* KULLANICI PROFİLİ */
         .up-header-top { display: flex; align-items: center; padding: 20px 20px 15px; gap: 20px;}
@@ -144,7 +141,6 @@
         .post-detail-img-container { position: relative; width: 100%; height: 50vh; display: flex; justify-content: center; align-items: center; background: black; overflow: hidden; border-bottom: var(--glass-border);}
         .media-blur-bg { position: absolute; top: -10%; left: -10%; width: 120%; height: 120%; background-size: cover; background-position: center; filter: blur(35px) brightness(0.3); z-index: 0; }
 
-        /* CHAT VE SESLİ MESAJ */
         .chat-area { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #050505;}
         .chat-msg { display: flex; flex-direction: column; max-width: 80%; }
         .chat-msg.mine { align-self: flex-end; align-items: flex-end; }
@@ -170,20 +166,10 @@
         .story-react-btn:active { transform: scale(1.3); }
         .story-send-btn { width: 44px; height: 44px; border-radius: 50%; background: var(--primary-gold); display: flex; justify-content: center; align-items: center; border: none; cursor: pointer; flex-shrink: 0;}
 
-        .pref-slider { -webkit-appearance: none; width: 100%; height: 6px; border-radius: 5px; background: rgba(255,255,255,0.2); outline: none; margin: 15px 0;}
-        .pref-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--primary-gold); cursor: pointer; }
-        .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.2); transition: .4s; border-radius: 34px; }
-        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--primary-gold); }
-        input:checked + .slider:before { transform: translateX(24px); background-color: black; }
-
         @media (max-width: 768px) {
             .modal-overlay { padding: 0; align-items: flex-end;}
             .glass-box { margin: 0; max-width: 100%; border-radius: 25px 25px 0 0; transform: translateY(100%); border-bottom: none;}
             .modal-overlay.active .glass-box { transform: translateY(0); }
-            /* Mobil için Auth Box Ortalanması */
             .modal-overlay.active .auth-box { transform: scale(1) translateY(0) !important; margin: auto !important; border-radius: 35px; }
             .bottom-sheet, .post-detail-box { height: 90vh; border-radius: 20px 20px 0 0; }
             .reels-box { height: 100dvh; max-width: 100%; border-radius: 0; }
@@ -246,12 +232,9 @@
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 25px; padding:15px; background:rgba(0,0,0,0.5); border-radius:12px; border:1px solid rgba(212,175,55,0.2);">
                 <div>
                     <strong style="color:white; display:block;">Hayalet Modu (Ghost)</strong>
-                    <span style="font-size:12px; color:gray;">Sadece sağa kaydırdığın kişiler seni görebilir. Sadece VIP (💎) özel.</span>
+                    <span style="font-size:12px; color:gray;">Sadece sağa kaydırdığın kişiler seni görebilir. (💎)</span>
                 </div>
-                <label class="switch">
-                    <input type="checkbox" id="ghost-mode-toggle">
-                    <span class="slider"></span>
-                </label>
+                <label class="switch"><input type="checkbox" id="ghost-mode-toggle"><span class="slider"></span></label>
             </div>
             <button class="btn-premium" onclick="savePreferences()" style="margin-bottom: 10px;">Kaydet ve Yenile</button>
             <button onclick="requestPushPermission()" style="background:rgba(255,255,255,0.1); color:white; border:none; padding:12px; border-radius:12px; font-weight:600; width:100%; cursor:pointer;">Bildirimlere İzin Ver 🔔</button>
@@ -271,42 +254,23 @@
                 <input type="text" class="search-input" id="search-input" placeholder="Kişi veya gönderi ara..." onkeyup="performSearch()">
             </div>
             <div class="explore-users-container" id="explore-users-list"></div>
-            <div class="explore-scroll-area">
-                <div class="grid-view" id="explore-grid"></div>
-            </div>
+            <div class="explore-scroll-area"><div class="grid-view" id="explore-grid"></div></div>
         </div>
     </div>
 
     <div class="modal-overlay" id="userProfileModal" style="z-index: 1550;">
         <div class="bottom-sheet">
-            <div class="sheet-header">
-                <button class="header-icon" onclick="closeModal('userProfileModal')"><span class="material-symbols-outlined">arrow_back</span></button>
-                <span id="up-title" style="font-weight:bold;">Profil</span>
-            </div>
-            <div class="up-header-top">
-                <div class="up-avatar-container"><div class="up-avatar" id="up-avatar"></div></div>
-                <div class="up-stats">
-                    <div class="up-stat-item"><span id="up-post-count">0</span>Gönderi</div>
-                    <div class="up-stat-item"><span id="up-follower-count">0</span>Takipçi</div>
-                    <div class="up-stat-item"><span id="up-following-count">0</span>Takip</div>
-                </div>
-            </div>
-            <div class="up-bio-container">
-                <div class="up-name" id="up-name">-</div>
-                <div class="up-bio" id="up-bio">-</div>
-            </div>
-            <div class="up-actions">
-                <button id="btn-follow-user" class="btn-up-action btn-follow" onclick="toggleFollowDB(this)">Takip Et</button>
-            </div>
-            <div class="explore-scroll-area" style="border-top: var(--glass-border); padding-top: 2px;">
-                <div class="grid-view" id="up-grid"></div>
-            </div>
+            <div class="sheet-header"><button class="header-icon" onclick="closeModal('userProfileModal')"><span class="material-symbols-outlined">arrow_back</span></button><span id="up-title" style="font-weight:bold;">Profil</span></div>
+            <div class="up-header-top"><div class="up-avatar-container"><div class="up-avatar" id="up-avatar"></div></div><div class="up-stats"><div class="up-stat-item"><span id="up-post-count">0</span>Gönderi</div><div class="up-stat-item"><span id="up-follower-count">0</span>Takipçi</div><div class="up-stat-item"><span id="up-following-count">0</span>Takip</div></div></div>
+            <div class="up-bio-container"><div class="up-name" id="up-name">-</div><div class="up-bio" id="up-bio">-</div></div>
+            <div class="up-actions"><button id="btn-follow-user" class="btn-up-action btn-follow" onclick="toggleFollowDB(this)">Takip Et</button></div>
+            <div class="explore-scroll-area" style="border-top: var(--glass-border); padding-top: 2px;"><div class="grid-view" id="up-grid"></div></div>
         </div>
     </div>
 
     <div class="modal-overlay" id="postDetailModal" style="z-index: 1600;"><div class="post-detail-box"><div class="sheet-header"><button class="header-icon" onclick="closeModal('postDetailModal')"><span class="material-symbols-outlined">arrow_back</span></button> Gönderi <div id="admin-controls" style="margin-left:auto; display:none; gap:15px;"><button class="header-icon" style="color:var(--primary-gold);" onclick="editPostDB()"><span class="material-symbols-outlined">edit</span></button><button class="header-icon" style="color:#ff4757;" onclick="deletePostDB()"><span class="material-symbols-outlined">delete</span></button></div></div><div style="flex:1; overflow-y:auto; padding-bottom:30px;"><div class="post-detail-img-container"><div class="media-blur-bg" id="pd-blur"></div><div id="pd-media-container" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center; z-index:1;"></div></div><div style="padding: 15px 20px;"><div style="display:flex; gap:15px; margin-bottom:15px;"><button class="header-icon" id="pd-btn-like" onclick="toggleLikeDB(this)"><span class="material-symbols-outlined">favorite</span></button><button class="header-icon" onclick="openCommentsDB()"><span class="material-symbols-outlined">chat_bubble</span></button><button class="header-icon" onclick="openShareModal()"><span class="material-symbols-outlined">send</span></button></div><div style="font-weight:600; margin-bottom:10px;"><span id="pd-likes">0</span> beğenme</div><div style="font-size: 14px;"><strong id="pd-user" style="margin-right:5px; cursor:pointer;" onclick="closeModal('postDetailModal'); window.openUserProfile(this.dataset.user)">-</strong><span id="pd-caption" style="color:rgba(255,255,255,0.8);">-</span></div></div></div></div></div>
     
-    <div class="modal-overlay" id="addModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Yeni Gönderi/Video</h2><div class="form-group"><input type="text" id="add-image" placeholder="Medya URL'si (Resim veya MP4)..."></div><div class="form-group"><textarea id="add-caption" rows="3" placeholder="Açıklama..."></textarea></div><button type="button" id="btn-submit-post" class="btn-premium">Paylaş</button></div></div>
+    <div class="modal-overlay" id="addModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Yeni Gönderi/Video</h2><div class="form-group"><input type="text" id="add-image" placeholder="Medya URL'si (Resim veya MP4/MOV)..."></div><div class="form-group"><textarea id="add-caption" rows="3" placeholder="Açıklama..."></textarea></div><button type="button" id="btn-submit-post" class="btn-premium">Paylaş</button></div></div>
     <div class="modal-overlay" id="addStoryModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addStoryModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color:white; font-size:18px; text-align:center; margin-bottom:20px;">Hikaye Ekle</h2><div class="form-group"><input type="text" id="story-img-url" placeholder="Görsel veya Video URL..."></div><button id="btn-submit-story" class="btn-premium">Paylaş</button></div></div>
 
     <div class="modal-overlay" id="viewStoryModal" style="z-index: 1800; background:#000;">
@@ -342,10 +306,8 @@
             const spl = document.getElementById('splash-screen'); if(spl) { spl.style.opacity = '0'; setTimeout(() => spl.style.display = 'none', 400); } 
         }
         const fallbackTimer = setTimeout(() => { hideSplash(); }, 2000);
-
         window.isVideo = function(url) { if(!url) return false; return url.match(/\.(mp4|webm|ogg|mov)(\?.*)?$/i) !== null || url.includes('video'); }
 
-        // 🔥 SESLİ MESAJ (MİKROFON) iOS UYUMLU 🔥
         let mediaRecorder; let audioChunks = []; let isRecording = false; let recordTimeout;
         window.startVoiceRecord = async function(e) {
             if(e) e.preventDefault(); if(isRecording) return;
@@ -365,7 +327,6 @@
             document.getElementById('btn-mic').style.transform = 'scale(1)';
             document.getElementById('chat-input').placeholder = "Mesaj yaz...";
             mediaRecorder.addEventListener("stop", () => {
-                // iOS Safarinin kendi kaydettiği formatı al (mimeType boşsa mp4 varsay)
                 let mime = mediaRecorder.mimeType || 'audio/mp4';
                 const audioBlob = new Blob(audioChunks, { type: mime });
                 const reader = new FileReader(); reader.readAsDataURL(audioBlob);
@@ -376,7 +337,6 @@
             });
         };
         
-        // YAŞ HESAPLAMA
         window.calcAge = function(bDate) {
             if(!bDate) return 25;
             const dateObj = new Date(bDate);
@@ -400,11 +360,7 @@
         window.globalUsersById = {}; window.globalUsersByName = {}; window.globalPosts = []; let currentUserProfile = null;
         window.activeInteractPostId = null; window.activeInteractOwner = null; window.activeInteractStoryId = null; window.activeStoryOwner = null; window.activeShareUrl = null; window.activeChatId = null; let messagesUnsubscribe = null;
 
-        function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-            const R = 6371; const dLat = (lat2-lat1)*(Math.PI/180); const dLon = (lon2-lon1)*(Math.PI/180);
-            const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1*(Math.PI/180)) * Math.cos(lat2*(Math.PI/180)) * Math.sin(dLon/2) * Math.sin(dLon/2);
-            return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
-        }
+        function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) { const R = 6371; const dLat = (lat2-lat1)*(Math.PI/180); const dLon = (lon2-lon1)*(Math.PI/180); const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1*(Math.PI/180)) * Math.cos(lat2*(Math.PI/180)) * Math.sin(dLon/2) * Math.sin(dLon/2); return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))); }
 
         document.getElementById('btn-login').addEventListener('click', async () => { try { await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-pass').value); window.location.reload(); } catch (err) { alert(err.message); }});
         
@@ -412,14 +368,9 @@
             const name = document.getElementById('reg-name').value.trim(); const email = document.getElementById('reg-email').value; const pass = document.getElementById('reg-pass').value; if(!name || !email || !pass) return alert("Doldurun!"); 
             document.getElementById('btn-register').innerText = "Açılıyor..."; 
             try { 
-                const uc = await createUserWithEmailAndPassword(auth, email, pass); 
-                await updateProfile(uc.user, { displayName: name }); 
-                const adminQ = await getDocs(query(collection(db, "kullanicilar"), where("email", "==", adminEmail)));
-                let followingList = [];
-                if(!adminQ.empty) {
-                    const adminDoc = adminQ.docs[0]; followingList.push(adminDoc.id);
-                    await updateDoc(doc(db, "kullanicilar", adminDoc.id), { followers: arrayUnion(uc.user.uid) });
-                }
+                const uc = await createUserWithEmailAndPassword(auth, email, pass); await updateProfile(uc.user, { displayName: name }); 
+                const adminQ = await getDocs(query(collection(db, "kullanicilar"), where("email", "==", adminEmail))); let followingList = [];
+                if(!adminQ.empty) { const adminDoc = adminQ.docs[0]; followingList.push(adminDoc.id); await updateDoc(doc(db, "kullanicilar", adminDoc.id), { followers: arrayUnion(uc.user.uid) }); }
                 await setDoc(doc(db, "kullanicilar", uc.user.uid), { displayName: name, email: email, following: followingList, followers: [] });
                 window.location.reload(); 
             } catch (e) { alert(e.message); document.getElementById('btn-register').innerText = "VIP Hesabını Oluştur"; }
@@ -433,13 +384,11 @@
                     const snap = await getDoc(doc(db, "kullanicilar", user.uid));
                     if(snap.exists()) {
                         currentUserProfile = { uid: user.uid, following: [], followers: [], maxDistance: 50, ghostMode: false, birthdate: "", ...snap.data() };
-                        document.getElementById('max-distance-slider').value = currentUserProfile.maxDistance;
-                        document.getElementById('dist-val').innerText = currentUserProfile.maxDistance + " km";
-                        document.getElementById('ghost-mode-toggle').checked = currentUserProfile.ghostMode;
+                        document.getElementById('max-distance-slider').value = currentUserProfile.maxDistance; document.getElementById('dist-val').innerText = currentUserProfile.maxDistance + " km"; document.getElementById('ghost-mode-toggle').checked = currentUserProfile.ghostMode;
                     }
                     await loadAllData(); loadProfilesForDeck(); window.listenToDMs(); window.loadStories();
                 } else { openModal('authModal'); }
-            } catch(e) { console.error(e); } finally { hideSplash(); }
+            } catch(e) {} finally { hideSplash(); }
         });
 
         window.savePreferences = async function() {
@@ -508,7 +457,6 @@
         window.prevStory = function() { if(window.currentStoryIndex > 0) { window.currentStoryIndex--; window.playCurrentStory(); } else { window.playCurrentStory(); } }
         window.deleteStoryDB = async function() { if(!window.activeInteractStoryId) return; if(confirm("Bu hikayeyi silmek istediğine emin misin?")) { await deleteDoc(doc(db, "hikayeler", window.activeInteractStoryId)); closeModal('viewStoryModal'); window.loadStories(); } }
 
-        // 🔥 GÜVENLİ DATA-USER ATAMALARI (KEŞFET VE REELS) 🔥
         window.renderReels = function() {
             const rc = document.getElementById('reels-container'); rc.innerHTML = ''; if(window.globalPosts.length === 0) { rc.innerHTML = '<div style="color:white; text-align:center; padding-top:50vh;">Reels yok.</div>'; return; }
             window.globalPosts.forEach(data => {
@@ -582,7 +530,6 @@
         window.buttonSwipe = function(d) { const topCard = document.querySelector('.swipe-card:not(.removed)'); if(!topCard) return; topCard.classList.add('removed'); if(d === 'right' || d === 'super') topCard.querySelector('.stamp-like').style.opacity = 1; else topCard.querySelector('.stamp-nope').style.opacity = 1; processSwipe(topCard, d); }
         async function processSwipe(card, direction) { const endX = (direction === 'right' || direction === 'super') ? window.innerWidth : -window.innerWidth; card.style.transition = 'transform 0.4s ease-out, opacity 0.4s ease-out'; card.style.transform = `translateX(${endX}px) rotate(${direction === 'left' ? -30 : 30}deg)`; card.style.opacity = '0'; const user = auth.currentUser; const theirUid = card.dataset.uid; const theirName = card.dataset.name; const theirImg = card.dataset.img; if (user) { await setDoc(doc(db, "kaydirmalar", `${user.uid}_${theirUid}`), { swiperId: user.uid, swipedId: theirUid, action: direction, timestamp: new Date() }); if (direction === 'right' || direction === 'super') { const theirSwipe = await getDoc(doc(db, "kaydirmalar", `${theirUid}_${user.uid}`)); if(theirSwipe.exists() && (theirSwipe.data().action === 'right' || theirSwipe.data().action === 'super')) { const matchQ = await getDocs(query(collection(db, "eslesmeler"), where("users", "array-contains", user.uid))); let alreadyMatched = false; matchQ.forEach(d => { if(d.data().users.includes(theirUid)) alreadyMatched = true; }); if(!alreadyMatched) { const matchRef = await addDoc(collection(db, "eslesmeler"), { users: [user.uid, theirUid], userNames: [user.displayName, theirName], lastMessage: "Yeni Eşleşme!", updatedAt: new Date() }); document.getElementById('match-my-avatar').style.backgroundImage = `url('${currentUserProfile?.avatar || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=200"}')`; document.getElementById('match-their-avatar').style.backgroundImage = `url('${theirImg}')`; document.getElementById('match-text').innerHTML = `Sen ve <strong>${theirName}</strong> birbirinizi beğendiniz!`; document.getElementById('btn-match-msg').onclick = () => { window.closeMatch(); window.openChatRoom(matchRef.id, theirName, theirImg, theirUid); }; document.getElementById('matchOverlay').classList.add('active'); } } } } setTimeout(() => { card.remove(); const rem = document.querySelectorAll('.swipe-card:not(.removed)'); if(rem.length === 0) document.getElementById('empty-state').style.display = 'flex'; }, 400); }
 
-        // 🔥 DM SİSTEMİ (ÇÖKMEYEN TRY-CATCH) 🔥
         window.listenToDMs = function() { 
             const user = auth.currentUser; if(!user) return; const dmListContainer = document.getElementById('dm-list-container'); 
             onSnapshot(query(collection(db, "eslesmeler"), where("users", "array-contains", user.uid)), (snapshot) => { 
@@ -601,7 +548,6 @@
             closeModal('messagesModal'); window.activeChatId = chatId; document.getElementById('chat-header-name').innerText = partnerName; document.getElementById('chat-header-avatar').style.backgroundImage = `url('${partnerImg.replace(/'/g, "\\'")}')`; openModal('chatRoomModal'); 
             const chatArea = document.getElementById('chat-messages'); chatArea.innerHTML = '<div style="color:gray; text-align:center; margin-top:20px;">Mesajlar yükleniyor...</div>'; 
             if(messagesUnsubscribe) messagesUnsubscribe(); 
-            
             try {
                 messagesUnsubscribe = onSnapshot(query(collection(db, `eslesmeler/${chatId}/mesajlar`), orderBy("timestamp", "asc")), (snapshot) => { 
                     chatArea.innerHTML = ''; let msgs = []; const myUid = auth.currentUser ? auth.currentUser.uid : null; if(!myUid) return;
@@ -609,22 +555,13 @@
                         let m = docSnap.data(); m.id = docSnap.id; msgs.push(m);
                         if(m.senderId !== myUid && !m.read) { updateDoc(doc(db, `eslesmeler/${chatId}/mesajlar/${docSnap.id}`), { read: true }).catch(e=>{}); }
                     }); 
-
                     if(msgs.length === 0) { chatArea.innerHTML = '<div style="color:gray; text-align:center; margin-top:20px;">İlk mesajı sen gönder!</div>'; return; }
-                    
                     let lastMyMsgId = null; for(let i=msgs.length-1; i>=0; i--) { if(msgs[i].senderId === myUid) { lastMyMsgId = msgs[i].id; break; } }
                     msgs.forEach(msg => { 
                         const isMine = msg.senderId === myUid; let timeStr = "";
                         try { if(msg.timestamp && msg.timestamp.toDate) timeStr = msg.timestamp.toDate().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}); } catch(e) {}
-
                         let displayMsg = msg.text || "";
-                        if(displayMsg.startsWith("[PAYLAŞIM] ")) {
-                            const url = displayMsg.replace("[PAYLAŞIM] ", "");
-                            if(window.isVideo(url)) displayMsg = `<video src="${url}" autoplay loop muted playsinline style="width:100%; border-radius:12px;"></video><div style="font-size:11px; margin-top:5px; color:var(--primary-gold); text-align:center;">Gönderi Paylaşıldı</div>`;
-                            else displayMsg = `<img src="${url}" style="width:100%; border-radius:12px;"/><div style="font-size:11px; margin-top:5px; color:var(--primary-gold); text-align:center;">Gönderi Paylaşıldı</div>`;
-                        } else if(displayMsg.startsWith("[SES] ")) {
-                            displayMsg = `<audio controls src="${displayMsg.replace('[SES] ', '')}" style="height:35px; width:200px; outline:none;"></audio>`;
-                        }
+                        if(displayMsg.startsWith("[PAYLAŞIM] ")) { const url = displayMsg.replace("[PAYLAŞIM] ", ""); if(window.isVideo(url)) displayMsg = `<video src="${url}" autoplay loop muted playsinline style="width:100%; border-radius:12px;"></video><div style="font-size:11px; margin-top:5px; color:var(--primary-gold); text-align:center;">Gönderi Paylaşıldı</div>`; else displayMsg = `<img src="${url}" style="width:100%; border-radius:12px;"/><div style="font-size:11px; margin-top:5px; color:var(--primary-gold); text-align:center;">Gönderi Paylaşıldı</div>`; } else if(displayMsg.startsWith("[SES] ")) { displayMsg = `<audio controls src="${displayMsg.replace('[SES] ', '')}" style="height:35px; width:200px; outline:none;"></audio>`; }
                         let seenHtml = (isMine && msg.id === lastMyMsgId && msg.read) ? `<div style="font-size:10px; color:#3498db; text-align:right; margin-top:4px;">Görüldü ✓✓</div>` : '';
                         chatArea.insertAdjacentHTML('beforeend', `<div class="chat-msg ${isMine ? 'mine' : 'theirs'}"><div class="chat-bubble">${displayMsg}</div><div class="chat-time">${timeStr}</div>${seenHtml}</div>`); 
                     }); 
