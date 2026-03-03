@@ -15,11 +15,18 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0&display=block" />
     <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
 
+    <script>
+        if(sessionStorage.getItem("swinder_splashed")) {
+            document.write('<style>#splash-screen { display: none !important; }</style>');
+        }
+    </script>
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; touch-action: pan-y; -webkit-tap-highlight-color: transparent;}
         :root { --primary-gold: #d4af37; --text-light: #f5f5f7; --glass-bg: rgba(20, 20, 25, 0.45); --glass-border: 1px solid rgba(255, 255, 255, 0.08); }
         body { background: #050505; color: var(--text-light); overflow: hidden; }
 
+        /* AÇILIŞ EKRANI */
         #splash-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #050505; z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease, visibility 0.5s; }
         .splash-logo { font-family: 'Grand Hotel', cursive; font-size: 70px; color: var(--primary-gold); animation: splashPulse 1.5s infinite alternate; text-shadow: 0 0 20px rgba(212,175,55,0.4); }
         @keyframes splashPulse { 0% { transform: scale(1); opacity: 0.8;} 100% { transform: scale(1.1); opacity: 1;} }
@@ -111,11 +118,12 @@
         .reel-action-btn { background: none; border: none; color: white; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));}
         .reel-action-btn.liked .material-symbols-outlined { color: #ff3040; font-variation-settings: 'FILL' 1; }
 
-        /* KEŞFET */
+        /* 🔥 KEŞFET (YENİ INSTAGRAM STYLE GRID) 🔥 */
         .search-input { flex: 1; background: rgba(255,255,255,0.1); border: none; color: white; padding: 12px 20px; border-radius: 30px; outline: none; font-size: 14px;}
         .explore-users-container { display: none; max-height: 250px; overflow-y: auto; border-bottom: var(--glass-border); }
-        .grid-view { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; overflow-y: auto; flex: 1; align-content: start;}
-        .grid-item { aspect-ratio: 1 / 1; background-size: cover; background-position: center; cursor: pointer; position: relative; }
+        .explore-scroll-area { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+        .grid-view { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; width: 100%; }
+        .grid-item { width: 100%; height: 0; padding-bottom: 100%; position: relative; background-size: cover; background-position: center; cursor: pointer; }
         .grid-video-icon { position:absolute; top:5px; right:5px; color:white; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));}
 
         /* KULLANICI PROFİLİ */
@@ -256,7 +264,18 @@
     
     <div class="modal-overlay" id="notificationsModal"><div class="bottom-sheet"><div class="sheet-header"><button class="header-icon" onclick="closeModal('notificationsModal')"><span class="material-symbols-outlined">arrow_back</span></button> Bildirimler</div><div style="flex:1; overflow-y:auto;" id="noti-list"></div></div></div>
     
-    <div class="modal-overlay" id="exploreModal"><div class="bottom-sheet"><div class="sheet-header" style="gap:10px;"><button class="header-icon" onclick="closeModal('exploreModal')"><span class="material-symbols-outlined">arrow_back</span></button><input type="text" class="search-input" id="search-input" placeholder="Kişi veya gönderi ara..." onkeyup="performSearch()"></div><div class="explore-users-container" id="explore-users-list"></div><div class="grid-view" id="explore-grid" style="padding: 2px;"></div></div></div>
+    <div class="modal-overlay" id="exploreModal">
+        <div class="bottom-sheet">
+            <div class="sheet-header" style="gap:10px;">
+                <button class="header-icon" onclick="closeModal('exploreModal')"><span class="material-symbols-outlined">arrow_back</span></button>
+                <input type="text" class="search-input" id="search-input" placeholder="Kişi veya gönderi ara..." onkeyup="performSearch()">
+            </div>
+            <div class="explore-users-container" id="explore-users-list"></div>
+            <div class="explore-scroll-area">
+                <div class="grid-view" id="explore-grid"></div>
+            </div>
+        </div>
+    </div>
 
     <div class="modal-overlay" id="userProfileModal" style="z-index: 1550;">
         <div class="bottom-sheet">
@@ -279,11 +298,13 @@
             <div class="up-actions">
                 <button id="btn-follow-user" class="btn-up-action btn-follow" onclick="toggleFollowDB(this)">Takip Et</button>
             </div>
-            <div class="grid-view" id="up-grid" style="border-top: var(--glass-border); padding-top: 2px;"></div>
+            <div class="explore-scroll-area" style="border-top: var(--glass-border); padding-top: 2px;">
+                <div class="grid-view" id="up-grid"></div>
+            </div>
         </div>
     </div>
 
-    <div class="modal-overlay" id="postDetailModal" style="z-index: 1600;"><div class="post-detail-box"><div class="sheet-header"><button class="header-icon" onclick="closeModal('postDetailModal')"><span class="material-symbols-outlined">arrow_back</span></button> Gönderi <div id="admin-controls" style="margin-left:auto; display:none; gap:15px;"><button class="header-icon" style="color:var(--primary-gold);" onclick="editPostDB()"><span class="material-symbols-outlined">edit</span></button><button class="header-icon" style="color:#ff4757;" onclick="deletePostDB()"><span class="material-symbols-outlined">delete</span></button></div></div><div style="flex:1; overflow-y:auto; padding-bottom:30px;"><div class="post-detail-img-container"><div class="media-blur-bg" id="pd-blur"></div><div id="pd-media-container" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center; z-index:1;"></div></div><div style="padding: 15px 20px;"><div style="display:flex; gap:15px; margin-bottom:15px;"><button class="header-icon" id="pd-btn-like" onclick="toggleLikeDB(this)"><span class="material-symbols-outlined">favorite</span></button><button class="header-icon" onclick="openCommentsDB()"><span class="material-symbols-outlined">chat_bubble</span></button><button class="header-icon" onclick="openShareModal()"><span class="material-symbols-outlined">send</span></button></div><div style="font-weight:600; margin-bottom:10px;"><span id="pd-likes">0</span> beğenme</div><div style="font-size: 14px;"><strong id="pd-user" style="margin-right:5px; cursor:pointer;" onclick="openUserProfile(this.innerText)">-</strong><span id="pd-caption" style="color:rgba(255,255,255,0.8);">-</span></div></div></div></div></div>
+    <div class="modal-overlay" id="postDetailModal" style="z-index: 1600;"><div class="post-detail-box"><div class="sheet-header"><button class="header-icon" onclick="closeModal('postDetailModal')"><span class="material-symbols-outlined">arrow_back</span></button> Gönderi <div id="admin-controls" style="margin-left:auto; display:none; gap:15px;"><button class="header-icon" style="color:var(--primary-gold);" onclick="editPostDB()"><span class="material-symbols-outlined">edit</span></button><button class="header-icon" style="color:#ff4757;" onclick="deletePostDB()"><span class="material-symbols-outlined">delete</span></button></div></div><div style="flex:1; overflow-y:auto; padding-bottom:30px;"><div class="post-detail-img-container"><div class="media-blur-bg" id="pd-blur"></div><div id="pd-media-container" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center; z-index:1;"></div></div><div style="padding: 15px 20px;"><div style="display:flex; gap:15px; margin-bottom:15px;"><button class="header-icon" id="pd-btn-like" onclick="toggleLikeDB(this)"><span class="material-symbols-outlined">favorite</span></button><button class="header-icon" onclick="openCommentsDB()"><span class="material-symbols-outlined">chat_bubble</span></button><button class="header-icon" onclick="openShareModal()"><span class="material-symbols-outlined">send</span></button></div><div style="font-weight:600; margin-bottom:10px;"><span id="pd-likes">0</span> beğenme</div><div style="font-size: 14px;"><strong id="pd-user" style="margin-right:5px; cursor:pointer;" onclick="closeModal('postDetailModal'); window.openUserProfile(this.dataset.user)">-</strong><span id="pd-caption" style="color:rgba(255,255,255,0.8);">-</span></div></div></div></div></div>
     
     <div class="modal-overlay" id="addModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Yeni Gönderi/Video</h2><div class="form-group"><input type="text" id="add-image" placeholder="Medya URL'si (Resim veya MP4)..."></div><div class="form-group"><textarea id="add-caption" rows="3" placeholder="Açıklama..."></textarea></div><button type="button" id="btn-submit-post" class="btn-premium">Paylaş</button></div></div>
     <div class="modal-overlay" id="addStoryModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addStoryModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color:white; font-size:18px; text-align:center; margin-bottom:20px;">Hikaye Ekle</h2><div class="form-group"><input type="text" id="story-img-url" placeholder="Görsel veya Video URL..."></div><button id="btn-submit-story" class="btn-premium">Paylaş</button></div></div>
@@ -309,6 +330,7 @@
         function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = 'auto'; if(id === 'viewStoryModal') { clearTimeout(window.storyTimeout); const vid = document.getElementById('story-vid'); if(vid) vid.pause(); } }
         function switchAuthTab(tab) { document.getElementById('tab-login').classList.remove('active'); document.getElementById('tab-register').classList.remove('active'); document.getElementById('tab-' + tab).classList.add('active'); document.getElementById('form-login').classList.remove('active'); document.getElementById('form-register').classList.remove('active'); document.getElementById('form-' + tab).classList.add('active'); }
         document.querySelectorAll('.modal-overlay').forEach(m => { m.addEventListener('click', (e) => { if(e.target === m && m.id !== 'authModal' && m.id !== 'splash-screen') closeModal(m.id); }); });
+        
         window.openExplore = () => { openModal('exploreModal'); if(window.renderExploreGrid) window.renderExploreGrid(); }
         window.openReels = () => { openModal('reelsModal'); if(window.renderReels) window.renderReels(); }
         window.openNotifications = () => { openModal('notificationsModal'); document.getElementById('noti-dot').style.display='none'; if(window.loadNotifications) window.loadNotifications(); }
@@ -316,15 +338,14 @@
         window.closeMatch = () => document.getElementById('matchOverlay').classList.remove('active');
         
         function hideSplash() { 
-            const spl = document.getElementById('splash-screen'); 
-            if(spl) { spl.style.opacity = '0'; setTimeout(() => spl.style.display = 'none', 400); } 
+            sessionStorage.setItem("swinder_splashed", "true");
+            const spl = document.getElementById('splash-screen'); if(spl) { spl.style.opacity = '0'; setTimeout(() => spl.style.display = 'none', 400); } 
         }
-        // GÜVENLİK AĞI: Sitenin takılmasını kesinlikle engeller
-        const fallbackTimer = setTimeout(() => { hideSplash(); }, 3000);
+        const fallbackTimer = setTimeout(() => { hideSplash(); }, 2000);
 
         window.isVideo = function(url) { if(!url) return false; return url.match(/\.(mp4|webm|ogg|mov)(\?.*)?$/i) !== null || url.includes('video'); }
 
-        // SESLİ MESAJ (MİKROFON)
+        // 🔥 SESLİ MESAJ (MİKROFON) iOS UYUMLU 🔥
         let mediaRecorder; let audioChunks = []; let isRecording = false; let recordTimeout;
         window.startVoiceRecord = async function(e) {
             if(e) e.preventDefault(); if(isRecording) return;
@@ -335,7 +356,7 @@
                 document.getElementById('btn-mic').style.transform = 'scale(1.3)';
                 document.getElementById('chat-input').placeholder = "🎤 Kaydediliyor... (Bırakınca Gönderir)";
                 mediaRecorder.addEventListener("dataavailable", event => { audioChunks.push(event.data); });
-                recordTimeout = setTimeout(() => { window.stopVoiceRecord(); }, 60000); // 1 DK MAX
+                recordTimeout = setTimeout(() => { window.stopVoiceRecord(); }, 60000);
             } catch(err) { alert("Mikrofon izni reddedildi!"); }
         };
         window.stopVoiceRecord = function(e) {
@@ -344,7 +365,9 @@
             document.getElementById('btn-mic').style.transform = 'scale(1)';
             document.getElementById('chat-input').placeholder = "Mesaj yaz...";
             mediaRecorder.addEventListener("stop", () => {
-                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                // iOS Safarinin kendi kaydettiği formatı al (mimeType boşsa mp4 varsay)
+                let mime = mediaRecorder.mimeType || 'audio/mp4';
+                const audioBlob = new Blob(audioChunks, { type: mime });
                 const reader = new FileReader(); reader.readAsDataURL(audioBlob);
                 reader.onloadend = async function() {
                     if(!window.activeChatId) return;
@@ -385,7 +408,6 @@
 
         document.getElementById('btn-login').addEventListener('click', async () => { try { await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-pass').value); window.location.reload(); } catch (err) { alert(err.message); }});
         
-        // OTOMATİK ADMİN TAKİP
         document.getElementById('btn-register').addEventListener('click', async () => { 
             const name = document.getElementById('reg-name').value.trim(); const email = document.getElementById('reg-email').value; const pass = document.getElementById('reg-pass').value; if(!name || !email || !pass) return alert("Doldurun!"); 
             document.getElementById('btn-register').innerText = "Açılıyor..."; 
@@ -437,7 +459,9 @@
             const data = JSON.parse(decodeURIComponent(dataStr)); window.activeInteractPostId = postId; window.activeInteractOwner = data.username; window.activeShareUrl = data.imageUrl; 
             const mediaContainer = document.getElementById('pd-media-container');
             if(window.isVideo(data.imageUrl)) { mediaContainer.innerHTML = `<video src="${data.imageUrl}" autoplay loop playsinline style="max-width:100%; max-height:100%; position:relative; z-index:1;"></video>`; document.getElementById('pd-blur').style.backgroundImage = 'none'; } else { mediaContainer.innerHTML = `<img src="${data.imageUrl}" style="max-width:100%; max-height:100%; object-fit:contain; position:relative; z-index:1;" />`; document.getElementById('pd-blur').style.backgroundImage = `url('${data.imageUrl.replace(/'/g, "\\'")}')`; }
-            const isP = window.globalUsersByName[data.username]?.isPremium ? ' <span class="material-symbols-outlined vip-badge">workspace_premium</span>' : ''; document.getElementById('pd-user').innerHTML = data.username + isP; document.getElementById('pd-caption').innerText = data.caption || ''; document.getElementById('pd-likes').innerText = data.likesCount || 0;
+            const isP = window.globalUsersByName[data.username]?.isPremium ? ' <span class="material-symbols-outlined vip-badge">workspace_premium</span>' : ''; 
+            document.getElementById('pd-user').dataset.user = data.username; document.getElementById('pd-user').innerHTML = data.username + isP; 
+            document.getElementById('pd-caption').innerText = data.caption || ''; document.getElementById('pd-likes').innerText = data.likesCount || 0;
             const btnLike = document.getElementById('pd-btn-like'); if(auth.currentUser && data.likedBy && data.likedBy.includes(auth.currentUser.displayName)) btnLike.classList.add('liked'); else btnLike.classList.remove('liked');
             const isAdmin = auth.currentUser.email === adminEmail; document.getElementById('admin-controls').style.display = (isAdmin || auth.currentUser.displayName === data.username) ? 'flex' : 'none'; openModal('postDetailModal');
         }
@@ -484,16 +508,16 @@
         window.prevStory = function() { if(window.currentStoryIndex > 0) { window.currentStoryIndex--; window.playCurrentStory(); } else { window.playCurrentStory(); } }
         window.deleteStoryDB = async function() { if(!window.activeInteractStoryId) return; if(confirm("Bu hikayeyi silmek istediğine emin misin?")) { await deleteDoc(doc(db, "hikayeler", window.activeInteractStoryId)); closeModal('viewStoryModal'); window.loadStories(); } }
 
+        // 🔥 GÜVENLİ DATA-USER ATAMALARI (KEŞFET VE REELS) 🔥
         window.renderReels = function() {
             const rc = document.getElementById('reels-container'); rc.innerHTML = ''; if(window.globalPosts.length === 0) { rc.innerHTML = '<div style="color:white; text-align:center; padding-top:50vh;">Reels yok.</div>'; return; }
             window.globalPosts.forEach(data => {
                 const pInfo = window.globalUsersByName[data.username] || {}; const av = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100')`; const likedClass = (auth.currentUser && data.likedBy && data.likedBy.includes(auth.currentUser.displayName)) ? 'liked' : ''; const isP = pInfo.isPremium ? ' <span class="material-symbols-outlined vip-badge">workspace_premium</span>' : '';
                 const mediaHtml = window.isVideo(data.imageUrl) ? `<video src="${data.imageUrl}" autoplay loop muted playsinline style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;" ondblclick="toggleLikeDB(this.parentElement.querySelector('.btn-like'), '${data.id}', '${data.username}')"></video>` : `<img src="${data.imageUrl}" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;" ondblclick="toggleLikeDB(this.parentElement.querySelector('.btn-like'), '${data.id}', '${data.username}')"/>`;
-                rc.insertAdjacentHTML('beforeend', `<div class="reel-item"><div class="media-blur-bg" style="background-image: url('${data.imageUrl.replace(/'/g, "\\'")}');"></div>${mediaHtml}<div class="reel-overlay"></div><div class="reel-content"><div class="reel-info"><div class="reel-user" onclick="closeModal('reelsModal'); window.openUserProfile('${data.username.replace(/'/g, "\\'")}')"><div class="reel-avatar" style="background-image:${av};"></div>${data.username}${isP}</div><div class="reel-caption">${data.caption || ''}</div></div><div class="reel-actions"><button class="reel-action-btn btn-like ${likedClass}" onclick="toggleLikeDB(this, '${data.id}', '${data.username}')"><span class="material-symbols-outlined">favorite</span><span class="reel-action-text" id="like-count-${data.id}">${data.likesCount||0}</span></button><button class="reel-action-btn" onclick="window.activeInteractPostId='${data.id}'; window.activeInteractOwner='${data.username}'; openCommentsDB();"><span class="material-symbols-outlined">chat_bubble</span></button><button class="reel-action-btn" onclick="window.activeShareUrl='${data.imageUrl}'; window.openShareModal();"><span class="material-symbols-outlined">send</span></button></div></div></div>`);
+                rc.insertAdjacentHTML('beforeend', `<div class="reel-item"><div class="media-blur-bg" style="background-image: url('${data.imageUrl.replace(/'/g, "\\'")}');"></div>${mediaHtml}<div class="reel-overlay"></div><div class="reel-content"><div class="reel-info"><div class="reel-user" data-user="${data.username.replace(/"/g, '&quot;')}" onclick="closeModal('reelsModal'); window.openUserProfile(this.dataset.user)"><div class="reel-avatar" style="background-image:${av};"></div>${data.username}${isP}</div><div class="reel-caption">${data.caption || ''}</div></div><div class="reel-actions"><button class="reel-action-btn btn-like ${likedClass}" onclick="toggleLikeDB(this, '${data.id}', '${data.username}')"><span class="material-symbols-outlined">favorite</span><span class="reel-action-text" id="like-count-${data.id}">${data.likesCount||0}</span></button><button class="reel-action-btn" onclick="window.activeInteractPostId='${data.id}'; window.activeInteractOwner='${data.username}'; openCommentsDB();"><span class="material-symbols-outlined">chat_bubble</span></button><button class="reel-action-btn" onclick="window.activeShareUrl='${data.imageUrl}'; window.openShareModal();"><span class="material-symbols-outlined">send</span></button></div></div></div>`);
             });
         }
 
-        // 🔥 KEŞFET TIKLAMA SORUNU (DÜZELTİLDİ) 🔥
         window.renderExploreGrid = async function() {
             const myUid = auth.currentUser ? auth.currentUser.uid : null;
             const filterText = document.getElementById('search-input').value.toLocaleLowerCase('tr-TR'); const grid = document.getElementById('explore-grid'); grid.innerHTML = ''; const userList = document.getElementById('explore-users-list'); userList.innerHTML = '';
@@ -502,7 +526,7 @@
                 userList.style.display = 'block'; 
                 matchedUsers.forEach(u => { 
                     const av = u.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100'; const isP = u.isPremium ? ' <span class="material-symbols-outlined vip-badge">workspace_premium</span>' : ''; 
-                    userList.insertAdjacentHTML('beforeend', `<div class="list-item" onclick="closeModal('exploreModal'); window.openUserProfile('${u.displayName.replace(/'/g, "\\'")}')" style="padding: 10px 20px;"><div class="list-avatar" style="background-image: url('${av}'); width: 40px; height: 40px;"></div><div class="list-text"><strong style="color:white; font-size:15px;">${u.displayName}${isP}</strong></div></div>`); 
+                    userList.insertAdjacentHTML('beforeend', `<div class="list-item" data-user="${u.displayName.replace(/"/g, '&quot;')}" onclick="closeModal('exploreModal'); window.openUserProfile(this.dataset.user)" style="padding: 10px 20px;"><div class="list-avatar" style="background-image: url('${av}'); width: 40px; height: 40px;"></div><div class="list-text"><strong style="color:white; font-size:15px;">${u.displayName}${isP}</strong></div></div>`); 
                 }); 
             } else { userList.style.display = 'none'; }
             let filteredPosts = window.globalPosts.filter(p => p.username !== auth.currentUser.displayName);
@@ -514,6 +538,22 @@
             });
         }
         window.performSearch = () => window.renderExploreGrid();
+
+        window.openUserProfile = function(username) {
+            let pInfo = window.globalUsersByName[username] || {}; const isV = pInfo.isVerified || username.toLowerCase().includes('çağatay'); const isP = pInfo.isPremium ? ' <span class="material-symbols-outlined vip-badge">workspace_premium</span>' : ''; 
+            document.getElementById('up-title').innerText = username; document.getElementById('up-name').innerHTML = `${username} ${isV ? '<span class="gold-tick" style="display:inline-flex;">✓</span>' : ''} ${isP}`; 
+            document.getElementById('up-bio').innerText = pInfo.bio || 'Swinder VIP Üyesi'; document.getElementById('up-avatar').style.backgroundImage = pInfo.avatar ? `url('${pInfo.avatar.replace(/'/g, "\\'")}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=200')`;
+            const userPosts = window.globalPosts.filter(p => p.username === username); document.getElementById('up-post-count').innerText = userPosts.length; document.getElementById('up-follower-count').innerText = (pInfo.followers || []).length; document.getElementById('up-following-count').innerText = (pInfo.following || []).length;
+            const btnFollow = document.getElementById('btn-follow-user'); if(auth.currentUser && auth.currentUser.displayName === username) { btnFollow.style.display = 'none'; } else { btnFollow.style.display = 'block'; if(currentUserProfile && currentUserProfile.following && currentUserProfile.following.includes(pInfo.uid)) { btnFollow.classList.add('following'); btnFollow.innerText="Takibi Bırak"; btnFollow.style.background="rgba(255,255,255,0.15)"; btnFollow.style.color="white"; } else { btnFollow.classList.remove('following'); btnFollow.innerText="Takip Et"; btnFollow.style.background="var(--primary-gold)"; btnFollow.style.color="black"; } }
+            const upGrid = document.getElementById('up-grid'); upGrid.innerHTML = ''; if(userPosts.length === 0) upGrid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 30px; font-size:13px;">Gönderi yok.</div>'; userPosts.forEach(p => { const dataStr = safeEncode(JSON.stringify(p)); const isVid = window.isVideo(p.imageUrl); const bgUrl = isVid ? 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400' : p.imageUrl; const iconHtml = isVid ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : ''; upGrid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${bgUrl.replace(/'/g, "\\'")}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')">${iconHtml}</div>`); }); openModal('userProfileModal');
+        }
+
+        window.toggleFollowDB = async function(btnElement) {
+            const user = auth.currentUser; if(!user) return; const tName = document.getElementById('up-title').innerText; const targetUser = window.globalUsersByName[tName]; if(!targetUser) return;
+            const isFollowing = btnElement.classList.contains('following'); const myRef = doc(db, "kullanicilar", user.uid); const targetRef = doc(db, "kullanicilar", targetUser.uid); const countEl = document.getElementById('up-follower-count'); let count = countEl ? parseInt(countEl.innerText) : 0;
+            if(isFollowing) { btnElement.classList.remove('following'); btnElement.innerText = "Takip Et"; btnElement.style.background = "var(--primary-gold)"; btnElement.style.color = "black"; if(countEl) countEl.innerText = count - 1; await updateDoc(myRef, { following: arrayRemove(targetUser.uid) }); await updateDoc(targetRef, { followers: arrayRemove(user.uid) }); if(currentUserProfile && currentUserProfile.following) currentUserProfile.following = currentUserProfile.following.filter(id => id !== targetUser.uid); } 
+            else { btnElement.classList.add('following'); btnElement.innerText = "Takibi Bırak"; btnElement.style.background = "rgba(255,255,255,0.15)"; btnElement.style.color = "white"; if(countEl) countEl.innerText = count + 1; await updateDoc(myRef, { following: arrayUnion(targetUser.uid) }); await updateDoc(targetRef, { followers: arrayUnion(user.uid) }); if(currentUserProfile) { if(!currentUserProfile.following) currentUserProfile.following=[]; currentUserProfile.following.push(targetUser.uid); } }
+        }
 
         const swipeContainer = document.getElementById('swipe-container'); 
         function loadProfilesForDeck() { 
@@ -542,6 +582,7 @@
         window.buttonSwipe = function(d) { const topCard = document.querySelector('.swipe-card:not(.removed)'); if(!topCard) return; topCard.classList.add('removed'); if(d === 'right' || d === 'super') topCard.querySelector('.stamp-like').style.opacity = 1; else topCard.querySelector('.stamp-nope').style.opacity = 1; processSwipe(topCard, d); }
         async function processSwipe(card, direction) { const endX = (direction === 'right' || direction === 'super') ? window.innerWidth : -window.innerWidth; card.style.transition = 'transform 0.4s ease-out, opacity 0.4s ease-out'; card.style.transform = `translateX(${endX}px) rotate(${direction === 'left' ? -30 : 30}deg)`; card.style.opacity = '0'; const user = auth.currentUser; const theirUid = card.dataset.uid; const theirName = card.dataset.name; const theirImg = card.dataset.img; if (user) { await setDoc(doc(db, "kaydirmalar", `${user.uid}_${theirUid}`), { swiperId: user.uid, swipedId: theirUid, action: direction, timestamp: new Date() }); if (direction === 'right' || direction === 'super') { const theirSwipe = await getDoc(doc(db, "kaydirmalar", `${theirUid}_${user.uid}`)); if(theirSwipe.exists() && (theirSwipe.data().action === 'right' || theirSwipe.data().action === 'super')) { const matchQ = await getDocs(query(collection(db, "eslesmeler"), where("users", "array-contains", user.uid))); let alreadyMatched = false; matchQ.forEach(d => { if(d.data().users.includes(theirUid)) alreadyMatched = true; }); if(!alreadyMatched) { const matchRef = await addDoc(collection(db, "eslesmeler"), { users: [user.uid, theirUid], userNames: [user.displayName, theirName], lastMessage: "Yeni Eşleşme!", updatedAt: new Date() }); document.getElementById('match-my-avatar').style.backgroundImage = `url('${currentUserProfile?.avatar || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=200"}')`; document.getElementById('match-their-avatar').style.backgroundImage = `url('${theirImg}')`; document.getElementById('match-text').innerHTML = `Sen ve <strong>${theirName}</strong> birbirinizi beğendiniz!`; document.getElementById('btn-match-msg').onclick = () => { window.closeMatch(); window.openChatRoom(matchRef.id, theirName, theirImg, theirUid); }; document.getElementById('matchOverlay').classList.add('active'); } } } } setTimeout(() => { card.remove(); const rem = document.querySelectorAll('.swipe-card:not(.removed)'); if(rem.length === 0) document.getElementById('empty-state').style.display = 'flex'; }, 400); }
 
+        // 🔥 DM SİSTEMİ (ÇÖKMEYEN TRY-CATCH) 🔥
         window.listenToDMs = function() { 
             const user = auth.currentUser; if(!user) return; const dmListContainer = document.getElementById('dm-list-container'); 
             onSnapshot(query(collection(db, "eslesmeler"), where("users", "array-contains", user.uid)), (snapshot) => { 
@@ -556,7 +597,6 @@
             }); 
         }
 
-        // 🔥 DM SİYAH EKRAN (ÇÖKME) KESİN ÇÖZÜMÜ 🔥
         window.openChatRoom = function(chatId, partnerName, partnerImg, partnerUid) { 
             closeModal('messagesModal'); window.activeChatId = chatId; document.getElementById('chat-header-name').innerText = partnerName; document.getElementById('chat-header-avatar').style.backgroundImage = `url('${partnerImg.replace(/'/g, "\\'")}')`; openModal('chatRoomModal'); 
             const chatArea = document.getElementById('chat-messages'); chatArea.innerHTML = '<div style="color:gray; text-align:center; margin-top:20px;">Mesajlar yükleniyor...</div>'; 
@@ -564,26 +604,17 @@
             
             try {
                 messagesUnsubscribe = onSnapshot(query(collection(db, `eslesmeler/${chatId}/mesajlar`), orderBy("timestamp", "asc")), (snapshot) => { 
-                    chatArea.innerHTML = ''; 
-                    let msgs = [];
-                    const myUid = auth.currentUser ? auth.currentUser.uid : null;
-                    if(!myUid) return;
-
+                    chatArea.innerHTML = ''; let msgs = []; const myUid = auth.currentUser ? auth.currentUser.uid : null; if(!myUid) return;
                     snapshot.forEach(docSnap => { 
                         let m = docSnap.data(); m.id = docSnap.id; msgs.push(m);
-                        if(m.senderId !== myUid && !m.read) { 
-                            updateDoc(doc(db, `eslesmeler/${chatId}/mesajlar/${docSnap.id}`), { read: true }).catch(e=>{}); 
-                        }
+                        if(m.senderId !== myUid && !m.read) { updateDoc(doc(db, `eslesmeler/${chatId}/mesajlar/${docSnap.id}`), { read: true }).catch(e=>{}); }
                     }); 
 
                     if(msgs.length === 0) { chatArea.innerHTML = '<div style="color:gray; text-align:center; margin-top:20px;">İlk mesajı sen gönder!</div>'; return; }
                     
-                    let lastMyMsgId = null;
-                    for(let i=msgs.length-1; i>=0; i--) { if(msgs[i].senderId === myUid) { lastMyMsgId = msgs[i].id; break; } }
-
+                    let lastMyMsgId = null; for(let i=msgs.length-1; i>=0; i--) { if(msgs[i].senderId === myUid) { lastMyMsgId = msgs[i].id; break; } }
                     msgs.forEach(msg => { 
-                        const isMine = msg.senderId === myUid; 
-                        let timeStr = "";
+                        const isMine = msg.senderId === myUid; let timeStr = "";
                         try { if(msg.timestamp && msg.timestamp.toDate) timeStr = msg.timestamp.toDate().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}); } catch(e) {}
 
                         let displayMsg = msg.text || "";
@@ -594,7 +625,6 @@
                         } else if(displayMsg.startsWith("[SES] ")) {
                             displayMsg = `<audio controls src="${displayMsg.replace('[SES] ', '')}" style="height:35px; width:200px; outline:none;"></audio>`;
                         }
-
                         let seenHtml = (isMine && msg.id === lastMyMsgId && msg.read) ? `<div style="font-size:10px; color:#3498db; text-align:right; margin-top:4px;">Görüldü ✓✓</div>` : '';
                         chatArea.insertAdjacentHTML('beforeend', `<div class="chat-msg ${isMine ? 'mine' : 'theirs'}"><div class="chat-bubble">${displayMsg}</div><div class="chat-time">${timeStr}</div>${seenHtml}</div>`); 
                     }); 
