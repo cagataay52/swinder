@@ -15,11 +15,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0&display=block" />
     <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
 
-    <script>
-        if(sessionStorage.getItem("swinder_splashed")) {
-            document.write('<style>#splash-screen { display: none !important; }</style>');
-        }
-    </script>
+    <script>if(sessionStorage.getItem("swinder_splashed")) { document.write('<style>#splash-screen { display: none !important; }</style>'); }</script>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; -webkit-tap-highlight-color: transparent;}
@@ -45,12 +41,10 @@
         .profile-actions { padding: 0 20px; margin-bottom: 20px; }
         .btn-edit { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: var(--glass-border); color: var(--text-light); padding: 10px 0; border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.3s; width: 100%; text-align: center; }
         
-        /* INSTAGRAM KUSURSUZ KARE GRID SİSTEMİ */
         .profile-grid, .grid-view { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; width: 100%; margin-top: 2px;}
         .grid-item { width: 100%; height: 0; padding-bottom: 100%; position: relative; background-color: #1a1a1a; background-size: cover; background-position: center; cursor: pointer;}
         .grid-video-icon { position:absolute; top:8px; right:8px; color:white; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8)); font-size: 22px;}
 
-        /* ALT MENÜ VE PWA OPTİMİZASYONU */
         .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 10, 12, 0.85); backdrop-filter: blur(20px); padding: 10px 10px calc(8px + env(safe-area-inset-bottom)); border-top: var(--glass-border); z-index: 999; }
         .nav-icon-btn { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .nav-icon-btn .material-symbols-outlined { font-size: 30px; }
@@ -58,7 +52,7 @@
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: 0.3s; z-index: 1500; padding: 15px; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
-        .close-btn { position: absolute; top: calc(15px + env(safe-area-inset-top)); right: 15px; background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 50; display: flex; align-items: center; justify-content: center;}
+        .close-btn { position: absolute; top: calc(15px + env(safe-area-inset-top)); right: 15px; background: rgba(255,255,255,0.1); border: none; color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 50; display: flex; justify-content: center; align-items: center;}
         
         .bottom-sheet { background: #121214; width: 100%; height: 90vh; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.4s; display: flex; flex-direction: column; overflow: hidden; padding-bottom: env(safe-area-inset-bottom);}
         .modal-overlay.active .bottom-sheet { transform: translateY(0); }
@@ -106,11 +100,31 @@
         .up-actions { display: flex; gap: 10px; padding: 0 20px 20px; }
         .btn-up-action { flex: 1; padding: 8px 0; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; border: none; transition: 0.2s;}
 
+        .chat-area { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #050505;}
+        .chat-msg { display: flex; flex-direction: column; max-width: 80%; }
+        .chat-msg.mine { align-self: flex-end; align-items: flex-end; }
+        .chat-msg.theirs { align-self: flex-start; align-items: flex-start; }
+        .chat-bubble { padding: 12px 16px; border-radius: 20px; font-size: 14px; line-height: 1.4; word-break: break-word;}
+        .chat-msg.mine .chat-bubble { background: linear-gradient(135deg, #d4af37, #aa8529); color: #000; border-bottom-right-radius: 4px;}
+        .chat-msg.theirs .chat-bubble { background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; border-bottom-left-radius: 4px;}
+        .chat-time { font-size: 10px; color: gray; margin-top: 4px; }
+        .chat-input-container { padding: 15px 20px; background: rgba(20,20,25,0.9); border-top: var(--glass-border); display: flex; gap: 8px; align-items: center;}
+        .chat-input { flex: 1; background: rgba(255,255,255,0.1); border: none; color: white; padding: 14px 20px; border-radius: 30px; outline: none; font-size:14px;}
+        .chat-send-btn { background: var(--primary-gold); width: 45px; height: 45px; border-radius: 50%; border: none; display: flex; justify-content: center; align-items: center; color: black; cursor: pointer; transition: transform 0.2s;}
+
+        /* YAZIYOR... (TYPING) ANİMASYONU CSS */
+        .typing-dots { display: flex; align-items: center; gap: 4px; padding: 12px 16px; height: 38px; width: fit-content; }
+        .typing-dots span { width: 6px; height: 6px; background: rgba(255,255,255,0.7); border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; }
+        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+
         @media (max-width: 768px) {
             .modal-overlay { padding: 0; align-items: flex-end;}
             .glass-box { margin: 0; max-width: 100%; border-radius: 25px 25px 0 0; transform: translateY(100%); border-bottom: none;}
             .modal-overlay.active .glass-box { transform: translateY(0); }
             .post-detail-box { height: 90vh; border-radius: 20px 20px 0 0; }
+            .reels-box { height: 100dvh; max-width: 100%; border-radius: 0; }
         }
     </style>
 </head>
@@ -139,7 +153,6 @@
         </div>
         <div class="profile-bio"><strong id="bio-name">-</strong><br><span id="bio-text" style="color:gray;">Biyografi yükleniyor...</span></div>
         <div class="profile-actions"><button class="btn-edit" onclick="openModal('profileEditModal')">Profili Düzenle</button></div>
-        
         <div class="profile-grid" id="my-posts"></div>
     </main>
 
@@ -204,9 +217,34 @@
     <div class="modal-overlay" id="commentsModal" style="z-index: 1700;"><div class="bottom-sheet" style="height: 70vh;"><div class="sheet-header"><button class="header-icon" onclick="closeModal('commentsModal')"><span class="material-symbols-outlined">close</span></button> Yorumlar</div><div style="flex:1; overflow-y:auto; padding:15px; display:flex; flex-direction:column; gap:15px;" id="comments-list"></div><div class="chat-input-container"><input type="text" id="new-comment-input" placeholder="Yorum ekle..." class="chat-input"><button onclick="submitComment()" style="background:none; border:none; color:var(--primary-gold); font-weight:bold; padding:0 10px; cursor:pointer;">Paylaş</button></div></div></div>
     <div class="modal-overlay" id="shareModal" style="z-index: 1750;"><div class="bottom-sheet" style="height: 60vh;"><div class="sheet-header"><button class="header-icon" onclick="closeModal('shareModal')"><span class="material-symbols-outlined">close</span></button> Kime Gönderilsin?</div><div style="flex:1; overflow-y:auto;" id="share-list-container"></div></div></div>
 
+    <div class="modal-overlay" id="chatRoomModal" style="z-index: 1600;">
+        <div class="bottom-sheet" style="height: 100dvh; border-radius: 0;">
+            <div class="sheet-header" style="padding-top: calc(15px + env(safe-area-inset-top));">
+                <button class="header-icon" onclick="closeModal('chatRoomModal');"><span class="material-symbols-outlined">arrow_back</span></button>
+                <div style="display:flex; align-items:center; gap:10px;"><div id="chat-header-avatar" style="width:36px; height:36px; border-radius:50%; background-size:cover; border:2px solid var(--primary-gold);"></div><span id="chat-header-name">Kullanıcı</span></div>
+                <button class="header-icon" style="margin-left:auto; color:#ff4757;" onclick="deleteChatRoom()"><span class="material-symbols-outlined">delete</span></button>
+            </div>
+            <div class="chat-area" id="chat-messages"></div>
+            <div class="chat-input-container">
+                <input type="text" id="chat-input" class="chat-input" placeholder="Mesaj yaz..." oninput="window.onChatInput()" onkeypress="if(event.key === 'Enter') sendChatMessage()">
+                <button class="chat-send-btn" id="btn-mic" style="background:#ff3040; color:white;" onmousedown="startVoiceRecord(event)" onmouseup="stopVoiceRecord(event)" ontouchstart="startVoiceRecord(event)" ontouchend="stopVoiceRecord(event)"><span class="material-symbols-outlined">mic</span></button>
+                <button class="chat-send-btn" onclick="sendChatMessage()"><span class="material-symbols-outlined">send</span></button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js'); }); }
+        
+        // 🔥 SUSTURUCU KALKAN (TÜM VİDEOLARI KAPATIR) 🔥
+        function closeModal(id) { 
+            document.getElementById(id).classList.remove('active'); 
+            document.body.style.overflow = 'auto'; 
+            const modal = document.getElementById(id);
+            if(modal) { modal.querySelectorAll('video').forEach(vid => { vid.pause(); }); }
+            if(id === 'chatRoomModal' && window.chatDocUnsubscribe) { window.chatDocUnsubscribe(); window.chatDocUnsubscribe = null; }
+        }
         function openModal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
-        function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = 'auto'; }
         document.querySelectorAll('.modal-overlay').forEach(m => { m.addEventListener('click', (e) => { if(e.target === m && m.id !== 'splash-screen') closeModal(m.id); }); });
         
         window.openExplore = () => { openModal('exploreModal'); if(window.renderExploreGrid) window.renderExploreGrid(); }
@@ -219,34 +257,58 @@
             const spl = document.getElementById('splash-screen'); if(spl) { spl.style.opacity = '0'; setTimeout(() => spl.style.display = 'none', 400); } 
         }
         window.isVideo = function(url) { if(!url) return false; return url.match(/\.(mp4|webm|ogg|mov)(\?.*)?$/i) !== null || url.includes('video'); }
+
+        let mediaRecorder; let audioChunks = []; let isRecording = false; let recordTimeout;
+        window.startVoiceRecord = async function(e) {
+            if(e) e.preventDefault(); if(isRecording) return;
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.start(); isRecording = true; audioChunks = [];
+                document.getElementById('btn-mic').style.transform = 'scale(1.3)';
+                document.getElementById('chat-input').placeholder = "🎤 Kaydediliyor...";
+                mediaRecorder.addEventListener("dataavailable", event => { audioChunks.push(event.data); });
+                recordTimeout = setTimeout(() => { window.stopVoiceRecord(); }, 60000);
+            } catch(err) { alert("Mikrofon izni reddedildi!"); }
+        };
+        window.stopVoiceRecord = function(e) {
+            if(e) e.preventDefault(); if(!isRecording || mediaRecorder.state === "inactive") return;
+            clearTimeout(recordTimeout); mediaRecorder.stop(); isRecording = false;
+            document.getElementById('btn-mic').style.transform = 'scale(1)';
+            document.getElementById('chat-input').placeholder = "Mesaj yaz...";
+            mediaRecorder.addEventListener("stop", () => {
+                let mime = mediaRecorder.mimeType || 'audio/mp4';
+                const audioBlob = new Blob(audioChunks, { type: mime });
+                const reader = new FileReader(); reader.readAsDataURL(audioBlob);
+                reader.onloadend = async function() {
+                    if(!window.activeChatId) return;
+                    await window.sendBase64Message("[SES] " + reader.result, "🎤 Sesli Mesaj");
+                }
+            });
+        };
     </script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, getDocs, query, orderBy, doc, getDoc, setDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, query, orderBy, doc, getDoc, setDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = { apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0", authDomain: "swinder-79534.firebaseapp.com", projectId: "swinder-79534", storageBucket: "swinder-79534.firebasestorage.app", messagingSenderId: "704644873549", appId: "1:704644873549:web:d95f561ec912b94cf2cb04" };
         const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
 
-        // 🔥 CLOUDINARY YÜKLEME MOTORU 🔥
         const CLOUD_NAME = "dv9c3ygco";
         const UPLOAD_PRESET = "ntc9cq4y";
         window.uploadMedia = async function(file) {
-            const formData = new FormData();
-            formData.append("file", file);
-            formData.append("upload_preset", UPLOAD_PRESET);
+            const formData = new FormData(); formData.append("file", file); formData.append("upload_preset", UPLOAD_PRESET);
             const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, { method: 'POST', body: formData });
-            const data = await res.json();
-            if(data.error) throw new Error(data.error.message);
-            return data.secure_url;
+            const data = await res.json(); if(data.error) throw new Error(data.error.message); return data.secure_url;
         }
 
         const safeEncode = (str) => encodeURIComponent(str || '').replace(/'/g, "%27");
-        window.globalPosts = []; window.globalUsersById = {}; window.globalUsersByName = {};
         const adminEmail = "kcagatay239@gmail.com"; 
-        let currentUserId = null; let isAdmin = false; let currentUserProfile = null;
-        window.activeInteractPostId = null; window.activeShareUrl = null;
+        
+        window.globalUsersById = {}; window.globalUsersByName = {}; window.globalPosts = []; let currentUserProfile = null;
+        window.activeInteractPostId = null; window.activeShareUrl = null; window.activeChatId = null; window.chatDocUnsubscribe = null;
 
         window.logoutApp = async function() { await signOut(auth); window.location.href = "index.html"; }
 
@@ -265,10 +327,8 @@
                         document.getElementById('display-name').innerHTML = safeName + isP; document.getElementById('bio-name').innerHTML = safeName + isP; 
                         
                         document.getElementById('edit-birthdate').value = currentUserProfile.birthdate || '';
-                        
                         if(currentUserProfile.avatar) { document.getElementById('display-avatar').style.backgroundImage = `url('${currentUserProfile.avatar}')`; }
                         if(currentUserProfile.bio) { document.getElementById('bio-text').innerText = currentUserProfile.bio; document.getElementById('edit-bio').value = currentUserProfile.bio; }
-                        document.getElementById('follower-count').innerText = (currentUserProfile.followers || []).length; document.getElementById('following-count').innerText = (currentUserProfile.following || []).length;
                     }
                     await loadAllData(); renderProfileGrid(); 
                 } else { window.location.href = "index.html"; }
@@ -281,14 +341,24 @@
             const postSnap = await getDocs(query(collection(db, "gonderiler"), orderBy("createdAt", "desc"))); window.globalPosts = []; postSnap.forEach(doc => { window.globalPosts.push({ id: doc.id, ...doc.data() }); });
         }
 
-        // 🔥 REELS (SESSİZ BAŞLAMA İPTAL EDİLDİ - DOKUNUNCA SES AÇILIR) 🔥
+        // 🔥 REELS OBSERVER MOTORU (SESLER KARIŞMAZ) 🔥
         window.renderReels = function() {
-            const rc = document.getElementById('reels-container'); rc.innerHTML = ''; if(window.globalPosts.length === 0) { rc.innerHTML = '<div style="color:white; text-align:center; padding-top:50vh;">Gönderi yok.</div>'; return; }
+            const rc = document.getElementById('reels-container'); rc.innerHTML = ''; 
+            if(window.globalPosts.length === 0) { rc.innerHTML = '<div style="color:white; text-align:center; padding-top:50vh;">Gönderi yok.</div>'; return; }
             window.globalPosts.forEach(data => {
                 const pInfo = window.globalUsersByName[data.username] || {}; const av = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100')`; const likedClass = (auth.currentUser && data.likedBy && data.likedBy.includes(auth.currentUser.displayName)) ? 'liked' : ''; const isP = pInfo.isPremium ? ' <span class="material-symbols-outlined vip-badge">workspace_premium</span>' : '';
-                const mediaHtml = window.isVideo(data.imageUrl) ? `<video src="${data.imageUrl}" autoplay loop playsinline style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;" onclick="this.muted = !this.muted" ondblclick="toggleLikeDB(this.parentElement.querySelector('.btn-like'), '${data.id}', '${data.username}')"></video>` : `<img src="${data.imageUrl}" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;" ondblclick="toggleLikeDB(this.parentElement.querySelector('.btn-like'), '${data.id}', '${data.username}')"/>`;
+                const mediaHtml = window.isVideo(data.imageUrl) ? `<video src="${data.imageUrl}" loop playsinline style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;" onclick="this.muted = !this.muted" ondblclick="toggleLikeDB(this.parentElement.querySelector('.btn-like'), '${data.id}', '${data.username}')"></video>` : `<img src="${data.imageUrl}" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;" ondblclick="toggleLikeDB(this.parentElement.querySelector('.btn-like'), '${data.id}', '${data.username}')"/>`;
                 rc.insertAdjacentHTML('beforeend', `<div class="reel-item"><div class="media-blur-bg" style="background-image: url('${data.imageUrl.replace(/'/g, "\\'")}');"></div>${mediaHtml}<div class="reel-overlay"></div><div class="reel-content"><div class="reel-info"><div class="reel-user" data-user="${data.username.replace(/"/g, '&quot;')}" onclick="closeModal('reelsModal'); window.openUserProfile(this.dataset.user)"><div class="reel-avatar" style="background-image:${av};"></div>${data.username}${isP}</div><div class="reel-caption">${data.caption || ''}</div></div><div class="reel-actions"><button class="reel-action-btn btn-like ${likedClass}" onclick="toggleLikeDB(this, '${data.id}', '${data.username}')"><span class="material-symbols-outlined">favorite</span><span class="reel-action-text" id="like-count-${data.id}">${data.likesCount||0}</span></button><button class="reel-action-btn" onclick="window.activeInteractPostId='${data.id}'; window.activeInteractOwner='${data.username}'; openCommentsDB();"><span class="material-symbols-outlined">chat_bubble</span></button><button class="reel-action-btn" onclick="window.activeShareUrl='${data.imageUrl}'; window.openShareModal();"><span class="material-symbols-outlined">send</span></button></div></div></div>`);
             });
+
+            if(window.reelsObserver) window.reelsObserver.disconnect();
+            window.reelsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const vid = entry.target.querySelector('video');
+                    if(vid) { if(entry.isIntersecting) { vid.play().catch(e=>{}); } else { vid.pause(); vid.currentTime = 0; } }
+                });
+            }, { threshold: 0.6 });
+            document.querySelectorAll('.reel-item').forEach(item => window.reelsObserver.observe(item));
         }
 
         window.renderExploreGrid = async function() {
@@ -381,12 +451,69 @@
             if(!window.activeShareUrl || !chatId) return;
             try { await addDoc(collection(db, `eslesmeler/${chatId}/mesajlar`), { senderId: auth.currentUser.uid, text: "[PAYLAŞIM] " + window.activeShareUrl, timestamp: new Date(), read: false }); await updateDoc(doc(db, "eslesmeler", chatId), { lastMessage: "🖼️ Bir gönderi paylaştı.", updatedAt: new Date() }); alert("Paylaşıldı!"); closeModal('shareModal'); } catch(e) {}
         }
+        
+        // 🔥 YAZIYOR... (TYPING) İZLEYİCİ İLE SOHBET 🔥
+        window.openChatRoom = function(chatId, partnerName, partnerImg, partnerUid) { 
+            closeModal('messagesModal'); window.activeChatId = chatId; document.getElementById('chat-header-name').innerText = partnerName; document.getElementById('chat-header-avatar').style.backgroundImage = `url('${partnerImg.replace(/'/g, "\\'")}')`; openModal('chatRoomModal'); 
+            const chatArea = document.getElementById('chat-messages'); chatArea.innerHTML = '<div style="color:gray; text-align:center; margin-top:20px;">Mesajlar yükleniyor...</div>'; 
+            if(window.chatDocUnsubscribe) { window.chatDocUnsubscribe(); window.chatDocUnsubscribe = null; }
+            if(messagesUnsubscribe) messagesUnsubscribe(); 
+            
+            try {
+                window.chatDocUnsubscribe = onSnapshot(doc(db, "eslesmeler", chatId), (docSnap) => {
+                    if(docSnap.exists()) {
+                        const typingInfo = docSnap.data().typing || {}; let isThemTyping = false; const myUid = auth.currentUser ? auth.currentUser.uid : null;
+                        for(let key in typingInfo) { if(key !== myUid && typingInfo[key] > Date.now() - 3000) isThemTyping = true; }
+                        const existingTyping = document.getElementById('typing-indicator');
+                        if(isThemTyping && !existingTyping) { chatArea.insertAdjacentHTML('beforeend', `<div id="typing-indicator" class="chat-msg theirs"><div class="chat-bubble typing-dots"><span></span><span></span><span></span></div></div>`); chatArea.scrollTop = chatArea.scrollHeight; } 
+                        else if(!isThemTyping && existingTyping) { existingTyping.remove(); }
+                    }
+                });
+
+                messagesUnsubscribe = onSnapshot(query(collection(db, `eslesmeler/${chatId}/mesajlar`), orderBy("timestamp", "asc")), (snapshot) => { 
+                    const existingTyping = document.getElementById('typing-indicator'); if(existingTyping) existingTyping.remove();
+                    chatArea.innerHTML = ''; let msgs = []; const myUid = auth.currentUser ? auth.currentUser.uid : null; if(!myUid) return;
+                    snapshot.forEach(docSnap => { 
+                        let m = docSnap.data(); m.id = docSnap.id; msgs.push(m);
+                        if(m.senderId !== myUid && !m.read) { updateDoc(doc(db, `eslesmeler/${chatId}/mesajlar/${docSnap.id}`), { read: true }).catch(e=>{}); }
+                    }); 
+                    if(msgs.length === 0) { chatArea.innerHTML = '<div style="color:gray; text-align:center; margin-top:20px;">İlk mesajı sen gönder!</div>'; return; }
+                    let lastMyMsgId = null; for(let i=msgs.length-1; i>=0; i--) { if(msgs[i].senderId === myUid) { lastMyMsgId = msgs[i].id; break; } }
+                    msgs.forEach(msg => { 
+                        const isMine = msg.senderId === myUid; let timeStr = "";
+                        try { if(msg.timestamp && msg.timestamp.toDate) timeStr = msg.timestamp.toDate().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}); } catch(e) {}
+                        let displayMsg = msg.text || "";
+                        if(displayMsg.startsWith("[PAYLAŞIM] ")) { const url = displayMsg.replace("[PAYLAŞIM] ", ""); if(window.isVideo(url)) displayMsg = `<video src="${url}" autoplay loop playsinline style="width:100%; border-radius:12px;" onclick="this.muted = !this.muted"></video><div style="font-size:11px; margin-top:5px; color:var(--primary-gold); text-align:center;">Gönderi Paylaşıldı</div>`; else displayMsg = `<img src="${url}" style="width:100%; border-radius:12px;"/><div style="font-size:11px; margin-top:5px; color:var(--primary-gold); text-align:center;">Gönderi Paylaşıldı</div>`; } else if(displayMsg.startsWith("[SES] ")) { displayMsg = `<audio controls src="${displayMsg.replace('[SES] ', '')}" style="height:35px; width:200px; outline:none;"></audio>`; }
+                        let seenHtml = (isMine && msg.id === lastMyMsgId && msg.read) ? `<div style="font-size:10px; color:#3498db; text-align:right; margin-top:4px;">Görüldü ✓✓</div>` : '';
+                        chatArea.insertAdjacentHTML('beforeend', `<div class="chat-msg ${isMine ? 'mine' : 'theirs'}"><div class="chat-bubble">${displayMsg}</div><div class="chat-time">${timeStr}</div>${seenHtml}</div>`); 
+                    }); 
+                    chatArea.scrollTop = chatArea.scrollHeight; 
+                }); 
+            } catch(err) {}
+        }
+
+        let isTypingSync = false;
+        window.onChatInput = function() {
+            if(!window.activeChatId || !auth.currentUser) return;
+            const myUid = auth.currentUser.uid;
+            if(!isTypingSync) {
+                isTypingSync = true;
+                updateDoc(doc(db, "eslesmeler", window.activeChatId), { [`typing.${myUid}`]: Date.now() }).catch(e=>{});
+                setTimeout(() => { isTypingSync = false; }, 1500); 
+            }
+        }
+
+        window.sendBase64Message = async function(base64Text, shortDesc) {
+            if(!window.activeChatId) return;
+            try { await addDoc(collection(db, `eslesmeler/${window.activeChatId}/mesajlar`), { senderId: auth.currentUser.uid, text: base64Text, timestamp: new Date(), read: false }); await updateDoc(doc(db, "eslesmeler", window.activeChatId), { lastMessage: shortDesc, updatedAt: new Date(), [`typing.${auth.currentUser.uid}`]: 0 }); } catch(e) {}
+        }
+        window.sendChatMessage = function() { const input = document.getElementById('chat-input'); const text = input.value.trim(); if(!text) return; input.value = ""; window.sendBase64Message(text, text); }
+        window.deleteChatRoom = async function() { if(!window.activeChatId) return; if(confirm("Sohbeti kalıcı olarak silmek istediğine emin misin?")) { try { await deleteDoc(doc(db, "eslesmeler", window.activeChatId)); closeModal('chatRoomModal'); window.openMessages(); } catch(e) {} } }
 
         window.editPostDB = async function() { if(!window.activeInteractPostId) return; const currentCaption = document.getElementById('pd-caption').innerText; const newCaption = prompt("Açıklamayı düzenle:", currentCaption); if(newCaption !== null) { await updateDoc(doc(db, "gonderiler", window.activeInteractPostId), { caption: newCaption }); document.getElementById('pd-caption').innerText = newCaption; const p = window.globalPosts.find(x => x.id === window.activeInteractPostId); if(p) p.caption = newCaption; window.renderProfileGrid(); } }
         window.deletePostDB = async function() { if(!window.activeInteractPostId) return; if(confirm("Gönderiyi silmek istediğine emin misin?")) { await deleteDoc(doc(db, "gonderiler", window.activeInteractPostId)); closeModal('postDetailModal'); await loadAllData(); window.renderProfileGrid(); } }
         window.grantPremium = async function() { if(!isAdmin) return; const tName = document.getElementById('admin-target-user').value.trim(); if(!tName) return alert("Kullanıcı adı girin."); const usersSnap = await getDocs(collection(db, "kullanicilar")); let targetUid = null; usersSnap.forEach(d => { if(d.data().displayName === tName) targetUid = d.id; }); if(!targetUid) return alert("Kullanıcı bulunamadı!"); try { await updateDoc(doc(db, "kullanicilar", targetUid), { isPremium: true }); alert(tName + " VIP yapıldı!"); closeModal('adminModal'); } catch(e) { alert("Hata."); } }
 
-        // 🔥 CLOUDINARY ENTEGRELİ PAYLAŞIM VE PROFİL DÜZENLEME 🔥
         document.getElementById('btn-submit-post').addEventListener('click', async () => { 
             const user = auth.currentUser; if (!user) return; 
             const fileInput = document.getElementById('add-image-file'); const file = fileInput.files[0];
