@@ -20,20 +20,16 @@
         :root { --primary-gold: #d4af37; --text-light: #f5f5f7; --glass-bg: rgba(20, 20, 25, 0.45); --glass-border: 1px solid rgba(255, 255, 255, 0.08); }
         body { background: #050505; color: var(--text-light); overflow-x: hidden; padding-bottom: 70px; }
 
-        /* 🔥 AÇILIŞ EKRANI 🔥 */
+        /* AÇILIŞ EKRANI */
         #splash-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #050505; z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.4s ease, visibility 0.4s; }
         .splash-logo { font-family: 'Grand Hotel', cursive; font-size: 70px; color: var(--primary-gold); animation: splashPulse 1.5s infinite alternate; text-shadow: 0 0 20px rgba(212,175,55,0.4); }
         @keyframes splashPulse { 0% { transform: scale(1); opacity: 0.8;} 100% { transform: scale(1.1); opacity: 1;} }
-
-        .ambient-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
-        .ambient-blob-1 { position: absolute; top: -10%; left: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, transparent 70%); border-radius: 50%; filter: blur(60px); animation: float1 20s infinite alternate; }
-        .ambient-blob-2 { position: absolute; bottom: 10%; right: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(255,48,64,0.1) 0%, transparent 70%); border-radius: 50%; filter: blur(60px); animation: float2 25s infinite alternate; }
-        @keyframes float1 { 100% { transform: translate(10vw, 10vh); } } @keyframes float2 { 100% { transform: translate(-10vw, -10vh); } }
 
         header { position: sticky; top: 0; width: 100%; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: rgba(10, 10, 12, 0.6); backdrop-filter: blur(20px); z-index: 100; border-bottom: var(--glass-border); padding-top: calc(15px + env(safe-area-inset-top)); }
         .header-username { font-size: 20px; font-weight: 700; color: var(--text-light); display: flex; align-items:center; gap:8px;}
         .header-icon { color: var(--text-light); font-size: 28px; cursor: pointer; background: none; border: none; }
 
+        /* PROFİL UI */
         .profile-container { max-width: 600px; margin: 0 auto; padding: 20px 0; }
         .profile-header-top { display: flex; align-items: center; justify-content: space-between; padding: 0 20px; margin-bottom: 20px; }
         .profile-ring { width: 90px; height: 90px; border-radius: 50%; padding: 3px; background: linear-gradient(45deg, #d4af37, #aa8529, #f3e5ab); }
@@ -41,51 +37,48 @@
         .profile-stats { display: flex; gap: 15px; flex: 1; justify-content: space-evenly; margin-left: 20px; }
         .stat-item { display: flex; flex-direction: column; align-items: center; color: var(--text-light); font-size: 13px; }
         .stat-item span { font-weight: 700; font-size: 18px; margin-bottom: 2px; }
-        
-        .profile-bio { padding: 0 20px; font-size: 14px; line-height: 1.5; margin-bottom: 15px; }
+        .profile-bio { padding: 0 20px; font-size: 14px; line-height: 1.5; margin-bottom: 15px; white-space: pre-wrap;}
         .profile-actions { padding: 0 20px; margin-bottom: 20px; }
         .btn-edit { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: var(--glass-border); color: var(--text-light); padding: 10px 0; border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.3s; width: 100%; text-align: center; }
         
         .profile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 2px;}
-        .grid-item { aspect-ratio: 1 / 1; background-size: cover; background-position: center; cursor: pointer; transition: 0.3s;}
+        .grid-item { aspect-ratio: 1 / 1; background-size: cover; background-position: center; cursor: pointer; transition: 0.3s; position: relative;}
+        .grid-video-icon { position:absolute; top:5px; right:5px; color:white; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));}
 
+        /* 🔥 EKSİK ALT MENÜ ÇÖZÜLDÜ 🔥 */
         .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 10, 12, 0.85); backdrop-filter: blur(20px); padding: 12px 10px calc(12px + env(safe-area-inset-bottom)); border-top: var(--glass-border); z-index: 999; }
         .nav-icon-btn { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .nav-icon-btn .material-symbols-outlined { font-size: 30px; }
         .nav-icon-btn.active { color: white; }
+        .nav-icon-btn.add-btn { background: linear-gradient(135deg, #d4af37, #aa8529); color: #000; width: 44px; height: 44px; border-radius: 12px; display: flex; justify-content: center; align-items: center;}
+        .nav-icon-btn.add-btn .material-symbols-outlined { color: #000; font-weight: 600; font-size: 28px;}
 
-        /* MODALLAR */
+        /* MODALLAR VE DİĞER (Ortak CSS) */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: 0.3s; z-index: 1500; padding: 15px; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: none; color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 50;}
-        
         .bottom-sheet { background: #121214; width: 100%; height: auto; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.4s; display: flex; flex-direction: column; overflow: hidden; padding-bottom: 30px;}
         .modal-overlay.active .bottom-sheet { transform: translateY(0); }
         .sheet-header { padding: 20px; border-bottom: var(--glass-border); display: flex; align-items: center; gap: 15px; font-size: 16px; font-weight: 600; background:rgba(10,10,12,0.95); z-index:10;}
         .list-item { display: flex; align-items: center; gap: 15px; padding: 18px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; font-size: 16px; font-weight: 500;}
-
         .glass-box { background: rgba(25, 25, 30, 0.4); border: var(--glass-border); border-radius: 24px; padding: 30px; width: 100%; max-width: 400px; transform: scale(0.95); transition: 0.3s;}
         .modal-overlay.active .glass-box { transform: scale(1); }
         .form-group { margin-bottom: 15px; text-align: left; width: 100%;}
         .form-group input, .form-group textarea { width: 100%; padding: 14px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; outline: none; font-size: 14px;}
         .btn-premium { background: var(--primary-gold); color: #000; padding: 14px; border-radius: 12px; font-weight: 700; width: 100%; border: none; cursor: pointer;}
-
         .vip-badge { color: #00d2ff; margin-left: 5px; font-size: 16px; vertical-align: middle; filter: drop-shadow(0 0 5px rgba(0,210,255,0.5));}
 
-        /* FİLTRE (PREF) SLIDER */
-        .pref-slider { -webkit-appearance: none; width: 100%; height: 6px; border-radius: 5px; background: rgba(255,255,255,0.2); outline: none; margin: 15px 0;}
-        .pref-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--primary-gold); cursor: pointer; }
-        .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.2); transition: .4s; border-radius: 34px; }
-        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--primary-gold); }
-        input:checked + .slider:before { transform: translateX(24px); background-color: black; }
+        /* GÖNDERİ DETAY MODALI */
+        .post-detail-box { background: #121214; width: 100%; height: 90vh; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.4s; display: flex; flex-direction: column; overflow: hidden; }
+        .modal-overlay.active .post-detail-box { transform: translateY(0); }
+        .post-detail-img-container { position: relative; width: 100%; height: 50vh; display: flex; justify-content: center; align-items: center; background: black; overflow: hidden; border-bottom: var(--glass-border);}
+        .media-blur-bg { position: absolute; top: -10%; left: -10%; width: 120%; height: 120%; background-size: cover; background-position: center; filter: blur(35px) brightness(0.3); z-index: 0; }
 
         @media (max-width: 768px) {
             .modal-overlay { padding: 0; align-items: flex-end;}
             .glass-box { margin: 0; max-width: 100%; border-radius: 25px 25px 0 0; transform: translateY(100%); border-bottom: none;}
             .modal-overlay.active .glass-box { transform: translateY(0); }
+            .post-detail-box { height: 90vh; border-radius: 20px 20px 0 0; }
         }
     </style>
 </head>
@@ -93,15 +86,12 @@
 
     <div id="splash-screen"><div class="splash-logo">Swinder</div></div>
 
-    <div class="ambient-bg"><div class="ambient-blob-1"></div><div class="ambient-blob-2"></div></div>
-
     <header>
         <div class="header-username">
-            <span class="material-symbols-outlined" style="cursor:pointer;" onclick="window.location.href='index.html'">arrow_back</span>
-            <span id="display-name">Profil Yükleniyor...</span>
+            <span class="material-symbols-outlined" style="cursor:pointer;" onclick="window.location.assign('index.html')">arrow_back</span>
+            <span id="display-name">Yükleniyor...</span>
         </div>
         <div style="display:flex; gap:15px; align-items:center;">
-            <button class="header-icon" onclick="openModal('preferencesModal')"><span class="material-symbols-outlined">tune</span></button>
             <button class="header-icon" onclick="openModal('settingsModal')"><span class="material-symbols-outlined">menu</span></button>
         </div>
     </header>
@@ -117,54 +107,24 @@
         </div>
         <div class="profile-bio"><strong id="bio-name">-</strong><br><span id="bio-text" style="color:gray;">Biyografi yükleniyor...</span></div>
         <div class="profile-actions"><button class="btn-edit" onclick="openModal('profileEditModal')">Profili Düzenle</button></div>
+        
         <div class="profile-grid" id="my-posts"></div>
     </main>
 
     <nav class="bottom-nav">
-        <button class="nav-icon-btn" onclick="window.location.href='index.html'"><span class="material-symbols-outlined">home</span></button>
+        <button class="nav-icon-btn" onclick="window.location.assign('index.html')"><span class="material-symbols-outlined">home</span></button>
+        <button class="nav-icon-btn" onclick="window.location.assign('index.html')"><span class="material-symbols-outlined">search</span></button>
+        <button class="nav-icon-btn add-btn" onclick="window.location.assign('index.html')"><span class="material-symbols-outlined" style="color:black;">add</span></button>
+        <button class="nav-icon-btn" onclick="window.location.assign('index.html')"><span class="material-symbols-outlined">movie</span></button>
         <button class="nav-icon-btn active"><span class="material-symbols-outlined">person</span></button>
     </nav>
-
-    <div class="modal-overlay" id="preferencesModal" style="z-index: 1800;">
-        <div class="glass-box">
-            <button class="close-btn" onclick="closeModal('preferencesModal')"><span class="material-symbols-outlined">close</span></button>
-            <h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Filtre ve Gizlilik</h2>
-            <div style="margin-bottom: 25px;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                    <span style="color:gray; font-size:14px;">Maksimum Mesafe</span>
-                    <strong style="color:var(--primary-gold);" id="dist-val">50 km</strong>
-                </div>
-                <input type="range" min="1" max="100" value="50" class="pref-slider" id="max-distance-slider" oninput="document.getElementById('dist-val').innerText = this.value + ' km'">
-            </div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 25px; padding:15px; background:rgba(0,0,0,0.5); border-radius:12px; border:1px solid rgba(212,175,55,0.2);">
-                <div>
-                    <strong style="color:white; display:block;">Hayalet Modu (Ghost)</strong>
-                    <span style="font-size:12px; color:gray;">Sadece sağa kaydırdıkların seni görür. (💎)</span>
-                </div>
-                <label class="switch">
-                    <input type="checkbox" id="ghost-mode-toggle">
-                    <span class="slider"></span>
-                </label>
-            </div>
-            <button class="btn-premium" onclick="savePreferences()" style="margin-bottom: 10px;">Kaydet ve Yenile</button>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="adminModal" style="z-index: 2000;">
-        <div class="glass-box">
-            <button class="close-btn" onclick="closeModal('adminModal')"><span class="material-symbols-outlined">close</span></button>
-            <h2 style="color:var(--primary-gold); text-align:center; margin-bottom:20px;">👑 Admin Paneli</h2>
-            <div class="form-group"><input type="text" id="admin-target-user" placeholder="Premium Yapılacak Kullanıcı Adı"></div>
-            <button class="btn-premium" onclick="grantPremium()">Premium Ver</button>
-        </div>
-    </div>
 
     <div class="modal-overlay" id="settingsModal">
         <div class="bottom-sheet" style="height: auto;">
             <div class="sheet-header">Ayarlar <button class="header-icon" onclick="closeModal('settingsModal')" style="margin-left:auto;"><span class="material-symbols-outlined">close</span></button></div>
             <div>
                 <div class="list-item" id="btn-admin-panel" onclick="closeModal('settingsModal'); openModal('adminModal')" style="display:none; color:var(--primary-gold);">
-                    <span class="material-symbols-outlined">workspace_premium</span> Premium Yönetimi
+                    <span class="material-symbols-outlined">workspace_premium</span> VIP Yönetimi
                 </div>
                 <div class="list-item" onclick="logoutApp()" style="color: #ff4757;"><span class="material-symbols-outlined">logout</span> Çıkış Yap</div>
             </div>
@@ -182,32 +142,58 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="postDetailModal" style="z-index: 1600;">
+        <div class="post-detail-box">
+            <div class="sheet-header">
+                <button class="header-icon" onclick="closeModal('postDetailModal')"><span class="material-symbols-outlined">arrow_back</span></button> Gönderi Detayı
+                <div id="admin-controls" style="margin-left:auto; display:flex; gap:15px;">
+                    <button class="header-icon" style="color:var(--primary-gold);" onclick="editPostDB()"><span class="material-symbols-outlined">edit</span></button>
+                    <button class="header-icon" style="color:#ff4757;" onclick="deletePostDB()"><span class="material-symbols-outlined">delete</span></button>
+                </div>
+            </div>
+            <div style="flex:1; overflow-y:auto; padding-bottom:30px;">
+                <div class="post-detail-img-container">
+                    <div class="media-blur-bg" id="pd-blur"></div>
+                    <div id="pd-media-container" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center; z-index:1;"></div>
+                </div>
+                <div style="padding: 15px 20px;">
+                    <div style="display:flex; gap:15px; margin-bottom:15px;">
+                        <button class="header-icon" id="pd-btn-like" onclick="toggleLikeDB(this)"><span class="material-symbols-outlined">favorite</span></button>
+                    </div>
+                    <div style="font-weight:600; margin-bottom:10px;"><span id="pd-likes">0</span> beğenme</div>
+                    <div style="font-size: 14px;"><strong id="pd-user" style="margin-right:5px;">-</strong><span id="pd-caption" style="color:rgba(255,255,255,0.8);">-</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         function openModal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = 'auto'; }
         document.querySelectorAll('.modal-overlay').forEach(m => { m.addEventListener('click', (e) => { if(e.target === m && m.id !== 'splash-screen') closeModal(m.id); }); });
         
-        // GÜVENLİK AĞI: 5 saniye içinde Firebase yanıt vermezse ekranı zorla aç
         const fallbackTimer = setTimeout(() => { hideSplash(); }, 5000);
-        function hideSplash() { 
-            clearTimeout(fallbackTimer);
-            const spl = document.getElementById('splash-screen'); 
-            if(spl) { spl.style.opacity = '0'; setTimeout(() => spl.style.visibility = 'hidden', 400); } 
+        function hideSplash() { clearTimeout(fallbackTimer); const spl = document.getElementById('splash-screen'); if(spl) { spl.style.opacity = '0'; setTimeout(() => spl.style.visibility = 'hidden', 400); } }
+
+        window.isVideo = function(url) {
+            if(!url) return false;
+            return url.match(/\.(mp4|webm|ogg|mov)(\?.*)?$/i) !== null || url.includes('video');
         }
     </script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, getDocs, query, orderBy, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, query, orderBy, doc, getDoc, setDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = { apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0", authDomain: "swinder-79534.firebaseapp.com", projectId: "swinder-79534", storageBucket: "swinder-79534.firebasestorage.app", messagingSenderId: "704644873549", appId: "1:704644873549:web:d95f561ec912b94cf2cb04" };
         const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
 
         const safeEncode = (str) => encodeURIComponent(str || '').replace(/'/g, "%27");
-        window.globalPosts = []; window.globalUsersById = {}; window.globalUsersByName = {};
+        window.globalPosts = []; 
         const adminEmail = "kcagatay239@gmail.com"; 
         let currentUserId = null; let isAdmin = false; let currentUserProfile = null;
+        window.activeInteractPostId = null;
 
         window.logoutApp = async function() { await signOut(auth); window.location.href = "index.html"; }
 
@@ -216,7 +202,6 @@
                 if (user) {
                     currentUserId = user.uid; 
                     if(user.email && user.email.toLowerCase() === adminEmail.toLowerCase()) { isAdmin = true; document.getElementById('btn-admin-panel').style.display = 'flex'; }
-                    
                     const safeName = user.displayName || "Kullanıcı";
                     document.getElementById('display-name').innerText = safeName; 
                     document.getElementById('bio-name').innerText = safeName; 
@@ -224,11 +209,7 @@
                     
                     const snap = await getDoc(doc(db, "kullanicilar", user.uid));
                     if(snap.exists()) {
-                        currentUserProfile = { uid: user.uid, following: [], followers: [], maxDistance: 50, ghostMode: false, ...snap.data() };
-                        document.getElementById('max-distance-slider').value = currentUserProfile.maxDistance;
-                        document.getElementById('dist-val').innerText = currentUserProfile.maxDistance + " km";
-                        document.getElementById('ghost-mode-toggle').checked = currentUserProfile.ghostMode;
-                        
+                        currentUserProfile = { uid: user.uid, following: [], followers: [], ...snap.data() };
                         const isP = currentUserProfile.isPremium ? ' <span class="material-symbols-outlined vip-badge">workspace_premium</span>' : '';
                         document.getElementById('display-name').innerHTML = safeName + isP; 
                         document.getElementById('bio-name').innerHTML = safeName + isP; 
@@ -238,42 +219,58 @@
                     }
                     await loadAllData(); 
                     renderProfileGrid(); 
-                } else { 
-                    window.location.href = "index.html"; 
-                }
-            } catch (error) {
-                console.error("Yükleme Hatası:", error);
-            } finally {
-                // NE OLURSA OLSUN YÜKLEME EKRANINI KAPAT (Crash olmasını engeller)
-                hideSplash();
-            }
+                } else { window.location.href = "index.html"; }
+            } catch (error) {} finally { hideSplash(); }
         });
 
-        window.savePreferences = async function() {
-            if(!auth.currentUser) return; const maxD = parseInt(document.getElementById('max-distance-slider').value); const ghost = document.getElementById('ghost-mode-toggle').checked;
-            if(ghost && !currentUserProfile.isPremium && auth.currentUser.email !== adminEmail) { document.getElementById('ghost-mode-toggle').checked = false; return alert("Hayalet Modu sadece VIP (💎) içindir."); }
-            await updateDoc(doc(db, "kullanicilar", auth.currentUser.uid), { maxDistance: maxD, ghostMode: ghost }); alert("Kaydedildi!"); window.location.reload();
-        }
-
         async function loadAllData() {
-            const usersSnap = await getDocs(collection(db, "kullanicilar")); window.globalUsersById = {}; window.globalUsersByName = {};
-            usersSnap.forEach(uDoc => { const d = uDoc.data(); d.uid = uDoc.id; window.globalUsersById[uDoc.id] = d; if(d.displayName) window.globalUsersByName[d.displayName] = d; });
-            const postSnap = await getDocs(query(collection(db, "gonderiler"), orderBy("createdAt", "desc"))); window.globalPosts = []; postSnap.forEach(doc => { window.globalPosts.push({ id: doc.id, ...doc.data() }); });
+            const postSnap = await getDocs(query(collection(db, "gonderiler"), orderBy("createdAt", "desc"))); 
+            window.globalPosts = []; postSnap.forEach(doc => { window.globalPosts.push({ id: doc.id, ...doc.data() }); });
         }
 
-        window.grantPremium = async function() {
-            if(!isAdmin) return; const tName = document.getElementById('admin-target-user').value.trim(); if(!tName) return alert("Kullanıcı adı girin.");
-            const targetUser = window.globalUsersByName[tName]; if(!targetUser) return alert("Kullanıcı bulunamadı!");
-            try { await updateDoc(doc(db, "kullanicilar", targetUser.uid), { isPremium: true }); alert(tName + " VIP yapıldı!"); closeModal('adminModal'); window.location.reload(); } catch(e) { alert("Hata: " + e.message); }
-        }
-
+        // 🔥 PROFİLDE GÖNDERİYE TIKLAMA SORUNU ÇÖZÜLDÜ (Tetikleyici eklendi) 🔥
         function renderProfileGrid() {
             const grid = document.getElementById('my-posts'); grid.innerHTML = ''; 
             if(!auth.currentUser || !window.globalPosts) return;
             const myPosts = window.globalPosts.filter(p => p.username === auth.currentUser.displayName); 
             document.getElementById('post-count').innerText = myPosts.length;
-            myPosts.forEach(p => { grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${p.imageUrl.replace(/'/g, "\\'")}');"></div>`); });
+            
+            myPosts.forEach(p => { 
+                const dataStr = safeEncode(JSON.stringify(p)); 
+                const isVid = window.isVideo(p.imageUrl);
+                const bgUrl = isVid ? 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400' : p.imageUrl;
+                const iconHtml = isVid ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : '';
+                
+                grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${bgUrl.replace(/'/g, "\\'")}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')">${iconHtml}</div>`); 
+            });
         }
+
+        window.openPostDetail = function(postId, dataStr) {
+            const data = JSON.parse(decodeURIComponent(dataStr)); window.activeInteractPostId = postId;
+            
+            const mediaContainer = document.getElementById('pd-media-container');
+            if(window.isVideo(data.imageUrl)) {
+                mediaContainer.innerHTML = `<video src="${data.imageUrl}" autoplay loop playsinline controls style="max-width:100%; max-height:100%; position:relative; z-index:1;"></video>`;
+                document.getElementById('pd-blur').style.backgroundImage = 'none';
+            } else {
+                mediaContainer.innerHTML = `<img src="${data.imageUrl}" style="max-width:100%; max-height:100%; object-fit:contain; position:relative; z-index:1;" />`;
+                document.getElementById('pd-blur').style.backgroundImage = `url('${data.imageUrl.replace(/'/g, "\\'")}')`;
+            }
+
+            document.getElementById('pd-user').innerHTML = data.username; document.getElementById('pd-caption').innerText = data.caption || ''; document.getElementById('pd-likes').innerText = data.likesCount || 0;
+            const btnLike = document.getElementById('pd-btn-like'); if(auth.currentUser && data.likedBy && data.likedBy.includes(auth.currentUser.displayName)) btnLike.classList.add('liked'); else btnLike.classList.remove('liked');
+            openModal('postDetailModal');
+        }
+
+        window.toggleLikeDB = async function(btnElement) {
+            const user = auth.currentUser; if(!user || !window.activeInteractPostId) return;
+            const isLiked = btnElement.classList.contains('liked'); const postRef = doc(db, "gonderiler", window.activeInteractPostId); const likeSpan = document.getElementById('pd-likes'); const postData = window.globalPosts.find(p=>p.id===window.activeInteractPostId); let currentLikes = postData ? (postData.likesCount||0) : 0;
+            if(isLiked) { btnElement.classList.remove('liked'); if(likeSpan) likeSpan.innerText = currentLikes - 1; await updateDoc(postRef, { likedBy: arrayRemove(user.displayName), likesCount: currentLikes - 1 }); if(postData) postData.likesCount -= 1; } 
+            else { btnElement.classList.add('liked'); if(likeSpan) likeSpan.innerText = currentLikes + 1; await updateDoc(postRef, { likedBy: arrayUnion(user.displayName), likesCount: currentLikes + 1 }); if(postData) postData.likesCount += 1; }
+        }
+
+        window.editPostDB = async function() { if(!window.activeInteractPostId) return; const currentCaption = document.getElementById('pd-caption').innerText; const newCaption = prompt("Açıklamayı düzenle:", currentCaption); if(newCaption !== null) { await updateDoc(doc(db, "gonderiler", window.activeInteractPostId), { caption: newCaption }); document.getElementById('pd-caption').innerText = newCaption; const p = window.globalPosts.find(x => x.id === window.activeInteractPostId); if(p) p.caption = newCaption; window.renderProfileGrid(); } }
+        window.deletePostDB = async function() { if(!window.activeInteractPostId) return; if(confirm("Gönderiyi silmek istediğine emin misin?")) { await deleteDoc(doc(db, "gonderiler", window.activeInteractPostId)); closeModal('postDetailModal'); await loadAllData(); window.renderProfileGrid(); } }
 
         document.getElementById('btn-save-profile').addEventListener('click', async () => {
             if(!currentUserId) return; const btn = document.getElementById('btn-save-profile'); btn.innerText = "Kaydediliyor...";
