@@ -61,11 +61,6 @@
         body.theme-gold .nav-icon-btn.add-btn { background: linear-gradient(135deg, #d4af37, #ffdf00); }
         body.theme-gold .chat-msg.mine .chat-bubble { background: linear-gradient(135deg, #d4af37, #ffdf00); color: #000; font-weight: 500;}
 
-        /* 🔥 ALTIN TİK (PREMİUM GÖSTERGESİ) 🔥 */
-        .gold-tick { display: inline-flex; justify-content: center; align-items: center; width: 16px; height: 16px; background: linear-gradient(135deg, #d4af37 0%, #ffdf00 50%, #aa8529 100%); color: #000; border-radius: 50%; font-size: 11px; font-weight: 900; margin-left: 4px; box-shadow: 0 0 6px rgba(255,223,0,0.6); vertical-align: middle; line-height: 1; }
-        body.theme-gold .gold-tick { box-shadow: 0 0 10px rgba(255, 223, 0, 0.9); }
-        body.theme-black .gold-tick { background: linear-gradient(135deg, #fff, #ccc); box-shadow: 0 0 6px rgba(255,255,255,0.6); }
-
         body { background: var(--body-bg); color: var(--text-light); overflow: hidden; transition: background 0.5s ease; }
 
         #splash-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #050505; z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease, visibility 0.5s; }
@@ -128,7 +123,6 @@
         .form-group input, .form-group textarea { width: 100%; padding: 14px; background: rgba(0,0,0,0.5); border: var(--glass-border); border-radius: 12px; color: white; outline: none; font-size: 14px;}
         .btn-premium { background: var(--primary-gold); color: #000; padding: 14px; border-radius: 12px; font-weight: 700; width: 100%; border: none; cursor: pointer; font-size: 15px; transition: background 0.5s, box-shadow 0.5s;}
 
-        /* VIP ORTALANMIŞ GİRİŞ EKRANI */
         .auth-box { background: var(--glass-bg); backdrop-filter: blur(25px); border: var(--glass-border); border-radius: 35px; padding: 40px 30px; width: 100%; max-width: 380px; text-align: center; transform: scale(0.9); transition: all 0.4s ease; margin: auto;}
         .modal-overlay.active .auth-box { transform: scale(1); }
         .auth-tabs { display: flex; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
@@ -393,6 +387,9 @@
         const safeEncode = (str) => encodeURIComponent(str || '').replace(/'/g, "%27");
         const adminEmail = "kcagatay239@gmail.com"; 
         
+        // 🔥 INSTAGRAM BİREBİR ALTIN TİK SVG 🔥
+        const instaGoldTick = `<svg class="gold-tick-svg" viewBox="0 0 24 24" width="16" height="16" style="vertical-align: middle; margin-left: 4px; filter: drop-shadow(0 0 5px rgba(212,175,55,0.6));"><defs><linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#d4af37" /><stop offset="50%" stop-color="#ffdf00" /><stop offset="100%" stop-color="#aa8529" /></linearGradient></defs><path d="M11.99 1.51l2.45 1.63 2.87-.49 1.34 2.53 2.76 1.05-.53 2.89 2.01 2.22-1.39 2.5 1.15 2.65-2.26 1.95-.08 2.92-2.73 1.12-1.2 2.62-2.85-.4-1.92 2.3-2.58-1.4-2.58 1.4-1.92-2.3-2.85.4-1.2-2.62-2.73-1.12-.08-2.92-2.26-1.95 1.15-2.65-1.39-2.5 2.01-2.22-.53-2.89 2.76-1.05 1.34-2.53 2.87.49 2.45-1.63z" fill="url(#goldGrad)"/><path d="M10.23 15.62l-3.3-3.32 1.25-1.23 2.05 2.05 5.25-5.32 1.25 1.25-6.5 6.57z" fill="#fff"/></svg>`;
+
         window.globalUsersById = {}; window.globalUsersByName = {}; window.globalPosts = []; let currentUserProfile = null;
         window.activeInteractPostId = null; window.activeInteractOwner = null; window.activeInteractStoryId = null; window.activeStoryOwner = null; window.activeShareUrl = null; window.activeChatId = null; let messagesUnsubscribe = null; window.chatDocUnsubscribe = null;
 
@@ -412,7 +409,6 @@
             } catch (e) { alert(e.message); document.getElementById('btn-register').innerText = "VIP Hesabını Oluştur"; }
         });
 
-        // 🔥 GLOBAL TEMA (AURA) ENTEGRASYONU 🔥
         onAuthStateChanged(auth, async (user) => {
             try {
                 if (user) { 
@@ -427,7 +423,6 @@
                         document.getElementById('dist-val').innerText = currentUserProfile.maxDistance + " km";
                         document.getElementById('ghost-mode-toggle').checked = currentUserProfile.ghostMode;
 
-                        // Temayı Uygula
                         let savedTheme = currentUserProfile.profileTheme || 'normal';
                         if(savedTheme !== 'normal' && !currentUserProfile.isPremium && user.email !== adminEmail) { savedTheme = 'normal'; }
                         if(savedTheme !== 'normal') { document.body.classList.add('theme-' + savedTheme); }
@@ -446,7 +441,7 @@
                         initNoti = false;
                     });
                 } else { openModal('authModal'); }
-            } catch(e) { console.error("Baslangic Hatasi:", e); } finally { hideSplash(); }
+            } catch(e) {} finally { hideSplash(); }
         });
 
         window.savePreferences = async function() {
@@ -483,9 +478,8 @@
             const mediaContainer = document.getElementById('pd-media-container');
             if(window.isVideo(data.imageUrl)) { mediaContainer.innerHTML = `<video src="${data.imageUrl}" autoplay loop playsinline style="max-width:100%; max-height:100%; position:relative; z-index:1;"></video>`; document.getElementById('pd-blur').style.backgroundImage = 'none'; } else { mediaContainer.innerHTML = `<img src="${data.imageUrl}" style="max-width:100%; max-height:100%; object-fit:contain; position:relative; z-index:1;" />`; document.getElementById('pd-blur').style.backgroundImage = `url('${data.imageUrl.replace(/'/g, "\\'")}')`; }
             
-            // 🔥 ALTIN TİK 🔥
             let pInfo = window.globalUsersByName[data.username] || {};
-            const isP = (pInfo.isPremium || data.username.toLowerCase().includes('çağatay')) ? '<span class="gold-tick" title="VIP">✓</span>' : ''; 
+            const isP = (pInfo.isPremium || data.username.toLowerCase().includes('çağatay')) ? instaGoldTick : ''; 
             
             document.getElementById('pd-user').dataset.user = data.username; document.getElementById('pd-user').innerHTML = data.username + isP; 
             document.getElementById('pd-caption').innerText = data.caption || ''; document.getElementById('pd-likes').innerText = data.likesCount || 0;
@@ -527,8 +521,7 @@
                     
                     if(isMe || isFollowing) {
                         const sAvatar = uInfo.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100'; 
-                        // 🔥 ALTIN TİK 🔥
-                        const premiumIcon = (uInfo.isPremium || username.toLowerCase().includes('çağatay')) ? '<span class="gold-tick" title="VIP">✓</span>' : ''; 
+                        const premiumIcon = (uInfo.isPremium || username.toLowerCase().includes('çağatay')) ? instaGoldTick : ''; 
                         const safeAvatar = safeEncode(sAvatar); const safeUsername = safeEncode(username); const storiesJson = safeEncode(JSON.stringify(storiesByUser[username]));
                         let thumbUrl = storiesByUser[username][storiesByUser[username].length-1].url; if(window.isVideo(thumbUrl)) thumbUrl = sAvatar; 
                         stContainer.insertAdjacentHTML('beforeend', `<div class="story-item" onclick="window.viewGroupedStory('${safeUsername}', '${safeAvatar}', '${storiesJson}')"><div class="story-ring"><div class="story-img" style="background-image: url('${thumbUrl.replace(/'/g, "\\'")}');"></div></div><span class="story-name">${username.split(' ')[0]}${premiumIcon}</span></div>`);
@@ -537,7 +530,7 @@
             } catch(e){}
         }
         window.viewGroupedStory = function(encodedUsername, encodedAvatar, storiesJson) { window.activeStoryOwner = decodeURIComponent(encodedUsername); const avatarUrl = decodeURIComponent(encodedAvatar); window.currentStoryGroup = JSON.parse(decodeURIComponent(storiesJson)); window.currentStoryIndex = 0; 
-            const isP = (window.globalUsersByName[window.activeStoryOwner]?.isPremium || window.activeStoryOwner.toLowerCase().includes('çağatay')) ? '<span class="gold-tick" title="VIP">✓</span>' : ''; 
+            const isP = (window.globalUsersByName[window.activeStoryOwner]?.isPremium || window.activeStoryOwner.toLowerCase().includes('çağatay')) ? instaGoldTick : ''; 
             document.getElementById('view-story-username').innerHTML = window.activeStoryOwner + isP; document.getElementById('view-story-avatar').style.backgroundImage = `url('${avatarUrl.replace(/'/g, "\\'")}')`; const isAdmin = auth.currentUser && auth.currentUser.email === adminEmail; const isMine = auth.currentUser && auth.currentUser.displayName === window.activeStoryOwner; document.getElementById('btn-delete-story').style.display = (isAdmin || isMine) ? 'block' : 'none'; document.getElementById('story-reaction-bar').style.display = isMine ? 'none' : 'flex'; openModal('viewStoryModal'); playCurrentStory(); }
         window.playCurrentStory = function() { if(window.currentStoryIndex >= window.currentStoryGroup.length) { closeModal('viewStoryModal'); return; } const currentObj = window.currentStoryGroup[window.currentStoryIndex]; window.activeInteractStoryId = currentObj.id; const url = currentObj.url; const container = document.getElementById('view-story-media-container'); if(window.isVideo(url)) { container.innerHTML = `<video id="story-vid" src="${url}" autoplay playsinline style="max-width:100%; max-height:100%; object-fit:contain; position:relative; z-index:1;"></video>`; document.getElementById('view-story-blur').style.backgroundImage = 'none'; const vid = document.getElementById('story-vid'); vid.onloadedmetadata = () => { startStoryTimer(vid.duration * 1000 || 5000); }; } else { container.innerHTML = `<img src="${url}" style="max-width:100%; max-height:100%; object-fit:contain; position:relative; z-index:1;" />`; document.getElementById('view-story-blur').style.backgroundImage = `url('${url.replace(/'/g, "\\'")}')`; startStoryTimer(5000); } }
         window.startStoryTimer = function(duration) { const progress = document.getElementById('story-progress-fill'); progress.style.transition = 'none'; progress.style.width = '0%'; setTimeout(() => { progress.style.transition = `width ${duration/1000}s linear`; progress.style.width = '100%'; }, 50); clearTimeout(window.storyTimeout); window.storyTimeout = setTimeout(() => { window.nextStory(); }, duration); }
@@ -550,8 +543,7 @@
             if(window.globalPosts.length === 0) { rc.innerHTML = '<div style="color:white; text-align:center; padding-top:50vh;">Gönderi yok.</div>'; return; }
             window.globalPosts.forEach(data => {
                 const pInfo = window.globalUsersByName[data.username] || {}; const av = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100')`; const likedClass = (auth.currentUser && data.likedBy && data.likedBy.includes(auth.currentUser.displayName)) ? 'liked' : ''; 
-                // 🔥 ALTIN TİK 🔥
-                const isP = (pInfo.isPremium || data.username.toLowerCase().includes('çağatay')) ? '<span class="gold-tick" title="VIP">✓</span>' : '';
+                const isP = (pInfo.isPremium || data.username.toLowerCase().includes('çağatay')) ? instaGoldTick : '';
                 
                 const mediaHtml = window.isVideo(data.imageUrl) ? `<video src="${data.imageUrl}" loop playsinline style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;" onclick="this.muted = !this.muted" ondblclick="toggleLikeDB(this.parentElement.querySelector('.btn-like'), '${data.id}', '${data.username}')"></video>` : `<img src="${data.imageUrl}" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;" ondblclick="toggleLikeDB(this.parentElement.querySelector('.btn-like'), '${data.id}', '${data.username}')"/>`;
                 
@@ -576,8 +568,7 @@
                 userList.style.display = 'block'; 
                 matchedUsers.forEach(u => { 
                     const av = u.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100'; 
-                    // 🔥 ALTIN TİK 🔥
-                    const isP = (u.isPremium || u.displayName.toLowerCase().includes('çağatay')) ? '<span class="gold-tick" title="VIP">✓</span>' : ''; 
+                    const isP = (u.isPremium || u.displayName.toLowerCase().includes('çağatay')) ? instaGoldTick : ''; 
                     userList.insertAdjacentHTML('beforeend', `<div class="list-item" data-user="${u.displayName.replace(/"/g, '&quot;')}" onclick="closeModal('exploreModal'); window.openUserProfile(this.dataset.user)" style="padding: 10px 20px;"><div class="list-avatar" style="background-image: url('${av}'); width: 40px; height: 40px;"></div><div class="list-text"><strong style="color:white; font-size:15px;">${u.displayName}${isP}</strong></div></div>`); 
                 }); 
             } else { userList.style.display = 'none'; }
@@ -593,8 +584,7 @@
 
         window.openUserProfile = function(username) {
             let pInfo = window.globalUsersByName[username] || {}; 
-            // 🔥 ALTIN TİK 🔥
-            const isP = (pInfo.isPremium || username.toLowerCase().includes('çağatay')) ? '<span class="gold-tick" title="VIP">✓</span>' : ''; 
+            const isP = (pInfo.isPremium || username.toLowerCase().includes('çağatay')) ? instaGoldTick : ''; 
             
             document.getElementById('up-title').innerText = username; document.getElementById('up-name').innerHTML = `${username} ${isP}`; 
             document.getElementById('up-bio').innerText = pInfo.bio || 'Swinder VIP Üyesi'; document.getElementById('up-avatar').style.backgroundImage = pInfo.avatar ? `url('${pInfo.avatar.replace(/'/g, "\\'")}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=200')`;
@@ -631,8 +621,7 @@
                 }); 
                 if(profiles.length === 0) { document.getElementById('empty-state').style.display = 'flex'; return; } 
                 profiles.reverse().forEach((p, index) => { 
-                    // 🔥 ALTIN TİK 🔥
-                    const isP = p.isPremium ? '<span class="gold-tick" title="VIP">✓</span>' : ''; 
+                    const isP = p.isPremium ? instaGoldTick : ''; 
                     swipeContainer.insertAdjacentHTML('beforeend', `<div class="swipe-card" data-uid="${p.uid}" data-name="${p.name}" data-img="${p.img}" style="z-index: ${1000 - index};"><div class="card-img-bg" style="background-image: url('${p.img.replace(/'/g, "\\'")}');"></div><div class="card-overlay"></div><div class="swipe-stamp stamp-like">LIKE</div><div class="swipe-stamp stamp-nope">NOPE</div><div class="card-info"><div class="card-details"><div class="card-name">${p.name} <span class="card-age">${p.age}</span> ${isP}</div><div class="card-bio">${p.bio}</div></div></div></div>`); 
                 }); initSwipeLogic(); 
             }); 

@@ -43,6 +43,8 @@
         body.theme-black .btn-premium { background: #fff; color: #000; text-shadow: none; box-shadow: 0 4px 15px rgba(255,255,255,0.2);}
         body.theme-black .nav-icon-btn.add-btn { background: #fff; color: #000; }
         body.theme-black .chat-msg.mine .chat-bubble { background: #fff; color: #000; }
+        body.theme-black .radar-wave { background: rgba(255,255,255,0.4); }
+        body.theme-black .radar-center-dot { box-shadow: 0 0 10px #fff; }
 
         /* 👑 THEME: SWINDER ROYAL GOLD 👑 */
         body.theme-gold {
@@ -68,11 +70,6 @@
         body.theme-gold .grid-item video { position: relative; }
         body.theme-gold .grid-item video::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--video-overlay); pointer-events: none; }
 
-        /* 🔥 ALTIN TİK (PREMİUM GÖSTERGESİ) 🔥 */
-        .gold-tick { display: inline-flex; justify-content: center; align-items: center; width: 16px; height: 16px; background: linear-gradient(135deg, #d4af37 0%, #ffdf00 50%, #aa8529 100%); color: #000; border-radius: 50%; font-size: 11px; font-weight: 900; margin-left: 4px; box-shadow: 0 0 6px rgba(255,223,0,0.6); vertical-align: middle; line-height: 1; }
-        body.theme-gold .gold-tick { box-shadow: 0 0 10px rgba(255, 223, 0, 0.9); }
-        body.theme-black .gold-tick { background: linear-gradient(135deg, #fff, #ccc); box-shadow: 0 0 6px rgba(255,255,255,0.6); }
-
         body { background: var(--body-bg); color: var(--text-light); overflow-x: hidden; padding-bottom: calc(70px + env(safe-area-inset-bottom)); transition: background 0.5s ease; }
 
         #splash-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #050505; z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease, visibility 0.5s; }
@@ -94,6 +91,18 @@
         .profile-actions { padding: 0 20px; margin-bottom: 20px; }
         .btn-edit { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: var(--glass-border); color: var(--text-light); padding: 10px 0; border-radius: 12px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.3s; width: 100%; text-align: center; }
         
+        /* 🔥 PROFİL GOOGLE MAPS RADARI 🔥 */
+        .radar-map-container { position: relative; width: calc(100% - 40px); height: 140px; margin: 0 20px 20px; border-radius: 16px; overflow: hidden; border: var(--glass-border); cursor: pointer; background: #1a1a1a url('https://images.unsplash.com/photo-1524661135-423995f22d0b?w=600&q=80') center/cover no-repeat; box-shadow: inset 0 0 50px rgba(0,0,0,0.8); }
+        .radar-map-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); }
+        .radar-pulse-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; justify-content: center; align-items: center; }
+        .radar-center-dot { width: 14px; height: 14px; background: var(--primary-gold); border-radius: 50%; z-index: 2; box-shadow: 0 0 15px var(--primary-gold); }
+        .radar-wave { position: absolute; width: 50px; height: 50px; background: rgba(212,175,55,0.4); border-radius: 50%; animation: radarPing 2.5s infinite ease-out; z-index: 1; }
+        .radar-wave:nth-child(2) { animation-delay: 0.8s; }
+        .radar-wave:nth-child(3) { animation-delay: 1.6s; }
+        @keyframes radarPing { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(5); opacity: 0; } }
+        .radar-text-box { position: absolute; bottom: 10px; left: 15px; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); padding: 6px 14px; border-radius: 20px; font-size: 13px; color: white; border: 1px solid rgba(255,255,255,0.1); z-index: 3; }
+        .radar-text-box span { font-weight: bold; color: var(--primary-gold); }
+
         .profile-grid, .grid-view { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; width: 100%; margin-top: 2px;}
         .grid-item { width: 100%; height: 0; padding-bottom: 100%; position: relative; background-color: #1a1a1a; background-size: cover; background-position: center; cursor: pointer;}
         .grid-video-icon { position:absolute; top:8px; right:8px; color:white; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8)); font-size: 22px;}
@@ -125,6 +134,35 @@
         .modal-overlay.active .post-detail-box { transform: translateY(0); }
         .post-detail-img-container { position: relative; width: 100%; height: 50vh; display: flex; justify-content: center; align-items: center; background: black; overflow: hidden; border-bottom: var(--glass-border);}
         .media-blur-bg { position: absolute; top: -10%; left: -10%; width: 120%; height: 120%; background-size: cover; background-position: center; filter: blur(35px) brightness(0.3); z-index: 0; }
+
+        /* SOHBET EKRANI */
+        .chat-area { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;}
+        .chat-msg { display: flex; flex-direction: column; max-width: 80%; }
+        .chat-msg.mine { align-self: flex-end; align-items: flex-end; }
+        .chat-msg.theirs { align-self: flex-start; align-items: flex-start; }
+        .chat-bubble { padding: 12px 16px; border-radius: 20px; font-size: 14px; line-height: 1.4; word-break: break-word;}
+        .chat-msg.mine .chat-bubble { background: var(--ring-gradient); color: #000; border-bottom-right-radius: 4px; transition: background 0.5s;}
+        .chat-msg.theirs .chat-bubble { background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; border-bottom-left-radius: 4px;}
+        .chat-time { font-size: 10px; color: gray; margin-top: 4px; }
+        .chat-input-container { padding: 15px 20px; background: rgba(20,20,25,0.9); border-top: var(--glass-border); display: flex; gap: 8px; align-items: center;}
+        .chat-input { flex: 1; background: rgba(255,255,255,0.1); border: none; color: white; padding: 14px 20px; border-radius: 30px; outline: none; font-size:14px;}
+        .chat-send-btn { background: var(--primary-gold); width: 45px; height: 45px; border-radius: 50%; border: none; display: flex; justify-content: center; align-items: center; color: black; cursor: pointer; transition: transform 0.2s, background 0.5s;}
+        
+        .typing-indicator-box { display: flex; align-items: center; gap: 4px; padding: 12px 16px; height: 38px; width: fit-content; }
+        .typing-dot { width: 6px; height: 6px; background: rgba(255,255,255,0.7); border-radius: 50%; animation: typeBounce 1.4s infinite ease-in-out both; }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typeBounce { 0%, 80%, 100% { transform: scale(0); opacity:0.5;} 40% { transform: scale(1); opacity:1;} }
+
+        /* FİLTRE SLIDER */
+        .pref-slider { -webkit-appearance: none; width: 100%; height: 6px; border-radius: 5px; background: rgba(255,255,255,0.2); outline: none; margin: 15px 0;}
+        .pref-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--primary-gold); cursor: pointer; }
+        .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.2); transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--primary-gold); }
+        input:checked + .slider:before { transform: translateX(24px); background-color: black; }
 
         @media (max-width: 768px) {
             .modal-overlay { padding: 0; align-items: flex-end;}
@@ -159,6 +197,18 @@
         </div>
         <div class="profile-bio"><strong id="bio-name">-</strong><br><span id="bio-text" style="color:gray;">Biyografi yükleniyor...</span></div>
         <div class="profile-actions"><button class="btn-edit" onclick="openModal('profileEditModal')">Profili Düzenle</button></div>
+        
+        <div class="radar-map-container" onclick="openModal('preferencesModal')">
+            <div class="radar-map-overlay"></div>
+            <div class="radar-pulse-container">
+                <div class="radar-wave"></div>
+                <div class="radar-wave"></div>
+                <div class="radar-wave"></div>
+                <div class="radar-center-dot"></div>
+            </div>
+            <div class="radar-text-box">Radarda <span id="radar-dist-display">50</span> km aktif</div>
+        </div>
+
         <div class="profile-grid" id="my-posts"></div>
     </main>
 
@@ -169,6 +219,25 @@
         <button class="nav-icon-btn" onclick="openReels()"><span class="material-symbols-outlined">movie</span></button>
         <button class="nav-icon-btn active"><span class="material-symbols-outlined">person</span></button>
     </nav>
+
+    <div class="modal-overlay" id="preferencesModal" style="z-index: 1800;">
+        <div class="glass-box">
+            <button class="close-btn" onclick="closeModal('preferencesModal')"><span class="material-symbols-outlined">close</span></button>
+            <h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Filtre ve Gizlilik</h2>
+            <div style="margin-bottom: 25px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <span style="color:gray; font-size:14px;">Maksimum Mesafe</span>
+                    <strong style="color:var(--primary-gold);" id="dist-val">50 km</strong>
+                </div>
+                <input type="range" min="1" max="100" value="50" class="pref-slider" id="max-distance-slider" oninput="document.getElementById('dist-val').innerText = this.value + ' km'">
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 25px; padding:15px; background:rgba(0,0,0,0.5); border-radius:12px; border:var(--glass-border);">
+                <div><strong style="color:white; display:block;">Hayalet Modu (Ghost)</strong><span style="font-size:12px; color:gray;">Sadece VIP (💎) özel.</span></div>
+                <label class="switch"><input type="checkbox" id="ghost-mode-toggle"><span class="slider"></span></label>
+            </div>
+            <button class="btn-premium" onclick="savePreferences()" style="margin-bottom: 10px;">Kaydet ve Yenile</button>
+        </div>
+    </div>
 
     <div class="modal-overlay" id="settingsModal">
         <div class="bottom-sheet" style="height: auto;">
@@ -220,7 +289,7 @@
         function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = 'auto'; const modal = document.getElementById(id); if(modal) { modal.querySelectorAll('video').forEach(vid => { vid.pause(); }); } }
         document.querySelectorAll('.modal-overlay').forEach(m => { m.addEventListener('click', (e) => { if(e.target === m && m.id !== 'splash-screen') closeModal(m.id); }); });
         
-        window.openExplore = () => { window.location.href = "index.html"; } // Profilden index'e yönlendir
+        window.openExplore = () => { window.location.href = "index.html"; } 
         window.openReels = () => { window.location.href = "index.html"; }
 
         function hideSplash() { sessionStorage.setItem("swinder_splashed", "true"); const spl = document.getElementById('splash-screen'); if(spl) { spl.style.opacity = '0'; setTimeout(() => spl.style.display = 'none', 400); } }
@@ -250,6 +319,10 @@
         }
 
         const safeEncode = (str) => encodeURIComponent(str || '').replace(/'/g, "%27");
+        
+        // 🔥 INSTAGRAM BİREBİR ALTIN TİK SVG 🔥
+        const instaGoldTick = `<svg class="gold-tick-svg" viewBox="0 0 24 24" width="16" height="16" style="vertical-align: middle; margin-left: 4px; filter: drop-shadow(0 0 5px rgba(212,175,55,0.6));"><defs><linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#d4af37" /><stop offset="50%" stop-color="#ffdf00" /><stop offset="100%" stop-color="#aa8529" /></linearGradient></defs><path d="M11.99 1.51l2.45 1.63 2.87-.49 1.34 2.53 2.76 1.05-.53 2.89 2.01 2.22-1.39 2.5 1.15 2.65-2.26 1.95-.08 2.92-2.73 1.12-1.2 2.62-2.85-.4-1.92 2.3-2.58-1.4-2.58 1.4-1.92-2.3-2.85.4-1.2-2.62-2.73-1.12-.08-2.92-2.26-1.95 1.15-2.65-1.39-2.5 2.01-2.22-.53-2.89 2.76-1.05 1.34-2.53 2.87.49 2.45-1.63z" fill="url(#goldGrad)"/><path d="M10.23 15.62l-3.3-3.32 1.25-1.23 2.05 2.05 5.25-5.32 1.25 1.25-6.5 6.57z" fill="#fff"/></svg>`;
+
         window.globalPosts = []; window.globalUsersById = {}; window.globalUsersByName = {};
         const adminEmail = "kcagatay239@gmail.com"; 
         let currentUserId = null; let isAdmin = false; let currentUserProfile = null;
@@ -267,19 +340,25 @@
                     
                     const snap = await getDoc(doc(db, "kullanicilar", user.uid));
                     if(snap.exists()) {
-                        currentUserProfile = { uid: user.uid, following: [], followers: [], profileTheme: "normal", ...snap.data() };
+                        currentUserProfile = { uid: user.uid, following: [], followers: [], maxDistance: 50, birthdate: "", profileTheme: "normal", ...snap.data() };
                         
-                        // 🔥 ALTIN TİK (PREMİUM GÖSTERGESİ) 🔥
-                        const isP = (currentUserProfile.isPremium || safeName.toLowerCase().includes('çağatay')) ? '<span class="gold-tick" title="VIP">✓</span>' : '';
+                        // 🔥 ALTIN TİK 🔥
+                        const isP = (currentUserProfile.isPremium || safeName.toLowerCase().includes('çağatay')) ? instaGoldTick : '';
                         
                         document.getElementById('display-name').innerHTML = safeName + isP; 
                         document.getElementById('bio-name').innerHTML = safeName + isP; 
                         
+                        // Radar Mesafesi
+                        document.getElementById('max-distance-slider').value = currentUserProfile.maxDistance;
+                        document.getElementById('dist-val').innerText = currentUserProfile.maxDistance + " km";
+                        document.getElementById('radar-dist-display').innerText = currentUserProfile.maxDistance;
+
+                        document.getElementById('edit-birthdate').value = currentUserProfile.birthdate || '';
                         if(currentUserProfile.avatar) { document.getElementById('display-avatar').style.backgroundImage = `url('${currentUserProfile.avatar}')`; }
                         if(currentUserProfile.bio) { document.getElementById('bio-text').innerText = currentUserProfile.bio; document.getElementById('edit-bio').value = currentUserProfile.bio; }
                         document.getElementById('follower-count').innerText = (currentUserProfile.followers || []).length; document.getElementById('following-count').innerText = (currentUserProfile.following || []).length;
 
-                        // 🔥 TEMA YÜKLEMESİ 🔥
+                        // 🔥 GLOBAL TEMA YÜKLEMESİ 🔥
                         let savedTheme = currentUserProfile.profileTheme || 'normal';
                         if(savedTheme !== 'normal' && !currentUserProfile.isPremium && !isAdmin) { savedTheme = 'normal'; }
                         
@@ -290,6 +369,12 @@
                 } else { window.location.href = "index.html"; }
             } catch (error) {} finally { hideSplash(); }
         });
+
+        window.savePreferences = async function() {
+            if(!auth.currentUser) return; const maxD = parseInt(document.getElementById('max-distance-slider').value); const ghost = document.getElementById('ghost-mode-toggle').checked;
+            if(ghost && !currentUserProfile.isPremium && auth.currentUser.email !== adminEmail) { document.getElementById('ghost-mode-toggle').checked = false; return alert("Hayalet Modu sadece VIP (💎) içindir."); }
+            await updateDoc(doc(db, "kullanicilar", auth.currentUser.uid), { maxDistance: maxD, ghostMode: ghost }); alert("Kaydedildi!"); window.location.reload();
+        }
 
         async function loadAllData() {
             const usersSnap = await getDocs(collection(db, "kullanicilar")); window.globalUsersById = {}; window.globalUsersByName = {};
@@ -316,7 +401,7 @@
             
             // 🔥 ALTIN TİK 🔥
             let pInfo = window.globalUsersByName[data.username] || {};
-            const isP = (pInfo.isPremium || data.username.toLowerCase().includes('çağatay')) ? '<span class="gold-tick" title="VIP">✓</span>' : ''; 
+            const isP = (pInfo.isPremium || data.username.toLowerCase().includes('çağatay')) ? instaGoldTick : ''; 
             
             document.getElementById('pd-user').innerHTML = data.username + isP; document.getElementById('pd-caption').innerText = data.caption || ''; document.getElementById('pd-likes').innerText = data.likesCount || 0;
             const btnLike = document.getElementById('pd-btn-like'); if(auth.currentUser && data.likedBy && data.likedBy.includes(auth.currentUser.displayName)) btnLike.classList.add('liked'); else btnLike.classList.remove('liked'); openModal('postDetailModal');
@@ -340,9 +425,13 @@
 
             if(!newUsername) { alert("Kullanıcı adı boş bırakılamaz!"); btn.innerText = "Kaydet"; return; }
             
+            // VIP Tema Güvenlik Kontrolü
             if(selectedTheme !== 'normal' && !currentUserProfile.isPremium && !isAdmin) {
                 alert("💎 Özel profil temaları (Aura) sadece VIP üyeler içindir! Profil standart temaya çevrildi.");
-                document.getElementById('edit-theme').value = 'normal'; document.body.className = ''; btn.innerText = "Kaydet"; return;
+                document.getElementById('edit-theme').value = 'normal';
+                document.body.className = '';
+                btn.innerText = "Kaydet";
+                return;
             }
 
             try { 
