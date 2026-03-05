@@ -26,6 +26,7 @@
         body.theme-black { --primary-gold: #ffffff; --text-light: #e0e0e0; --glass-bg: rgba(10, 10, 10, 0.85); --glass-border: 1px solid rgba(255, 255, 255, 0.2); --body-bg: #000000; --ring-gradient: linear-gradient(45deg, #222, #fff, #555); }
         body.theme-black .profile-ring { box-shadow: 0 0 20px rgba(255,255,255,0.15); }
         body.theme-black .btn-premium { background: #fff; color: #000; text-shadow: none; box-shadow: 0 4px 15px rgba(255,255,255,0.2);}
+        body.theme-black .chat-msg.mine .chat-bubble { background: #fff; color: #000; }
         body.theme-gold { --primary-gold: #ffdf00; --gold-light: #f3e5ab; --text-light: #fff; --glass-bg: rgba(30, 25, 10, 0.7); --glass-border: 1px solid rgba(255, 223, 0, 0.45); --body-bg: radial-gradient(circle at top, #1a1400 0%, #050400 100%); --ring-gradient: linear-gradient(45deg, #ffdf00, #ffaa00, #f3e5ab, #ffdf00); --video-overlay: radial-gradient(circle, rgba(255, 223, 0, 0.1) 0%, transparent 70%); }
         body.theme-gold { background: var(--body-bg) !important; }
         body.theme-gold .profile-ring { box-shadow: 0 0 35px rgba(255, 223, 0, 0.4), 0 0 10px rgba(255, 223, 0, 0.2); position: relative; }
@@ -33,6 +34,7 @@
         body.theme-gold .header-username { text-shadow: 0 0 12px rgba(255, 223, 0, 0.5); }
         body.theme-gold .stat-item span { color: var(--primary-gold); text-shadow: 0 0 10px rgba(255, 223, 0, 0.35); transition: text-shadow 0.3s ease; }
         body.theme-gold .btn-premium { background: linear-gradient(135deg, #d4af37 0%, #ffdf00 50%, #d4af37 100%); color: #000; font-weight: 800; box-shadow: 0 5px 20px rgba(255, 223, 0, 0.35); transition: transform 0.2s ease, box-shadow 0.3s ease; }
+        body.theme-gold .chat-msg.mine .chat-bubble { background: linear-gradient(135deg, #d4af37, #ffdf00); color: #000; font-weight: 500;}
         body.theme-gold .grid-item video::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--video-overlay); pointer-events: none; }
         body { background: var(--body-bg); color: var(--text-light); overflow-x: hidden; padding-bottom: calc(70px + env(safe-area-inset-bottom)); overscroll-behavior-y: none; transition: background 0.5s ease;}
 
@@ -66,7 +68,7 @@
         .nav-icon-btn.add-btn { background: var(--ring-gradient); color: #000; width: 44px; height: 44px; border-radius: 12px; transition: background 0.5s;}
         .nav-icon-btn.add-btn .material-symbols-outlined { font-weight: 600;}
 
-        /* ORTAK MODAL TASARIMLARI */
+        /* ORTAK MODALLAR */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: 0.3s; z-index: 1500; padding: 15px; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .close-btn { position: absolute; top: calc(15px + env(safe-area-inset-top)); right: 15px; background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 50; display: flex; justify-content: center; align-items: center;}
@@ -82,12 +84,12 @@
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 14px; background: rgba(0,0,0,0.5); border: var(--glass-border); border-radius: 12px; color: white; outline: none; font-size: 14px; appearance: none;}
         .btn-premium { background: var(--primary-gold); color: #000; padding: 14px; border-radius: 12px; font-weight: 700; width: 100%; border: none; cursor: pointer; transition: background 0.5s ease, color 0.5s ease, box-shadow 0.5s ease;}
 
-        /* GÖNDERİ DETAY & REELS */
-        .post-detail-box { background: var(--body-bg); width: 100%; height: 90vh; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.4s, background 0.5s; display: flex; flex-direction: column; overflow: hidden; }
+        /* 🔥 YENİ NESİL PROFİL AKIŞI (INFINITE FEED) 🔥 */
+        .post-detail-box { background: var(--body-bg); width: 100%; height: 100dvh; border-radius: 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.4s, background 0.5s; display: flex; flex-direction: column; overflow: hidden; }
         .modal-overlay.active .post-detail-box { transform: translateY(0); }
-        .post-detail-img-container { position: relative; width: 100%; height: 50vh; display: flex; justify-content: center; align-items: center; background: black; overflow: hidden; border-bottom: var(--glass-border); border-top: var(--glass-border);}
-        .media-blur-bg { position: absolute; top: -10%; left: -10%; width: 120%; height: 120%; background-size: cover; background-position: center; filter: blur(35px) brightness(0.3); z-index: 0;}
-
+        .feed-scroll-container { flex: 1; overflow-y: auto; scroll-snap-type: y mandatory; display: flex; flex-direction: column; background: #000;}
+        .feed-post-item { width: 100%; min-height: 100dvh; scroll-snap-align: start; display: flex; flex-direction: column; position: relative; border-bottom: 2px solid #111; background: var(--body-bg);}
+        
         .reels-box { background: #000; width: 100%; height: 100dvh; position: relative; transform: translateY(100%); transition: 0.4s; overflow-y: scroll; scroll-snap-type: y mandatory; }
         .modal-overlay.active .reels-box { transform: translateY(0); }
         .reel-item { width: 100%; height: 100dvh; scroll-snap-align: start; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center;}
@@ -99,14 +101,23 @@
         .reel-action-btn { background: none; border: none; color: white; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));}
         .reel-action-btn.liked .material-symbols-outlined { color: #ff3040; font-variation-settings: 'FILL' 1; }
 
-        /* KEŞFET, PROFİL LİSTELERİ */
+        /* YENİ NESİL YORUM KUTUSU */
+        .modern-comment-input-box { display: flex; align-items: center; background: rgba(255,255,255,0.08); border-radius: 30px; padding: 5px 15px; flex: 1; border: 1px solid rgba(255,255,255,0.1); transition: border-color 0.3s;}
+        .modern-comment-input-box:focus-within { border-color: var(--primary-gold); }
+        .modern-comment-input-box input { flex: 1; background: transparent; border: none; color: white; padding: 10px 0; outline: none; font-size: 14px;}
+        .btn-modern-share { background: transparent; border: none; color: var(--primary-gold); font-weight: 700; font-size: 14px; cursor: pointer; padding: 0 10px; transition: transform 0.2s;}
+        .btn-modern-share:active { transform: scale(0.9); }
+
         .search-input { flex: 1; background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; padding: 12px 20px; border-radius: 30px; outline: none; font-size: 14px;}
         .explore-users-container { display: none; max-height: 250px; overflow-y: auto; border-bottom: var(--glass-border); -webkit-overflow-scrolling: touch;}
         .explore-scroll-area { flex: 1; overflow-y: auto; display: flex; flex-direction: column; -webkit-overflow-scrolling: touch;}
-        
+        .grid-view { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; width: 100%; }
+        .grid-item { width: 100%; height: 0; padding-bottom: 100%; position: relative; background-color: #1a1a1a; background-size: cover; background-position: center; cursor: pointer; }
+        .grid-video-icon { position:absolute; top:8px; right:8px; color:white; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); font-size: 22px;}
+
         .up-header-top { display: flex; align-items: center; padding: 20px 20px 15px; gap: 20px;}
-        .up-avatar-container { width: 86px; height: 86px; border-radius: 50%; padding: 3px; background: var(--ring-gradient); flex-shrink: 0;}
-        .up-avatar { width: 100%; height: 100%; border-radius: 50%; background-size: cover; background-position: center; border: 3px solid var(--body-bg);}
+        .up-avatar-container { width: 86px; height: 86px; border-radius: 50%; padding: 3px; background: var(--ring-gradient); flex-shrink: 0; transition: background 0.5s;}
+        .up-avatar { width: 100%; height: 100%; border-radius: 50%; background-size: cover; background-position: center; border: 3px solid var(--body-bg); transition: border-color 0.5s;}
         .up-stats { display: flex; flex: 1; justify-content: space-around; text-align: center; }
         .up-stat-item { font-size: 12px; color: rgba(255,255,255,0.7); }
         .up-stat-item span { display: block; font-size: 16px; font-weight: bold; color: white; margin-bottom: 2px;}
@@ -193,79 +204,45 @@
 
     <div class="modal-overlay" id="postDetailModal" style="z-index: 1600;">
         <div class="post-detail-box">
-            <div class="sheet-header">
+            <div class="sheet-header" style="background: rgba(0,0,0,0.8); position:absolute; width:100%; top:0; left:0; z-index:50; border-bottom:none;">
                 <button class="header-icon" onclick="closeModal('postDetailModal')"><span class="material-symbols-outlined">arrow_back</span></button> 
-                Gönderi 
+                <span id="pd-top-title" style="margin-left:10px;">Gönderiler</span>
             </div>
-            <div style="flex:1; overflow-y:auto; padding-bottom:30px;">
-                
-                <div style="display:flex; align-items:center; padding:12px 15px; gap:10px;">
-                    <div id="pd-header-avatar" style="width:34px; height:34px; border-radius:50%; background-size:cover; background-position:center; cursor:pointer; border: 1px solid var(--primary-gold);"></div>
-                    <div style="flex:1; display:flex; align-items:center; gap:6px;">
-                        <strong id="pd-header-username" style="font-size:14px; cursor:pointer;">-</strong>
-                        <button id="pd-btn-inline-follow" style="background:transparent; border:none; color:#3498db; font-weight:600; font-size:13px; cursor:pointer; display:none;" onclick="window.toggleFollowInline(this)">• Takip Et</button>
-                    </div>
-                    <div id="admin-controls" style="display:none; gap:15px;">
-                        <button class="header-icon" style="color:var(--primary-gold); font-size:22px;" onclick="window.editPostDB()"><span class="material-symbols-outlined">edit</span></button>
-                        <button class="header-icon" style="color:#ff4757; font-size:22px;" onclick="window.deletePostDB()"><span class="material-symbols-outlined">delete</span></button>
-                    </div>
+            <div id="feed-scroll-container" class="feed-scroll-container" style="padding-top:60px;">
                 </div>
-
-                <div class="post-detail-img-container">
-                    <div class="media-blur-bg" id="pd-blur"></div>
-                    <div id="pd-media-container" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center; z-index:1;"></div>
-                </div>
-                
-                <div style="padding: 15px 20px;">
-                    <div style="display:flex; gap:15px; margin-bottom:10px;">
-                        <button class="header-icon" id="pd-btn-like" onclick="window.toggleLikeDB(this)"><span class="material-symbols-outlined">favorite</span></button>
-                        <button class="header-icon" onclick="window.openCommentsDB()"><span class="material-symbols-outlined">chat_bubble</span></button>
-                        <button class="header-icon" onclick="window.openShareModal()"><span class="material-symbols-outlined">send</span></button>
-                    </div>
-                    <div style="font-weight:600; margin-bottom:5px; font-size:14px;"><span id="pd-likes">0</span> beğenme</div>
-                    <div style="font-size: 14px;">
-                        <strong id="pd-user" style="margin-right:5px; cursor:pointer;">-</strong>
-                        <span id="pd-caption" style="color:rgba(255,255,255,0.8);">-</span>
-                    </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="commentsModal" style="z-index: 1700;">
+        <div class="bottom-sheet" style="height: 70vh;">
+            <div class="sheet-header"><button class="header-icon" onclick="closeModal('commentsModal')"><span class="material-symbols-outlined">close</span></button> Yorumlar</div>
+            <div style="flex:1; overflow-y:auto; padding:15px; display:flex; flex-direction:column; gap:15px;" id="comments-list"></div>
+            
+            <div style="padding: 15px 20px; border-top: var(--glass-border); display: flex; gap: 10px; align-items: center; background: rgba(10,10,12,0.95); padding-bottom: calc(15px + env(safe-area-inset-bottom));">
+                <div id="my-comment-avatar" style="width: 36px; height: 36px; border-radius: 50%; background-size:cover; background-image:url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100'); flex-shrink:0;"></div>
+                <div class="modern-comment-input-box">
+                    <input type="text" id="new-comment-input" placeholder="Yorum ekle...">
+                    <button class="btn-modern-share" onclick="window.submitComment()">Paylaş</button>
                 </div>
             </div>
         </div>
     </div>
-    
-    <div class="modal-overlay" id="commentsModal" style="z-index: 1700;"><div class="bottom-sheet" style="height: 70vh;"><div class="sheet-header"><button class="header-icon" onclick="closeModal('commentsModal')"><span class="material-symbols-outlined">close</span></button> Yorumlar</div><div style="flex:1; overflow-y:auto; padding:15px; display:flex; flex-direction:column; gap:15px;" id="comments-list"></div><div class="chat-input-container" style="padding: 15px 20px; border-top: var(--glass-border); display: flex; gap: 8px;"><input type="text" id="new-comment-input" placeholder="Yorum ekle..." class="chat-input"><button onclick="window.submitComment()" style="background:none; border:none; color:var(--primary-gold); font-weight:bold; padding:0 10px; cursor:pointer;">Paylaş</button></div></div></div>
 
-    <div class="modal-overlay" id="shareModal" style="z-index: 1750;"><div class="bottom-sheet" style="height: 60vh;"><div class="sheet-header"><button class="header-icon" onclick="closeModal('shareModal')"><span class="material-symbols-outlined">close</span></button> Kime Gönderilsin?</div><div style="flex:1; overflow-y:auto;" id="share-list-container"></div></div></div>
+    <div class="modal-overlay" id="shareModal" style="z-index: 1750;">
+        <div class="bottom-sheet" style="height: 65vh;">
+            <div class="sheet-header"><button class="header-icon" onclick="closeModal('shareModal')"><span class="material-symbols-outlined">close</span></button> DM Olarak Gönder</div>
+            <div style="padding: 10px 15px; border-bottom: var(--glass-border);">
+                <input type="text" class="search-input" style="width:100%;" placeholder="Kişi ara..." onkeyup="window.filterShareList(this.value)">
+            </div>
+            <div style="flex:1; overflow-y:auto;" id="share-list-container">
+                </div>
+        </div>
+    </div>
 
     <div class="modal-overlay" id="exploreModal"><div class="bottom-sheet"><div class="sheet-header" style="gap:10px;"><button class="header-icon" onclick="closeModal('exploreModal')"><span class="material-symbols-outlined">arrow_back</span></button><input type="text" class="search-input" id="search-input" placeholder="Kişi veya gönderi ara..." onkeyup="window.performSearch()"></div><div class="explore-users-container" id="explore-users-list"></div><div class="explore-scroll-area"><div class="grid-view" id="explore-grid"></div></div></div></div>
-    
     <div class="modal-overlay" id="reelsModal" style="padding:0; background: #000;"><button class="close-btn" onclick="closeModal('reelsModal')" style="z-index: 1000; top: calc(20px + env(safe-area-inset-top)); right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button><div class="reels-box" id="reels-container"></div></div>
     
-    <div class="modal-overlay" id="userProfileModal" style="z-index: 1550;">
-        <div class="bottom-sheet">
-            <div class="sheet-header">
-                <button class="header-icon" onclick="closeModal('userProfileModal')"><span class="material-symbols-outlined">arrow_back</span></button>
-                <span id="up-title" style="font-weight:bold;">Profil</span>
-            </div>
-            <div class="up-header-top">
-                <div class="up-avatar-container"><div class="up-avatar" id="up-avatar"></div></div>
-                <div class="up-stats">
-                    <div class="up-stat-item"><span id="up-post-count">0</span>Gönderi</div>
-                    <div class="up-stat-item"><span id="up-follower-count">0</span>Takipçi</div>
-                    <div class="up-stat-item"><span id="up-following-count">0</span>Takip</div>
-                </div>
-            </div>
-            <div class="up-bio-container">
-                <div class="up-name" id="up-name">-</div>
-                <div class="up-bio" id="up-bio">-</div>
-            </div>
-            <div class="up-actions">
-                <button id="btn-follow-user" class="btn-up-action btn-follow" onclick="window.toggleFollowDB(this)">Takip Et</button>
-            </div>
-            <div class="explore-scroll-area" style="border-top: var(--glass-border); padding-top: 2px;">
-                <div class="grid-view" id="up-grid"></div>
-            </div>
-        </div>
-    </div>
+    <div class="modal-overlay" id="userProfileModal" style="z-index: 1550;"><div class="bottom-sheet"><div class="sheet-header"><button class="header-icon" onclick="closeModal('userProfileModal')"><span class="material-symbols-outlined">arrow_back</span></button><span id="up-title" style="font-weight:bold;">Profil</span></div><div class="up-header-top"><div class="up-avatar-container"><div class="up-avatar" id="up-avatar"></div></div><div class="up-stats"><div class="up-stat-item"><span id="up-post-count">0</span>Gönderi</div><div class="up-stat-item"><span id="up-follower-count">0</span>Takipçi</div><div class="up-stat-item"><span id="up-following-count">0</span>Takip</div></div></div><div class="up-bio-container"><div class="up-name" id="up-name">-</div><div class="up-bio" id="up-bio">-</div></div><div class="up-actions"><button id="btn-follow-user" class="btn-up-action btn-follow" onclick="window.toggleFollowDB(this)">Takip Et</button></div><div class="explore-scroll-area" style="border-top: var(--glass-border); padding-top: 2px;"><div class="grid-view" id="up-grid"></div></div></div></div>
 
     <script>
         function openModal(id) { const m = document.getElementById(id); if(m){ m.classList.add('active'); document.body.style.overflow = 'hidden'; } }
@@ -274,7 +251,6 @@
         
         window.openExplore = () => { openModal('exploreModal'); if(window.renderExploreGrid) window.renderExploreGrid(); }
         window.openReels = () => { openModal('reelsModal'); if(window.renderReels) window.renderReels(); }
-        window.openShareModal = function() { openModal('shareModal'); const c = document.getElementById('share-list-container'); if(c) c.innerHTML = '<div style="padding:30px; text-align:center; color:gray;">Bağlantı kopyalandı!</div>'; if(window.activeShareUrl) navigator.clipboard.writeText(window.activeShareUrl).catch(e=>{}); }
 
         function hideSplash() { sessionStorage.setItem("swinder_splashed", "true"); const spl = document.getElementById('splash-screen'); if(spl) { spl.style.opacity = '0'; setTimeout(() => spl.style.display = 'none', 400); } }
         setTimeout(() => { hideSplash(); }, 1500);
@@ -313,10 +289,9 @@
                 const postSnap = await getDocs(collection(db, "gonderiler")); window.globalPosts = []; 
                 postSnap.forEach(doc => { window.globalPosts.push({ id: doc.id, ...doc.data() }); });
                 window.globalPosts.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-            } catch(err) { console.error("Veri yükleme hatası:", err); }
+            } catch(err) {}
         }
 
-        // 🔥 REELS (PAYLAŞ BUTONU VE YÖNLENDİRMELER EKLENDİ) 🔥
         window.renderReels = function() {
             const rc = document.getElementById('reels-container'); if(!rc) return; rc.innerHTML = ''; 
             if(window.globalPosts.length === 0) { rc.innerHTML = '<div style="color:white; text-align:center; padding-top:50vh;">Gönderi yok.</div>'; return; }
@@ -326,7 +301,7 @@
                 
                 const mediaHtml = window.isVideo(data.imageUrl) ? `<video src="${data.imageUrl}" preload="none" poster="${window.getVideoThumbnail(data.imageUrl)}" loop playsinline style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;" onclick="this.muted = !this.muted" ondblclick="window.toggleLikeDB(this.parentElement.querySelector('.btn-like'), '${data.id}', '${data.username}')"></video>` : `<img src="${data.imageUrl}" loading="lazy" decoding="async" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;" ondblclick="window.toggleLikeDB(this.parentElement.querySelector('.btn-like'), '${data.id}', '${data.username}')"/>`;
                 
-                rc.insertAdjacentHTML('beforeend', `<div class="reel-item"><div class="media-blur-bg" style="background-image: url('${data.imageUrl.replace(/'/g, "\\'")}');"></div>${mediaHtml}<div class="reel-overlay"></div><div class="reel-content"><div class="reel-info"><div class="reel-user" data-user="${(data.username || '').replace(/"/g, '&quot;')}" onclick="closeModal('reelsModal'); window.openUserProfile(this.dataset.user)"><div class="reel-avatar" style="background-image:${av};"></div>${data.username}${isP}</div><div class="reel-caption">${data.caption || ''}</div></div><div class="reel-actions"><button class="reel-action-btn btn-like ${likedClass}" onclick="window.toggleLikeDB(this, '${data.id}', '${data.username}')"><span class="material-symbols-outlined">favorite</span><span class="reel-action-text" id="like-count-${data.id}">${data.likesCount||0}</span></button><button class="reel-action-btn" onclick="window.activeInteractPostId='${data.id}'; window.activeInteractOwner='${data.username}'; window.openCommentsDB();"><span class="material-symbols-outlined">chat_bubble</span></button><button class="reel-action-btn" onclick="window.activeShareUrl='${data.imageUrl}'; window.openShareModal();"><span class="material-symbols-outlined">send</span></button></div></div></div>`);
+                rc.insertAdjacentHTML('beforeend', `<div class="reel-item"><div class="media-blur-bg" style="background-image: url('${data.imageUrl.replace(/'/g, "\\'")}');"></div>${mediaHtml}<div class="reel-overlay"></div><div class="reel-content"><div class="reel-info"><div class="reel-user" data-user="${(data.username || '').replace(/"/g, '&quot;')}" onclick="closeModal('reelsModal'); window.openUserProfile(this.dataset.user)"><div class="reel-avatar" style="background-image:${av};"></div>${data.username}${isP}</div><div class="reel-caption">${data.caption || ''}</div></div><div class="reel-actions"><button class="reel-action-btn btn-like ${likedClass}" onclick="window.toggleLikeDB(this, '${data.id}', '${data.username}')"><span class="material-symbols-outlined">favorite</span><span class="reel-action-text" id="like-count-${data.id}">${data.likesCount||0}</span></button><button class="reel-action-btn" onclick="window.activeInteractPostId='${data.id}'; window.activeInteractOwner='${data.username}'; window.openCommentsDB();"><span class="material-symbols-outlined">chat_bubble</span></button><button class="reel-action-btn" onclick="window.openShareModal('${data.imageUrl}')"><span class="material-symbols-outlined">send</span></button></div></div></div>`);
             });
 
             if(window.reelsObserver) window.reelsObserver.disconnect();
@@ -334,7 +309,6 @@
             document.querySelectorAll('.reel-item').forEach(item => window.reelsObserver.observe(item));
         }
 
-        // 🔥 KEŞFET (PROFİL ARAMALARI VE YÖNLENDİRMELER DÜZELTİLDİ) 🔥
         window.renderExploreGrid = async function() {
             const grid = document.getElementById('explore-grid'); if(!grid) return;
             const myUid = auth.currentUser ? auth.currentUser.uid : null; const currentName = auth.currentUser ? auth.currentUser.displayName : '';
@@ -358,7 +332,7 @@
                 const dataStr = safeEncode(JSON.stringify(p)); const isVid = window.isVideo(p.imageUrl); 
                 const bgUrl = isVid ? window.getVideoThumbnail(p.imageUrl) : p.imageUrl; 
                 const iconHtml = isVid ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : ''; 
-                grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${bgUrl.replace(/'/g, "\\'")}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')">${iconHtml}</div>`); 
+                grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${bgUrl.replace(/'/g, "\\'")}');" onclick="window.openPostDetail('${p.id}', '${p.username.replace(/'/g, "\\'")}')">${iconHtml}</div>`); 
             });
         }
         window.performSearch = () => window.renderExploreGrid();
@@ -368,73 +342,130 @@
             if(!auth.currentUser || !window.globalPosts) return;
             const myPosts = window.globalPosts.filter(p => p.username === auth.currentUser.displayName); 
             const pc = document.getElementById('post-count'); if(pc) pc.innerText = myPosts.length;
-            myPosts.forEach(p => { const dataStr = safeEncode(JSON.stringify(p)); const isVid = window.isVideo(p.imageUrl); const bgUrl = isVid ? window.getVideoThumbnail(p.imageUrl) : p.imageUrl; const iconHtml = isVid ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : ''; grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${bgUrl.replace(/'/g, "\\'")}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')">${iconHtml}</div>`); });
+            myPosts.forEach(p => { 
+                const isVid = window.isVideo(p.imageUrl); 
+                const bgUrl = isVid ? window.getVideoThumbnail(p.imageUrl) : p.imageUrl; 
+                const iconHtml = isVid ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : ''; 
+                grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${bgUrl.replace(/'/g, "\\'")}');" onclick="window.openPostDetail('${p.id}', '${p.username.replace(/'/g, "\\'")}')">${iconHtml}</div>`); 
+            });
         }
 
-        // 🔥 GÖNDERİ DETAY EKRANI (INSTAGRAM UI + TAKİP ET BUTONU) 🔥
-        window.openPostDetail = function(postId, dataStr) {
-            const data = JSON.parse(decodeURIComponent(dataStr)); window.activeInteractPostId = postId; window.activeInteractOwner = data.username; window.activeShareUrl = data.imageUrl; 
+        // 🔥 YENİ NESİL PROFİL AKIŞI (INFINITE SCROLL) 🔥
+        window.openPostDetail = function(startPostId, targetUsername) {
+            window.activeInteractPostId = startPostId; 
+            window.activeInteractOwner = targetUsername;
             
-            const mediaContainer = document.getElementById('pd-media-container'); if(!mediaContainer) return;
-            if(window.isVideo(data.imageUrl)) { mediaContainer.innerHTML = `<video src="${data.imageUrl}" preload="none" poster="${window.getVideoThumbnail(data.imageUrl)}" autoplay loop playsinline controls style="max-width:100%; max-height:100%; position:relative; z-index:1;"></video>`; document.getElementById('pd-blur').style.backgroundImage = 'none'; } else { mediaContainer.innerHTML = `<img src="${data.imageUrl}" loading="lazy" decoding="async" style="max-width:100%; max-height:100%; object-fit:contain; position:relative; z-index:1;" />`; document.getElementById('pd-blur').style.backgroundImage = `url('${data.imageUrl.replace(/'/g, "\\'")}')`; }
-            
-            let pInfo = window.globalUsersByName[data.username] || {}; 
-            const isP = (pInfo.isPremium || (data.username || '').toLowerCase().includes('çağatay')) ? instaGoldTick : ''; 
-            const avatarUrl = pInfo.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100';
+            const container = document.getElementById('feed-scroll-container'); if(!container) return;
+            container.innerHTML = ''; 
 
-            // Üst Kullanıcı Şeridi (Insta Style)
-            const headerAvatar = document.getElementById('pd-header-avatar');
-            if(headerAvatar) { headerAvatar.style.backgroundImage = `url('${avatarUrl.replace(/'/g, "\\'")}')`; headerAvatar.onclick = () => { closeModal('postDetailModal'); window.openUserProfile(data.username); }; }
+            const userPosts = window.globalPosts.filter(p => p.username === targetUsername);
             
-            const headerName = document.getElementById('pd-header-username');
-            if(headerName) { headerName.innerHTML = data.username + isP; headerName.onclick = () => { closeModal('postDetailModal'); window.openUserProfile(data.username); }; }
+            userPosts.forEach(data => {
+                let pInfo = window.globalUsersByName[data.username] || {}; 
+                const isP = (pInfo.isPremium || (data.username || '').toLowerCase().includes('çağatay')) ? instaGoldTick : ''; 
+                const avatarUrl = pInfo.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100';
+                const isLiked = auth.currentUser && data.likedBy && data.likedBy.includes(auth.currentUser.displayName);
+                const likedClass = isLiked ? 'liked' : '';
 
-            // Hızlı Takip Et (Inline Follow) Butonu
-            const inlineFollowBtn = document.getElementById('pd-btn-inline-follow');
-            if(inlineFollowBtn && auth.currentUser) {
-                if(auth.currentUser.displayName === data.username) {
-                    inlineFollowBtn.style.display = 'none';
-                } else {
-                    const followingList = currentUserProfile?.following || [];
-                    if(followingList.includes(pInfo.uid)) {
-                        inlineFollowBtn.style.display = 'none';
-                    } else {
-                        inlineFollowBtn.style.display = 'block';
-                        inlineFollowBtn.dataset.targetUid = pInfo.uid;
-                        inlineFollowBtn.innerText = "• Takip Et";
-                        inlineFollowBtn.style.color = "#3498db";
-                    }
-                }
-            }
+                const mediaHtml = window.isVideo(data.imageUrl) 
+                    ? `<video src="${data.imageUrl}" preload="none" poster="${window.getVideoThumbnail(data.imageUrl)}" loop playsinline style="width:100%; height:60vh; object-fit:contain; background:black;" onclick="this.muted = !this.muted" ondblclick="window.toggleLikeDB(this.parentElement.nextElementSibling.querySelector('.btn-like'), '${data.id}', '${data.username}')"></video>` 
+                    : `<img src="${data.imageUrl}" loading="lazy" style="width:100%; height:60vh; object-fit:contain; background:black;" ondblclick="window.toggleLikeDB(this.parentElement.nextElementSibling.querySelector('.btn-like'), '${data.id}', '${data.username}')"/>`;
 
-            // Alt Bilgiler
-            const pu = document.getElementById('pd-user'); if(pu) { pu.dataset.user = data.username; pu.innerHTML = data.username + isP; pu.onclick = () => { closeModal('postDetailModal'); window.openUserProfile(data.username); }; } 
-            const pc = document.getElementById('pd-caption'); if(pc) pc.innerText = data.caption || ''; 
-            const pl = document.getElementById('pd-likes'); if(pl) pl.innerText = data.likesCount || 0;
-            
-            const btnLike = document.getElementById('pd-btn-like'); if(btnLike) { if(auth.currentUser && data.likedBy && data.likedBy.includes(auth.currentUser.displayName)) btnLike.classList.add('liked'); else btnLike.classList.remove('liked'); }
-            const adminControls = document.getElementById('admin-controls'); if(adminControls) adminControls.style.display = (auth.currentUser && (auth.currentUser.email === adminEmail || auth.currentUser.displayName === data.username)) ? 'flex' : 'none'; 
-            
+                const postHtml = `
+                <div id="feed-post-${data.id}" class="feed-post-item">
+                    <div style="display:flex; align-items:center; padding:12px 15px; gap:10px;">
+                        <div style="width:34px; height:34px; border-radius:50%; background-image:url('${avatarUrl}'); background-size:cover; border:1px solid var(--primary-gold); cursor:pointer;" onclick="closeModal('postDetailModal'); window.openUserProfile('${data.username}')"></div>
+                        <div style="flex:1; display:flex; align-items:center; gap:6px;">
+                            <strong style="font-size:14px; cursor:pointer;" onclick="closeModal('postDetailModal'); window.openUserProfile('${data.username}')">${data.username}${isP}</strong>
+                        </div>
+                    </div>
+                    <div style="position:relative; width:100%; background:black;">
+                        ${mediaHtml}
+                    </div>
+                    <div style="padding: 15px 20px;">
+                        <div style="display:flex; gap:15px; margin-bottom:10px;">
+                            <button class="header-icon btn-like ${likedClass}" onclick="window.toggleLikeDB(this, '${data.id}', '${data.username}')"><span class="material-symbols-outlined">favorite</span></button>
+                            <button class="header-icon" onclick="window.activeInteractPostId='${data.id}'; window.openCommentsDB()"><span class="material-symbols-outlined">chat_bubble</span></button>
+                            <button class="header-icon" onclick="window.openShareModal('${data.imageUrl}')"><span class="material-symbols-outlined">send</span></button>
+                        </div>
+                        <div style="font-weight:600; margin-bottom:5px; font-size:14px;"><span id="likes-${data.id}">${data.likesCount || 0}</span> beğenme</div>
+                        <div style="font-size: 14px;"><strong>${data.username}</strong> <span style="color:rgba(255,255,255,0.8);">${data.caption || ''}</span></div>
+                    </div>
+                </div>`;
+                container.insertAdjacentHTML('beforeend', postHtml);
+            });
+
             openModal('postDetailModal');
+
+            setTimeout(() => {
+                const targetEl = document.getElementById('feed-post-' + startPostId);
+                if(targetEl) targetEl.scrollIntoView({behavior: 'instant'});
+            }, 50);
+
+            if(window.feedObserver) window.feedObserver.disconnect();
+            window.feedObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { const vid = entry.target.querySelector('video'); if(vid) { if(entry.isIntersecting) { vid.play().catch(e=>{}); } else { vid.pause(); } } }); }, { threshold: 0.5 });
+            document.querySelectorAll('.feed-post-item').forEach(item => window.feedObserver.observe(item));
         }
 
-        // 🔥 HIZLI TAKİP ET FONKSİYONU 🔥
-        window.toggleFollowInline = async function(btnElement) {
-            const user = auth.currentUser; if(!user) return;
-            const targetUid = btnElement.dataset.targetUid; if(!targetUid) return;
-            btnElement.innerText = "Takip Ediliyor"; btnElement.style.color = "gray";
-            const myRef = doc(db, "kullanicilar", user.uid); const targetRef = doc(db, "kullanicilar", targetUid);
+        // 🔥 YENİ NESİL DM PAYLAŞIM MOTORU 🔥
+        window.openShareModal = async function(imageUrl) {
+            window.activeShareUrl = imageUrl;
+            openModal('shareModal');
+            const c = document.getElementById('share-list-container'); if(!c) return;
+            c.innerHTML = '<div style="text-align:center; padding:30px; color:gray;">Kişiler yükleniyor...</div>';
+            
+            if(!auth.currentUser) return;
+            window.myShareMatches = []; 
+            const snap = await getDocs(query(collection(db, "eslesmeler"), where("users", "array-contains", auth.currentUser.uid)));
+            c.innerHTML = '';
+            if(snap.empty) { c.innerHTML = '<div style="text-align:center; padding:30px; color:gray;">Henüz eşleşmen yok.</div>'; return; }
+            
+            snap.forEach(d => {
+                const match = {id: d.id, ...d.data()};
+                const theirIndex = match.users.indexOf(auth.currentUser.uid) === 0 ? 1 : 0;
+                const theirUid = match.users[theirIndex];
+                const theirName = match.userNames[theirIndex];
+                const theirImg = window.globalUsersById[theirUid]?.avatar || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100";
+                window.myShareMatches.push({ id: match.id, name: theirName, img: theirImg });
+            });
+            window.renderShareList();
+        }
+
+        window.renderShareList = function(filterText = "") {
+            const c = document.getElementById('share-list-container'); if(!c) return; c.innerHTML = '';
+            let filtered = window.myShareMatches || [];
+            if(filterText) filtered = filtered.filter(m => m.name.toLowerCase().includes(filterText.toLowerCase()));
+            filtered.forEach(m => {
+                c.insertAdjacentHTML('beforeend', `
+                    <div class="list-item" style="justify-content:space-between; padding: 12px 20px;">
+                        <div style="display:flex; align-items:center; gap:15px;">
+                            <div class="list-avatar" style="background-image:url('${m.img.replace(/'/g, "\\'")}')"></div>
+                            <strong style="color:white; font-size:15px;">${m.name}</strong>
+                        </div>
+                        <button class="btn-premium" style="width:auto; padding:6px 16px; font-size:12px; border-radius:20px;" onclick="window.sendShareDM('${m.id}', this)">Gönder</button>
+                    </div>
+                `);
+            });
+        }
+        window.filterShareList = (text) => window.renderShareList(text);
+
+        window.sendShareDM = async function(chatId, btnElement) {
+            btnElement.innerText = "Gönderildi ✓";
+            btnElement.style.background = "rgba(255,255,255,0.1)";
+            btnElement.style.color = "white";
+            btnElement.style.boxShadow = "none";
+            btnElement.disabled = true;
             try {
-                await updateDoc(myRef, { following: arrayUnion(targetUid) }); await updateDoc(targetRef, { followers: arrayUnion(user.uid) }); 
-                if(currentUserProfile) { if(!currentUserProfile.following) currentUserProfile.following=[]; currentUserProfile.following.push(targetUid); }
-                setTimeout(() => { btnElement.style.display = 'none'; }, 1000); 
-            } catch(e){}
+                await addDoc(collection(db, `eslesmeler/${chatId}/mesajlar`), { senderId: auth.currentUser.uid, text: "[PAYLAŞIM] " + window.activeShareUrl, timestamp: new Date(), read: false });
+                await updateDoc(doc(db, "eslesmeler", chatId), { lastMessage: "🖼️ Bir gönderi paylaştı.", updatedAt: new Date() });
+            } catch(e) {}
         }
 
         window.toggleLikeDB = async function(btnElement, forcePostId=null, forceOwner=null) {
             const user = auth.currentUser; if(!user) return; const postId = forcePostId || window.activeInteractPostId; const owner = forceOwner || window.activeInteractOwner; if(!postId) return;
-            const isLiked = btnElement.classList.contains('liked'); const postRef = doc(db, "gonderiler", postId); const likeSpan = document.getElementById('pd-likes'); const postData = window.globalPosts.find(p=>p.id===postId); let currentLikes = postData ? (postData.likesCount||0) : 0;
-            if(isLiked) { btnElement.classList.remove('liked'); if(likeSpan && window.activeInteractPostId===postId) likeSpan.innerText = currentLikes - 1; await updateDoc(postRef, { likedBy: arrayRemove(user.displayName), likesCount: currentLikes - 1 }); if(postData) postData.likesCount -= 1; } else { btnElement.classList.add('liked'); if(likeSpan && window.activeInteractPostId===postId) likeSpan.innerText = currentLikes + 1; await updateDoc(postRef, { likedBy: arrayUnion(user.displayName), likesCount: currentLikes + 1 }); if(postData) postData.likesCount += 1; if(owner && owner !== user.displayName) await addDoc(collection(db, "bildirimler"), { to: owner, from: user.displayName, text: 'gönderini beğendi.', createdAt: new Date() }); }
+            const isLiked = btnElement.classList.contains('liked'); const postRef = doc(db, "gonderiler", postId); const postData = window.globalPosts.find(p=>p.id===postId); let currentLikes = postData ? (postData.likesCount||0) : 0;
+            const likeSpan = document.getElementById('likes-' + postId);
+            if(isLiked) { btnElement.classList.remove('liked'); if(likeSpan) likeSpan.innerText = currentLikes - 1; await updateDoc(postRef, { likedBy: arrayRemove(user.displayName), likesCount: currentLikes - 1 }); if(postData) postData.likesCount -= 1; } else { btnElement.classList.add('liked'); if(likeSpan) likeSpan.innerText = currentLikes + 1; await updateDoc(postRef, { likedBy: arrayUnion(user.displayName), likesCount: currentLikes + 1 }); if(postData) postData.likesCount += 1; if(owner && owner !== user.displayName) await addDoc(collection(db, "bildirimler"), { to: owner, from: user.displayName, text: 'gönderini beğendi.', createdAt: new Date() }); }
         }
 
         window.openCommentsDB = async function(postId=null) {
@@ -444,9 +475,8 @@
             let comments = []; snap.forEach(d => comments.push(d.data())); comments.sort((a,b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0));
             comments.forEach(data => { const avatar = window.globalUsersByName[data.username]?.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100'; list.insertAdjacentHTML('beforeend', `<div class="list-item" style="padding:0; border:none;"><div class="list-avatar" style="background-image:url('${avatar}'); width:36px; height:36px;"></div><div class="list-text"><strong style="color:var(--primary-gold);">${data.username}</strong> <span style="color:white;">${data.text}</span></div></div>`); });
         }
-        window.submitComment = async function() { const user = auth.currentUser; if(!user || !window.activeInteractPostId) return; const text = document.getElementById('new-comment-input').value.trim(); if(!text) return; document.getElementById('new-comment-input').value = ""; await addDoc(collection(db, `gonderiler/${window.activeInteractPostId}/yorumlar`), { username: user.displayName, text: text, createdAt: new Date() }); window.openCommentsDB(window.activeInteractPostId); }
+        window.submitComment = async function() { const user = auth.currentUser; if(!user || !window.activeInteractPostId) return; const input = document.getElementById('new-comment-input'); const text = input.value.trim(); if(!text) return; input.value = ""; await addDoc(collection(db, `gonderiler/${window.activeInteractPostId}/yorumlar`), { username: user.displayName, text: text, createdAt: new Date() }); window.openCommentsDB(window.activeInteractPostId); }
 
-        // 🔥 PROFİLİ ZIRHLI OLARAK AÇAN MOTOR 🔥
         window.openUserProfile = function(username) {
             let pInfo = window.globalUsersByName[username] || {}; const isP = (pInfo.isPremium || (username || '').toLowerCase().includes('çağatay')) ? instaGoldTick : ''; 
             const ut = document.getElementById('up-title'); if(ut) ut.innerText = username; 
@@ -478,8 +508,8 @@
                 upGrid.innerHTML = ''; 
                 if(userPosts.length === 0) upGrid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 30px; font-size:13px;">Gönderi yok.</div>'; 
                 userPosts.forEach(p => { 
-                    const dataStr = safeEncode(JSON.stringify(p)); const isVid = window.isVideo(p.imageUrl); const bgUrl = isVid ? window.getVideoThumbnail(p.imageUrl) : p.imageUrl; const iconHtml = isVid ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : ''; 
-                    upGrid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${bgUrl.replace(/'/g, "\\'")}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')">${iconHtml}</div>`); 
+                    const isVid = window.isVideo(p.imageUrl); const bgUrl = isVid ? window.getVideoThumbnail(p.imageUrl) : p.imageUrl; const iconHtml = isVid ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : ''; 
+                    upGrid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${bgUrl.replace(/'/g, "\\'")}');" onclick="window.openPostDetail('${p.id}', '${p.username.replace(/'/g, "\\'")}')">${iconHtml}</div>`); 
                 }); 
             }
             openModal('userProfileModal');
@@ -531,6 +561,9 @@
                         const ebio = document.getElementById('edit-bio'); if(ebio) ebio.value = currentUserProfile.bio || '';
                         const fc = document.getElementById('follower-count'); if(fc) fc.innerText = (currentUserProfile.followers || []).length;
                         const fic = document.getElementById('following-count'); if(fic) fic.innerText = (currentUserProfile.following || []).length;
+                        
+                        // Kendi Yorum Avatarını Ayarla
+                        const mca = document.getElementById('my-comment-avatar'); if(mca && currentUserProfile.avatar) mca.style.backgroundImage = `url('${currentUserProfile.avatar}')`;
 
                         let savedTheme = currentUserProfile.profileTheme || 'normal';
                         if(savedTheme !== 'normal' && !currentUserProfile.isPremium && !isAdmin) { savedTheme = 'normal'; }
@@ -550,8 +583,8 @@
                     const installingWorker = reg.installing;
                     installingWorker.onstatechange = () => {
                         if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                            if(!sessionStorage.getItem('sw_reloaded_v26')) {
-                                sessionStorage.setItem('sw_reloaded_v26', 'true');
+                            if(!sessionStorage.getItem('sw_reloaded_v27')) {
+                                sessionStorage.setItem('sw_reloaded_v27', 'true');
                                 window.location.reload();
                             }
                         }
