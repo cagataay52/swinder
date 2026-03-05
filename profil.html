@@ -183,9 +183,9 @@
 
     <nav class="bottom-nav">
         <button class="nav-icon-btn" onclick="window.location.assign('index.html')"><span class="material-symbols-outlined">home</span></button>
-        <button class="nav-icon-btn" onclick="openExplore()"><span class="material-symbols-outlined">search</span></button>
+        <button class="nav-icon-btn" onclick="window.openExplore()"><span class="material-symbols-outlined">search</span></button>
         <button class="nav-icon-btn" style="background: var(--primary-gold); color: #000; width: 44px; height: 44px; border-radius: 12px; display: flex; justify-content: center; align-items: center;" onclick="openModal('addModal')"><span class="material-symbols-outlined" style="font-weight:600; font-size:28px;">add</span></button>
-        <button class="nav-icon-btn" onclick="openReels()"><span class="material-symbols-outlined">movie</span></button>
+        <button class="nav-icon-btn" onclick="window.openReels()"><span class="material-symbols-outlined">movie</span></button>
         <button class="nav-icon-btn active"><span class="material-symbols-outlined">person</span></button>
     </nav>
 
@@ -255,7 +255,14 @@
 
         function hideSplash() { sessionStorage.setItem("swinder_splashed", "true"); const spl = document.getElementById('splash-screen'); if(spl) { spl.style.opacity = '0'; setTimeout(() => spl.style.display = 'none', 400); } }
         setTimeout(() => { hideSplash(); }, 1500);
+        
+        // 🔥 VİDEO ALGILAYICI VE KAPAK OLUŞTURUCU 🔥
         window.isVideo = function(url) { if(!url) return false; return url.match(/\.(mp4|webm|ogg|mov)(\?.*)?$/i) !== null || url.includes('video'); }
+        window.getVideoThumbnail = function(url) { 
+            if(!url) return ''; 
+            if(window.isVideo(url)) return url.replace(/\.(mp4|webm|ogg|mov)(\?.*)?$/i, ".jpg$2"); 
+            return url; 
+        }
 
         // 🔥 CANLI TEMA ÖNİZLEME 🔥
         document.getElementById('edit-theme').addEventListener('change', function(e) {
@@ -374,7 +381,10 @@
             if(filterText) filteredPosts = filteredPosts.filter(p => (p.caption||'').toLocaleLowerCase('tr-TR').includes(filterText) || (p.username||'').toLocaleLowerCase('tr-TR').includes(filterText));
             if(filteredPosts.length === 0 && (!filterText || userList.innerHTML === '')) { grid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 40px; font-size: 13px;">Sonuç bulunamadı.</div>'; return;}
             filteredPosts.forEach(p => { 
-                const dataStr = safeEncode(JSON.stringify(p)); const isVid = window.isVideo(p.imageUrl); const bgUrl = isVid ? 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400' : p.imageUrl; const iconHtml = isVid ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : '';
+                const dataStr = safeEncode(JSON.stringify(p)); const isVid = window.isVideo(p.imageUrl); 
+                // 🔥 YENİ: VİDEO İSE KAPAK FOTOĞRAFI OLUŞTUR 🔥
+                const bgUrl = isVid ? window.getVideoThumbnail(p.imageUrl) : p.imageUrl; 
+                const iconHtml = isVid ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : '';
                 grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${bgUrl.replace(/'/g, "\\'")}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')">${iconHtml}</div>`); 
             });
         }
@@ -385,7 +395,10 @@
             if(!auth.currentUser || !window.globalPosts) return;
             const myPosts = window.globalPosts.filter(p => p.username === auth.currentUser.displayName); document.getElementById('post-count').innerText = myPosts.length;
             myPosts.forEach(p => { 
-                const dataStr = safeEncode(JSON.stringify(p)); const isVid = window.isVideo(p.imageUrl); const bgUrl = isVid ? 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400' : p.imageUrl; const iconHtml = isVid ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : '';
+                const dataStr = safeEncode(JSON.stringify(p)); const isVid = window.isVideo(p.imageUrl); 
+                // 🔥 YENİ: VİDEO İSE KAPAK FOTOĞRAFI OLUŞTUR 🔥
+                const bgUrl = isVid ? window.getVideoThumbnail(p.imageUrl) : p.imageUrl; 
+                const iconHtml = isVid ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : '';
                 grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${bgUrl.replace(/'/g, "\\'")}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')">${iconHtml}</div>`); 
             });
         }
@@ -435,9 +448,13 @@
 
             if(!newUsername) { alert("Kullanıcı adı boş bırakılamaz!"); btn.innerText = "Kaydet"; return; }
             
+            // VIP Tema Güvenlik Kontrolü
             if(selectedTheme !== 'normal' && !currentUserProfile.isPremium && !isAdmin) {
                 alert("💎 Özel profil temaları (Aura) sadece VIP üyeler içindir! Profil standart temaya çevrildi.");
-                document.getElementById('edit-theme').value = 'normal'; document.body.className = ''; btn.innerText = "Kaydet"; return;
+                document.getElementById('edit-theme').value = 'normal';
+                document.body.className = '';
+                btn.innerText = "Kaydet";
+                return;
             }
 
             try { 
