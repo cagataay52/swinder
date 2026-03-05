@@ -1,5 +1,5 @@
 // 🔥 SWINDER VIP - AKILLI ÖNBELLEK MOTORU (V21) 🔥
-const CACHE_NAME = 'swinder-vip-v21';
+const CACHE_NAME = 'swinder-vip-v22';
 
 // Sadece en temel çerçeveyi hafızaya al (Hızlı açılış için)
 const ASSETS_TO_CACHE = [
