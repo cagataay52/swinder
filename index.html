@@ -2,6 +2,11 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Swinder - VIP Arkadaşlık</title>
     
@@ -21,7 +26,8 @@
     <script>if(sessionStorage.getItem("swinder_splashed")) { document.write('<style>#splash-screen { display: none !important; }</style>'); }</script>
 
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; touch-action: pan-y; -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;}
+        /* 🔥 OPTİMİZASYON: YAZI TİPİ VE GPU YUMUŞATMA 🔥 */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; touch-action: pan-y; -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility;}
         
         :root { 
             --primary-gold: #d4af37; 
@@ -61,6 +67,7 @@
         body.theme-gold .nav-icon-btn.add-btn { background: linear-gradient(135deg, #d4af37, #ffdf00); }
         body.theme-gold .chat-msg.mine .chat-bubble { background: linear-gradient(135deg, #d4af37, #ffdf00); color: #000; font-weight: 500;}
 
+        /* 🔥 OPTİMİZASYON: iOS BOUNCE İPTALİ 🔥 */
         body { background: var(--body-bg); color: var(--text-light); overflow: hidden; transition: background 0.5s ease; overscroll-behavior-y: none; }
 
         #splash-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #050505; z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease, visibility 0.5s; will-change: opacity; }
@@ -86,6 +93,7 @@
         .story-img { width: 100%; height: 100%; border-radius: 50%; border: 2px solid var(--body-bg); background-size: cover; background-position: center; transition: border-color 0.5s;}
         .story-name { font-size: 11px; color: var(--text-light); font-weight: 500;}
 
+        /* 🔥 OPTİMİZASYON: SWIPE KARTLARI GPU HIZLANDIRMA 🔥 */
         .swipe-container { position: absolute; top: calc(165px + env(safe-area-inset-top)); bottom: 150px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 400px; display: flex; justify-content: center; align-items: center; perspective: 1000px; }
         .swipe-card { position: absolute; width: 92%; height: 95%; background: var(--glass-bg); backdrop-filter: blur(20px); border: var(--glass-border); border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; transform-origin: 50% 100%; transition: transform 0.3s ease, opacity 0.3s ease, border-color 0.5s, background 0.5s; cursor: grab; z-index: 1; user-select: none; will-change: transform, opacity; }
         .swipe-card.moving { transition: none; cursor: grabbing; }
@@ -111,6 +119,7 @@
         .nav-icon-btn.add-btn { background: var(--ring-gradient); color: #000; width: 44px; height: 44px; border-radius: 12px; transition: background 0.5s;}
         .nav-icon-btn.add-btn .material-symbols-outlined { font-weight: 600;}
 
+        /* 🔥 OPTİMİZASYON: MODALLAR İÇİN GPU HIZLANDIRMA 🔥 */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: 0.3s; z-index: 1500; padding: 15px; will-change: opacity, visibility; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .close-btn { position: absolute; top: calc(15px + env(safe-area-inset-top)); right: 15px; background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 50; display: flex; align-items: center; justify-content: center;}
@@ -149,6 +158,7 @@
         .reel-action-btn { background: none; border: none; color: white; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));}
         .reel-action-btn.liked .material-symbols-outlined { color: #ff3040; font-variation-settings: 'FILL' 1; }
 
+        /* KEŞFET */
         .search-input { flex: 1; background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; padding: 12px 20px; border-radius: 30px; outline: none; font-size: 14px;}
         .explore-users-container { display: none; max-height: 250px; overflow-y: auto; border-bottom: var(--glass-border); -webkit-overflow-scrolling: touch;}
         .explore-scroll-area { flex: 1; overflow-y: auto; display: flex; flex-direction: column; -webkit-overflow-scrolling: touch;}
@@ -306,8 +316,6 @@
     <div class="modal-overlay" id="shareModal" style="z-index: 1750;"><div class="bottom-sheet" style="height: 60vh;"><div class="sheet-header"><button class="header-icon" onclick="closeModal('shareModal')"><span class="material-symbols-outlined">close</span></button> Kime Gönderilsin?</div><div style="flex:1; overflow-y:auto;" id="share-list-container"></div></div></div>
 
     <script>
-        if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js'); }); }
-        
         function closeModal(id) { 
             document.getElementById(id).classList.remove('active'); 
             document.body.style.overflow = 'auto'; 
@@ -525,7 +533,6 @@
                         const premiumIcon = (uInfo.isPremium || username.toLowerCase().includes('çağatay')) ? instaGoldTick : ''; 
                         const safeAvatar = safeEncode(sAvatar); const safeUsername = safeEncode(username); const storiesJson = safeEncode(JSON.stringify(storiesByUser[username]));
                         let thumbUrl = storiesByUser[username][storiesByUser[username].length-1].url; 
-                        // 🔥 YENİ: VİDEODAN KAPAK FOTOĞRAFI ÇIKARMA 🔥
                         if(window.isVideo(thumbUrl)) thumbUrl = window.getVideoThumbnail(thumbUrl); 
                         
                         stContainer.insertAdjacentHTML('beforeend', `<div class="story-item" onclick="window.viewGroupedStory('${safeUsername}', '${safeAvatar}', '${storiesJson}')"><div class="story-ring"><div class="story-img" style="background-image: url('${thumbUrl.replace(/'/g, "\\'")}');"></div></div><span class="story-name">${username.split(' ')[0]}${premiumIcon}</span></div>`);
@@ -581,7 +588,6 @@
             if(filteredPosts.length === 0 && (!filterText || userList.innerHTML === '')) { grid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 40px; font-size: 13px;">Sonuç bulunamadı.</div>'; return;}
             filteredPosts.forEach(p => { 
                 const dataStr = safeEncode(JSON.stringify(p)); const isVid = window.isVideo(p.imageUrl); 
-                // 🔥 YENİ: VİDEO İSE KAPAK FOTOĞRAFI OLUŞTUR 🔥
                 const bgUrl = isVid ? window.getVideoThumbnail(p.imageUrl) : p.imageUrl; 
                 const iconHtml = isVid ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : '';
                 grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${bgUrl.replace(/'/g, "\\'")}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')">${iconHtml}</div>`); 
@@ -597,11 +603,7 @@
             document.getElementById('up-bio').innerText = pInfo.bio || 'Swinder VIP Üyesi'; document.getElementById('up-avatar').style.backgroundImage = pInfo.avatar ? `url('${pInfo.avatar.replace(/'/g, "\\'")}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=200')`;
             const userPosts = window.globalPosts.filter(p => p.username === username); document.getElementById('up-post-count').innerText = userPosts.length; document.getElementById('up-follower-count').innerText = (pInfo.followers || []).length; document.getElementById('up-following-count').innerText = (pInfo.following || []).length;
             const btnFollow = document.getElementById('btn-follow-user'); if(auth.currentUser && auth.currentUser.displayName === username) { btnFollow.style.display = 'none'; } else { btnFollow.style.display = 'block'; if(currentUserProfile && currentUserProfile.following && currentUserProfile.following.includes(pInfo.uid)) { btnFollow.classList.add('following'); btnFollow.innerText="Takibi Bırak"; btnFollow.style.background="rgba(255,255,255,0.15)"; btnFollow.style.color="white"; } else { btnFollow.classList.remove('following'); btnFollow.innerText="Takip Et"; btnFollow.style.background="var(--primary-gold)"; btnFollow.style.color="black"; } }
-            const upGrid = document.getElementById('up-grid'); upGrid.innerHTML = ''; if(userPosts.length === 0) upGrid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 30px; font-size:13px;">Gönderi yok.</div>'; userPosts.forEach(p => { 
-                const dataStr = safeEncode(JSON.stringify(p)); const isVid = window.isVideo(p.imageUrl); 
-                // 🔥 YENİ: VİDEO İSE KAPAK FOTOĞRAFI OLUŞTUR 🔥
-                const bgUrl = isVid ? window.getVideoThumbnail(p.imageUrl) : p.imageUrl; 
-                const iconHtml = isVid ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : ''; upGrid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${bgUrl.replace(/'/g, "\\'")}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')">${iconHtml}</div>`); }); openModal('userProfileModal');
+            const upGrid = document.getElementById('up-grid'); upGrid.innerHTML = ''; if(userPosts.length === 0) upGrid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 30px; font-size:13px;">Gönderi yok.</div>'; userPosts.forEach(p => { const dataStr = safeEncode(JSON.stringify(p)); const isVid = window.isVideo(p.imageUrl); const bgUrl = isVid ? window.getVideoThumbnail(p.imageUrl) : p.imageUrl; const iconHtml = isVid ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : ''; upGrid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${bgUrl.replace(/'/g, "\\'")}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')">${iconHtml}</div>`); }); openModal('userProfileModal');
         }
 
         window.toggleFollowDB = async function(btnElement) {
@@ -716,6 +718,7 @@
         window.sendChatMessage = function() { const input = document.getElementById('chat-input'); const text = input.value.trim(); if(!text) return; input.value = ""; window.sendBase64Message(text, text); }
         window.deleteChatRoom = async function() { if(!window.activeChatId) return; if(confirm("Sohbeti kalıcı olarak silmek istediğine emin misin?")) { try { await deleteDoc(doc(db, "eslesmeler", window.activeChatId)); closeModal('chatRoomModal'); window.openMessages(); } catch(e) {} } }
 
+        // 🔥 GÜVENLİ VE VİDEO KAPAKLI YÜKLEME 🔥
         document.getElementById('btn-submit-post').addEventListener('click', async () => { 
             const user = auth.currentUser; if (!user) return; 
             const fileInput = document.getElementById('add-image-file'); const file = fileInput.files[0];
@@ -725,21 +728,50 @@
             try { 
                 const imageUrl = await window.uploadMedia(file);
                 await addDoc(collection(db, "gonderiler"), { imageUrl, caption, username: user.displayName, likesCount: 0, createdAt: new Date() }); 
-                closeModal('addModal'); fileInput.value = ""; document.getElementById('add-caption').value = ""; await loadAllData(); window.renderExploreGrid(); 
+                closeModal('addModal'); fileInput.value = ""; document.getElementById('add-caption').value = ""; await loadAllData(); window.renderExploreGrid(); renderProfileGrid(); 
             } catch (err) { alert("Hata: " + err.message); } finally { btn.innerText = "Paylaş"; }
         });
         
-        document.getElementById('btn-submit-story').addEventListener('click', async () => { 
-            const user = auth.currentUser; if (!user) return; 
-            const fileInput = document.getElementById('story-file'); const file = fileInput.files[0];
-            if (!file) return alert("Lütfen galeriden bir dosya seçin!"); 
-            const btn = document.getElementById('btn-submit-story'); btn.innerText = "Yükleniyor..."; 
+        // 🔥 GLOBAL TEMA KAYIT MOTORU 🔥
+        document.getElementById('btn-save-profile').addEventListener('click', async () => {
+            if(!currentUserId) return; const btn = document.getElementById('btn-save-profile'); btn.innerText = "Kaydediliyor...";
+            const newUsername = document.getElementById('edit-username').value.trim(); 
+            const fileInput = document.getElementById('edit-avatar-file'); const file = fileInput.files[0];
+            const bio = document.getElementById('edit-bio').value; 
+            const selectedTheme = document.getElementById('edit-theme').value;
+
+            if(!newUsername) { alert("Kullanıcı adı boş bırakılamaz!"); btn.innerText = "Kaydet"; return; }
+            
+            // VIP Tema Güvenliği
+            if(selectedTheme !== 'normal' && !currentUserProfile.isPremium && !isAdmin) {
+                alert("💎 Özel profil temaları (Aura) sadece VIP üyeler içindir! Profil standart temaya çevrildi.");
+                document.getElementById('edit-theme').value = 'normal'; document.body.className = ''; btn.innerText = "Kaydet"; return;
+            }
+
             try { 
-                const imageUrl = await window.uploadMedia(file);
-                await addDoc(collection(db, "hikayeler"), { imageUrl, username: user.displayName, createdAt: new Date() }); 
-                closeModal('addStoryModal'); fileInput.value = ""; window.loadStories(); 
-            } catch (e) { alert("Hata: " + e.message); } finally { btn.innerText = "Paylaş"; }
+                const userRef = doc(db, "kullanicilar", currentUserId); const userSnap = await getDoc(userRef); const userData = userSnap.exists() ? userSnap.data() : {}; 
+                let finalAvatarUrl = userData.avatar || "";
+                if(file) { btn.innerText = "Fotoğraf Yükleniyor..."; finalAvatarUrl = await window.uploadMedia(file); }
+                let updates = { avatar: finalAvatarUrl, bio, profileTheme: selectedTheme }; 
+                if (newUsername !== auth.currentUser.displayName) { if (!isAdmin && userData.lastUsernameChangeDate) { const diffDays = Math.abs(new Date() - new Date(userData.lastUsernameChangeDate)) / (1000 * 60 * 60 * 24); if (diffDays < 14) { alert(`14 günde bir isim değiştirebilirsiniz. Kalan: ${Math.ceil(14 - diffDays)} gün.`); btn.innerText = "Kaydet"; return; } } await updateProfile(auth.currentUser, { displayName: newUsername }); updates.displayName = newUsername; updates.lastUsernameChangeDate = new Date().toISOString(); } 
+                await setDoc(userRef, updates, { merge: true }); closeModal('profileEditModal'); window.location.reload(); 
+            } catch (error) { alert("Hata: " + error.message); btn.innerText = "Kaydet"; }
         });
+
+        // 🔥 YENİ: OTOMATİK GÜNCELLEME VE ÖNBELLEK TEMİZLEME MOTORU 🔥
+        if ('serviceWorker' in navigator) { 
+            navigator.serviceWorker.register('sw.js').then((reg) => {
+                reg.onupdatefound = () => {
+                    const installingWorker = reg.installing;
+                    installingWorker.onstatechange = () => {
+                        if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            console.log("VIP Ağda yeni bir güncelleme tespit edildi. Otomatik yenileniyor...");
+                            window.location.reload(true); 
+                        }
+                    };
+                };
+            }).catch(err => console.log("SW Hatası:", err)); 
+        }
     </script>
 </body>
 </html>

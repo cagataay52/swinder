@@ -10,6 +10,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://www.gstatic.com">
@@ -439,6 +443,7 @@
             try { const imageUrl = await window.uploadMedia(file); await addDoc(collection(db, "gonderiler"), { imageUrl, caption, username: user.displayName, likesCount: 0, createdAt: new Date() }); closeModal('addModal'); fileInput.value = ""; document.getElementById('add-caption').value = ""; await loadAllData(); renderProfileGrid(); } catch (err) { alert("Hata: " + err.message); } finally { btn.innerText = "Paylaş"; }
         });
         
+        // 🔥 GLOBAL TEMA KAYIT MOTORU 🔥
         document.getElementById('btn-save-profile').addEventListener('click', async () => {
             if(!currentUserId) return; const btn = document.getElementById('btn-save-profile'); btn.innerText = "Kaydediliyor...";
             const newUsername = document.getElementById('edit-username').value.trim(); 
@@ -448,13 +453,10 @@
 
             if(!newUsername) { alert("Kullanıcı adı boş bırakılamaz!"); btn.innerText = "Kaydet"; return; }
             
-            // VIP Tema Güvenlik Kontrolü
+            // VIP Tema Güvenliği
             if(selectedTheme !== 'normal' && !currentUserProfile.isPremium && !isAdmin) {
                 alert("💎 Özel profil temaları (Aura) sadece VIP üyeler içindir! Profil standart temaya çevrildi.");
-                document.getElementById('edit-theme').value = 'normal';
-                document.body.className = '';
-                btn.innerText = "Kaydet";
-                return;
+                document.getElementById('edit-theme').value = 'normal'; document.body.className = ''; btn.innerText = "Kaydet"; return;
             }
 
             try { 
@@ -466,6 +468,21 @@
                 await setDoc(userRef, updates, { merge: true }); closeModal('profileEditModal'); window.location.reload(); 
             } catch (error) { alert("Hata: " + error.message); btn.innerText = "Kaydet"; }
         });
+
+        // 🔥 YENİ: OTOMATİK GÜNCELLEME VE ÖNBELLEK TEMİZLEME MOTORU 🔥
+        if ('serviceWorker' in navigator) { 
+            navigator.serviceWorker.register('sw.js').then((reg) => {
+                reg.onupdatefound = () => {
+                    const installingWorker = reg.installing;
+                    installingWorker.onstatechange = () => {
+                        if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            console.log("VIP Ağda yeni bir güncelleme tespit edildi. Otomatik yenileniyor...");
+                            window.location.reload(true); 
+                        }
+                    };
+                };
+            }).catch(err => console.log("SW Hatası:", err)); 
+        }
     </script>
 </body>
 </html>
