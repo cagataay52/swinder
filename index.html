@@ -109,14 +109,12 @@
         .list-avatar { width: 48px; height: 48px; border-radius: 50%; background: #222; background-size: cover; background-position: center; flex-shrink: 0;}
         .list-text { flex: 1; font-size: 14px; line-height: 1.4;}
 
-        /* 🔥 HİKAYE ÇIKARTMALARI (STORY STICKERS) 🔥 */
+        /* HİKAYE ÇIKARTMALARI */
         .story-sticker { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); background: rgba(255,255,255,0.15); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.3); border-radius: 16px; padding: 15px 20px; text-align: center; z-index: 10; min-width: 220px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); cursor: pointer;}
         .story-sticker-title { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;}
         .story-sticker-text { font-size: 18px; font-weight: 600; color: white; }
-        .story-sticker-poll-options { display: flex; gap: 10px; margin-top: 15px;}
-        .story-sticker-btn { flex: 1; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px; border-radius: 10px; font-weight: bold; transition: 0.2s;}
-        .story-sticker-btn:active { background: var(--primary-gold); color: black;}
 
+        /* SOHBET / MESAJLAŞMA */
         .chat-area { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; position: relative; transition: background 0.5s ease;}
         .chat-msg { display: flex; flex-direction: column; max-width: 80%; position: relative; transition: transform 0.2s ease;}
         .chat-msg.mine { align-self: flex-end; align-items: flex-end; }
@@ -142,10 +140,6 @@
         @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
         @keyframes slideUp { 0% { transform: translateY(10px); opacity:0;} 100% { transform: translateY(0); opacity:1;} }
 
-        .chat-input-container { padding: 15px 20px; background: rgba(20,20,25,0.9); border-top: var(--glass-border); display: flex; gap: 8px; align-items: center; z-index: 10; position:relative;}
-        .chat-input { flex: 1; background: rgba(255,255,255,0.1); border: none; color: white; padding: 14px 20px; border-radius: 30px; outline: none; font-size:14px;}
-        .chat-send-btn { background: var(--primary-gold); width: 45px; height: 45px; border-radius: 50%; border: none; display: flex; justify-content: center; align-items: center; color: black; cursor: pointer; transition: transform 0.2s, background 0.5s;}
-        
         .typing-indicator-box { display: flex; align-items: center; gap: 4px; padding: 12px 16px; height: 38px; width: fit-content; }
         .typing-dot { width: 6px; height: 6px; background: rgba(255,255,255,0.7); border-radius: 50%; animation: typeBounce 1.4s infinite ease-in-out both; }
         .typing-dot:nth-child(1) { animation-delay: -0.32s; }
@@ -156,6 +150,19 @@
         .match-overlay.active { opacity: 1; visibility: visible; }
         .match-title { font-family: 'Grand Hotel', cursive; font-size: 60px; color: var(--primary-gold); margin-bottom: 40px; transform: scale(0.5); opacity: 0; transition: 0.5s; }
         .match-overlay.active .match-title { transform: scale(1); opacity: 1; }
+
+        /* 🔥 EKSİK OLAN REELS VE KEŞFET STİLLERİ 🔥 */
+        .reels-box { background: #000; width: 100%; height: 100dvh; position: relative; overflow-y: scroll; scroll-snap-type: y mandatory; }
+        .reel-item { width: 100%; height: 100dvh; scroll-snap-align: start; position: relative; display: flex; justify-content: center; align-items: center;}
+        .reel-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 35%, rgba(0,0,0,0.3) 100%); z-index: 2; pointer-events: none;}
+        .reel-content { position: absolute; bottom: calc(90px + env(safe-area-inset-bottom)); left:0; padding:20px; z-index: 3; display: flex; justify-content: space-between; align-items: flex-end; width: 100%; }
+        .reel-action-btn { background: none; border: none; color: white; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));}
+        .reel-action-btn.liked .material-symbols-outlined { color: #ff3040; font-variation-settings: 'FILL' 1; }
+
+        .search-input { flex: 1; background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; padding: 12px 20px; border-radius: 30px; outline: none;}
+        .grid-view { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; width: 100%; }
+        .grid-item { width: 100%; aspect-ratio: 1; background-color: #1a1a1a; background-size: cover; background-position: center; cursor: pointer; position: relative; }
+        .grid-video-icon { position:absolute; top:8px; right:8px; color:white; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); font-size: 22px;}
 
         @media (max-width: 768px) {
             .modal-overlay { padding: 0; align-items: flex-end;}
@@ -193,6 +200,7 @@
         <button class="nav-icon-btn active" onclick="window.scrollTo({top: 0, behavior: 'smooth'})"><span class="material-symbols-outlined">home</span></button>
         <button class="nav-icon-btn" onclick="window.openExplore()"><span class="material-symbols-outlined">search</span></button>
         <button class="nav-icon-btn add-btn" onclick="openModal('addModal')"><span class="material-symbols-outlined">add</span></button>
+        <button class="nav-icon-btn" onclick="window.openReels()"><span class="material-symbols-outlined">movie</span></button>
         <button class="nav-icon-btn" onclick="window.location.assign('profil.html')"><span class="material-symbols-outlined">person</span></button>
     </nav>
 
@@ -266,7 +274,84 @@
     </div>
     
     <div class="modal-overlay" id="notificationsModal"><div class="bottom-sheet"><div class="sheet-header"><button class="header-icon" onclick="closeModal('notificationsModal')"><span class="material-symbols-outlined">arrow_back</span></button> Bildirimler</div><div style="flex:1; overflow-y:auto;" id="noti-list"></div></div></div>
-    <div class="modal-overlay" id="exploreModal"><div class="bottom-sheet"><div class="sheet-header" style="gap:10px;"><button class="header-icon" onclick="closeModal('exploreModal')"><span class="material-symbols-outlined">arrow_back</span></button><input type="text" class="search-input" id="search-input" placeholder="Kişi veya gönderi ara..." onkeyup="window.performSearch()"></div><div class="explore-users-container" id="explore-users-list"></div><div class="explore-scroll-area"><div class="grid-view" id="explore-grid"></div></div></div></div>
+    
+    <div class="modal-overlay" id="addModal">
+        <div class="glass-box">
+            <button class="close-btn" onclick="closeModal('addModal')"><span class="material-symbols-outlined">close</span></button>
+            <h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Yeni Gönderi/Video</h2>
+            <div class="form-group"><label style="color:gray; font-size:12px;">Galeriden Seç</label><input type="file" id="add-image-file" accept="image/*, video/*" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 12px; color: white;"></div>
+            <div class="form-group"><textarea id="add-caption" rows="3" placeholder="Açıklama..." style="width: 100%; padding: 14px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; outline: none;"></textarea></div>
+            <button type="button" id="btn-submit-post" class="btn-premium">Paylaş</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="exploreModal">
+        <div class="bottom-sheet">
+            <div class="sheet-header" style="gap:10px;"><button class="header-icon" onclick="closeModal('exploreModal')"><span class="material-symbols-outlined">arrow_back</span></button><input type="text" class="search-input" id="search-input" placeholder="Kişi veya gönderi ara..." onkeyup="window.performSearch()"></div>
+            <div id="explore-users-list" style="display:none; max-height:200px; overflow-y:auto; border-bottom:1px solid rgba(255,255,255,0.1);"></div>
+            <div style="flex:1; overflow-y:auto;"><div class="grid-view" id="explore-grid"></div></div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="reelsModal" style="padding:0; background:#000;">
+        <button class="close-btn" onclick="closeModal('reelsModal')" style="position:absolute; top:calc(20px + env(safe-area-inset-top)); right:20px; z-index:2000; background:rgba(0,0,0,0.5); color:white; border:none; width:40px; height:40px; border-radius:50%; display:flex; justify-content:center; align-items:center;"><span class="material-symbols-outlined">close</span></button>
+        <div class="reels-box" id="reels-container"></div>
+    </div>
+
+    <div class="modal-overlay" id="postDetailModal" style="z-index: 1600;">
+        <div class="bottom-sheet" style="height: 90vh;">
+            <div class="sheet-header">
+                <button class="header-icon" onclick="closeModal('postDetailModal')"><span class="material-symbols-outlined">arrow_back</span></button> 
+                Gönderi 
+            </div>
+            <div style="flex:1; overflow-y:auto; padding-bottom:30px;">
+                <div style="display:flex; align-items:center; padding:12px 15px; gap:10px;">
+                    <div id="pd-header-avatar" style="width:34px; height:34px; border-radius:50%; background-size:cover; background-position:center; cursor:pointer; border: 1px solid var(--primary-gold);"></div>
+                    <div style="flex:1; display:flex; align-items:center; gap:6px;">
+                        <strong id="pd-header-username" style="font-size:14px; cursor:pointer; color:white;">-</strong>
+                        <button id="pd-btn-inline-follow" style="background:transparent; border:none; color:#3498db; font-weight:600; font-size:13px; cursor:pointer; display:none;" onclick="window.toggleFollowInline(this)">• Takip Et</button>
+                    </div>
+                </div>
+                <div class="post-detail-img-container" style="position: relative; width: 100%; height: 50vh; display: flex; justify-content: center; align-items: center; background: black; overflow: hidden;">
+                    <div id="pd-blur" style="position: absolute; inset: -10%; background-size: cover; background-position: center; filter: blur(35px) brightness(0.3); z-index: 0;"></div>
+                    <div id="pd-media-container" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center; z-index:1;"></div>
+                </div>
+                <div style="padding: 15px 20px;">
+                    <div style="display:flex; gap:15px; margin-bottom:10px;">
+                        <button class="header-icon" id="pd-btn-like" onclick="window.toggleLikeDB(this)"><span class="material-symbols-outlined">favorite</span></button>
+                        <button class="header-icon" onclick="window.openCommentsDB()"><span class="material-symbols-outlined">chat_bubble</span></button>
+                        <button class="header-icon" onclick="window.openShareModal()"><span class="material-symbols-outlined">send</span></button>
+                    </div>
+                    <div style="font-weight:600; margin-bottom:5px; font-size:14px; color:white;"><span id="pd-likes">0</span> beğenme</div>
+                    <div style="font-size: 14px; color:white;">
+                        <strong id="pd-user" style="margin-right:5px; cursor:pointer;">-</strong>
+                        <span id="pd-caption" style="color:rgba(255,255,255,0.8);">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="commentsModal" style="z-index: 1700;">
+        <div class="bottom-sheet" style="height: 70vh;">
+            <div class="sheet-header"><button class="header-icon" onclick="closeModal('commentsModal')"><span class="material-symbols-outlined">close</span></button> Yorumlar</div>
+            <div style="flex:1; overflow-y:auto; padding:15px; display:flex; flex-direction:column; gap:15px;" id="comments-list"></div>
+            <div class="chat-input-container" style="padding: 15px 20px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; gap: 8px;">
+                <input type="text" id="new-comment-input" placeholder="Yorum ekle..." style="flex:1; background:rgba(255,255,255,0.1); border:none; border-radius:30px; padding:10px 15px; color:white; outline:none;">
+                <button onclick="window.submitComment()" style="background:none; border:none; color:var(--primary-gold); font-weight:bold; padding:0 10px; cursor:pointer;">Paylaş</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="shareModal" style="z-index: 1750;">
+        <div class="bottom-sheet" style="height: 60vh;">
+            <div class="sheet-header"><button class="header-icon" onclick="closeModal('shareModal')"><span class="material-symbols-outlined">close</span></button> Kime Gönderilsin?</div>
+            <div style="padding: 10px 15px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <input type="text" class="search-input" style="width:100%;" placeholder="Kişi ara..." onkeyup="window.filterShareList(this.value)">
+            </div>
+            <div style="flex:1; overflow-y:auto;" id="share-list-container"></div>
+        </div>
+    </div>
     
     <div class="modal-overlay" id="addStoryModal">
         <div class="glass-box">
@@ -281,7 +366,7 @@
                     <option value="ama">Bana Soru Sor (AMA)</option>
                     <option value="poll">Anket (İki Seçenekli)</option>
                 </select>
-                <input type="text" id="sticker-text-box" placeholder="Soru veya anket başlığı..." style="display:none;">
+                <input type="text" id="sticker-text-box" placeholder="Soru veya anket başlığı..." style="display:none; width: 100%; padding: 14px; background: rgba(0,0,0,0.5); border: var(--glass-border); border-radius: 12px; color: white; outline: none; font-size: 14px;">
             </div>
 
             <button id="btn-submit-story" class="btn-premium">Paylaş</button>
@@ -317,8 +402,10 @@
         document.querySelectorAll('.modal-overlay').forEach(m => { m.addEventListener('click', (e) => { if(e.target === m && m.id !== 'authModal' && m.id !== 'splash-screen') closeModal(m.id); }); });
         
         window.switchAuthTab = function(tab) { document.getElementById('tab-login').classList.remove('active'); document.getElementById('tab-register').classList.remove('active'); document.getElementById('tab-' + tab).classList.add('active'); document.getElementById('form-login').classList.remove('active'); document.getElementById('form-register').classList.remove('active'); document.getElementById('form-' + tab).classList.add('active'); }
+        
+        // ZIRHLI YÖNLENDİRİCİLER
         window.openExplore = () => { openModal('exploreModal'); if(window.renderExploreGrid) window.renderExploreGrid(); }
-        window.openReels = () => { openModal('reelsModal'); window.location.assign('profil.html?openReels=true'); } // Indexte reels yok, profile yönlendir
+        window.openReels = () => { openModal('reelsModal'); if(window.renderReels) window.renderReels(); } 
         window.openNotifications = () => { openModal('notificationsModal'); const dot = document.getElementById('noti-dot'); if(dot) dot.style.display='none'; if(window.loadNotifications) window.loadNotifications(); }
         window.openMessages = () => { openModal('messagesModal'); if(window.loadDMs) window.loadDMs(); }
         window.closeMatch = () => { const m = document.getElementById('matchOverlay'); if(m) m.classList.remove('active'); }
@@ -356,6 +443,7 @@
         window.activeInteractPostId = null; window.activeInteractOwner = null; window.activeInteractStoryId = null; window.activeStoryOwner = null; window.activeShareUrl = null; window.activeChatId = null; let messagesUnsubscribe = null; window.chatDocUnsubscribe = null;
         window.activeReplyTo = null;
 
+        // 🔥 1. EKSİK OLAN TEMEL VERİ ÇEKME MOTORU 🔥
         window.loadAllData = async function() {
             try {
                 const usersSnap = await getDocs(collection(db, "kullanicilar")); window.globalUsersById = {}; window.globalUsersByName = {};
@@ -366,7 +454,137 @@
             } catch(err) {}
         }
 
-        // 🔥 HİKAYE ÇIKARTMASI MOTORU (GÖSTERİM) 🔥
+        // 🔥 2. EKSİK OLAN REELS VE KEŞFET MOTORLARI EKLENDİ 🔥
+        window.renderReels = function() {
+            const rc = document.getElementById('reels-container'); if(!rc) return; rc.innerHTML = ''; 
+            const videos = window.globalPosts.filter(p => window.isVideo(p.imageUrl));
+            if(videos.length === 0) { rc.innerHTML = '<div style="color:white; text-align:center; padding-top:50vh;">Gönderi yok.</div>'; return; }
+            
+            videos.forEach(data => {
+                const pInfo = window.globalUsersByName[data.username] || {}; 
+                const av = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100')`; 
+                const likedClass = (auth.currentUser && data.likedBy && data.likedBy.includes(auth.currentUser.displayName)) ? 'liked' : ''; 
+                const isP = (pInfo.isPremium || (data.username || '').toLowerCase().includes('çağatay')) ? instaGoldTick : '';
+                
+                rc.insertAdjacentHTML('beforeend', `
+                <div class="reel-item" style="width:100%; height:100dvh; scroll-snap-align:start; position:relative; display:flex; justify-content:center; align-items:center;">
+                    <div style="position:absolute; inset:0; background-image:url('${data.imageUrl}'); background-size:cover; background-position:center; filter:blur(30px) brightness(0.3); z-index:0;"></div>
+                    <video src="${data.imageUrl}" preload="none" poster="${window.getVideoThumbnail(data.imageUrl)}" loop playsinline style="position:relative; width:100%; height:100%; object-fit:contain; z-index:1;" onclick="this.muted = !this.muted" ondblclick="window.toggleLikeDB(this.parentElement.querySelector('.btn-like'), '${data.id}', '${data.username}')"></video>
+                    <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.9), transparent 40%); z-index:2; pointer-events:none;"></div>
+                    <div style="position:absolute; bottom:calc(90px + env(safe-area-inset-bottom)); left:0; width:100%; padding:20px; z-index:3; display:flex; justify-content:space-between; align-items:flex-end;">
+                        <div>
+                            <div style="display:flex; align-items:center; gap:8px; color:white; font-weight:600; font-size:15px; margin-bottom:12px; cursor:pointer;">
+                                <div style="width:40px; height:40px; border-radius:50%; border:2px solid var(--primary-gold); background-size:cover; background-position:center; background-image:${av};"></div>
+                                ${data.username}${isP}
+                            </div>
+                            <div style="color:white; font-size:14px; text-shadow:0 1px 2px rgba(0,0,0,0.8);">${data.caption || ''}</div>
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:20px; align-items:center;">
+                            <button class="btn-like ${likedClass}" style="background:none; border:none; color:${likedClass ? '#ff3040' : 'white'}; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:5px;" onclick="window.toggleLikeDB(this, '${data.id}', '${data.username}')"><span class="material-symbols-outlined" style="${likedClass ? "font-variation-settings: 'FILL' 1;" : ""}">favorite</span><span id="like-count-${data.id}">${data.likesCount||0}</span></button>
+                            <button style="background:none; border:none; color:white; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:5px;" onclick="window.activeInteractPostId='${data.id}'; window.openCommentsDB();"><span class="material-symbols-outlined">chat_bubble</span></button>
+                            <button style="background:none; border:none; color:white; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:5px;" onclick="window.openShareModal('${data.imageUrl}')"><span class="material-symbols-outlined">send</span></button>
+                        </div>
+                    </div>
+                </div>`);
+            });
+
+            if(window.reelsObserver) window.reelsObserver.disconnect();
+            window.reelsObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { const vid = entry.target.querySelector('video'); if(vid) { if(entry.isIntersecting) { vid.play().catch(e=>{}); } else { vid.pause(); } } }); }, { threshold: 0.5 });
+            document.querySelectorAll('.reel-item').forEach(item => window.reelsObserver.observe(item));
+        }
+
+        window.renderExploreGrid = async function() {
+            const grid = document.getElementById('explore-grid'); if(!grid) return;
+            const myUid = auth.currentUser ? auth.currentUser.uid : null; const currentName = auth.currentUser ? auth.currentUser.displayName : '';
+            const filterText = document.getElementById('search-input').value.toLocaleLowerCase('tr-TR'); grid.innerHTML = ''; const userList = document.getElementById('explore-users-list'); if(userList) userList.innerHTML = '';
+            
+            let matchedUsers = Object.values(window.globalUsersById).filter(u => u.displayName && u.displayName.toLocaleLowerCase('tr-TR').includes(filterText) && u.uid !== myUid);
+            if(filterText && matchedUsers.length > 0 && userList) { 
+                userList.style.display = 'block'; 
+                matchedUsers.forEach(u => { const av = u.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100'; const isP = (u.isPremium || (u.displayName || '').toLowerCase().includes('çağatay')) ? instaGoldTick : ''; userList.insertAdjacentHTML('beforeend', `<div class="list-item" data-user="${(u.displayName || '').replace(/"/g, '&quot;')}" onclick="alert('Profili görmek için Profil sekmesine gidin.')" style="padding: 10px 20px;"><div class="list-avatar" style="background-image: url('${av}'); width: 40px; height: 40px;"></div><div class="list-text"><strong style="color:white; font-size:15px;">${u.displayName}${isP}</strong></div></div>`); }); 
+            } else if(userList) { userList.style.display = 'none'; }
+            
+            let filteredPosts = window.globalPosts.filter(p => p.username !== currentName);
+            if(filterText) filteredPosts = filteredPosts.filter(p => (p.caption||'').toLocaleLowerCase('tr-TR').includes(filterText) || (p.username||'').toLocaleLowerCase('tr-TR').includes(filterText));
+            if(filteredPosts.length === 0 && (!filterText || (userList && userList.innerHTML === ''))) { grid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 40px; font-size: 13px;">Sonuç bulunamadı.</div>'; return;}
+            
+            filteredPosts.forEach(p => { 
+                const dataStr = safeEncode(JSON.stringify(p)); const isVid = window.isVideo(p.imageUrl); const bgUrl = isVid ? window.getVideoThumbnail(p.imageUrl) : p.imageUrl; const iconHtml = isVid ? '<span class="material-symbols-outlined" style="position:absolute; top:8px; right:8px; color:white; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); font-size: 22px;">play_circle</span>' : ''; 
+                grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="width:100%; aspect-ratio:1; position:relative; background-color:#1a1a1a; background-size:cover; background-position:center; cursor:pointer; background-image: url('${bgUrl.replace(/'/g, "\\'")}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')">${iconHtml}</div>`); 
+            });
+        }
+        window.performSearch = () => window.renderExploreGrid();
+
+        // 🔥 3. EKSİK OLAN GÖNDERİ DETAY (POST DETAIL) EKRANI 🔥
+        window.openPostDetail = function(postId, dataStr) {
+            const data = JSON.parse(decodeURIComponent(dataStr)); window.activeInteractPostId = postId; window.activeInteractOwner = data.username; window.activeShareUrl = data.imageUrl; 
+            const mediaContainer = document.getElementById('pd-media-container'); if(!mediaContainer) return;
+            if(window.isVideo(data.imageUrl)) { mediaContainer.innerHTML = `<video src="${data.imageUrl}" preload="none" poster="${window.getVideoThumbnail(data.imageUrl)}" autoplay loop playsinline controls style="max-width:100%; max-height:100%; position:relative; z-index:1;"></video>`; document.getElementById('pd-blur').style.backgroundImage = 'none'; } else { mediaContainer.innerHTML = `<img src="${data.imageUrl}" loading="lazy" decoding="async" style="max-width:100%; max-height:100%; object-fit:contain; position:relative; z-index:1;" />`; document.getElementById('pd-blur').style.backgroundImage = `url('${data.imageUrl.replace(/'/g, "\\'")}')`; }
+            let pInfo = window.globalUsersByName[data.username] || {}; const isP = (pInfo.isPremium || (data.username || '').toLowerCase().includes('çağatay')) ? instaGoldTick : ''; 
+            
+            const headerAvatar = document.getElementById('pd-header-avatar');
+            if(headerAvatar) { headerAvatar.style.backgroundImage = `url('${(pInfo.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100').replace(/'/g, "\\'")}')`; }
+            const headerName = document.getElementById('pd-header-username'); if(headerName) headerName.innerHTML = data.username + isP;
+
+            const pu = document.getElementById('pd-user'); if(pu) pu.innerHTML = data.username + isP; 
+            const pc = document.getElementById('pd-caption'); if(pc) pc.innerText = data.caption || ''; 
+            const pl = document.getElementById('pd-likes'); if(pl) pl.innerText = data.likesCount || 0;
+            const btnLike = document.getElementById('pd-btn-like'); if(btnLike) { if(auth.currentUser && data.likedBy && data.likedBy.includes(auth.currentUser.displayName)) { btnLike.style.color = '#ff3040'; btnLike.querySelector('span').style.fontVariationSettings = "'FILL' 1"; } else { btnLike.style.color = 'white'; btnLike.querySelector('span').style.fontVariationSettings = "'FILL' 0"; } }
+            openModal('postDetailModal');
+        }
+
+        // 🔥 4. EKSİK OLAN YORUMLAR (COMMENTS) EKRANI 🔥
+        window.openCommentsDB = async function(postId=null) {
+            const pId = postId || window.activeInteractPostId; if(!pId) return; window.activeInteractPostId = pId; openModal('commentsModal'); const list = document.getElementById('comments-list'); if(!list) return; list.innerHTML = '<div style="color:gray; text-align:center;">Yükleniyor...</div>';
+            const snap = await getDocs(collection(db, `gonderiler/${pId}/yorumlar`)); list.innerHTML = ''; 
+            if(snap.empty) { list.innerHTML = '<div style="color:gray; text-align:center;">İlk yorumu sen yap!</div>'; return;}
+            let comments = []; snap.forEach(d => comments.push(d.data())); comments.sort((a,b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0));
+            comments.forEach(data => { const avatar = window.globalUsersByName[data.username]?.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100'; list.insertAdjacentHTML('beforeend', `<div style="display:flex; gap:10px; align-items:flex-start;"><div style="width:36px; height:36px; border-radius:50%; background-image:url('${avatar}'); background-size:cover;"></div><div><strong style="color:var(--primary-gold); font-size:14px;">${data.username}</strong> <span style="color:white; font-size:14px;">${data.text}</span></div></div>`); });
+        }
+        window.submitComment = async function() { const user = auth.currentUser; if(!user || !window.activeInteractPostId) return; const input = document.getElementById('new-comment-input'); const text = input.value.trim(); if(!text) return; input.value = ""; await addDoc(collection(db, `gonderiler/${window.activeInteractPostId}/yorumlar`), { username: user.displayName, text: text, createdAt: new Date() }); window.openCommentsDB(window.activeInteractPostId); }
+
+        window.toggleLikeDB = async function(btnElement, forcePostId=null, forceOwner=null) {
+            const user = auth.currentUser; if(!user) return; const postId = forcePostId || window.activeInteractPostId; const owner = forceOwner || window.activeInteractOwner; if(!postId) return;
+            const postRef = doc(db, "gonderiler", postId); const likeSpan = document.getElementById('pd-likes') || document.getElementById('like-count-' + postId); const postData = window.globalPosts.find(p=>p.id===postId); let currentLikes = postData ? (postData.likesCount||0) : 0;
+            const isLiked = postData && postData.likedBy && postData.likedBy.includes(user.displayName);
+            if(isLiked) { if(btnElement) { btnElement.style.color = 'white'; const sp = btnElement.querySelector('span'); if(sp) sp.style.fontVariationSettings = "'FILL' 0"; } if(likeSpan) likeSpan.innerText = currentLikes - 1; await updateDoc(postRef, { likedBy: arrayRemove(user.displayName), likesCount: currentLikes - 1 }); if(postData) { postData.likesCount -= 1; postData.likedBy = postData.likedBy.filter(n => n !== user.displayName); } 
+            } else { if(btnElement) { btnElement.style.color = '#ff3040'; const sp = btnElement.querySelector('span'); if(sp) sp.style.fontVariationSettings = "'FILL' 1"; } if(likeSpan) likeSpan.innerText = currentLikes + 1; await updateDoc(postRef, { likedBy: arrayUnion(user.displayName), likesCount: currentLikes + 1 }); if(postData) { postData.likesCount += 1; if(!postData.likedBy) postData.likedBy=[]; postData.likedBy.push(user.displayName); } }
+        }
+
+        // 🔥 5. EKSİK OLAN PAYLAŞ/DM (SHARE) MOTORU ÇÖZÜLDÜ 🔥
+        window.openShareModal = async function(url=null) {
+            window.activeShareUrl = url || window.activeShareUrl; openModal('shareModal');
+            const c = document.getElementById('share-list-container'); if(!c) return; c.innerHTML = '<div style="text-align:center; padding:30px; color:gray;">Kişiler yükleniyor...</div>';
+            if(!auth.currentUser) return;
+            window.myShareMatches = []; 
+            const snap = await getDocs(query(collection(db, "eslesmeler"), where("users", "array-contains", auth.currentUser.uid)));
+            c.innerHTML = '';
+            if(snap.empty) { c.innerHTML = '<div style="text-align:center; padding:30px; color:gray;">Henüz eşleşmen yok.</div>'; return; }
+            
+            snap.forEach(d => {
+                const match = {id: d.id, ...d.data()};
+                const theirIndex = match.users.indexOf(auth.currentUser.uid) === 0 ? 1 : 0;
+                const theirUid = match.users[theirIndex];
+                const theirName = match.userNames[theirIndex];
+                const theirImg = window.globalUsersById[theirUid]?.avatar || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100";
+                window.myShareMatches.push({ id: match.id, name: theirName, img: theirImg });
+            });
+            window.renderShareList();
+        }
+        window.renderShareList = function(filterText = "") {
+            const c = document.getElementById('share-list-container'); if(!c) return; c.innerHTML = '';
+            let filtered = window.myShareMatches || [];
+            if(filterText) filtered = filtered.filter(m => m.name.toLowerCase().includes(filterText.toLowerCase()));
+            filtered.forEach(m => {
+                c.insertAdjacentHTML('beforeend', `<div style="display:flex; align-items:center; justify-content:space-between; padding:15px 20px; border-bottom:1px solid rgba(255,255,255,0.1);"><div style="display:flex; align-items:center; gap:15px;"><div style="width:45px; height:45px; border-radius:50%; background-image:url('${m.img.replace(/'/g, "\\'")}'); background-size:cover;"></div><strong style="color:white; font-size:15px;">${m.name}</strong></div><button style="background:var(--primary-gold); color:black; border:none; padding:8px 16px; border-radius:20px; font-weight:bold; cursor:pointer;" onclick="window.sendShareDM('${m.id}', this)">Gönder</button></div>`);
+            });
+        }
+        window.filterShareList = (text) => window.renderShareList(text);
+        window.sendShareDM = async function(chatId, btnElement) {
+            btnElement.innerText = "İletildi ✓"; btnElement.style.background = "rgba(255,255,255,0.2)"; btnElement.style.color = "white"; btnElement.disabled = true;
+            try { await addDoc(collection(db, `eslesmeler/${chatId}/mesajlar`), { senderId: auth.currentUser.uid, text: "[PAYLAŞIM] " + window.activeShareUrl, timestamp: new Date(), read: false }); await updateDoc(doc(db, "eslesmeler", chatId), { lastMessage: "🖼️ Bir gönderi paylaştı.", updatedAt: new Date() }); } catch(e) {}
+        }
+
         window.viewGroupedStory = function(encodedUsername, encodedAvatar, storiesJson) { window.activeStoryOwner = decodeURIComponent(encodedUsername); const avatarUrl = decodeURIComponent(encodedAvatar); window.currentStoryGroup = JSON.parse(decodeURIComponent(storiesJson)); window.currentStoryIndex = 0; const isP = (window.globalUsersByName[window.activeStoryOwner]?.isPremium || window.activeStoryOwner.toLowerCase().includes('çağatay')) ? instaGoldTick : ''; document.getElementById('view-story-username').innerHTML = window.activeStoryOwner + isP; document.getElementById('view-story-avatar').style.backgroundImage = `url('${avatarUrl.replace(/'/g, "\\'")}')`; const isAdmin = auth.currentUser && auth.currentUser.email === adminEmail; const isMine = auth.currentUser && auth.currentUser.displayName === window.activeStoryOwner; const bd = document.getElementById('btn-delete-story'); if(bd) bd.style.display = (isAdmin || isMine) ? 'block' : 'none'; const srb = document.getElementById('story-reaction-bar'); if(srb) srb.style.display = isMine ? 'none' : 'flex'; openModal('viewStoryModal'); window.playCurrentStory(); }
         window.playCurrentStory = function() { 
             if(window.currentStoryIndex >= window.currentStoryGroup.length) { closeModal('viewStoryModal'); return; } 
@@ -375,16 +593,12 @@
             const container = document.getElementById('view-story-media-container'); if(!container) return; 
             const stickerContainer = document.getElementById('story-sticker-container');
             
-            // Çıkartmaları Temizle ve Gerekirse Bas
             if(stickerContainer) {
                 stickerContainer.style.display = 'none'; stickerContainer.innerHTML = '';
                 if(currentObj.stickerType && currentObj.stickerType !== 'none') {
                     stickerContainer.style.display = 'block';
-                    if(currentObj.stickerType === 'ama') {
-                        stickerContainer.innerHTML = `<div class="story-sticker" onclick="document.getElementById('story-reply-input').focus(); document.getElementById('story-reply-input').value='Soru: ';"><div class="story-sticker-title">BANA SORU SOR</div><div class="story-sticker-text">${currentObj.stickerText || '...'}</div></div>`;
-                    } else if (currentObj.stickerType === 'poll') {
-                        stickerContainer.innerHTML = `<div class="story-sticker"><div class="story-sticker-title">ANKET</div><div class="story-sticker-text">${currentObj.stickerText || 'Katılıyor musun?'}</div><div class="story-sticker-poll-options"><button class="story-sticker-btn" onclick="window.sendStoryReaction('[ANKET]: Evet!')">EVET</button><button class="story-sticker-btn" onclick="window.sendStoryReaction('[ANKET]: Hayır!')">HAYIR</button></div></div>`;
-                    }
+                    if(currentObj.stickerType === 'ama') { stickerContainer.innerHTML = `<div class="story-sticker" onclick="document.getElementById('story-reply-input').focus(); document.getElementById('story-reply-input').value='Soru: ';"><div class="story-sticker-title">BANA SORU SOR</div><div class="story-sticker-text">${currentObj.stickerText || '...'}</div></div>`; } 
+                    else if (currentObj.stickerType === 'poll') { stickerContainer.innerHTML = `<div class="story-sticker"><div class="story-sticker-title">ANKET</div><div class="story-sticker-text">${currentObj.stickerText || 'Katılıyor musun?'}</div><div class="story-sticker-poll-options"><button class="story-sticker-btn" onclick="window.sendStoryReaction('[ANKET]: Evet!')">EVET</button><button class="story-sticker-btn" onclick="window.sendStoryReaction('[ANKET]: Hayır!')">HAYIR</button></div></div>`; }
                 }
             }
 
@@ -480,22 +694,33 @@
         document.getElementById('btn-login')?.addEventListener('click', async () => { try { await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-pass').value); window.location.reload(); } catch (err) { alert(err.message); }});
         document.getElementById('btn-register')?.addEventListener('click', async () => { const name = document.getElementById('reg-name').value.trim(); const email = document.getElementById('reg-email').value; const pass = document.getElementById('reg-pass').value; if(!name || !email || !pass) return alert("Doldurun!"); document.getElementById('btn-register').innerText = "Açılıyor..."; try { const uc = await createUserWithEmailAndPassword(auth, email, pass); await updateProfile(uc.user, { displayName: name }); const adminQ = await getDocs(query(collection(db, "kullanicilar"), where("email", "==", adminEmail))); let followingList = []; if(!adminQ.empty) { const adminDoc = adminQ.docs[0]; followingList.push(adminDoc.id); await updateDoc(doc(db, "kullanicilar", adminDoc.id), { followers: arrayUnion(uc.user.uid) }); } await setDoc(doc(db, "kullanicilar", uc.user.uid), { displayName: name, email: email, following: followingList, followers: [] }); window.location.reload(); } catch (e) { alert(e.message); document.getElementById('btn-register').innerText = "VIP Hesabını Oluştur"; } });
 
+        // 🔥 YENİ GÖNDERİ PAYLAŞIMI DÜZELTİLDİ 🔥
+        document.getElementById('btn-submit-post')?.addEventListener('click', async () => { 
+            const user = auth.currentUser; if (!user) return; 
+            const fileInput = document.getElementById('add-image-file'); 
+            const file = fileInput.files[0]; 
+            const caption = document.getElementById('add-caption').value; 
+            if (!file) return alert("Lütfen galeriden bir fotoğraf veya video seçin!"); 
+            const btn = document.getElementById('btn-submit-post'); btn.innerText = "Yükleniyor..."; 
+            try { 
+                const imageUrl = await window.uploadMedia(file); 
+                await addDoc(collection(db, "gonderiler"), { imageUrl, caption, username: user.displayName, likesCount: 0, createdAt: new Date() }); 
+                closeModal('addModal'); fileInput.value = ""; document.getElementById('add-caption').value = ""; 
+                await window.loadAllData(); if(window.renderExploreGrid) window.renderExploreGrid(); 
+            } catch (err) { alert("Hata: " + err.message); } finally { btn.innerText = "Paylaş"; } 
+        });
+
         // 🔥 HİKAYE YÜKLEME (ÇIKARTMA DESTEKLİ) 🔥
         document.getElementById('btn-submit-story')?.addEventListener('click', async () => { 
             const user = auth.currentUser; if (!user) return; 
             const fileInput = document.getElementById('story-file'); const file = fileInput.files[0]; if (!file) return alert("Dosya seçin!"); 
-            
             const stickerType = document.getElementById('story-sticker-type').value;
             const stickerText = document.getElementById('sticker-text-box').value.trim();
-
             const btn = document.getElementById('btn-submit-story'); btn.innerText = "Yükleniyor..."; 
             try { 
                 const imageUrl = await window.uploadMedia(file); 
                 const storyData = { imageUrl, username: user.displayName, createdAt: new Date() };
-                if(stickerType !== 'none') {
-                    storyData.stickerType = stickerType;
-                    storyData.stickerText = stickerText;
-                }
+                if(stickerType !== 'none') { storyData.stickerType = stickerType; storyData.stickerText = stickerText; }
                 await addDoc(collection(db, "hikayeler"), storyData); 
                 closeModal('addStoryModal'); fileInput.value = ""; document.getElementById('sticker-text-box').value = "";
             } catch (e) { alert("Hata: " + e.message); } finally { btn.innerText = "Paylaş"; } 
@@ -532,7 +757,7 @@
                         initNoti = false;
                     });
                 } else { openModal('authModal'); }
-            } catch(e) {} finally { hideSplash(); }
+            } catch(e) { console.error("Baslatma hatasi:", e); } finally { hideSplash(); }
         });
 
         if ('serviceWorker' in navigator) { 
@@ -541,8 +766,8 @@
                     const installingWorker = reg.installing;
                     installingWorker.onstatechange = () => {
                         if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                            if(!sessionStorage.getItem('sw_reloaded_v28')) {
-                                sessionStorage.setItem('sw_reloaded_v28', 'true');
+                            if(!sessionStorage.getItem('sw_reloaded_v29')) {
+                                sessionStorage.setItem('sw_reloaded_v29', 'true');
                                 window.location.reload();
                             }
                         }
