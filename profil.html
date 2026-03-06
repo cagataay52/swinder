@@ -22,6 +22,11 @@
         
         body { background: var(--body-bg); color: white; padding-bottom: 80px; overflow-x: hidden;}
 
+        /* SPLASH & HEADER */
+        #splash-screen { position: fixed; inset: 0; background: #050505; z-index: 99999; display: flex; flex-direction:column; justify-content: center; align-items: center; transition: opacity 0.5s ease; }
+        .splash-logo { font-family: 'Grand Hotel', cursive; font-size: 70px; color: var(--primary-gold); animation: pulse 1.5s infinite alternate; text-shadow: 0 0 20px rgba(212,175,55,0.4); }
+        @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+
         header { position: sticky; top: 0; width: 100%; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(25px); z-index: 100; border-bottom: var(--glass-border); padding-top: calc(15px + env(safe-area-inset-top)); }
         .header-icon { color: white; font-size: 28px; cursor: pointer; background: none; border: none; }
 
@@ -76,26 +81,23 @@
         .recap-val { font-weight: bold; color: white; font-size: 18px;}
         .search-input { flex: 1; background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; padding: 12px 20px; border-radius: 30px; outline: none; font-size: 14px;}
         
-        /* EKSİK OLAN REELS STİLLERİ EKLENDİ */
+        /* 🔥 REELS ARAYÜZÜ (TIKTOK STİLİ) 🔥 */
         .reels-box { background: #000; width: 100%; height: 100dvh; position: relative; overflow-y: scroll; scroll-snap-type: y mandatory; transform: translateY(100%); transition: transform 0.4s;}
         .modal-overlay.active .reels-box { transform: translateY(0); }
         .reel-item { width: 100%; height: 100dvh; scroll-snap-align: start; position: relative; display: flex; justify-content: center; align-items: center; background: #000;}
-        .reel-overlay-gradient { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 40%); z-index: 2; pointer-events: none; }
-        .reel-info-bottom { position: absolute; bottom: calc(85px + env(safe-area-inset-bottom)); left: 15px; z-index: 3; max-width: 75%; }
-        .reel-user-badge { display: flex; align-items: center; gap: 10px; cursor: pointer; margin-bottom: 8px; }
-        .reel-user-avatar { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center; }
-        .reel-user-name { color: white; font-weight: 700; font-size: 16px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); display: flex; align-items: center; gap: 4px; }
-        .reel-caption { color: white; font-size: 14px; line-height: 1.4; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
-        .reel-actions-right { position: absolute; bottom: calc(95px + env(safe-area-inset-bottom)); right: 15px; display: flex; flex-direction: column; gap: 20px; align-items: center; z-index: 3; }
-        .reel-action-btn { background: none; border: none; color: white; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8)); font-size: 13px; font-weight: bold; }
     </style>
 </head>
 <body>
 
+<div id="splash-screen">
+    <div class="splash-logo">Swinder</div>
+    <div style="color:var(--primary-gold); margin-top:20px; font-weight:bold;">Sistem Yükleniyor...</div>
+</div>
+
 <header>
     <div style="display:flex; align-items:center; gap:10px; font-size:20px; font-weight:bold;">
         <span class="material-symbols-outlined" style="cursor:pointer;" onclick="window.location.assign('index.html')">arrow_back</span>
-        <span id="display-name">Yükleniyor...</span>
+        <span id="display-name">...</span>
     </div>
     <button class="header-icon" onclick="window.openM('settingsModal')"><span class="material-symbols-outlined">menu</span></button>
 </header>
@@ -160,7 +162,7 @@
         <button class="close-btn" onclick="window.closeM('addModal')"><span class="material-symbols-outlined">close</span></button>
         <h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Yeni Gönderi</h2>
         <input type="file" id="add-image-file" class="form-input" accept="image/*, video/*">
-        <textarea id="add-caption" class="form-input" rows="3" placeholder="Açıklama..."></textarea>
+        <textarea id="add-caption" class="form-input" rows="3" placeholder="Açıklama yaz..."></textarea>
         <button type="button" id="btn-submit-post" class="btn-gold">Paylaş</button>
     </div>
 </div>
@@ -187,7 +189,7 @@
 </div>
 
 <div class="modal-overlay" id="reelsModal" style="padding:0; background:#000;">
-    <button class="close-btn" onclick="window.closeM('reelsModal')"><span class="material-symbols-outlined">close</span></button>
+    <button class="close-btn" onclick="window.closeM('reelsModal')" style="position:absolute; top:calc(20px + env(safe-area-inset-top)); right:20px; z-index:2000;"><span class="material-symbols-outlined">close</span></button>
     <div class="reels-box" id="reels-container"></div>
 </div>
 
@@ -280,13 +282,14 @@
                 currentUserProfile = { uid: user.uid, following: [], followers: [], ...snap.data() };
                 document.getElementById('display-name').innerText = user.displayName + (currentUserProfile.isPremium ? ' 💎' : '');
                 document.getElementById('bio-name').innerText = user.displayName;
-                document.getElementById('display-avatar').style.backgroundImage = `url('${currentUserProfile.avatar||''}')`;
+                document.getElementById('display-avatar').style.backgroundImage = `url('${(currentUserProfile.avatar||'').replace(/'/g, "\\'")}')`;
                 document.getElementById('bio-text').innerText = currentUserProfile.bio || 'VIP Üye';
                 document.getElementById('follower-count').innerText = (currentUserProfile.followers||[]).length;
                 document.getElementById('following-count').innerText = (currentUserProfile.following||[]).length;
                 if(user.email==="kcagatay239@gmail.com") { const ap=document.getElementById('btn-admin-panel'); if(ap) ap.style.display='block'; }
             }
             await window.loadAllData(); window.renderProfileGrid();
+            const spl = document.getElementById('splash-screen'); if(spl) { spl.style.opacity = '0'; setTimeout(()=>spl.style.display='none', 500); }
         } else { location.assign('index.html'); }
     });
 
@@ -294,7 +297,7 @@
         const g = document.getElementById('my-posts'); g.innerHTML='';
         const pts = window.globalPosts.filter(p => p.username === auth.currentUser.displayName);
         document.getElementById('post-count').innerText = pts.length;
-        pts.forEach(p => { const bg = window.isVideo(p.imageUrl)?window.getVideoThumbnail(p.imageUrl):p.imageUrl; const ic = window.isVideo(p.imageUrl)?'<span class="material-symbols-outlined grid-video-icon">play_circle</span>':''; g.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image:url('${bg}')" onclick="window.openPostDetail('${p.id}', '${p.username.replace(/'/g, "\\'")}')">${ic}</div>`); });
+        pts.forEach(p => { const bg = window.isVideo(p.imageUrl)?window.getVideoThumbnail(p.imageUrl):p.imageUrl; const ic = window.isVideo(p.imageUrl)?'<span class="material-symbols-outlined grid-video-icon">play_circle</span>':''; g.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image:url('${bg.replace(/'/g, "\\'")}')" onclick="window.openPostDetail('${p.id}', '${p.username.replace(/'/g, "\\'")}')">${ic}</div>`); });
     };
 
     // 🔥 GÖNDERİ AKIŞI (SİL BUTONU VE VİDEO AUTOPLAY KALKANLI) 🔥
@@ -304,7 +307,7 @@
         pts.forEach(p => {
             const av = window.globalUsersByName[p.username]?.avatar || '';
             const isM = auth.currentUser.displayName === p.username;
-            const delBtn = isM ? `<button onclick="window.deletePostDB('${p.id}')" style="background:none; border:none; color:#ff4757; font-weight:bold; cursor:pointer;"><span class="material-symbols-outlined">delete</span></button>` : '';
+            const delBtn = isM ? `<button onclick="window.deletePostDB('${p.id}')" style="background:rgba(255,0,0,0.1); border:1px solid rgba(255,0,0,0.3); border-radius:10px; padding:5px 10px; color:#ff4757; font-weight:bold; cursor:pointer; font-size:12px; display:flex; align-items:center; gap:2px;"><span class="material-symbols-outlined" style="font-size:16px;">delete</span> Sil</button>` : '';
             const isL = p.likedBy?.includes(auth.currentUser.displayName);
             
             const media = window.isVideo(p.imageUrl) ? `<video src="${p.imageUrl}" loop playsinline muted style="width:100%; height:100%; object-fit:contain; background:black;" onclick="this.muted=!this.muted" ondblclick="window.toggleLikeDB(document.getElementById('p-like-${p.id}'), '${p.id}')"></video>` : `<img src="${p.imageUrl}" style="width:100%; height:100%; object-fit:contain; background:black;" ondblclick="window.toggleLikeDB(document.getElementById('p-like-${p.id}'), '${p.id}')"/>`;
@@ -312,7 +315,7 @@
             c.insertAdjacentHTML('beforeend', `
             <div id="post-${p.id}" class="feed-post-item">
                 <div style="padding:15px; display:flex; justify-content:space-between; align-items:center; flex-shrink:0;">
-                    <div style="display:flex; align-items:center; gap:10px; cursor:pointer;" onclick="window.closeM('postDetailModal'); window.openUserProfile('${p.username}')"><div class="list-avatar" style="background-image:url('${av}'); width:35px; height:35px;"></div><b style="color:white;">${p.username}</b></div>
+                    <div style="display:flex; align-items:center; gap:10px; cursor:pointer;" onclick="window.closeM('postDetailModal'); window.openUserProfile('${p.username}')"><div class="list-avatar" style="background-image:url('${av.replace(/'/g, "\\'")}'); width:35px; height:35px;"></div><b style="color:white;">${p.username}</b></div>
                     ${delBtn}
                 </div>
                 <div style="flex:1; background:black; position:relative; overflow:hidden; display:flex; justify-content:center; align-items:center;">${media}</div>
@@ -355,7 +358,7 @@
         const s = await getDocs(collection(db, `gonderiler/${window.activeInteractPostId}/yorumlar`)); cl.innerHTML='';
         if(s.empty) { cl.innerHTML='<div style="color:gray; text-align:center;">İlk yorumu sen yap!</div>'; return; }
         let c = []; s.forEach(d=>c.push(d.data())); c.sort((a,b)=>(a.createdAt?.seconds||0)-(b.createdAt?.seconds||0));
-        c.forEach(d => { const av = window.globalUsersByName[d.username]?.avatar||''; cl.insertAdjacentHTML('beforeend', `<div style="display:flex; gap:10px; margin-bottom:15px;"><div class="list-avatar" style="width:36px; height:36px; background-image:url('${av}')"></div><div><b style="color:var(--primary-gold); font-size:14px;">${d.username}</b> <span style="color:white; font-size:14px;">${d.text}</span></div></div>`); });
+        c.forEach(d => { const av = window.globalUsersByName[d.username]?.avatar||''; cl.insertAdjacentHTML('beforeend', `<div style="display:flex; gap:10px; margin-bottom:15px;"><div class="list-avatar" style="width:36px; height:36px; background-image:url('${av.replace(/'/g, "\\'")}')"></div><div><b style="color:var(--primary-gold); font-size:14px;">${d.username}</b> <span style="color:white; font-size:14px;">${d.text}</span></div></div>`); });
     };
     window.submitComment = async () => { const i = document.getElementById('new-comment-input'); const t = i.value.trim(); if(!t) return; i.value=''; await addDoc(collection(db, `gonderiler/${window.activeInteractPostId}/yorumlar`), {username:auth.currentUser.displayName, text:t, createdAt:new Date()}); window.openCommentsDB(); };
 
@@ -371,7 +374,7 @@
     window.renderShareList = (txt) => {
         const c = document.getElementById('share-list-container'); c.innerHTML='';
         window.myShareMatches.filter(m=>m.name.toLowerCase().includes(txt.toLowerCase())).forEach(m => {
-            c.insertAdjacentHTML('beforeend', `<div class="list-item" style="justify-content:space-between;"><div style="display:flex; align-items:center; gap:15px;"><div class="list-avatar" style="background-image:url('${m.img}')"></div><b style="color:white;">${m.name}</b></div><button class="btn-gold" style="width:auto; padding:8px 15px;" onclick="window.sendShareDM('${m.id}', this)">Gönder</button></div>`);
+            c.insertAdjacentHTML('beforeend', `<div class="list-item" style="justify-content:space-between;"><div style="display:flex; align-items:center; gap:15px;"><div class="list-avatar" style="background-image:url('${m.img.replace(/'/g, "\\'")}')"></div><b style="color:white;">${m.name}</b></div><button class="btn-gold" style="width:auto; padding:8px 15px;" onclick="window.sendShareDM('${m.id}', this)">Gönder</button></div>`);
         });
     };
     window.filterShareList = (t) => window.renderShareList(t);
@@ -405,7 +408,7 @@
         document.getElementById('recap-loader').style.display='none'; document.getElementById('recap-content').style.display='block';
     };
 
-    // REELS, KEŞFET VE PROFİL İZLEME
+    // REELS, KEŞFET VE PROFİL İZLEME (INDEX İLE AYNI ÇALIŞIR)
     window.openReels = () => {
         window.openM('reelsModal'); const rc = document.getElementById('reels-container'); if(!rc) return; rc.innerHTML = '';
         const vids = window.globalPosts.filter(p => window.isVideo(p.imageUrl));
@@ -415,20 +418,20 @@
             const isL = auth.currentUser && d.likedBy && d.likedBy.includes(auth.currentUser.displayName);
             rc.insertAdjacentHTML('beforeend', `
             <div class="reel-item">
-                <div style="position:absolute; inset:0; background:url('${d.imageUrl}') center/cover; filter:blur(20px) brightness(0.3);"></div>
-                <video src="${d.imageUrl}" loop playsinline muted style="position:relative; width:100%; height:100%; object-fit:contain; z-index:1;" onclick="this.muted=!this.muted" ondblclick="window.toggleLikeDB(document.getElementById('r-like-${d.id}'), '${d.id}')"></video>
+                <div style="position:absolute; inset:0; background:url('${d.imageUrl.replace(/'/g, "\\'")}') center/cover; filter:blur(20px) brightness(0.3);"></div>
+                <video src="${d.imageUrl}" loop playsinline muted style="position:relative; width:100%; height:100%; object-fit:contain; z-index:1;" onclick="this.muted=!this.muted"></video>
                 <div class="reel-ui">
                     <div class="reel-ui-content">
                         <div style="flex:1;">
                             <div style="display:flex; align-items:center; gap:10px; cursor:pointer; margin-bottom:10px;" onclick="window.closeM('reelsModal'); window.openUserProfile('${d.username}')">
-                                <div style="width:40px; height:40px; border-radius:50%; background:url('${av}') center/cover; border:2px solid var(--primary-gold);"></div>
+                                <div style="width:40px; height:40px; border-radius:50%; background:url('${av.replace(/'/g, "\\'")}') center/cover; border:2px solid var(--primary-gold);"></div>
                                 <b style="color:white; font-size:16px; text-shadow:0 2px 4px #000;">@${d.username}</b>
                             </div>
                             <div style="color:white; font-size:14px; text-shadow:0 1px 3px #000;">${d.caption||''}</div>
                         </div>
                         <div style="display:flex; flex-direction:column; gap:20px; align-items:center;">
                             <button id="r-like-${d.id}" class="action-icon" style="color:${isL?'#ff3040':'white'};" onclick="window.toggleLikeDB(this, '${d.id}')"><span class="material-symbols-outlined" style="font-size:35px; ${isL?"font-variation-settings:'FILL' 1;":""}">favorite</span><b>${d.likesCount||0}</b></button>
-                            <button class="action-icon" onclick="window.activeInteractPostId='${d.id}'; window.openCommentsDB()"><span class="material-symbols-outlined" style="font-size:35px;">chat_bubble</span></button>
+                            <button class="action-icon" onclick="window.activeInteractPostId='${d.id}'; window.openM('commentsModal')"><span class="material-symbols-outlined" style="font-size:35px;">chat_bubble</span></button>
                             <button class="action-icon" onclick="window.openShareModal('${d.imageUrl}')"><span class="material-symbols-outlined" style="font-size:35px;">send</span></button>
                         </div>
                     </div>
@@ -447,22 +450,21 @@
         let usrs = Object.values(window.globalUsersById).filter(u => u.uid !== auth.currentUser.uid && u.displayName && u.displayName.toLowerCase().includes(txt));
         if(txt && usrs.length>0) {
             ul.style.display='block';
-            usrs.forEach(u => { ul.insertAdjacentHTML('beforeend', `<div class="list-item" onclick="window.closeM('exploreModal'); window.openUserProfile('${u.displayName}')"><div class="list-avatar" style="background-image:url('${u.avatar||'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100'}')"></div><b style="color:white;">${u.displayName}</b></div>`); });
+            usrs.forEach(u => { ul.insertAdjacentHTML('beforeend', `<div class="list-item" onclick="window.closeM('exploreModal'); window.openUserProfile('${u.displayName}')"><div class="list-avatar" style="background-image:url('${(u.avatar||'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100').replace(/'/g, "\\'")}')"></div><b style="color:white;">${u.displayName}</b></div>`); });
         } else { ul.style.display='none'; }
         
         let pst = window.globalPosts.filter(p => p.username !== auth.currentUser.displayName);
         if(txt) pst = pst.filter(p => (p.caption||'').toLowerCase().includes(txt) || p.username.toLowerCase().includes(txt));
         pst.forEach(p => { 
             const bg = window.isVideo(p.imageUrl) ? window.getVideoThumbnail(p.imageUrl) : p.imageUrl;
-            const ic = window.isVideo(p.imageUrl) ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : '';
-            grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image:url('${bg}')" onclick="window.closeM('exploreModal'); window.openPostDetail('${p.id}', '${p.username}')">${ic}</div>`); 
+            grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image:url('${bg.replace(/'/g, "\\'")}')" onclick="window.closeM('exploreModal'); window.openPostDetail('${p.id}', '${p.username.replace(/'/g, "\\'")}')"></div>`); 
         });
     };
 
     window.openUserProfile = (uname) => {
         const p = window.globalUsersByName[uname] || {};
         document.getElementById('up-title').innerText = uname; document.getElementById('up-name').innerText = uname;
-        document.getElementById('up-bio').innerText = p.bio || 'VIP Üye'; document.getElementById('up-avatar').style.backgroundImage = `url('${p.avatar||''}')`;
+        document.getElementById('up-bio').innerText = p.bio || 'VIP Üye'; document.getElementById('up-avatar').style.backgroundImage = `url('${(p.avatar||'').replace(/'/g, "\\'")}')`;
         const pts = window.globalPosts.filter(x=>x.username===uname);
         document.getElementById('up-post-count').innerText = pts.length;
         document.getElementById('up-follower-count').innerText = (p.followers||[]).length;
@@ -476,7 +478,7 @@
         }
         
         const g = document.getElementById('up-grid'); g.innerHTML='';
-        pts.forEach(pt => { const bg = window.isVideo(pt.imageUrl) ? window.getVideoThumbnail(pt.imageUrl) : pt.imageUrl; const ic = window.isVideo(pt.imageUrl) ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : ''; g.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image:url('${bg}')" onclick="window.openPostDetail('${pt.id}', '${pt.username}')">${ic}</div>`); });
+        pts.forEach(pt => { const bg = window.isVideo(pt.imageUrl) ? window.getVideoThumbnail(pt.imageUrl) : pt.imageUrl; const ic = window.isVideo(pt.imageUrl) ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : ''; g.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image:url('${bg.replace(/'/g, "\\'")}')" onclick="window.openPostDetail('${pt.id}', '${pt.username.replace(/'/g, "\\'")}')">${ic}</div>`); });
         window.openM('userProfileModal');
     };
 </script>
