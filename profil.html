@@ -56,9 +56,9 @@
         .grid-video-icon { position:absolute; top:8px; right:8px; color:white; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8)); font-size: 22px;}
 
         .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 10, 12, 0.95); backdrop-filter: blur(25px); padding: 10px 10px calc(8px + env(safe-area-inset-bottom)); border-top: var(--glass-border); z-index: 999;}
-        .nav-icon-btn { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; }
-        .nav-icon-btn.active { color: white; }
+        .nav-icon-btn { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .nav-icon-btn .material-symbols-outlined { font-size: 30px; transition: 0.2s;}
+        .nav-icon-btn.active { color: white; }
         .nav-icon-btn.add-btn { background: var(--ring-gradient); color: #000; width: 44px; height: 44px; border-radius: 12px; }
 
         /* 🔥 ORTAK MODALLAR & ULTRA PRO KAPATMA (X) BUTONU 🔥 */
@@ -88,7 +88,7 @@
 
         /* GERÇEK RECAP MODALI */
         #recapModal .glass-box { background: linear-gradient(135deg, #111, #222); border: 1px solid var(--primary-gold); text-align: center; width: 90%; max-width: 350px;}
-        .recap-title { font-family: 'Grand Hotel', cursive; font-size: 45px; color: var(--primary-gold); margin-bottom: 5px;}
+        .recap-title { font-family: 'Grand Hotel', cursive; font-size: 45px; color: var(--primary-gold); margin-bottom: 20px;}
         .recap-row { display: flex; justify-content: space-between; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 12px; margin-bottom: 10px; font-size: 15px;}
         .recap-val { font-weight: bold; color: white; font-size: 18px;}
         .search-input { flex: 1; background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; padding: 12px 20px; border-radius: 30px; outline: none; font-size: 14px;}
@@ -121,12 +121,12 @@
 </head>
 <body>
 
-    <div id="splash-screen"><div class="splash-logo">Swinder</div></div>
+    <div id="splash-screen"><div class="splash-logo" style="font-family:'Grand Hotel', cursive; font-size:50px; color:#d4af37;">Yükleniyor...</div></div>
 
     <header>
         <div class="header-username">
             <span class="material-symbols-outlined" style="cursor:pointer;" onclick="window.location.assign('index.html')">arrow_back</span>
-            <span id="display-name">Yükleniyor...</span>
+            <span id="display-name">...</span>
         </div>
         <div style="display:flex; gap:15px; align-items:center;">
             <button class="header-icon" onclick="openModal('settingsModal')"><span class="material-symbols-outlined">menu</span></button>
@@ -188,7 +188,7 @@
         <div class="glass-box">
             <button class="close-btn" onclick="closeModal('addModal')"><span class="material-symbols-outlined">close</span></button>
             <h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Yeni Gönderi</h2>
-            <div style="margin-bottom: 15px;"><input type="file" id="add-image-file" accept="image/*, video/*" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 12px; color: white;"></div>
+            <div style="margin-bottom: 15px;"><input type="file" id="add-image-file" accept="image/*, video/*" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 12px; color: white; margin-top:5px;"></div>
             <div style="margin-bottom: 15px;"><textarea id="add-caption" rows="3" placeholder="Açıklama..." style="width: 100%; padding: 14px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; outline: none;"></textarea></div>
             <button type="button" id="btn-submit-post" style="background: var(--primary-gold); color: #000; padding: 14px; border-radius: 12px; font-weight: 700; width: 100%; border: none; cursor: pointer;">Paylaş</button>
         </div>
@@ -200,7 +200,7 @@
                 <button class="header-icon" onclick="closeModal('postDetailModal')" style="color:white; border:none; background:none; font-size:24px; cursor:pointer;"><span class="material-symbols-outlined">arrow_back</span></button> 
                 <strong style="font-size: 18px;">Gönderiler</strong>
             </div>
-            <div class="feed-scroll-container" id="feed-scroll-container"></div>
+            <div id="feed-scroll-container" class="feed-scroll-container"></div>
         </div>
     </div>
 
@@ -299,7 +299,7 @@
         const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
 
         const CLOUD_NAME = "dv9c3ygco"; const UPLOAD_PRESET = "ntc9cq4y";
-        window.uploadMedia = async function(file) { const formData = new FormData(); formData.append("file", file); formData.append("upload_preset", UPLOAD_PRESET); const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, { method: 'POST', body: formData }); const data = await res.json(); if(data.error) throw new Error(data.error.message); return data.secure_url; }
+        window.uploadMedia = async function(file) { const formData = new FormData(); formData.append("file", file); formData.append("upload_preset", UPLOAD_PRESET); const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, { method: 'POST', body: formData }); const data = await res.json(); return data.secure_url; }
 
         const safeEncode = (str) => encodeURIComponent(str || '').replace(/'/g, "%27");
         const instaGoldTick = `<svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align: text-bottom; margin-left: 4px; overflow: visible; filter: drop-shadow(0 2px 4px rgba(212,175,55,0.5));"><defs><linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f3e5ab" /><stop offset="50%" stop-color="#ffdf00" /><stop offset="100%" stop-color="#d4af37" /></linearGradient></defs><path d="M12 1.5l2.6 1.54 2.97-.47 1.25 2.76 2.87.9-.6 2.94 1.83 2.37-1.55 2.58 1.03 2.83-2.4 1.8-.23 3.01-2.9 1.02-1.37 2.7-2.95-.33-2.07 2.2-2.07-2.2-2.95.33-1.37-2.7-2.9-1.02-.23-3.01-2.4-1.8 1.03-2.83-1.55-2.58 1.83-2.37-.6-2.94 2.87-.9 1.25-2.76 2.97.47L12 1.5z" fill="url(#goldGrad)"/><path d="M10.5 15.5l-3.5-3.5 1.4-1.4 2.1 2.1 5.6-5.6 1.4 1.4-7 7z" fill="#fff"/></svg>`;
@@ -319,7 +319,7 @@
             } catch(err) { console.error("Veri yükleme hatası:", err); }
         }
 
-        // 🔥 REELS (TIKTOK STİLİ, FOTO VE VİDEO DESTEKLİ) 🔥
+        // 🔥 REELS MOTORU (TIKTOK STİLİ, SESLİ VİDEO DESTEKLİ) 🔥
         window.renderReels = function() {
             const rc = document.getElementById('reels-container'); if(!rc) return; rc.innerHTML = ''; 
             if(window.globalPosts.length === 0) { rc.innerHTML = '<div style="color:white; text-align:center; padding-top:50vh;">Gönderi yok.</div>'; return; }
@@ -331,8 +331,8 @@
                 const isP = (pInfo.isPremium || (data.username || '').toLowerCase().includes('çağatay')) ? instaGoldTick : '';
                 
                 const mediaHtml = window.isVideo(data.imageUrl) 
-                    ? `<video src="${data.imageUrl}" preload="none" poster="${window.getVideoThumbnail(data.imageUrl)}" loop playsinline style="position:absolute; inset:0; width:100%; height:100%; object-fit:contain; z-index:1; background:black;" onclick="this.muted=!this.muted" ondblclick="window.toggleLikeDB(this.parentElement.querySelector('.reel-action-btn'), '${data.id}')"></video>`
-                    : `<div style="position:absolute; inset:0; width:100%; height:100%; background-image:url('${data.imageUrl.replace(/'/g, "\\'")}'); background-size:contain; background-position:center; background-repeat:no-repeat; z-index:1; background-color:black;" ondblclick="window.toggleLikeDB(this.parentElement.querySelector('.reel-action-btn'), '${data.id}')"></div>`;
+                    ? `<video src="${data.imageUrl}" preload="none" poster="${window.getVideoThumbnail(data.imageUrl)}" loop playsinline muted class="reel-video" onclick="this.muted=!this.muted" ondblclick="window.toggleLikeDB(document.getElementById('like-btn-reel-${data.id}'), '${data.id}')"></video>`
+                    : `<div style="position:absolute; inset:0; width:100%; height:100%; background-image:url('${data.imageUrl.replace(/'/g, "\\'")}'); background-size:contain; background-position:center; background-repeat:no-repeat; z-index:1; background-color:black;" ondblclick="window.toggleLikeDB(document.getElementById('like-btn-reel-${data.id}'), '${data.id}')"></div>`;
 
                 rc.insertAdjacentHTML('beforeend', `
                 <div class="reel-item">
@@ -349,16 +349,16 @@
                     </div>
 
                     <div class="reel-actions-right">
-                        <button class="reel-action-btn ${likedClass}" onclick="window.toggleLikeDB(this, '${data.id}')">
-                            <span class="material-symbols-outlined" style="font-size:34px; ${likedClass ? "font-variation-settings: 'FILL' 1;" : ""}">favorite</span>
+                        <button id="like-btn-reel-${data.id}" class="reel-action-btn ${likedClass}" onclick="window.toggleLikeDB(this, '${data.id}')">
+                            <span class="material-symbols-outlined" style="${likedClass ? "font-variation-settings: 'FILL' 1;" : ""}">favorite</span>
                             <span id="like-count-${data.id}">${data.likesCount||0}</span>
                         </button>
                         <button class="reel-action-btn" onclick="window.activeInteractPostId='${data.id}'; window.openCommentsDB();">
-                            <span class="material-symbols-outlined" style="font-size:34px;">chat_bubble</span>
+                            <span class="material-symbols-outlined">chat_bubble</span>
                             <span>Yorum</span>
                         </button>
                         <button class="reel-action-btn" onclick="window.openShareModal('${data.imageUrl}')">
-                            <span class="material-symbols-outlined" style="font-size:34px;">send</span>
+                            <span class="material-symbols-outlined">send</span>
                             <span>Paylaş</span>
                         </button>
                     </div>
@@ -370,7 +370,7 @@
             document.querySelectorAll('.reel-item').forEach(item => window.reelsObserver.observe(item));
         }
 
-        // 🔥 KEŞFET MOTORU (PROFİLE YÖNLENDİRME EKLİ) 🔥
+        // 🔥 KEŞFET MOTORU 🔥
         window.renderExploreGrid = async function() {
             const grid = document.getElementById('explore-grid'); if(!grid) return;
             const myUid = auth.currentUser ? auth.currentUser.uid : null; const currentName = auth.currentUser ? auth.currentUser.displayName : '';
@@ -390,13 +390,13 @@
             if(filterText) filteredPosts = filteredPosts.filter(p => (p.caption||'').toLocaleLowerCase('tr-TR').includes(filterText) || (p.username||'').toLocaleLowerCase('tr-TR').includes(filterText));
             
             filteredPosts.forEach(p => { 
-                const dataStr = safeEncode(JSON.stringify(p)); const bg = window.isVideo(p.imageUrl) ? window.getVideoThumbnail(p.imageUrl) : p.imageUrl; const icon = window.isVideo(p.imageUrl) ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : '';
-                grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${bg.replace(/'/g, "\\'")}');" onclick="closeModal('exploreModal'); window.openPostDetail('${p.id}', '${p.username}')">${icon}</div>`); 
+                const bg = window.isVideo(p.imageUrl) ? window.getVideoThumbnail(p.imageUrl) : p.imageUrl; const iconHtml = window.isVideo(p.imageUrl) ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : '';
+                grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${bg.replace(/'/g, "\\'")}');" onclick="closeModal('exploreModal'); window.openPostDetail('${p.id}', '${p.username.replace(/'/g, "\\'")}')">${iconHtml}</div>`); 
             });
         }
         window.performSearch = () => window.renderExploreGrid();
 
-        // 🔥 PROFİL AÇMA (MODAL AÇICI EKLENDİ) 🔥
+        // 🔥 PROFİL AÇMA MOTORU 🔥
         window.openUserProfile = function(username) {
             let pInfo = window.globalUsersByName[username] || {}; 
             const isP = (pInfo.isPremium || (username || '').toLowerCase().includes('çağatay')) ? instaGoldTick : '';
@@ -426,8 +426,8 @@
             
             const upGrid = document.getElementById('up-grid'); upGrid.innerHTML = '';
             userPosts.forEach(p => { 
-                const bg = window.isVideo(p.imageUrl) ? window.getVideoThumbnail(p.imageUrl) : p.imageUrl; const icon = window.isVideo(p.imageUrl) ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : '';
-                upGrid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${bg.replace(/'/g, "\\'")}');" onclick="window.openPostDetail('${p.id}', '${p.username}')">${icon}</div>`); 
+                const bg = window.isVideo(p.imageUrl) ? window.getVideoThumbnail(p.imageUrl) : p.imageUrl; const iconHtml = window.isVideo(p.imageUrl) ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : '';
+                upGrid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${bg.replace(/'/g, "\\'")}');" onclick="window.openPostDetail('${p.id}', '${p.username.replace(/'/g, "\\'")}')">${iconHtml}</div>`); 
             });
             openModal('userProfileModal');
         }
@@ -466,8 +466,8 @@
                 const likedFill = isLiked ? "'FILL' 1" : "'FILL' 0";
 
                 const mediaHtml = window.isVideo(data.imageUrl) 
-                    ? `<video src="${data.imageUrl}" loop playsinline style="width:100%; height:100%; object-fit:contain; background:black;" onclick="this.muted = !this.muted" ondblclick="window.toggleLikeDB(this.parentElement.nextElementSibling.querySelector('.btn-like'), '${data.id}')"></video>` 
-                    : `<img src="${data.imageUrl}" loading="lazy" style="width:100%; height:100%; object-fit:contain; background:black;" ondblclick="window.toggleLikeDB(this.parentElement.nextElementSibling.querySelector('.btn-like'), '${data.id}')"/>`;
+                    ? `<video src="${data.imageUrl}" loop playsinline muted style="width:100%; height:100%; object-fit:contain; background:black;" onclick="this.muted = !this.muted" ondblclick="window.toggleLikeDB(document.getElementById('like-btn-feed-${data.id}'), '${data.id}')"></video>` 
+                    : `<img src="${data.imageUrl}" loading="lazy" style="width:100%; height:100%; object-fit:contain; background:black;" ondblclick="window.toggleLikeDB(document.getElementById('like-btn-feed-${data.id}'), '${data.id}')" />`;
 
                 container.insertAdjacentHTML('beforeend', `
                 <div id="feed-post-${data.id}" class="feed-post-item">
@@ -483,9 +483,9 @@
                     </div>
                     <div style="padding: 15px 20px; flex-shrink:0;">
                         <div style="display:flex; gap:15px; margin-bottom:10px;">
-                            <button class="header-icon btn-like" style="color:${likedColor}; border:none; background:none; cursor:pointer;" onclick="window.toggleLikeDB(this, '${data.id}')"><span class="material-symbols-outlined" style="font-variation-settings: ${likedFill};">favorite</span></button>
-                            <button class="header-icon" style="color:white; border:none; background:none; cursor:pointer;" onclick="window.activeInteractPostId='${data.id}'; window.openCommentsDB()"><span class="material-symbols-outlined">chat_bubble</span></button>
-                            <button class="header-icon" style="color:white; border:none; background:none; cursor:pointer;" onclick="window.openShareModal('${data.imageUrl}')"><span class="material-symbols-outlined">send</span></button>
+                            <button id="like-btn-feed-${data.id}" style="color:${likedColor}; border:none; background:none; cursor:pointer;" onclick="window.toggleLikeDB(this, '${data.id}')"><span class="material-symbols-outlined" style="font-variation-settings: ${likedFill};">favorite</span></button>
+                            <button style="color:white; border:none; background:none; cursor:pointer;" onclick="window.activeInteractPostId='${data.id}'; window.openCommentsDB()"><span class="material-symbols-outlined">chat_bubble</span></button>
+                            <button style="color:white; border:none; background:none; cursor:pointer;" onclick="window.openShareModal('${data.imageUrl}')"><span class="material-symbols-outlined">send</span></button>
                         </div>
                         <div style="font-weight:600; margin-bottom:5px; font-size:14px; color:white;"><span id="likes-${data.id}">${data.likesCount || 0}</span> beğenme</div>
                         <div style="font-size: 14px; color:white;"><strong>${data.username}</strong> <span style="color:rgba(255,255,255,0.8);">${data.caption || ''}</span></div>
@@ -501,13 +501,18 @@
             document.querySelectorAll('.feed-post-item').forEach(item => window.feedObserver.observe(item));
         }
 
+        // 🔥 GÖNDERİ SİLME MOTORU 🔥
         window.deletePostDB = async function(postId) {
             if(confirm("Bu gönderiyi kalıcı olarak silmek istediğine emin misin?")) {
-                try { await deleteDoc(doc(db, "gonderiler", postId)); alert("Gönderi başarıyla silindi!"); window.location.reload(); } catch(e) { alert("Silinirken bir hata oluştu."); }
+                try {
+                    await deleteDoc(doc(db, "gonderiler", postId));
+                    alert("Gönderi başarıyla silindi!");
+                    window.location.reload();
+                } catch(e) { alert("Silinirken bir hata oluştu."); }
             }
         }
 
-        // 🔥 DM PAYLAŞIM MOTORU 🔥
+        // 🔥 YENİ NESİL DM PAYLAŞIM MOTORU 🔥
         window.openShareModal = async function(url) {
             window.activeShareUrl = url; openModal('shareModal');
             const c = document.getElementById('share-list-container'); if(!c) return;
@@ -529,6 +534,7 @@
             });
             window.renderShareList();
         }
+
         window.renderShareList = function(filterText = "") {
             const c = document.getElementById('share-list-container'); if(!c) return; c.innerHTML = '';
             let filtered = window.myShareMatches || [];
@@ -546,6 +552,7 @@
             });
         }
         window.filterShareList = (text) => window.renderShareList(text);
+
         window.sendShareDM = async function(chatId, btnElement) {
             btnElement.innerText = "İletildi ✓";
             btnElement.style.background = "rgba(255,255,255,0.2)";
@@ -559,14 +566,14 @@
 
         window.toggleLikeDB = async function(btnElement, postId) {
             const user = auth.currentUser; if(!user) return; 
-            const postRef = doc(db, "gonderiler", postId); const likeSpan = document.getElementById('likes-' + postId); const postData = window.globalPosts.find(p=>p.id===postId); let currentLikes = postData ? (postData.likesCount||0) : 0;
+            const postRef = doc(db, "gonderiler", postId); const likeSpan = document.getElementById('likes-' + postId) || document.getElementById('like-count-' + postId); const postData = window.globalPosts.find(p=>p.id===postId); let currentLikes = postData ? (postData.likesCount||0) : 0;
             const isLiked = postData && postData.likedBy && postData.likedBy.includes(user.displayName);
             if(isLiked) { 
-                if(btnElement) { btnElement.classList.remove('liked'); btnElement.style.color = 'white'; const sp = btnElement.querySelector('span'); if(sp) sp.style.fontVariationSettings = "'FILL' 0"; }
+                if(btnElement) { btnElement.style.color = 'white'; const sp = btnElement.querySelector('span'); if(sp) sp.style.fontVariationSettings = "'FILL' 0"; }
                 if(likeSpan) likeSpan.innerText = currentLikes - 1; 
                 await updateDoc(postRef, { likedBy: arrayRemove(user.displayName), likesCount: currentLikes - 1 }); if(postData) { postData.likesCount -= 1; postData.likedBy = postData.likedBy.filter(n => n !== user.displayName); } 
             } else { 
-                if(btnElement) { btnElement.classList.add('liked'); btnElement.style.color = '#ff3040'; const sp = btnElement.querySelector('span'); if(sp) sp.style.fontVariationSettings = "'FILL' 1"; }
+                if(btnElement) { btnElement.style.color = '#ff3040'; const sp = btnElement.querySelector('span'); if(sp) sp.style.fontVariationSettings = "'FILL' 1"; }
                 if(likeSpan) likeSpan.innerText = currentLikes + 1; 
                 await updateDoc(postRef, { likedBy: arrayUnion(user.displayName), likesCount: currentLikes + 1 }); if(postData) { postData.likesCount += 1; if(!postData.likedBy) postData.likedBy=[]; postData.likedBy.push(user.displayName); } 
             }
@@ -581,9 +588,7 @@
         }
         window.submitComment = async function() { const user = auth.currentUser; if(!user || !window.activeInteractPostId) return; const input = document.getElementById('new-comment-input'); const text = input.value.trim(); if(!text) return; input.value = ""; await addDoc(collection(db, `gonderiler/${window.activeInteractPostId}/yorumlar`), { username: user.displayName, text: text, createdAt: new Date() }); window.openCommentsDB(window.activeInteractPostId); }
 
-        window.toggleFollowDB = async function(btnElement) { const user = auth.currentUser; if(!user) return; const ut = document.getElementById('up-title'); if(!ut) return; const tName = ut.innerText; const targetUser = window.globalUsersByName[tName]; if(!targetUser) return; const isFollowing = btnElement.classList.contains('following'); const myRef = doc(db, "kullanicilar", user.uid); const targetRef = doc(db, "kullanicilar", targetUser.uid); const countEl = document.getElementById('up-follower-count'); let count = countEl ? parseInt(countEl.innerText) : 0; if(isFollowing) { btnElement.classList.remove('following'); btnElement.innerText = "Takip Et"; btnElement.style.background = "var(--primary-gold)"; btnElement.style.color = "black"; if(countEl) countEl.innerText = count - 1; await updateDoc(myRef, { following: arrayRemove(targetUser.uid) }); await updateDoc(targetRef, { followers: arrayRemove(user.uid) }); if(currentUserProfile && currentUserProfile.following) currentUserProfile.following = currentUserProfile.following.filter(id => id !== targetUser.uid); } else { btnElement.classList.add('following'); btnElement.innerText = "Takibi Bırak"; btnElement.style.background = "rgba(255,255,255,0.15)"; btnElement.style.color = "white"; if(countEl) countEl.innerText = count + 1; await updateDoc(myRef, { following: arrayUnion(targetUser.uid) }); await updateDoc(targetRef, { followers: arrayUnion(user.uid) }); if(currentUserProfile) { if(!currentUserProfile.following) currentUserProfile.following=[]; currentUserProfile.following.push(targetUser.uid); } } }
-
-        // 🔥 GERÇEK VERİLERLE ÇALIŞAN RECAP (ÖZET) MOTORU (HATA KALKANLI) 🔥
+        // 🔥 GERÇEK VERİLERLE ÇALIŞAN RECAP (ÖZET) MOTORU 🔥
         window.openRecap = async function() {
             try {
                 if(!auth.currentUser) return;
@@ -614,7 +619,21 @@
             } catch (error) { console.error("Recap Hatası:", error); }
         }
 
-        // 🔥 AUTH SİSTEMİNİ BAŞLAT (YÜKLENİYOR HATASI BYPASS EDİLDİ) 🔥
+        // 🔥 GÖNDERİ PAYLAŞIM (DONMA ENGELLENDİ) 🔥
+        document.getElementById('btn-submit-post')?.addEventListener('click', async () => { 
+            const user = auth.currentUser; if (!user) return; 
+            const fileInput = document.getElementById('add-image-file'); const file = fileInput.files[0]; 
+            if (!file) return alert("Lütfen galeriden bir fotoğraf veya video seçin!"); 
+            document.getElementById('btn-submit-post').innerText = "Yükleniyor..."; 
+            try { 
+                const imageUrl = await window.uploadMedia(file); 
+                const caption = document.getElementById('add-caption').value;
+                await addDoc(collection(db, "gonderiler"), { imageUrl, caption: caption, username: user.displayName, likesCount: 0, createdAt: new Date() }); 
+                window.location.reload(); // Yükleme sonrası tertemiz yeniler
+            } catch (err) { alert("Hata: " + err.message); document.getElementById('btn-submit-post').innerText = "Paylaş"; } 
+        });
+
+        // 🔥 AUTH SİSTEMİNİ BAŞLAT 🔥
         onAuthStateChanged(auth, async (user) => {
             try {
                 if (user) {
@@ -625,7 +644,6 @@
                     const dn = document.getElementById('display-name'); if(dn) dn.innerHTML = safeName;
                     const bn = document.getElementById('bio-name'); if(bn) bn.innerHTML = safeName;
                     const eu = document.getElementById('edit-username'); if(eu) eu.value = safeName;
-                    const bt = document.getElementById('bio-text'); if(bt) bt.innerText = 'Swinder VIP Üyesi';
                     
                     const snap = await getDoc(doc(db, "kullanicilar", user.uid));
                     if(snap.exists()) {
@@ -636,7 +654,7 @@
                         if(bn) bn.innerHTML = safeName + isP; 
                         
                         const da = document.getElementById('display-avatar'); if(da && currentUserProfile.avatar) da.style.backgroundImage = `url('${currentUserProfile.avatar.replace(/'/g, "\\'")}')`;
-                        if(bt) bt.innerText = currentUserProfile.bio || 'Swinder VIP Üyesi';
+                        const bt = document.getElementById('bio-text'); if(bt) bt.innerText = currentUserProfile.bio || 'Swinder VIP Üyesi';
                         const ebio = document.getElementById('edit-bio'); if(ebio) ebio.value = currentUserProfile.bio || '';
                         const fc = document.getElementById('follower-count'); if(fc) fc.innerText = (currentUserProfile.followers || []).length;
                         const fic = document.getElementById('following-count'); if(fic) fic.innerText = (currentUserProfile.following || []).length;
@@ -647,7 +665,8 @@
                         document.body.className = '';
                         if(savedTheme !== 'normal') document.body.classList.add('theme-' + savedTheme);
                     } else {
-                        await setDoc(doc(db, "kullanicilar", user.uid), { displayName: safeName, email: user.email || "", followers: [], following: [] }, { merge: true });
+                        // Yeni kullanıcıysa Yükleniyorda kalmasın diye hemen oluştur!
+                        await setDoc(doc(db, "kullanicilar", user.uid), { displayName: safeName, email: user.email || "", maxDistance: 50, ghostMode: false, profileTheme: "normal", followers: [], following: [] }, { merge: true });
                     }
                     
                     await window.loadAllData(); 
@@ -662,8 +681,8 @@
                     const installingWorker = reg.installing;
                     installingWorker.onstatechange = () => {
                         if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                            if(!sessionStorage.getItem('sw_reloaded_v33')) {
-                                sessionStorage.setItem('sw_reloaded_v33', 'true');
+                            if(!sessionStorage.getItem('sw_reloaded_v34')) {
+                                sessionStorage.setItem('sw_reloaded_v34', 'true');
                                 window.location.reload();
                             }
                         }
