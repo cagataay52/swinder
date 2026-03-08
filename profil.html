@@ -64,12 +64,13 @@
         .grid-item { width: 100%; height: 0; padding-bottom: 100%; position: relative; background-color: #1a1a1a; background-size: cover; background-position: center; cursor: pointer;}
         .grid-video-icon { position:absolute; top:8px; right:8px; color:white; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8)); font-size: 22px;}
 
-        .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 10, 12, 0.85); backdrop-filter: blur(20px); padding: 12px 10px max(15px, env(safe-area-inset-bottom)); border-top: var(--glass-border); z-index: 999; transition: border-color 0.5s ease;}
-        .nav-icon-btn { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .nav-icon-btn .material-symbols-outlined { font-size: 30px; }
+        .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 10, 12, 0.85); backdrop-filter: blur(20px); padding: 12px 10px calc(15px + env(safe-area-inset-bottom)); border-top: var(--glass-border); z-index: 999; transition: border-color 0.5s ease;}
+        .nav-icon-btn { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; }
+        .nav-icon-btn .material-symbols-outlined { font-size: 30px; transition: color 0.3s, transform 0.3s; }
         .nav-icon-btn.active { color: white; }
-        .nav-icon-btn.add-btn { background: var(--ring-gradient); color: #000; width: 44px; height: 44px; border-radius: 12px; transition: background 0.5s;}
-        .nav-icon-btn.add-btn .material-symbols-outlined { font-weight: 600;}
+        .nav-icon-btn.active .material-symbols-outlined { font-variation-settings: 'FILL' 1; transform: scale(1.1); }
+        .nav-icon-btn.add-btn { background: var(--ring-gradient); color: #000; width: 44px; height: 44px; border-radius: 12px; transition: background 0.5s ease;}
+        .nav-icon-btn.add-btn .material-symbols-outlined { font-weight: 600; font-size: 28px; } 
 
         /* MODALLAR */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: 0.3s; z-index: 1500; padding: 15px; }
@@ -182,9 +183,9 @@
     <nav class="bottom-nav">
         <button class="nav-icon-btn" onclick="window.location.assign('index.html')"><span class="material-symbols-outlined">home</span></button>
         <button class="nav-icon-btn" onclick="window.openExplore()"><span class="material-symbols-outlined">search</span></button>
-        <button class="nav-icon-btn" style="background: var(--primary-gold); color: #000; width: 44px; height: 44px; border-radius: 12px; display: flex; justify-content: center; align-items: center;" onclick="openModal('addModal')"><span class="material-symbols-outlined" style="font-weight:600; font-size:28px;">add</span></button>
+        <button class="nav-icon-btn add-btn" onclick="openModal('addModal')"><span class="material-symbols-outlined">add</span></button>
         <button class="nav-icon-btn" onclick="window.openReels()"><span class="material-symbols-outlined">movie</span></button>
-        <button class="nav-icon-btn active"><span class="material-symbols-outlined">person</span></button>
+        <button class="nav-icon-btn active" onclick="window.scrollTo({top: 0, behavior: 'smooth'})"><span class="material-symbols-outlined">person</span></button>
     </nav>
 
     <div class="modal-overlay" id="settingsModal">
