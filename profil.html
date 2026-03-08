@@ -26,7 +26,6 @@
         body.theme-black { --primary-gold: #ffffff; --text-light: #e0e0e0; --glass-bg: rgba(10, 10, 10, 0.85); --glass-border: 1px solid rgba(255, 255, 255, 0.2); --body-bg: #000000; --ring-gradient: linear-gradient(45deg, #222, #fff, #555); }
         body.theme-black .profile-ring { box-shadow: 0 0 20px rgba(255,255,255,0.15); }
         body.theme-black .btn-premium { background: #fff; color: #000; text-shadow: none; box-shadow: 0 4px 15px rgba(255,255,255,0.2);}
-        body.theme-black .chat-msg.mine .chat-bubble { background: #fff; color: #000; }
         body.theme-gold { --primary-gold: #ffdf00; --gold-light: #f3e5ab; --text-light: #fff; --glass-bg: rgba(30, 25, 10, 0.7); --glass-border: 1px solid rgba(255, 223, 0, 0.45); --body-bg: radial-gradient(circle at top, #1a1400 0%, #050400 100%); --ring-gradient: linear-gradient(45deg, #ffdf00, #ffaa00, #f3e5ab, #ffdf00); --video-overlay: radial-gradient(circle, rgba(255, 223, 0, 0.1) 0%, transparent 70%); }
         body.theme-gold { background: var(--body-bg) !important; }
         body.theme-gold .profile-ring { box-shadow: 0 0 35px rgba(255, 223, 0, 0.4), 0 0 10px rgba(255, 223, 0, 0.2); position: relative; }
@@ -34,7 +33,6 @@
         body.theme-gold .header-username { text-shadow: 0 0 12px rgba(255, 223, 0, 0.5); }
         body.theme-gold .stat-item span { color: var(--primary-gold); text-shadow: 0 0 10px rgba(255, 223, 0, 0.35); transition: text-shadow 0.3s ease; }
         body.theme-gold .btn-premium { background: linear-gradient(135deg, #d4af37 0%, #ffdf00 50%, #d4af37 100%); color: #000; font-weight: 800; box-shadow: 0 5px 20px rgba(255, 223, 0, 0.35); transition: transform 0.2s ease, box-shadow 0.3s ease; }
-        body.theme-gold .chat-msg.mine .chat-bubble { background: linear-gradient(135deg, #d4af37, #ffdf00); color: #000; font-weight: 500;}
         body.theme-gold .grid-item video::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--video-overlay); pointer-events: none; }
         body { background: var(--body-bg); color: var(--text-light); overflow-x: hidden; padding-bottom: calc(70px + env(safe-area-inset-bottom)); overscroll-behavior-y: none; transition: background 0.5s ease;}
 
@@ -53,7 +51,7 @@
 
         .profile-container { max-width: 600px; margin: 0 auto; padding: 20px 0; }
         .profile-header-top { display: flex; align-items: center; justify-content: space-between; padding: 0 20px; margin-bottom: 20px; }
-        .profile-ring { width: 90px; height: 90px; border-radius: 50%; padding: 3px; background: var(--ring-gradient); transition: background 0.5s ease, box-shadow 0.5s ease; }
+        .profile-ring { width: 90px; height: 90px; border-radius: 50%; padding: 3px; background: var(--ring-gradient); transition: background 0.5s ease, box-shadow 0.5s ease; cursor:pointer;}
         .profile-avatar { width: 100%; height: 100%; border-radius: 50%; border: 3px solid var(--body-bg); background-size: cover; background-position: center; transition: border-color 0.5s ease; }
         .profile-stats { display: flex; gap: 15px; flex: 1; justify-content: space-evenly; margin-left: 20px; }
         .stat-item { display: flex; flex-direction: column; align-items: center; color: var(--text-light); font-size: 13px; transition: color 0.5s ease; }
@@ -94,6 +92,18 @@
         .post-detail-img-container { position: relative; width: 100%; height: 50vh; display: flex; justify-content: center; align-items: center; background: black; overflow: hidden; border-bottom: var(--glass-border); border-top: var(--glass-border);}
         .media-blur-bg { position: absolute; top: -10%; left: -10%; width: 120%; height: 120%; background-size: cover; background-position: center; filter: blur(35px) brightness(0.3); z-index: 0;}
 
+        /* YORUM VE INPUT (REELS & GONDERILER ICIN EKLENDI) */
+        .chat-input-container { padding: 15px 20px; background: rgba(20,20,25,0.9); border-top: var(--glass-border); display: flex; gap: 8px; align-items: center; z-index: 10; position:relative;}
+        .chat-input { flex: 1; background: rgba(255,255,255,0.1); border: none; color: white; padding: 14px 20px; border-radius: 30px; outline: none; font-size:14px;}
+
+        /* INSTAGRAM TARZI HİKAYE REAKSİYON CSS'LERİ */
+        .story-reaction-bar { position: absolute; bottom: calc(20px + env(safe-area-inset-bottom)); left: 0; width: 100%; padding: 0 15px; display: flex; gap: 10px; align-items: center; z-index: 30; }
+        .story-reply-input { flex: 1; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 12px 20px; border-radius: 30px; outline: none; font-size: 14px; backdrop-filter: blur(10px); }
+        .story-reply-input::placeholder { color: rgba(255,255,255,0.7); }
+        .story-react-btn { font-size: 24px; background: none; border: none; cursor: pointer; transition: transform 0.2s; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); display:flex; justify-content:center; align-items:center;}
+        .story-react-btn:active { transform: scale(1.2); }
+        .story-send-btn { background: white; width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: none; cursor: pointer; }
+
         /* REELS EKRANI */
         .reels-box { background: #000; width: 100%; height: 100dvh; position: relative; transform: translateY(100%); transition: 0.4s; overflow-y: scroll; scroll-snap-type: y mandatory; }
         .modal-overlay.active .reels-box { transform: translateY(0); }
@@ -106,10 +116,24 @@
         .reel-action-btn { background: none; border: none; color: white; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));}
         .reel-action-btn.liked .material-symbols-outlined { color: #ff3040; font-variation-settings: 'FILL' 1; }
 
-        /* KEŞFET */
+        /* KEŞFET VE DIGER PROFIL (EXPLORE) YAPI CSS'LERI */
         .search-input { flex: 1; background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; padding: 12px 20px; border-radius: 30px; outline: none; font-size: 14px;}
         .explore-users-container { display: none; max-height: 250px; overflow-y: auto; border-bottom: var(--glass-border); -webkit-overflow-scrolling: touch;}
         .explore-scroll-area { flex: 1; overflow-y: auto; display: flex; flex-direction: column; -webkit-overflow-scrolling: touch;}
+
+        .up-header-top { display: flex; align-items: center; padding: 20px 20px 15px; gap: 20px;}
+        .up-avatar-container { width: 86px; height: 86px; border-radius: 50%; padding: 3px; background: var(--ring-gradient); flex-shrink: 0; transition: background 0.5s;}
+        .up-avatar { width: 100%; height: 100%; border-radius: 50%; background-size: cover; background-position: center; border: 3px solid var(--body-bg); transition: border-color 0.5s; cursor: pointer;}
+        .up-stats { display: flex; flex: 1; justify-content: space-around; text-align: center; }
+        .up-stat-item { font-size: 12px; color: rgba(255,255,255,0.7); }
+        .up-stat-item span { display: block; font-size: 16px; font-weight: bold; color: white; margin-bottom: 2px;}
+        .up-bio-container { padding: 0 20px 15px; }
+        .up-name { font-size: 16px; font-weight: bold; color: white; margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
+        .up-bio { font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.4; white-space: pre-wrap; }
+        .up-actions { display: flex; gap: 10px; padding: 0 20px 20px; }
+        .btn-up-action { flex: 1; padding: 8px 0; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; border: none; transition: 0.2s;}
+        .btn-follow { background: transparent; border: 1px solid white; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-left: 5px;}
+        .btn-follow.following { background: rgba(255,255,255,0.2); border-color: transparent;}
 
         @media (max-width: 768px) {
             .modal-overlay { padding: 0; align-items: flex-end;}
@@ -138,7 +162,7 @@
 
     <main class="profile-container">
         <div class="profile-header-top">
-            <div class="profile-ring"><div class="profile-avatar" id="display-avatar"></div></div>
+            <div class="profile-ring" id="my-profile-ring"><div class="profile-avatar" id="display-avatar"></div></div>
             <div class="profile-stats">
                 <div class="stat-item"><span id="post-count">0</span>Gönderi</div>
                 <div class="stat-item"><span id="follower-count">0</span>Takipçi</div>
@@ -233,11 +257,14 @@
 
     <div class="modal-overlay" id="exploreModal"><div class="bottom-sheet"><div class="sheet-header" style="gap:10px;"><button class="header-icon" onclick="closeModal('exploreModal')"><span class="material-symbols-outlined">arrow_back</span></button><input type="text" class="search-input" id="search-input" placeholder="Kişi veya gönderi ara..." onkeyup="window.performSearch()"></div><div class="explore-users-container" id="explore-users-list"></div><div class="explore-scroll-area"><div class="grid-view" id="explore-grid"></div></div></div></div>
     <div class="modal-overlay" id="reelsModal" style="padding:0; background: #000;"><button class="close-btn" onclick="closeModal('reelsModal')" style="z-index: 1000; top: calc(20px + env(safe-area-inset-top)); right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button><div class="reels-box" id="reels-container"></div></div>
-    <div class="modal-overlay" id="userProfileModal"></div>
+    
+    <div class="modal-overlay" id="userProfileModal" style="z-index: 1550;"><div class="bottom-sheet"><div class="sheet-header"><button class="header-icon" onclick="closeModal('userProfileModal')"><span class="material-symbols-outlined">arrow_back</span></button><span id="up-title" style="font-weight:bold;">Profil</span></div><div class="up-header-top"><div class="up-avatar-container"><div class="up-avatar" id="up-avatar"></div></div><div class="up-stats"><div class="up-stat-item"><span id="up-post-count">0</span>Gönderi</div><div class="up-stat-item"><span id="up-follower-count">0</span>Takipçi</div><div class="up-stat-item"><span id="up-following-count">0</span>Takip</div></div></div><div class="up-bio-container"><div class="up-name" id="up-name">-</div><div class="up-bio" id="up-bio">-</div></div><div class="up-actions"><button id="btn-follow-user" class="btn-up-action btn-follow" onclick="window.toggleFollowDB(this)">Takip Et</button></div><div class="explore-scroll-area" style="border-top: var(--glass-border); padding-top: 2px;"><div class="grid-view" id="up-grid"></div></div></div></div>
+
+    <div class="modal-overlay" id="viewStoryModal" style="z-index: 1800; background:#000;"><div style="width:100%; height:100dvh; display:flex; flex-direction:column; position:relative;"><div style="width:100%; height:3px; background:rgba(255,255,255,0.3); position:absolute; top:calc(10px + env(safe-area-inset-top)); left:0; z-index:10; display:flex; padding:0 5px;"><div id="story-progress-fill" style="height:100%; background:white; width:0%; border-radius:2px;"></div></div><div style="position:absolute; top:calc(15px + env(safe-area-inset-top)); left:0; width:100%; padding:15px; display:flex; align-items:center; gap:10px; z-index:25; background:linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);"><div id="view-story-avatar" style="width:35px; height:35px; border-radius:50%; background-size:cover; border:2px solid var(--primary-gold);"></div><div id="view-story-username" style="color:white; font-weight:600; font-size:14px; text-shadow:0 1px 3px rgba(0,0,0,0.8);"></div><button class="header-icon" style="margin-left:auto;" onclick="closeModal('viewStoryModal')"><span class="material-symbols-outlined">close</span></button></div><div style="flex:1; position:relative; overflow:hidden; display:flex; justify-content:center; align-items:center; background:#000;"><div class="media-blur-bg" id="view-story-blur"></div><div id="view-story-media-container" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center; position:relative; z-index:1;"></div><div style="position:absolute; top:10%; left:0; width:30%; height:75%; z-index:5;" onclick="window.prevStory()"></div><div style="position:absolute; top:10%; right:0; width:70%; height:75%; z-index:5;" onclick="window.nextStory()"></div></div><div class="story-reaction-bar" id="story-reaction-bar"><input type="text" id="story-reply-input" class="story-reply-input" placeholder="Mesaj gönder..."><button class="story-react-btn" onclick="window.sendStoryReaction('🔥')">🔥</button><button class="story-react-btn" onclick="window.sendStoryReaction('❤️')">❤️</button><button class="story-send-btn" onclick="window.sendStoryReaction('text')"><span class="material-symbols-outlined" style="color:black; font-size:20px;">send</span></button></div><div id="btn-delete-story" style="position:absolute; bottom:80px; left:50%; transform:translateX(-50%); z-index:20; display:none;"><button onclick="window.deleteStoryDB()" style="background:rgba(255,71,87,0.8); color:white; border:none; padding:10px 20px; border-radius:20px; font-weight:bold; cursor:pointer;"><span class="material-symbols-outlined" style="vertical-align:middle; font-size:18px;">delete</span> Bu Hikayeyi Sil</button></div></div></div>
 
     <script>
         function openModal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
-        function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = 'auto'; const modal = document.getElementById(id); if(modal) { modal.querySelectorAll('video').forEach(vid => { vid.pause(); }); } }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = 'auto'; const modal = document.getElementById(id); if(modal) { modal.querySelectorAll('video').forEach(vid => { vid.pause(); }); } if(id === 'viewStoryModal') { clearTimeout(window.storyTimeout); } }
         document.querySelectorAll('.modal-overlay').forEach(m => { m.addEventListener('click', (e) => { if(e.target === m && m.id !== 'splash-screen') closeModal(m.id); }); });
         
         window.openExplore = () => { openModal('exploreModal'); if(window.renderExploreGrid) window.renderExploreGrid(); }
@@ -257,7 +284,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, getDocs, query, doc, getDoc, setDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, query, where, doc, getDoc, setDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = { apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0", authDomain: "swinder-79534.firebaseapp.com", projectId: "swinder-79534", storageBucket: "swinder-79534.firebasestorage.app", messagingSenderId: "704644873549", appId: "1:704644873549:web:d95f561ec912b94cf2cb04" };
         const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
@@ -272,6 +299,9 @@
         const adminEmail = "kcagatay239@gmail.com"; 
         let currentUserId = null; let isAdmin = false; let currentUserProfile = null; window.activeInteractPostId = null; window.activeShareUrl = null;
 
+        // HİKAYE DEĞİŞKENLERİ
+        window.activeInteractStoryId = null; window.activeStoryOwner = null; window.currentStoryGroup = []; window.currentStoryIndex = 0; window.storyTimeout = null;
+
         window.logoutApp = async function() { try { await signOut(auth); window.location.href = "index.html"; } catch(e){} }
 
         window.loadAllData = async function() {
@@ -283,6 +313,30 @@
                 window.globalPosts.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
             } catch(e) {}
         }
+
+        // HİKAYELERİ OYNATMA VE REAKSİYON İŞLEMLERİ
+        window.openUserStory = async function(username, avatarUrl) {
+            try {
+                const snap = await getDocs(query(collection(db, "hikayeler"), where("username", "==", username)));
+                if(snap.empty) {
+                    const el = document.getElementById('display-avatar');
+                    if(el) { el.style.borderColor = 'rgba(255,255,255,0.3)'; setTimeout(()=> el.style.borderColor = 'var(--body-bg)', 400); }
+                    return;
+                }
+                let storyDocs = [];
+                snap.forEach(doc => storyDocs.push({id: doc.id, url: doc.data().imageUrl, createdAt: doc.data().createdAt}));
+                storyDocs.sort((a,b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0));
+                window.viewGroupedStory(encodeURIComponent(username), encodeURIComponent(avatarUrl), encodeURIComponent(JSON.stringify(storyDocs)));
+            } catch(e) {}
+        }
+
+        window.viewGroupedStory = function(encodedUsername, encodedAvatar, storiesJson) { window.activeStoryOwner = decodeURIComponent(encodedUsername); const avatarUrl = decodeURIComponent(encodedAvatar); window.currentStoryGroup = JSON.parse(decodeURIComponent(storiesJson)); window.currentStoryIndex = 0; const isP = (window.globalUsersByName[window.activeStoryOwner]?.isPremium || window.activeStoryOwner.toLowerCase().includes('çağatay')) ? instaGoldTick : ''; document.getElementById('view-story-username').innerHTML = window.activeStoryOwner + isP; document.getElementById('view-story-avatar').style.backgroundImage = `url('${avatarUrl.replace(/'/g, "\\'")}')`; const isAdminUser = auth.currentUser && auth.currentUser.email === adminEmail; const isMine = auth.currentUser && auth.currentUser.displayName === window.activeStoryOwner; const bd = document.getElementById('btn-delete-story'); if(bd) bd.style.display = (isAdminUser || isMine) ? 'block' : 'none'; const srb = document.getElementById('story-reaction-bar'); if(srb) srb.style.display = isMine ? 'none' : 'flex'; openModal('viewStoryModal'); window.playCurrentStory(); }
+        window.playCurrentStory = function() { if(window.currentStoryIndex >= window.currentStoryGroup.length) { closeModal('viewStoryModal'); return; } const currentObj = window.currentStoryGroup[window.currentStoryIndex]; window.activeInteractStoryId = currentObj.id; const url = currentObj.url; const container = document.getElementById('view-story-media-container'); if(!container) return; if(window.isVideo(url)) { container.innerHTML = `<video id="story-vid" src="${url}" preload="auto" autoplay playsinline style="max-width:100%; max-height:100%; object-fit:contain; position:relative; z-index:1;"></video>`; document.getElementById('view-story-blur').style.backgroundImage = 'none'; const vid = document.getElementById('story-vid'); if(vid) vid.onloadedmetadata = () => { window.startStoryTimer(vid.duration * 1000 || 5000); }; } else { container.innerHTML = `<img src="${url}" loading="lazy" decoding="async" style="max-width:100%; max-height:100%; object-fit:contain; position:relative; z-index:1;" />`; document.getElementById('view-story-blur').style.backgroundImage = `url('${url.replace(/'/g, "\\'")}')`; window.startStoryTimer(5000); } }
+        window.startStoryTimer = function(duration) { const progress = document.getElementById('story-progress-fill'); if(progress){ progress.style.transition = 'none'; progress.style.width = '0%'; setTimeout(() => { progress.style.transition = `width ${duration/1000}s linear`; progress.style.width = '100%'; }, 50); } clearTimeout(window.storyTimeout); window.storyTimeout = setTimeout(() => { window.nextStory(); }, duration); }
+        window.nextStory = function() { window.currentStoryIndex++; window.playCurrentStory(); }
+        window.prevStory = function() { if(window.currentStoryIndex > 0) { window.currentStoryIndex--; window.playCurrentStory(); } else { window.playCurrentStory(); } }
+        window.deleteStoryDB = async function() { if(!window.activeInteractStoryId) return; if(confirm("Silinsin mi?")) { try { await deleteDoc(doc(db, "hikayeler", window.activeInteractStoryId)); closeModal('viewStoryModal'); }catch(e){} } }
+        window.sendStoryReaction = async function(reaction) { if(!window.activeStoryOwner || !auth.currentUser) return; let msg = reaction; if(reaction === 'text') { const input = document.getElementById('story-reply-input'); if(!input) return; msg = input.value.trim(); if(!msg) return; input.value = ""; } try { await addDoc(collection(db, "bildirimler"), { to: window.activeStoryOwner, from: auth.currentUser.displayName, text: `hikayene yanıt verdi: ${msg}`, createdAt: new Date() }); alert("Yanıt gönderildi!"); closeModal('viewStoryModal'); } catch(e){} }
 
         window.renderReels = function() {
             const rc = document.getElementById('reels-container'); if(!rc) return; rc.innerHTML = ''; 
@@ -322,7 +376,6 @@
             myPosts.forEach(p => { const dataStr = safeEncode(JSON.stringify(p)); const isVid = window.isVideo(p.imageUrl); const bgUrl = isVid ? window.getVideoThumbnail(p.imageUrl) : p.imageUrl; const iconHtml = isVid ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : ''; grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${bgUrl.replace(/'/g, "\\'")}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')">${iconHtml}</div>`); });
         }
 
-        // 🔥 GÖNDERİ DETAY EKRANI (INSTAGRAM UI + TAKİP ET BUTONU) 🔥
         window.openPostDetail = function(postId, dataStr) {
             const data = JSON.parse(decodeURIComponent(dataStr)); window.activeInteractPostId = postId; window.activeInteractOwner = data.username; window.activeShareUrl = data.imageUrl; 
             
@@ -333,14 +386,12 @@
             const isP = (pInfo.isPremium || (data.username || '').toLowerCase().includes('çağatay')) ? instaGoldTick : ''; 
             const avatarUrl = pInfo.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100';
 
-            // Üst Kullanıcı Şeridi (Insta Style)
             const headerAvatar = document.getElementById('pd-header-avatar');
             if(headerAvatar) { headerAvatar.style.backgroundImage = `url('${avatarUrl.replace(/'/g, "\\'")}')`; headerAvatar.onclick = () => { closeModal('postDetailModal'); window.openUserProfile(data.username); }; }
             
             const headerName = document.getElementById('pd-header-username');
             if(headerName) { headerName.innerHTML = data.username + isP; headerName.onclick = () => { closeModal('postDetailModal'); window.openUserProfile(data.username); }; }
 
-            // Hızlı Takip Et (Inline Follow) Butonu
             const inlineFollowBtn = document.getElementById('pd-btn-inline-follow');
             if(inlineFollowBtn && auth.currentUser) {
                 if(auth.currentUser.displayName === data.username) {
@@ -358,7 +409,6 @@
                 }
             }
 
-            // Alt Bilgiler
             const pu = document.getElementById('pd-user'); if(pu) { pu.dataset.user = data.username; pu.innerHTML = data.username + isP; pu.onclick = () => { closeModal('postDetailModal'); window.openUserProfile(data.username); }; } 
             const pc = document.getElementById('pd-caption'); if(pc) pc.innerText = data.caption || ''; 
             const pl = document.getElementById('pd-likes'); if(pl) pl.innerText = data.likesCount || 0;
@@ -369,7 +419,6 @@
             openModal('postDetailModal');
         }
 
-        // 🔥 HIZLI TAKİP ET FONKSİYONU 🔥
         window.toggleFollowInline = async function(btnElement) {
             const user = auth.currentUser; if(!user) return;
             const targetUid = btnElement.dataset.targetUid; if(!targetUid) return;
@@ -408,7 +457,12 @@
 
         window.openUserProfile = function(username) {
             let pInfo = window.globalUsersByName[username] || {}; const isP = (pInfo.isPremium || (username || '').toLowerCase().includes('çağatay')) ? instaGoldTick : ''; 
-            const ut = document.getElementById('up-title'); if(ut) ut.innerText = username; const un = document.getElementById('up-name'); if(un) un.innerHTML = `${username} ${isP}`; const ub = document.getElementById('up-bio'); if(ub) ub.innerText = pInfo.bio || 'Swinder VIP Üyesi'; const ua = document.getElementById('up-avatar'); if(ua) ua.style.backgroundImage = pInfo.avatar ? `url('${pInfo.avatar.replace(/'/g, "\\'")}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=200')`;
+            const ut = document.getElementById('up-title'); if(ut) ut.innerText = username; const un = document.getElementById('up-name'); if(un) un.innerHTML = `${username} ${isP}`; const ub = document.getElementById('up-bio'); if(ub) ub.innerText = pInfo.bio || 'Swinder VIP Üyesi'; 
+            const ua = document.getElementById('up-avatar'); 
+            if(ua) {
+                ua.style.backgroundImage = pInfo.avatar ? `url('${pInfo.avatar.replace(/'/g, "\\'")}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=200')`;
+                ua.onclick = () => window.openUserStory(username, pInfo.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=200');
+            }
             const userPosts = window.globalPosts.filter(p => p.username === username); const upc = document.getElementById('up-post-count'); if(upc) upc.innerText = userPosts.length; const ufc = document.getElementById('up-follower-count'); if(ufc) ufc.innerText = (pInfo.followers || []).length; const ufic = document.getElementById('up-following-count'); if(ufic) ufic.innerText = (pInfo.following || []).length;
             const btnFollow = document.getElementById('btn-follow-user'); if(btnFollow) { if(auth.currentUser && auth.currentUser.displayName === username) { btnFollow.style.display = 'none'; } else { btnFollow.style.display = 'block'; if(currentUserProfile && currentUserProfile.following && currentUserProfile.following.includes(pInfo.uid)) { btnFollow.classList.add('following'); btnFollow.innerText="Takibi Bırak"; btnFollow.style.background="rgba(255,255,255,0.15)"; btnFollow.style.color="white"; } else { btnFollow.classList.remove('following'); btnFollow.innerText="Takip Et"; btnFollow.style.background="var(--primary-gold)"; btnFollow.style.color="black"; } } }
             const upGrid = document.getElementById('up-grid'); if(upGrid) { upGrid.innerHTML = ''; if(userPosts.length === 0) upGrid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 30px; font-size:13px;">Gönderi yok.</div>'; userPosts.forEach(p => { const dataStr = safeEncode(JSON.stringify(p)); const isVid = window.isVideo(p.imageUrl); const bgUrl = isVid ? window.getVideoThumbnail(p.imageUrl) : p.imageUrl; const iconHtml = isVid ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : ''; upGrid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${bgUrl.replace(/'/g, "\\'")}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')">${iconHtml}</div>`); }); }
@@ -455,7 +509,14 @@
                         const bn = document.getElementById('bio-name'); if(bn) bn.innerHTML = safeName + isP; 
                         
                         const eb = document.getElementById('edit-birthdate'); if(eb) eb.value = currentUserProfile.birthdate || '';
-                        const da = document.getElementById('display-avatar'); if(da && currentUserProfile.avatar) da.style.backgroundImage = `url('${currentUserProfile.avatar}')`;
+                        
+                        const da = document.getElementById('display-avatar'); 
+                        if(da && currentUserProfile.avatar) {
+                            da.style.backgroundImage = `url('${currentUserProfile.avatar}')`;
+                            const ring = document.getElementById('my-profile-ring');
+                            if(ring) ring.onclick = () => window.openUserStory(safeName, currentUserProfile.avatar);
+                        }
+                        
                         const bt = document.getElementById('bio-text'); if(bt) bt.innerText = currentUserProfile.bio || '';
                         const ebio = document.getElementById('edit-bio'); if(ebio) ebio.value = currentUserProfile.bio || '';
                         const fc = document.getElementById('follower-count'); if(fc) fc.innerText = (currentUserProfile.followers || []).length;
