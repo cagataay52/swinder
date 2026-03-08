@@ -32,8 +32,8 @@
         body.theme-gold .story-ring { box-shadow: 0 0 20px rgba(255, 223, 0, 0.3); }
         body.theme-gold .btn-premium { background: linear-gradient(135deg, #d4af37 0%, #ffdf00 50%, #d4af37 100%); color: #000; font-weight: 800; box-shadow: 0 5px 20px rgba(255, 223, 0, 0.35); }
         body.theme-gold .chat-msg.mine .chat-bubble { background: linear-gradient(135deg, #d4af37, #ffdf00); color: #000; font-weight: 500;}
-        body { background: var(--body-bg); color: var(--text-light); overflow: hidden; overscroll-behavior-y: none; transition: background 0.5s;}
-
+        body { background: var(--body-bg); color: var(--text-light); width: 100vw; height: 100vh; height: 100dvh; position: fixed; top: 0; left: 0; overflow: hidden; overscroll-behavior-y: none; transition: background 0.5s;}
+        
         #splash-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #050505; z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease, visibility 0.5s; }
         .splash-logo { font-family: 'Grand Hotel', cursive; font-size: 70px; color: var(--primary-gold); animation: splashPulse 1.5s infinite alternate; text-shadow: 0 0 20px rgba(212,175,55,0.4); }
         @keyframes splashPulse { 0% { transform: scale(1); opacity: 0.8;} 100% { transform: scale(1.1); opacity: 1;} }
@@ -75,13 +75,13 @@
         .action-btn { width: 60px; height: 60px; border-radius: 50%; background: var(--glass-bg); backdrop-filter: blur(15px); border: var(--glass-border); display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s;}
         .btn-dislike { color: #ff4757; } .btn-superlike { width: 50px; height: 50px; color: #3498db; } .btn-like { color: #2ecc71; }
 
-        .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 10, 12, 0.95); backdrop-filter: blur(20px); padding: 10px 10px max(10px, env(safe-area-inset-bottom)); border-top: 1px solid rgba(255,255,255,0.08); z-index: 9999; transition: border-color 0.5s ease; }
-        .nav-icon-btn { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; display: flex; align-items: center; justify-content: center; height: 45px; width: 45px; -webkit-tap-highlight-color: transparent;}
+        .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(20px); padding: 5px 10px calc(5px + env(safe-area-inset-bottom)); border-top: 1px solid rgba(255,255,255,0.08); z-index: 900; transition: border-color 0.5s ease; }
+        .nav-icon-btn { background: none; border: none; color: rgba(255,255,255,0.45); cursor: pointer; display: flex; align-items: center; justify-content: center; height: 40px; width: 40px; -webkit-tap-highlight-color: transparent;}
         .nav-icon-btn .material-symbols-outlined { font-size: 28px; transition: transform 0.2s, color 0.2s; }
         .nav-icon-btn.active { color: white; }
-        .nav-icon-btn.active .material-symbols-outlined { font-variation-settings: 'FILL' 1; transform: scale(1.1); }
-        .nav-icon-btn.add-btn { background: var(--ring-gradient); color: #000; width: 36px; height: 36px; border-radius: 12px; transition: background 0.5s ease; }
-        .nav-icon-btn.add-btn .material-symbols-outlined { font-weight: 600; font-size: 24px; transform: none !important;}
+        .nav-icon-btn.active .material-symbols-outlined { font-variation-settings: 'FILL' 1; transform: scale(1.05); }
+        .nav-icon-btn.add-btn { background: var(--ring-gradient); color: #000; width: 30px; height: 30px; border-radius: 10px; transition: background 0.5s ease; }
+        .nav-icon-btn.add-btn .material-symbols-outlined { font-weight: 600; font-size: 22px; transform: none !important;}
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: 0.3s; z-index: 1500; padding: 15px; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
