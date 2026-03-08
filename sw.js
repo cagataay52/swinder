@@ -1,5 +1,5 @@
-// 🔥 SWINDER VIP - AKILLI ÖNBELLEK MOTORU (V21) 🔥
-const CACHE_NAME = 'swinder-vip-v25';
+// 🔥 SWINDER VIP - AKILLI ÖNBELLEK MOTORU (V26 - GÜNCEL) 🔥
+const CACHE_NAME = 'swinder-vip-v26'; // Versiyon artırıldı! Eski inatçı önbellek silinecek.
 
 // Sadece en temel çerçeveyi hafızaya al (Hızlı açılış için)
 const ASSETS_TO_CACHE = [
@@ -7,7 +7,6 @@ const ASSETS_TO_CACHE = [
   '/index.html',
   '/profil.html',
   '/manifest.json'
-  // Eğer logolarını eklediysen buraya '/icon-192x192.png', '/icon-512x512.png' de yazabilirsin.
 ];
 
 // 1. KURULUM AŞAMASI (INSTALL)
@@ -17,7 +16,7 @@ self.addEventListener('install', (event) => {
   
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[SW] Temel dosyalar önbelleğe alınıyor...');
+      console.log('[SW] Temel dosyalar önbelleğe alınıyor... v26');
       return cache.addAll(ASSETS_TO_CACHE);
     }).catch(err => console.log('[SW] Kurulum Hatası:', err))
   );
@@ -29,7 +28,7 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cache) => {
-          // İsim V21 değilse (yani eskiyse) acımadan sil
+          // İsim V26 değilse (yani eskiyse) acımadan sil
           if (cache !== CACHE_NAME) {
             console.log('[SW] Eski önbellek siliniyor:', cache);
             return caches.delete(cache);
@@ -44,28 +43,46 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // 🛑 KURAL 1: FIREBASE VE CLOUDINARY'Yİ ASLA ÖNBELLEĞE ALMA (Daima Canlı Çek)
+  // 🛑 KURAL 1: FIREBASE VE HARİCİ APİ'LERİ ASLA ÖNBELLEĞE ALMA (Daima Canlı Çek)
   if (url.origin.includes('firestore.googleapis.com') || 
       url.origin.includes('firebase') || 
       url.origin.includes('cloudinary.com') ||
-      url.origin.includes('unsplash.com')) {
-      return; // SW karışmaz, doğrudan internetten çeker. Mesajların ve videoların anında düşmesini sağlar.
+      url.origin.includes('unsplash.com') ||
+      url.pathname.includes('.mp4')) { // Videoları da cache'leme, telefonu dondurur.
+      return; 
   }
 
-  // 🌍 KURAL 2: HTML DOSYALARI İÇİN "ÖNCE İNTERNET" (Network First)
-  // Kullanıcı siteye girdiğinde önce sunucuya bakar yeni kod var mı diye. Yoksa hafızadakini açar.
+  // 🌍 KURAL 2: HTML DOSYALARI İÇİN KESİN CANLI VERİ (Network First + No-Cache)
+  // Kullanıcı siteye girdiğinde eski hafızayı tamamen yok sayıp en güncel kodları çeker.
   if (event.request.mode === 'navigate' || event.request.headers.get('accept').includes('text/html')) {
       event.respondWith(
-          fetch(event.request).catch(() => caches.match(event.request))
+          // cache: 'no-cache' -> Safari'ye "Bana disktekini değil, kesinlikle sunucudakini ver" diyoruz!
+          fetch(event.request.url, { cache: 'no-cache' }) 
+          .then(response => {
+              // İnternetten en güncel (yeni) kod başarıyla geldiyse, bunu hafızaya (SW) da kaydet
+              const responseClone = response.clone();
+              caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
+              return response;
+          })
+          .catch(() => {
+              // İnternet tamamen kesikse mecbur hafızadakini (eskiyi) ver
+              return caches.match(event.request);
+          })
       );
       return;
   }
 
   // ⚡ KURAL 3: DİĞER HER ŞEY İÇİN "ÖNCE ÖNBELLEK" (Cache First)
-  // İkonlar, fontlar vb. anında hafızadan açılır, internet harcamaz.
+  // CSS, JS (eğer harici varsa), İkonlar anında hafızadan açılır.
   event.respondWith(
     caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
+      // Önbellekte varsa ver, yoksa internetten çekip önbelleğe ekle
+      return response || fetch(event.request).then(fetchRes => {
+          return caches.open(CACHE_NAME).then(cache => {
+              cache.put(event.request, fetchRes.clone());
+              return fetchRes;
+          });
+      });
     })
   );
 });

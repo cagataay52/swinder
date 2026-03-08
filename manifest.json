@@ -2,7 +2,7 @@
   "name": "Swinder VIP",
   "short_name": "Swinder",
   "description": "Elit, gizli ve premium dijital sosyal kulüp.",
-  "start_url": "./index.html",
+  "start_url": "./index.html?v=2",
   "display": "standalone",
   "background_color": "#050505",
   "theme_color": "#050505",
@@ -29,7 +29,7 @@
       "name": "Yeni Gönderi Paylaş",
       "short_name": "Yeni Gönderi",
       "description": "Hızlıca yeni bir fotoğraf veya video paylaş.",
-      "url": "./index.html",
+      "url": "./index.html?action=new_post",
       "icons": [
         {
           "src": "icon-192x192.png",
@@ -41,7 +41,7 @@
       "name": "Mesajlar",
       "short_name": "DM Kutusu",
       "description": "Sohbetlerine hızlıca göz at.",
-      "url": "./index.html",
+      "url": "./index.html?action=messages",
       "icons": [
         {
           "src": "icon-192x192.png",
