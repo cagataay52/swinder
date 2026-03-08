@@ -368,7 +368,6 @@
     <div class="modal-overlay" id="shareModal" style="z-index: 1750;"><div class="bottom-sheet" style="height: 60vh;"><div class="sheet-header"><button class="header-icon" onclick="closeModal('shareModal')"><span class="material-symbols-outlined">close</span></button> Kime Gönderilsin?</div><div style="flex:1; overflow-y:auto;" id="share-list-container"></div></div></div>
 
     <script>
-        // ZAMAN HESAPLAMA FONKSİYONU EKLENDİ
         window.timeAgo = function(timeMs) {
             if(!timeMs) return "";
             const seconds = Math.floor((Date.now() - timeMs) / 1000);
@@ -394,10 +393,19 @@
         window.switchAuthTab = function(tab) { document.getElementById('tab-login').classList.remove('active'); document.getElementById('tab-register').classList.remove('active'); document.getElementById('tab-' + tab).classList.add('active'); document.getElementById('form-login').classList.remove('active'); document.getElementById('form-register').classList.remove('active'); document.getElementById('form-' + tab).classList.add('active'); }
         window.openExplore = () => { openModal('exploreModal'); if(window.renderExploreGrid) window.renderExploreGrid(); }
         window.openReels = () => { openModal('reelsModal'); if(window.renderReels) window.renderReels(); }
-        window.openNotifications = () => { openModal('notificationsModal'); const dot = document.getElementById('noti-dot'); if(dot) dot.style.display='none'; if(window.loadNotifications) window.loadNotifications(); }
         window.openMessages = () => { openModal('messagesModal'); if(window.loadDMs) window.loadDMs(); }
         window.closeMatch = () => { const m = document.getElementById('matchOverlay'); if(m) m.classList.remove('active'); }
         window.openShareModal = function() { openModal('shareModal'); const c = document.getElementById('share-list-container'); if(c) c.innerHTML = '<div style="padding:30px; text-align:center; color:gray;">Bağlantı kopyalandı!</div>'; if(window.activeShareUrl) navigator.clipboard.writeText(window.activeShareUrl).catch(e=>{}); }
+
+        // BİLDİRİMLERİ AÇMA VE PUSH İZNİ İSTEME
+        window.openNotifications = () => { 
+            openModal('notificationsModal'); 
+            const dot = document.getElementById('noti-dot'); if(dot) dot.style.display='none'; 
+            if ("Notification" in window && Notification.permission !== "granted" && Notification.permission !== "denied") {
+                Notification.requestPermission();
+            }
+            if(window.loadNotifications) window.loadNotifications(); 
+        }
 
         function hideSplash() { sessionStorage.setItem("swinder_splashed", "true"); const spl = document.getElementById('splash-screen'); if(spl) { spl.style.opacity = '0'; setTimeout(() => spl.style.display = 'none', 400); } }
         setTimeout(() => { hideSplash(); }, 2000);
@@ -430,7 +438,19 @@
 
         window.globalUsersById = {}; window.globalUsersByName = {}; window.globalPosts = []; let currentUserProfile = null;
         window.activeInteractPostId = null; window.activeInteractOwner = null; window.activeInteractStoryId = null; window.activeStoryOwner = null; window.activeShareUrl = null; window.activeChatId = null; let messagesUnsubscribe = null; window.chatDocUnsubscribe = null;
-        window.activeReplyTo = null;
+        window.activeReplyTo = null; window.activeChatPartnerName = null;
+
+        // PUSH NOTIFICATION GÖNDERME FONKSİYONU
+        window.sendSystemPush = function(title, body) {
+            if (!("Notification" in window)) return;
+            if (Notification.permission === "granted") {
+                try {
+                    if(navigator.serviceWorker && navigator.serviceWorker.controller) {
+                        navigator.serviceWorker.ready.then(function(reg) { reg.showNotification(title, { body: body, vibrate: [200, 100, 200] }); });
+                    } else { new Notification(title, { body: body }); }
+                } catch(e) {}
+            }
+        }
 
         window.loadAllData = async function() {
             try {
@@ -442,7 +462,6 @@
             } catch(err) {}
         }
 
-        // GÖNDERİ DÜZENLEME FONKSİYONU EKLENDİ
         window.editPostDB = async function() {
             if(!window.activeInteractPostId) return;
             const pdCaption = document.getElementById('pd-caption');
@@ -461,7 +480,6 @@
             }
         }
 
-        // GÖNDERİ SİLME FONKSİYONU EKLENDİ
         window.deletePostDB = async function() {
             if(!window.activeInteractPostId) return;
             if(confirm("Bu gönderiyi silmek istediğine emin misin? Bu işlem geri alınamaz.")) {
@@ -495,7 +513,6 @@
         window.nextStory = function() { window.currentStoryIndex++; window.playCurrentStory(); }
         window.prevStory = function() { if(window.currentStoryIndex > 0) { window.currentStoryIndex--; window.playCurrentStory(); } else { window.playCurrentStory(); } }
         window.deleteStoryDB = async function() { if(!window.activeInteractStoryId) return; if(confirm("Silinsin mi?")) { try { await deleteDoc(doc(db, "hikayeler", window.activeInteractStoryId)); closeModal('viewStoryModal'); if(window.loadStories) window.loadStories(); }catch(e){} } }
-        
         window.sendStoryReaction = async function(reaction) { if(!window.activeStoryOwner || !auth.currentUser) return; let msg = reaction; if(reaction === 'text') { const input = document.getElementById('story-reply-input'); if(!input) return; msg = input.value.trim(); if(!msg) return; input.value = ""; } try { await addDoc(collection(db, "bildirimler"), { to: window.activeStoryOwner, from: auth.currentUser.displayName, text: `hikayene yanıt verdi: ${msg}`, createdAt: new Date() }); alert("Yanıt gönderildi!"); closeModal('viewStoryModal'); } catch(e){} }
 
         window.loadStories = async function() {
@@ -608,7 +625,6 @@
             const headerName = document.getElementById('pd-header-username');
             if(headerName) { headerName.innerHTML = data.username + isP; headerName.onclick = () => { closeModal('postDetailModal'); window.openUserProfile(data.username); }; }
 
-            // ZAMAN DAMGASI
             const timeMs = data.createdAt?.seconds ? data.createdAt.seconds * 1000 : Date.now();
             const ptEl = document.getElementById('pd-time');
             if(ptEl) ptEl.innerText = window.timeAgo(timeMs);
@@ -674,7 +690,18 @@
             let comments = []; snap.forEach(d => comments.push(d.data())); comments.sort((a,b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0));
             comments.forEach(data => { const avatar = window.globalUsersByName[data.username]?.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100'; list.insertAdjacentHTML('beforeend', `<div class="list-item" style="padding:0; border:none;"><div class="list-avatar" style="background-image:url('${avatar}'); width:36px; height:36px;"></div><div class="list-text"><strong style="color:var(--primary-gold);">${data.username}</strong> <span style="color:white;">${data.text}</span></div></div>`); });
         }
-        window.submitComment = async function() { const user = auth.currentUser; if(!user || !window.activeInteractPostId) return; const text = document.getElementById('new-comment-input').value.trim(); if(!text) return; document.getElementById('new-comment-input').value = ""; await addDoc(collection(db, `gonderiler/${window.activeInteractPostId}/yorumlar`), { username: user.displayName, text: text, createdAt: new Date() }); window.openCommentsDB(window.activeInteractPostId); }
+        
+        // YORUM YAPINCA BİLDİRİM GÖNDERME EKLENDİ
+        window.submitComment = async function() { 
+            const user = auth.currentUser; if(!user || !window.activeInteractPostId) return; 
+            const text = document.getElementById('new-comment-input').value.trim(); if(!text) return; 
+            document.getElementById('new-comment-input').value = ""; 
+            await addDoc(collection(db, `gonderiler/${window.activeInteractPostId}/yorumlar`), { username: user.displayName, text: text, createdAt: new Date() }); 
+            window.openCommentsDB(window.activeInteractPostId); 
+            if(window.activeInteractOwner && window.activeInteractOwner !== user.displayName) {
+                await addDoc(collection(db, "bildirimler"), { to: window.activeInteractOwner, from: user.displayName, text: `gönderine yorum yaptı: ${text.length > 20 ? text.substring(0,20)+'...' : text}`, createdAt: new Date() });
+            }
+        }
 
         window.openUserProfile = function(username) {
             let pInfo = window.globalUsersByName[username] || {}; const isP = (pInfo.isPremium || (username || '').toLowerCase().includes('çağatay')) ? instaGoldTick : ''; 
@@ -702,11 +729,50 @@
         let chatInteractionsSetup = false;
         function setupChatInteractions() { if(chatInteractionsSetup) return; const chatArea = document.getElementById('chat-messages'); if(!chatArea) return; let lastTap = 0; chatArea.addEventListener('touchend', function(e) { const bubble = e.target.closest('.chat-bubble'); if(!bubble) return; const tapLength = new Date().getTime() - lastTap; if(tapLength < 300 && tapLength > 0) { const msgDiv = bubble.closest('.chat-msg'); if(msgDiv && msgDiv.dataset.id) { window.likeMessageDB(msgDiv.dataset.id); e.preventDefault(); } } lastTap = new Date().getTime(); }); chatArea.addEventListener('dblclick', function(e) { const bubble = e.target.closest('.chat-bubble'); if(!bubble) return; const msgDiv = bubble.closest('.chat-msg'); if(msgDiv && msgDiv.dataset.id) window.likeMessageDB(msgDiv.dataset.id); }); let startX = 0, currentX = 0, activeSwipeMsg = null; chatArea.addEventListener('touchstart', e => { const msg = e.target.closest('.chat-msg'); if(!msg) return; activeSwipeMsg = msg; startX = e.touches[0].clientX; msg.style.transition = 'none'; }, {passive: true}); chatArea.addEventListener('touchmove', e => { if(!activeSwipeMsg) return; currentX = e.touches[0].clientX - startX; if(currentX > 0 && currentX < 100) activeSwipeMsg.style.transform = `translateX(${currentX}px)`; }, {passive: true}); chatArea.addEventListener('touchend', e => { if(!activeSwipeMsg) return; activeSwipeMsg.style.transition = 'transform 0.2s ease'; activeSwipeMsg.style.transform = `translateX(0px)`; if(currentX > 50) { const id = activeSwipeMsg.dataset.id; const text = activeSwipeMsg.dataset.text; const sender = activeSwipeMsg.dataset.sender; if(id) window.startReply(id, sender, text); } activeSwipeMsg = null; startX = 0; currentX = 0; }); chatInteractionsSetup = true; }
 
-        window.openChatRoom = function(chatId, partnerName, partnerImg, partnerUid) { closeModal('messagesModal'); window.activeChatId = chatId; window.cancelReply(); const cn = document.getElementById('chat-header-name'); if(cn) cn.innerText = partnerName; const ca = document.getElementById('chat-header-avatar'); if(ca) ca.style.backgroundImage = `url('${partnerImg.replace(/'/g, "\\'")}')`; openModal('chatRoomModal'); const chatArea = document.getElementById('chat-messages'); if(!chatArea) return; chatArea.innerHTML = '<div style="color:gray; text-align:center; margin-top:20px;">Mesajlar yükleniyor...</div>'; setupChatInteractions(); if(window.chatDocUnsubscribe) { window.chatDocUnsubscribe(); window.chatDocUnsubscribe = null; } if(messagesUnsubscribe) messagesUnsubscribe(); try { window.chatDocUnsubscribe = onSnapshot(doc(db, "eslesmeler", chatId), (docSnap) => { if(docSnap.exists()) { const data = docSnap.data(); chatArea.className = 'chat-area theme-' + (data.chatTheme || 'default'); const typingInfo = data.typing || {}; let isThemTyping = false; const myUid = auth.currentUser ? auth.currentUser.uid : null; for(let key in typingInfo) { if(key !== myUid && typingInfo[key] > Date.now() - 3000) isThemTyping = true; } const existingTyping = document.getElementById('typing-indicator'); if(isThemTyping && !existingTyping) { chatArea.insertAdjacentHTML('beforeend', `<div id="typing-indicator" class="chat-msg theirs"><div class="chat-bubble typing-indicator-box"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`); chatArea.scrollTop = chatArea.scrollHeight; } else if(!isThemTyping && existingTyping) { existingTyping.remove(); } } }); messagesUnsubscribe = onSnapshot(collection(db, `eslesmeler/${chatId}/mesajlar`), (snapshot) => { const existingTyping = document.getElementById('typing-indicator'); if(existingTyping) existingTyping.remove(); chatArea.innerHTML = ''; let msgs = []; const myUid = auth.currentUser ? auth.currentUser.uid : null; if(!myUid) return; snapshot.forEach(docSnap => { let m = docSnap.data(); m.id = docSnap.id; msgs.push(m); if(m.senderId !== myUid && !m.read) { updateDoc(doc(db, `eslesmeler/${chatId}/mesajlar/${docSnap.id}`), { read: true }).catch(e=>{}); } }); msgs.sort((a,b) => (a.timestamp?.seconds || 0) - (b.timestamp?.seconds || 0)); if(msgs.length === 0) { chatArea.innerHTML = '<div style="color:gray; text-align:center; margin-top:20px;">İlk mesajı sen gönder!</div>'; return; } let lastMyMsgId = null; for(let i=msgs.length-1; i>=0; i--) { if(msgs[i].senderId === myUid) { lastMyMsgId = msgs[i].id; break; } } msgs.forEach(msg => { const isMine = msg.senderId === myUid; let timeStr = ""; try { if(msg.timestamp && msg.timestamp.toDate) timeStr = msg.timestamp.toDate().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}); } catch(e) {} let displayMsg = msg.text || ""; let rawTextForReply = msg.text || ""; if(displayMsg.startsWith("[PAYLAŞIM] ")) { rawTextForReply = "🖼️ Gönderi"; const url = displayMsg.replace("[PAYLAŞIM] ", ""); if(window.isVideo(url)) displayMsg = `<video src="${url}" preload="none" autoplay loop playsinline style="width:100%; border-radius:12px;" onclick="this.muted = !this.muted"></video><div style="font-size:11px; margin-top:5px; color:var(--primary-gold); text-align:center;">Gönderi Paylaşıldı</div>`; else displayMsg = `<img src="${url}" loading="lazy" decoding="async" style="width:100%; border-radius:12px;"/><div style="font-size:11px; margin-top:5px; color:var(--primary-gold); text-align:center;">Gönderi Paylaşıldı</div>`; } else if(displayMsg.startsWith("[SES] ")) { rawTextForReply = "🎤 Sesli Mesaj"; displayMsg = `<audio controls src="${displayMsg.replace('[SES] ', '')}" style="height:35px; width:200px; outline:none;"></audio>`; } let quoteHtml = ""; if(msg.replyTo) { quoteHtml = `<div class="quoted-msg"><strong style="display:block; margin-bottom:2px;">${msg.replyTo.name}</strong>${msg.replyTo.text}</div>`; } let likeHtml = msg.liked ? `<div class="msg-like-badge">❤️</div>` : ''; let seenHtml = (isMine && msg.id === lastMyMsgId && msg.read) ? `<div style="font-size:10px; color:#3498db; text-align:right; margin-top:4px;">Görüldü ✓✓</div>` : ''; chatArea.insertAdjacentHTML('beforeend', `<div class="chat-msg ${isMine ? 'mine' : 'theirs'}" data-id="${msg.id}" data-text="${rawTextForReply.replace(/"/g, '&quot;')}" data-sender="${isMine ? auth.currentUser.displayName : partnerName}"><div class="chat-bubble">${quoteHtml}${displayMsg}</div><div class="chat-time">${timeStr}</div>${seenHtml}${likeHtml}</div>`); }); chatArea.scrollTop = chatArea.scrollHeight; }); } catch(err) {} }
+        window.openChatRoom = function(chatId, partnerName, partnerImg, partnerUid) { 
+            closeModal('messagesModal'); window.activeChatId = chatId; window.cancelReply(); 
+            window.activeChatPartnerName = partnerName; // <--- PARTNER ADINI BİLDİRİM İÇİN KAYDET
+            const cn = document.getElementById('chat-header-name'); if(cn) cn.innerText = partnerName; const ca = document.getElementById('chat-header-avatar'); if(ca) ca.style.backgroundImage = `url('${partnerImg.replace(/'/g, "\\'")}')`; openModal('chatRoomModal'); const chatArea = document.getElementById('chat-messages'); if(!chatArea) return; chatArea.innerHTML = '<div style="color:gray; text-align:center; margin-top:20px;">Mesajlar yükleniyor...</div>'; setupChatInteractions(); if(window.chatDocUnsubscribe) { window.chatDocUnsubscribe(); window.chatDocUnsubscribe = null; } if(messagesUnsubscribe) messagesUnsubscribe(); try { window.chatDocUnsubscribe = onSnapshot(doc(db, "eslesmeler", chatId), (docSnap) => { if(docSnap.exists()) { const data = docSnap.data(); chatArea.className = 'chat-area theme-' + (data.chatTheme || 'default'); const typingInfo = data.typing || {}; let isThemTyping = false; const myUid = auth.currentUser ? auth.currentUser.uid : null; for(let key in typingInfo) { if(key !== myUid && typingInfo[key] > Date.now() - 3000) isThemTyping = true; } const existingTyping = document.getElementById('typing-indicator'); if(isThemTyping && !existingTyping) { chatArea.insertAdjacentHTML('beforeend', `<div id="typing-indicator" class="chat-msg theirs"><div class="chat-bubble typing-indicator-box"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`); chatArea.scrollTop = chatArea.scrollHeight; } else if(!isThemTyping && existingTyping) { existingTyping.remove(); } } }); messagesUnsubscribe = onSnapshot(collection(db, `eslesmeler/${chatId}/mesajlar`), (snapshot) => { const existingTyping = document.getElementById('typing-indicator'); if(existingTyping) existingTyping.remove(); chatArea.innerHTML = ''; let msgs = []; const myUid = auth.currentUser ? auth.currentUser.uid : null; if(!myUid) return; snapshot.forEach(docSnap => { let m = docSnap.data(); m.id = docSnap.id; msgs.push(m); if(m.senderId !== myUid && !m.read) { updateDoc(doc(db, `eslesmeler/${chatId}/mesajlar/${docSnap.id}`), { read: true }).catch(e=>{}); } }); msgs.sort((a,b) => (a.timestamp?.seconds || 0) - (b.timestamp?.seconds || 0)); if(msgs.length === 0) { chatArea.innerHTML = '<div style="color:gray; text-align:center; margin-top:20px;">İlk mesajı sen gönder!</div>'; return; } let lastMyMsgId = null; for(let i=msgs.length-1; i>=0; i--) { if(msgs[i].senderId === myUid) { lastMyMsgId = msgs[i].id; break; } } msgs.forEach(msg => { const isMine = msg.senderId === myUid; let timeStr = ""; try { if(msg.timestamp && msg.timestamp.toDate) timeStr = msg.timestamp.toDate().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}); } catch(e) {} let displayMsg = msg.text || ""; let rawTextForReply = msg.text || ""; if(displayMsg.startsWith("[PAYLAŞIM] ")) { rawTextForReply = "🖼️ Gönderi"; const url = displayMsg.replace("[PAYLAŞIM] ", ""); if(window.isVideo(url)) displayMsg = `<video src="${url}" preload="none" autoplay loop playsinline style="width:100%; border-radius:12px;" onclick="this.muted = !this.muted"></video><div style="font-size:11px; margin-top:5px; color:var(--primary-gold); text-align:center;">Gönderi Paylaşıldı</div>`; else displayMsg = `<img src="${url}" loading="lazy" decoding="async" style="width:100%; border-radius:12px;"/><div style="font-size:11px; margin-top:5px; color:var(--primary-gold); text-align:center;">Gönderi Paylaşıldı</div>`; } else if(displayMsg.startsWith("[SES] ")) { rawTextForReply = "🎤 Sesli Mesaj"; displayMsg = `<audio controls src="${displayMsg.replace('[SES] ', '')}" style="height:35px; width:200px; outline:none;"></audio>`; } let quoteHtml = ""; if(msg.replyTo) { quoteHtml = `<div class="quoted-msg"><strong style="display:block; margin-bottom:2px;">${msg.replyTo.name}</strong>${msg.replyTo.text}</div>`; } let likeHtml = msg.liked ? `<div class="msg-like-badge">❤️</div>` : ''; let seenHtml = (isMine && msg.id === lastMyMsgId && msg.read) ? `<div style="font-size:10px; color:#3498db; text-align:right; margin-top:4px;">Görüldü ✓✓</div>` : ''; chatArea.insertAdjacentHTML('beforeend', `<div class="chat-msg ${isMine ? 'mine' : 'theirs'}" data-id="${msg.id}" data-text="${rawTextForReply.replace(/"/g, '&quot;')}" data-sender="${isMine ? auth.currentUser.displayName : partnerName}"><div class="chat-bubble">${quoteHtml}${displayMsg}</div><div class="chat-time">${timeStr}</div>${seenHtml}${likeHtml}</div>`); }); chatArea.scrollTop = chatArea.scrollHeight; }); } catch(err) {} }
         let isTypingSync = false; window.onChatInput = function() { if(!window.activeChatId || !auth.currentUser) return; const myUid = auth.currentUser.uid; if(!isTypingSync) { isTypingSync = true; updateDoc(doc(db, "eslesmeler", window.activeChatId), { [`typing.${myUid}`]: Date.now() }).catch(e=>{}); setTimeout(() => { isTypingSync = false; }, 1500); } }
-        window.sendBase64Message = async function(base64Text, shortDesc) { if(!window.activeChatId) return; try { const msgData = { senderId: auth.currentUser.uid, text: base64Text, timestamp: new Date(), read: false }; if(window.activeReplyTo) { msgData.replyTo = window.activeReplyTo; } await addDoc(collection(db, `eslesmeler/${window.activeChatId}/mesajlar`), msgData); await updateDoc(doc(db, "eslesmeler", window.activeChatId), { lastMessage: shortDesc, updatedAt: new Date(), [`typing.${auth.currentUser.uid}`]: 0 }); window.cancelReply(); } catch(e) {} }
+        
+        // DM GÖNDERİNCE BİLDİRİM GÖNDERME EKLENDİ
+        window.sendBase64Message = async function(base64Text, shortDesc) { 
+            if(!window.activeChatId) return; 
+            try { 
+                const msgData = { senderId: auth.currentUser.uid, text: base64Text, timestamp: new Date(), read: false }; 
+                if(window.activeReplyTo) { msgData.replyTo = window.activeReplyTo; } 
+                await addDoc(collection(db, `eslesmeler/${window.activeChatId}/mesajlar`), msgData); 
+                await updateDoc(doc(db, "eslesmeler", window.activeChatId), { lastMessage: shortDesc, updatedAt: new Date(), [`typing.${auth.currentUser.uid}`]: 0 }); 
+                window.cancelReply(); 
+                
+                if(window.activeChatPartnerName && window.activeChatPartnerName !== auth.currentUser.displayName) {
+                    let notiText = shortDesc.startsWith("[SES]") ? "sana sesli bir mesaj gönderdi 🎤" : shortDesc.startsWith("[PAYLAŞIM]") ? "sana bir gönderi paylaştı 🖼️" : `sana bir mesaj gönderdi: ${shortDesc.length > 20 ? shortDesc.substring(0,20)+'...' : shortDesc}`;
+                    await addDoc(collection(db, "bildirimler"), { to: window.activeChatPartnerName, from: auth.currentUser.displayName, text: notiText, createdAt: new Date() });
+                }
+            } catch(e) {} 
+        }
         window.sendChatMessage = function() { const input = document.getElementById('chat-input'); if(!input) return; const text = input.value.trim(); if(!text) return; input.value = ""; window.sendBase64Message(text, text); }
         window.deleteChatRoom = async function() { if(!window.activeChatId) return; if(confirm("Sohbeti kalıcı olarak silmek istediğine emin misin?")) { try { await deleteDoc(doc(db, "eslesmeler", window.activeChatId)); closeModal('chatRoomModal'); window.openMessages(); } catch(e) {} } }
+
+        // BİLDİRİMLERİ VERİTABANINDAN ÇEKME VE EKRANA YAZDIRMA (Uygulama İçi)
+        window.loadNotifications = async function() {
+            const user = auth.currentUser; if(!user) return;
+            const list = document.getElementById('noti-list'); if(!list) return;
+            list.innerHTML = '<div style="color:gray; text-align:center; padding:20px;">Yükleniyor...</div>';
+            try {
+                const snap = await getDocs(query(collection(db, "bildirimler"), where("to", "==", user.displayName)));
+                let notis = []; snap.forEach(d => notis.push({id: d.id, ...d.data()}));
+                notis.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+                list.innerHTML = '';
+                if(notis.length === 0) { list.innerHTML = '<div style="color:gray; text-align:center; padding:20px;">Henüz bildirim yok.</div>'; return; }
+                notis.forEach(noti => {
+                    const fromAvatar = window.globalUsersByName[noti.from]?.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100';
+                    const timeMs = noti.createdAt?.seconds ? noti.createdAt.seconds * 1000 : Date.now();
+                    const timeStr = window.timeAgo ? window.timeAgo(timeMs) : 'az önce';
+                    list.insertAdjacentHTML('beforeend', `<div class="list-item" style="align-items:center; padding:15px 20px;"><div class="list-avatar" style="background-image:url('${fromAvatar.replace(/'/g, "\\'")}');"></div><div class="list-text"><strong style="color:var(--primary-gold);">${noti.from}</strong> <span style="color:rgba(255,255,255,0.85);">${noti.text}</span><div style="font-size:11px; color:gray; margin-top:5px;">${timeStr} önce</div></div></div>`);
+                });
+            } catch(e) {}
+        }
 
         document.getElementById('btn-login')?.addEventListener('click', async () => { try { await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-pass').value); window.location.reload(); } catch (err) { alert(err.message); }});
         document.getElementById('btn-register')?.addEventListener('click', async () => { const name = document.getElementById('reg-name').value.trim(); const email = document.getElementById('reg-email').value; const pass = document.getElementById('reg-pass').value; if(!name || !email || !pass) return alert("Doldurun!"); document.getElementById('btn-register').innerText = "Açılıyor..."; try { const uc = await createUserWithEmailAndPassword(auth, email, pass); await updateProfile(uc.user, { displayName: name }); const adminQ = await getDocs(query(collection(db, "kullanicilar"), where("email", "==", adminEmail))); let followingList = []; if(!adminQ.empty) { const adminDoc = adminQ.docs[0]; followingList.push(adminDoc.id); await updateDoc(doc(db, "kullanicilar", adminDoc.id), { followers: arrayUnion(uc.user.uid) }); } await setDoc(doc(db, "kullanicilar", uc.user.uid), { displayName: name, email: email, following: followingList, followers: [] }); window.location.reload(); } catch (e) { alert(e.message); document.getElementById('btn-register').innerText = "VIP Hesabını Oluştur"; } });
@@ -738,10 +804,16 @@
                     if(document.getElementById('dm-list-container')) window.listenToDMs();
                     if(document.getElementById('stories-container')) window.loadStories();
 
+                    // YENİ PUSH BİLDİRİM DİNLEYİCİSİ (Açılır Bildirimler İçin)
                     let initNoti = true;
                     onSnapshot(query(collection(db, "bildirimler"), where("to", "==", safeName)), (s) => { 
                         if(!s.empty) { const nd = document.getElementById('noti-dot'); if(nd) nd.style.display = 'block'; }
-                        s.docChanges().forEach(change => { if(change.type === 'added' && !initNoti) { if(window.sendSystemPush) window.sendSystemPush("Yeni Bildirim 💖", change.doc.data().text); } });
+                        s.docChanges().forEach(change => { 
+                            if(change.type === 'added' && !initNoti) { 
+                                const notiData = change.doc.data();
+                                if(window.sendSystemPush) window.sendSystemPush("Swinder VIP 💖", notiData.from + " " + notiData.text); 
+                            } 
+                        });
                         initNoti = false;
                     });
                 } else { openModal('authModal'); }

@@ -81,6 +81,9 @@
         
         .sheet-header { padding: 20px; border-bottom: var(--glass-border); display: flex; align-items: center; gap: 15px; font-size: 16px; font-weight: 600; background:rgba(10,10,12,0.95); z-index:10;}
         .list-item { display: flex; align-items: center; gap: 15px; padding: 18px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; font-size: 16px; font-weight: 500;}
+        .list-avatar { width: 48px; height: 48px; border-radius: 50%; background: #222; background-size: cover; background-position: center; flex-shrink: 0;}
+        .list-text { flex: 1; font-size: 14px; line-height: 1.4;}
+        
         .glass-box { background: var(--glass-bg); border: var(--glass-border); border-radius: 24px; padding: 30px; width: 100%; max-width: 400px; transform: scale(0.95); transition: transform 0.3s, background 0.5s ease, border-color 0.5s ease; }
         .modal-overlay.active .glass-box { transform: scale(1); }
         .form-group { margin-bottom: 15px; text-align: left; width: 100%;}
@@ -116,14 +119,14 @@
         .reel-action-btn { background: none; border: none; color: white; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));}
         .reel-action-btn.liked .material-symbols-outlined { color: #ff3040; font-variation-settings: 'FILL' 1; }
 
-        /* KEŞFET VE BAŞKA KULLANICI PROFİLİ GÖRÜNÜMÜ CSS'LERİ (INDEX İLE %100 AYNI) */
+        /* KEŞFET VE BAŞKA KULLANICI PROFİLİ GÖRÜNÜMÜ CSS'LERİ */
         .search-input { flex: 1; background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; padding: 12px 20px; border-radius: 30px; outline: none; font-size: 14px;}
         .explore-users-container { display: none; max-height: 250px; overflow-y: auto; border-bottom: var(--glass-border); -webkit-overflow-scrolling: touch;}
         .explore-scroll-area { flex: 1; overflow-y: auto; display: flex; flex-direction: column; -webkit-overflow-scrolling: touch;}
 
         .up-header-top { display: flex; align-items: center; padding: 20px 20px 15px; gap: 20px;}
         .up-avatar-container { width: 86px; height: 86px; border-radius: 50%; padding: 3px; background: var(--ring-gradient); flex-shrink: 0; transition: background 0.5s;}
-        .up-avatar { width: 100%; height: 100%; border-radius: 50%; background-size: cover; background-position: center; border: 3px solid var(--body-bg); transition: border-color 0.5s;}
+        .up-avatar { width: 100%; height: 100%; border-radius: 50%; background-size: cover; background-position: center; border: 3px solid var(--body-bg); transition: border-color 0.5s; cursor: pointer;}
         .up-stats { display: flex; flex: 1; justify-content: space-around; text-align: center; }
         .up-stat-item { font-size: 12px; color: rgba(255,255,255,0.7); }
         .up-stat-item span { display: block; font-size: 16px; font-weight: bold; color: white; margin-bottom: 2px;}
@@ -156,6 +159,7 @@
             <span id="display-name">Yükleniyor...</span>
         </div>
         <div style="display:flex; gap:15px; align-items:center;">
+            <button class="header-icon" style="position:relative;" onclick="window.openNotifications()"><span class="material-symbols-outlined">favorite</span><span class="notification-dot" id="noti-dot" style="position: absolute; top: 0; right: 0; width: 10px; height: 10px; background: #ff3040; border-radius: 50%; display: none;"></span></button>
             <button class="header-icon" onclick="openModal('settingsModal')"><span class="material-symbols-outlined">menu</span></button>
         </div>
     </header>
@@ -207,6 +211,8 @@
             <button class="btn-premium" id="btn-save-profile">Kaydet</button>
         </div>
     </div>
+
+    <div class="modal-overlay" id="notificationsModal"><div class="bottom-sheet"><div class="sheet-header"><button class="header-icon" onclick="closeModal('notificationsModal')"><span class="material-symbols-outlined">arrow_back</span></button> Bildirimler</div><div style="flex:1; overflow-y:auto;" id="noti-list"></div></div></div>
 
     <div class="modal-overlay" id="addModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Yeni Gönderi/Video</h2><div class="form-group"><label style="color:gray; font-size:12px;">Galeriden Seç</label><input type="file" id="add-image-file" accept="image/*, video/*" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 12px; color: white; margin-top:5px;"></div><div class="form-group"><textarea id="add-caption" rows="3" placeholder="Açıklama..."></textarea></div><button type="button" id="btn-submit-post" class="btn-premium">Paylaş</button></div></div>
 
@@ -316,6 +322,16 @@
         window.openReels = () => { openModal('reelsModal'); if(window.renderReels) window.renderReels(); }
         window.openShareModal = function() { openModal('shareModal'); const c = document.getElementById('share-list-container'); if(c) c.innerHTML = '<div style="padding:30px; text-align:center; color:gray;">Bağlantı kopyalandı!</div>'; if(window.activeShareUrl) navigator.clipboard.writeText(window.activeShareUrl).catch(e=>{}); }
 
+        // BİLDİRİMLERİ AÇMA VE PUSH İZNİ İSTEME (PROFIL ICIN)
+        window.openNotifications = () => { 
+            openModal('notificationsModal'); 
+            const dot = document.getElementById('noti-dot'); if(dot) dot.style.display='none'; 
+            if ("Notification" in window && Notification.permission !== "granted" && Notification.permission !== "denied") {
+                Notification.requestPermission();
+            }
+            if(window.loadNotifications) window.loadNotifications(); 
+        }
+
         function hideSplash() { sessionStorage.setItem("swinder_splashed", "true"); const spl = document.getElementById('splash-screen'); if(spl) { spl.style.opacity = '0'; setTimeout(() => spl.style.display = 'none', 400); } }
         setTimeout(() => { hideSplash(); }, 1500);
         
@@ -329,7 +345,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, getDocs, query, where, doc, getDoc, setDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, query, where, doc, getDoc, setDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = { apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0", authDomain: "swinder-79534.firebaseapp.com", projectId: "swinder-79534", storageBucket: "swinder-79534.firebasestorage.app", messagingSenderId: "704644873549", appId: "1:704644873549:web:d95f561ec912b94cf2cb04" };
         const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
@@ -338,14 +354,24 @@
         window.uploadMedia = async function(file) { const formData = new FormData(); formData.append("file", file); formData.append("upload_preset", UPLOAD_PRESET); const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, { method: 'POST', body: formData }); const data = await res.json(); if(data.error) throw new Error(data.error.message); return data.secure_url; }
 
         const safeEncode = (str) => encodeURIComponent(str || '').replace(/'/g, "%27");
-       const instaGoldTick = `<svg viewBox="0 0 40 40" style="width: 1.1em; height: 1.1em; vertical-align: -0.2em; margin-left: 4px; filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.4)); display: inline-block;"><path fill="#FFD700" d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Z"/><path fill="#050505" d="M17.81 27.231l-6.428-6.427 2.846-2.846 3.583 3.583 8.932-8.932 2.846 2.846-11.779 11.776z"/></svg>`;
-       
-        window.globalPosts = []; window.globalUsersById = {}; window.globalUsersByName = {};
         const adminEmail = "kcagatay239@gmail.com"; 
-        let currentUserId = null; let isAdmin = false; let currentUserProfile = null; window.activeInteractPostId = null; window.activeShareUrl = null;
+        const instaGoldTick = `<svg viewBox="0 0 40 40" style="width: 1.1em; height: 1.1em; vertical-align: -0.2em; margin-left: 4px; filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.4)); display: inline-block;"><path fill="#FFD700" d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Z"/><path fill="#050505" d="M17.81 27.231l-6.428-6.427 2.846-2.846 3.583 3.583 8.932-8.932 2.846 2.846-11.779 11.776z"/></svg>`;
 
-        // HİKAYE DEĞİŞKENLERİ
+        window.globalPosts = []; window.globalUsersById = {}; window.globalUsersByName = {};
+        let currentUserId = null; let isAdmin = false; let currentUserProfile = null; window.activeInteractPostId = null; window.activeShareUrl = null;
         window.activeInteractStoryId = null; window.activeStoryOwner = null; window.currentStoryGroup = []; window.currentStoryIndex = 0; window.storyTimeout = null;
+
+        // PUSH NOTIFICATION GÖNDERME FONKSİYONU
+        window.sendSystemPush = function(title, body) {
+            if (!("Notification" in window)) return;
+            if (Notification.permission === "granted") {
+                try {
+                    if(navigator.serviceWorker && navigator.serviceWorker.controller) {
+                        navigator.serviceWorker.ready.then(function(reg) { reg.showNotification(title, { body: body, vibrate: [200, 100, 200] }); });
+                    } else { new Notification(title, { body: body }); }
+                } catch(e) {}
+            }
+        }
 
         window.logoutApp = async function() { try { await signOut(auth); window.location.href = "index.html"; } catch(e){} }
 
@@ -359,7 +385,6 @@
             } catch(e) {}
         }
 
-        // GÖNDERİ DÜZENLEME FONKSİYONU
         window.editPostDB = async function() {
             if(!window.activeInteractPostId) return;
             const pdCaption = document.getElementById('pd-caption');
@@ -378,7 +403,6 @@
             }
         }
 
-        // GÖNDERİ SİLME FONKSİYONU
         window.deletePostDB = async function() {
             if(!window.activeInteractPostId) return;
             if(confirm("Bu gönderiyi silmek istediğine emin misin? Bu işlem geri alınamaz.")) {
@@ -397,7 +421,6 @@
             }
         }
 
-        // HİKAYELERİ OYNATMA VE REAKSİYON İŞLEMLERİ
         window.openUserStory = async function(username, avatarUrl) {
             try {
                 const snap = await getDocs(query(collection(db, "hikayeler"), where("username", "==", username)));
@@ -474,7 +497,6 @@
             myPosts.forEach(p => { const dataStr = safeEncode(JSON.stringify(p)); const isVid = window.isVideo(p.imageUrl); const bgUrl = isVid ? window.getVideoThumbnail(p.imageUrl) : p.imageUrl; const iconHtml = isVid ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : ''; grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${bgUrl.replace(/'/g, "\\'")}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')">${iconHtml}</div>`); });
         }
 
-        /* KEŞFET VEYA REELS ÜZERİNDEN PROFİL GÖRÜNTÜLEME - INDEX ILE %100 AYNI HALE GETİRİLDİ */
         window.openUserProfile = function(username) {
             let pInfo = window.globalUsersByName[username] || {}; const isP = (pInfo.isPremium || (username || '').toLowerCase().includes('çağatay')) ? instaGoldTick : ''; 
             const ut = document.getElementById('up-title'); if(ut) ut.innerText = username; 
@@ -524,7 +546,6 @@
             const headerName = document.getElementById('pd-header-username');
             if(headerName) { headerName.innerHTML = data.username + isP; headerName.onclick = () => { closeModal('postDetailModal'); window.openUserProfile(data.username); }; }
 
-            // ZAMAN DAMGASI
             const timeMs = data.createdAt?.seconds ? data.createdAt.seconds * 1000 : Date.now();
             const ptEl = document.getElementById('pd-time');
             if(ptEl) ptEl.innerText = window.timeAgo(timeMs);
@@ -590,11 +611,40 @@
             let comments = []; snap.forEach(d => comments.push(d.data())); comments.sort((a,b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0));
             comments.forEach(data => { const avatar = window.globalUsersByName[data.username]?.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100'; list.insertAdjacentHTML('beforeend', `<div class="list-item" style="padding:0; border:none;"><div class="list-avatar" style="background-image:url('${avatar}'); width:36px; height:36px;"></div><div class="list-text"><strong style="color:var(--primary-gold);">${data.username}</strong> <span style="color:white;">${data.text}</span></div></div>`); });
         }
-        window.submitComment = async function() { const user = auth.currentUser; if(!user || !window.activeInteractPostId) return; const text = document.getElementById('new-comment-input').value.trim(); if(!text) return; document.getElementById('new-comment-input').value = ""; await addDoc(collection(db, `gonderiler/${window.activeInteractPostId}/yorumlar`), { username: user.displayName, text: text, createdAt: new Date() }); window.openCommentsDB(window.activeInteractPostId); }
+        
+        window.submitComment = async function() { 
+            const user = auth.currentUser; if(!user || !window.activeInteractPostId) return; 
+            const text = document.getElementById('new-comment-input').value.trim(); if(!text) return; 
+            document.getElementById('new-comment-input').value = ""; 
+            await addDoc(collection(db, `gonderiler/${window.activeInteractPostId}/yorumlar`), { username: user.displayName, text: text, createdAt: new Date() }); 
+            window.openCommentsDB(window.activeInteractPostId); 
+            if(window.activeInteractOwner && window.activeInteractOwner !== user.displayName) {
+                await addDoc(collection(db, "bildirimler"), { to: window.activeInteractOwner, from: user.displayName, text: `gönderine yorum yaptı: ${text.length > 20 ? text.substring(0,20)+'...' : text}`, createdAt: new Date() });
+            }
+        }
 
         window.toggleFollowDB = async function(btnElement) { const user = auth.currentUser; if(!user) return; const ut = document.getElementById('up-title'); if(!ut) return; const tName = ut.innerText; const targetUser = window.globalUsersByName[tName]; if(!targetUser) return; const isFollowing = btnElement.classList.contains('following'); const myRef = doc(db, "kullanicilar", user.uid); const targetRef = doc(db, "kullanicilar", targetUser.uid); const countEl = document.getElementById('up-follower-count'); let count = countEl ? parseInt(countEl.innerText) : 0; if(isFollowing) { btnElement.classList.remove('following'); btnElement.innerText = "Takip Et"; btnElement.style.background = "var(--primary-gold)"; btnElement.style.color = "black"; if(countEl) countEl.innerText = count - 1; await updateDoc(myRef, { following: arrayRemove(targetUser.uid) }); await updateDoc(targetRef, { followers: arrayRemove(user.uid) }); if(currentUserProfile && currentUserProfile.following) currentUserProfile.following = currentUserProfile.following.filter(id => id !== targetUser.uid); } else { btnElement.classList.add('following'); btnElement.innerText = "Takibi Bırak"; btnElement.style.background = "rgba(255,255,255,0.15)"; btnElement.style.color = "white"; if(countEl) countEl.innerText = count + 1; await updateDoc(myRef, { following: arrayUnion(targetUser.uid) }); await updateDoc(targetRef, { followers: arrayUnion(user.uid) }); if(currentUserProfile) { if(!currentUserProfile.following) currentUserProfile.following=[]; currentUserProfile.following.push(targetUser.uid); } } }
 
         window.grantPremium = async function() { if(!isAdmin) return; const tName = document.getElementById('admin-target-user').value.trim(); if(!tName) return alert("Kullanıcı adı girin."); const usersSnap = await getDocs(collection(db, "kullanicilar")); let targetUid = null; usersSnap.forEach(d => { if(d.data().displayName === tName) targetUid = d.id; }); if(!targetUid) return alert("Kullanıcı bulunamadı!"); try { await updateDoc(doc(db, "kullanicilar", targetUid), { isPremium: true }); alert(tName + " VIP yapıldı!"); closeModal('adminModal'); } catch(e) { alert("Hata."); } }
+
+        window.loadNotifications = async function() {
+            const user = auth.currentUser; if(!user) return;
+            const list = document.getElementById('noti-list'); if(!list) return;
+            list.innerHTML = '<div style="color:gray; text-align:center; padding:20px;">Yükleniyor...</div>';
+            try {
+                const snap = await getDocs(query(collection(db, "bildirimler"), where("to", "==", user.displayName)));
+                let notis = []; snap.forEach(d => notis.push({id: d.id, ...d.data()}));
+                notis.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+                list.innerHTML = '';
+                if(notis.length === 0) { list.innerHTML = '<div style="color:gray; text-align:center; padding:20px;">Henüz bildirim yok.</div>'; return; }
+                notis.forEach(noti => {
+                    const fromAvatar = window.globalUsersByName[noti.from]?.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100';
+                    const timeMs = noti.createdAt?.seconds ? noti.createdAt.seconds * 1000 : Date.now();
+                    const timeStr = window.timeAgo ? window.timeAgo(timeMs) : 'az önce';
+                    list.insertAdjacentHTML('beforeend', `<div class="list-item" style="align-items:center; padding:15px 20px;"><div class="list-avatar" style="background-image:url('${fromAvatar.replace(/'/g, "\\'")}');"></div><div class="list-text"><strong style="color:var(--primary-gold);">${noti.from}</strong> <span style="color:rgba(255,255,255,0.85);">${noti.text}</span><div style="font-size:11px; color:gray; margin-top:5px;">${timeStr} önce</div></div></div>`);
+                });
+            } catch(e) {}
+        }
 
         document.getElementById('btn-submit-post')?.addEventListener('click', async () => { const user = auth.currentUser; if (!user) return; const fileInput = document.getElementById('add-image-file'); const file = fileInput.files[0]; const caption = document.getElementById('add-caption').value; if (!file) return alert("Lütfen galeriden bir fotoğraf veya video seçin!"); const btn = document.getElementById('btn-submit-post'); btn.innerText = "Yükleniyor (Bekleyin)..."; try { const imageUrl = await window.uploadMedia(file); await addDoc(collection(db, "gonderiler"), { imageUrl, caption, username: user.displayName, likesCount: 0, createdAt: new Date() }); closeModal('addModal'); fileInput.value = ""; document.getElementById('add-caption').value = ""; await window.loadAllData(); if(window.renderProfileGrid) window.renderProfileGrid(); } catch (err) { alert("Hata: " + err.message); } finally { btn.innerText = "Paylaş"; } });
         
@@ -654,6 +704,19 @@
                     
                     await window.loadAllData(); 
                     if(window.renderProfileGrid) window.renderProfileGrid(); 
+                    
+                    // PUSH BİLDİRİM DİNLEYİCİSİ (Açılır Bildirimler İçin)
+                    let initNoti = true;
+                    onSnapshot(query(collection(db, "bildirimler"), where("to", "==", safeName)), (s) => { 
+                        if(!s.empty) { const nd = document.getElementById('noti-dot'); if(nd) nd.style.display = 'block'; }
+                        s.docChanges().forEach(change => { 
+                            if(change.type === 'added' && !initNoti) { 
+                                const notiData = change.doc.data();
+                                if(window.sendSystemPush) window.sendSystemPush("Swinder VIP 💖", notiData.from + " " + notiData.text); 
+                            } 
+                        });
+                        initNoti = false;
+                    });
                 } else { window.location.href = "index.html"; }
             } catch (error) {} finally { hideSplash(); }
         });
