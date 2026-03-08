@@ -3,707 +3,686 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Swinder - VIP Arkadaşlık</title>
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#050505">
-    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0&display=block" />
     <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
 
-    <script>
-        if(sessionStorage.getItem("swinder_splashed")) { document.write('<style>#splash-screen { display: none !important; }</style>'); }
-        const savedTheme = localStorage.getItem('swinder_theme');
-        if(savedTheme && savedTheme !== 'normal') { document.write(`<style>body { background: ${savedTheme === 'gold' ? 'radial-gradient(circle at top, #1a1400 0%, #050400 100%)' : '#000000'} !important; }</style>`); }
-    </script>
+    <script>if(sessionStorage.getItem("swinder_splashed")) { document.write('<style>#splash-screen { display: none !important; }</style>'); }</script>
 
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent;}
-        
-        /* 🔥 ORİJİNAL KOYU GLASSMORPHISM (CAM) TEMASI 🔥 */
-        :root { --primary-gold: #d4af37; --text-light: #f5f5f7; --glass-bg: rgba(20, 20, 25, 0.65); --glass-border: 1px solid rgba(255, 255, 255, 0.15); --body-bg: #050505; --ring-gradient: linear-gradient(45deg, #d4af37, #aa8529, #f3e5ab); }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; touch-action: pan-y; -webkit-tap-highlight-color: transparent;}
+        :root { --primary-gold: #d4af37; --text-light: #f5f5f7; --glass-bg: rgba(20, 20, 25, 0.45); --glass-border: 1px solid rgba(255, 255, 255, 0.08); --body-bg: #050505; --ring-gradient: linear-gradient(45deg, #d4af37, #aa8529, #f3e5ab); }
         body.theme-black { --primary-gold: #ffffff; --text-light: #e0e0e0; --glass-bg: rgba(10, 10, 10, 0.85); --glass-border: 1px solid rgba(255, 255, 255, 0.2); --body-bg: #000000; --ring-gradient: linear-gradient(45deg, #222, #fff, #555); }
-        body.theme-gold { --primary-gold: #ffdf00; --text-light: #fff; --glass-bg: rgba(30, 25, 10, 0.7); --glass-border: 1px solid rgba(255, 223, 0, 0.45); --body-bg: radial-gradient(circle at top, #1a1400 0%, #050400 100%); --ring-gradient: linear-gradient(45deg, #ffdf00, #ffaa00, #f3e5ab, #ffdf00); }
-        
-        body { background: var(--body-bg); color: var(--text-light); overflow: hidden; overscroll-behavior-y: none; transition: background 0.5s ease;}
+        body.theme-black .story-ring { box-shadow: 0 0 15px rgba(255,255,255,0.15); }
+        body.theme-black .btn-premium { background: #fff; color: #000; text-shadow: none; box-shadow: 0 4px 15px rgba(255,255,255,0.2);}
+        body.theme-black .chat-msg.mine .chat-bubble { background: #fff; color: #000; }
+        body.theme-gold { --primary-gold: #ffdf00; --gold-light: #f3e5ab; --text-light: #fff; --glass-bg: rgba(30, 25, 10, 0.7); --glass-border: 1px solid rgba(255, 223, 0, 0.45); --body-bg: radial-gradient(circle at top, #1a1400 0%, #050400 100%); --ring-gradient: linear-gradient(45deg, #ffdf00, #ffaa00, #f3e5ab, #ffdf00); }
+        body.theme-gold { background: var(--body-bg) !important; }
+        body.theme-gold .story-ring { box-shadow: 0 0 20px rgba(255, 223, 0, 0.3); }
+        body.theme-gold .btn-premium { background: linear-gradient(135deg, #d4af37 0%, #ffdf00 50%, #d4af37 100%); color: #000; font-weight: 800; box-shadow: 0 5px 20px rgba(255, 223, 0, 0.35); }
+        body.theme-gold .chat-msg.mine .chat-bubble { background: linear-gradient(135deg, #d4af37, #ffdf00); color: #000; font-weight: 500;}
+        body { background: var(--body-bg); color: var(--text-light); overflow: hidden; overscroll-behavior-y: none; transition: background 0.5s;}
 
-        #splash-screen { position: fixed; inset: 0; background: #050505; z-index: 99999; display: flex; flex-direction:column; justify-content: center; align-items: center; transition: opacity 0.5s ease; }
+        #splash-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #050505; z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease, visibility 0.5s; }
         .splash-logo { font-family: 'Grand Hotel', cursive; font-size: 70px; color: var(--primary-gold); animation: splashPulse 1.5s infinite alternate; text-shadow: 0 0 20px rgba(212,175,55,0.4); }
         @keyframes splashPulse { 0% { transform: scale(1); opacity: 0.8;} 100% { transform: scale(1.1); opacity: 1;} }
 
-        /* HEADER */
-        header { position: fixed; top: 0; left: 0; width: 100%; padding: 10px 20px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; background: rgba(10, 10, 12, 0.8); backdrop-filter: blur(25px); z-index: 100; border-bottom: var(--glass-border); padding-top: calc(10px + env(safe-area-inset-top)); }
-        .header-left { display: flex; justify-content: flex-start; gap: 15px;}
-        .header-right { display: flex; justify-content: flex-end; gap:15px; }
-        .logo { font-family: 'Grand Hotel', cursive; font-size: 34px; color: var(--text-light); text-decoration: none; justify-self: center; }
-        .header-icon { color: var(--text-light); font-size: 26px; cursor: pointer; background: none; border: none; position: relative;}
-        .noti-dot { position: absolute; top: -2px; right: -2px; width: 10px; height: 10px; background: #ff3040; border-radius: 50%; display: none; }
+        .ambient-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
+        .ambient-blob-1 { position: absolute; top: -10%; left: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, rgba(212,175,55,0.12) 0%, transparent 70%); border-radius: 50%; filter: blur(60px); animation: float1 20s infinite alternate; }
+        .ambient-blob-2 { position: absolute; bottom: 10%; right: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(255,48,64,0.08) 0%, transparent 70%); border-radius: 50%; filter: blur(60px); animation: float2 25s infinite alternate; }
+        @keyframes float1 { 100% { transform: translate(10vw, 10vh); } } @keyframes float2 { 100% { transform: translate(-10vw, -10vh); } }
 
-        /* HİKAYELER */
-        .stories-wrapper { position: absolute; top: calc(65px + env(safe-area-inset-top)); left: 0; width: 100%; padding: 10px 5%; display: flex; gap: 15px; overflow-x: auto; scroll-behavior: smooth; z-index: 50; }
+        header { position: fixed; top: 0; left: 0; width: 100%; padding: 10px 20px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; background: rgba(10, 10, 12, 0.6); backdrop-filter: blur(20px); z-index: 100; border-bottom: var(--glass-border); padding-top: calc(10px + env(safe-area-inset-top)); transition: border-color 0.5s ease;}
+        .header-left { display: flex; justify-content: flex-start; position: relative;}
+        .header-right { display: flex; justify-content: flex-end; gap:10px; }
+        .logo { font-family: 'Grand Hotel', cursive; font-size: 36px; color: var(--text-light); text-decoration: none; justify-self: center; transition: text-shadow 0.5s;}
+        .header-icon { color: var(--text-light); font-size: 28px; cursor: pointer; background: none; border: none; display: flex; align-items: center;}
+        .notification-dot { position: absolute; top: 0; right: 0; width: 10px; height: 10px; background: #ff3040; border-radius: 50%; display: none; }
+
+        .stories-wrapper { position: absolute; top: calc(65px + env(safe-area-inset-top)); left: 0; width: 100%; padding: 10px 5%; display: flex; gap: 15px; overflow-x: auto; scroll-behavior: smooth; z-index: 50; -webkit-overflow-scrolling: touch; }
         .stories-wrapper::-webkit-scrollbar { display: none; }
-        .story-item { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; flex-shrink: 0; }
-        .story-ring { width: 65px; height: 65px; border-radius: 50%; padding: 2px; background: var(--ring-gradient); display: flex; justify-content: center; align-items: center;}
-        .story-img { width: 100%; height: 100%; border-radius: 50%; border: 2px solid var(--body-bg); background-size: cover; background-position: center;}
-        .story-name { font-size: 11px; font-weight: bold; letter-spacing: 0.5px;}
+        .story-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; flex-shrink: 0; }
+        .story-ring { width: 65px; height: 65px; border-radius: 50%; padding: 2px; background: var(--ring-gradient); display: flex; justify-content: center; align-items: center; transition: background 0.5s, box-shadow 0.5s;}
+        .story-img { width: 100%; height: 100%; border-radius: 50%; border: 2px solid var(--body-bg); background-size: cover; background-position: center; transition: border-color 0.5s;}
+        .story-name { font-size: 11px; color: var(--text-light); font-weight: 500;}
 
-        /* SWIPE KARTLARI */
-        .swipe-container { position: absolute; top: calc(165px + env(safe-area-inset-top)); bottom: 150px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 400px; display: flex; justify-content: center; align-items: center; perspective: 1000px; }
-        .swipe-card { position: absolute; width: 100%; height: 100%; background: var(--glass-bg); backdrop-filter: blur(25px); border: var(--glass-border); border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; transition: transform 0.3s ease, opacity 0.3s ease; cursor: grab; z-index: 1; user-select: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5);}
+        .swipe-container { position: absolute; top: calc(165px + env(safe-area-inset-top)); bottom: 150px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 400px; display: flex; justify-content: center; align-items: center; perspective: 1000px; }
+        .swipe-card { position: absolute; width: 92%; height: 95%; background: var(--glass-bg); backdrop-filter: blur(20px); border: var(--glass-border); border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; transform-origin: 50% 100%; transition: transform 0.3s ease, opacity 0.3s ease; cursor: grab; z-index: 1; user-select: none; }
+        .swipe-card.moving { transition: none; cursor: grabbing; }
         .swipe-card.removed { pointer-events: none; } 
-        .card-img-bg { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: -1; }
-        .card-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.95), transparent 40%); z-index: 0; }
-        .stamp { position: absolute; top: 40px; padding: 5px 15px; border-radius: 10px; font-weight: 800; font-size: 32px; text-transform: uppercase; opacity: 0; z-index: 10; border: 4px solid; }
+        .card-img-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: -1; }
+        .card-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 40%, transparent 100%); z-index: 0; }
+        .swipe-stamp { position: absolute; top: 40px; padding: 5px 15px; border-radius: 10px; font-weight: 800; font-size: 32px; text-transform: uppercase; opacity: 0; z-index: 10; border: 4px solid; }
         .stamp-like { right: 30px; color: #2ecc71; border-color: #2ecc71; transform: rotate(15deg); }
         .stamp-nope { left: 30px; color: #ff4757; border-color: #ff4757; transform: rotate(-15deg); }
-        .card-info { position: relative; z-index: 2; padding: 20px; color: white;}
-        .card-name { font-size: 28px; font-weight: 700;}
-        .card-bio { font-size: 14px; color: #ccc; margin-top: 5px;}
-        
+        .card-info { position: relative; z-index: 2; padding: 20px; width: 100%; display: flex; justify-content: space-between; align-items: flex-end;}
+        .card-name { font-size: 28px; font-weight: 700; color: white; display: flex; align-items: center; gap: 6px;}
         .empty-state { position: absolute; text-align: center; color: rgba(255,255,255,0.6); font-size: 16px; display: flex; flex-direction: column; align-items: center; gap: 15px; z-index: 0;}
         .btn-reset-swipes { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: 600;}
 
-        /* KAYDIRMA BUTONLARI */
         .action-buttons { position: absolute; bottom: calc(85px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); width: 100%; max-width: 350px; display: flex; justify-content: space-evenly; align-items: center; z-index: 90;}
-        .action-btn { width: 60px; height: 60px; border-radius: 50%; background: var(--glass-bg); backdrop-filter: blur(20px); border: var(--glass-border); display: flex; justify-content: center; align-items: center; cursor: pointer; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.3);}
+        .action-btn { width: 60px; height: 60px; border-radius: 50%; background: var(--glass-bg); backdrop-filter: blur(15px); border: var(--glass-border); display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s;}
+        .btn-dislike { color: #ff4757; } .btn-superlike { width: 50px; height: 50px; color: #3498db; } .btn-like { color: #2ecc71; }
 
-        /* 🔥 PROFİL İLE EŞİTLENMİŞ ALT MENÜ 🔥 */
-        .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 10, 12, 0.95); backdrop-filter: blur(25px); padding: 10px 10px calc(8px + env(safe-area-inset-bottom)); border-top: var(--glass-border); z-index: 999;}
-        .nav-btn { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s;}
-        .nav-btn .material-symbols-outlined { font-size: 30px; }
-        .nav-btn.active { color: white; }
-        .add-btn { background: var(--ring-gradient); color: #000; width: 44px; height: 44px; border-radius: 12px; }
+        .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10, 10, 12, 0.85); backdrop-filter: blur(20px); padding: 10px 10px calc(8px + env(safe-area-inset-bottom)); border-top: var(--glass-border); z-index: 999; transition: border-color 0.5s;}
+        .nav-icon-btn { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .nav-icon-btn .material-symbols-outlined { font-size: 30px; }
+        .nav-icon-btn.active { color: white; }
+        .nav-icon-btn.add-btn { background: var(--ring-gradient); color: #000; width: 44px; height: 44px; border-radius: 12px; transition: background 0.5s;}
+        .nav-icon-btn.add-btn .material-symbols-outlined { font-weight: 600;}
 
-        /* 🔥 ORTAK MODALLAR & GLASSMORPHISM 🔥 */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(15px); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 15px;}
-        .modal-overlay.active { display: flex; animation: fadeIn 0.2s ease; }
-        @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: 0.3s; z-index: 1500; padding: 15px; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .close-btn { position: absolute; top: calc(15px + env(safe-area-inset-top)); right: 15px; background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; z-index: 50; display: flex; align-items: center; justify-content: center;}
         
-        .close-x { position: absolute; top: calc(20px + env(safe-area-inset-top)); right: 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 3000; box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: 0.2s; }
-        .close-x:active { transform: scale(0.9); }
-        .close-x .material-symbols-outlined { font-size: 24px; font-weight: bold; }
-        
-        .glass-box { background: var(--glass-bg); backdrop-filter: blur(30px); border: var(--glass-border); border-radius: 24px; padding: 25px; width: 100%; max-width: 400px; max-height: 90vh; overflow-y: auto; box-shadow: 0 15px 35px rgba(0,0,0,0.5);}
-        .form-input { width: 100%; padding: 14px; background: rgba(255,255,255,0.1); border: var(--glass-border); border-radius: 12px; color: white; outline: none; margin-bottom: 15px; font-size: 15px;}
-        .btn-gold { background: var(--primary-gold); color: #000; padding: 14px; border-radius: 12px; font-weight: 700; width: 100%; border: none; cursor: pointer; font-size: 16px;}
+        .glass-box { background: var(--glass-bg); border: var(--glass-border); border-radius: 24px; padding: 30px; width: 100%; max-width: 400px; transform: scale(0.95); transition: 0.3s, background 0.5s, border-color 0.5s; display: flex; flex-direction: column; }
+        .modal-overlay.active .glass-box { transform: scale(1); }
+        .form-group { margin-bottom: 15px; width: 100%;}
+        .form-group input, .form-group textarea { width: 100%; padding: 14px; background: rgba(0,0,0,0.5); border: var(--glass-border); border-radius: 12px; color: white; outline: none; font-size: 14px;}
+        .btn-premium { background: var(--primary-gold); color: #000; padding: 14px; border-radius: 12px; font-weight: 700; width: 100%; border: none; cursor: pointer; font-size: 15px; transition: background 0.5s, box-shadow 0.5s;}
 
-        .bottom-sheet { background: var(--body-bg); width: 100%; height: 90vh; position: absolute; bottom: 0; border-radius: 20px 20px 0 0; display: flex; flex-direction: column; overflow: hidden; padding-bottom: env(safe-area-inset-bottom); transform: translateY(100%); transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .auth-box { background: var(--glass-bg); backdrop-filter: blur(25px); border: var(--glass-border); border-radius: 35px; padding: 40px 30px; width: 100%; max-width: 380px; text-align: center; transform: scale(0.9); transition: all 0.4s ease; margin: auto; }
+        .modal-overlay.active .auth-box { transform: scale(1); }
+        .auth-tabs { display: flex; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .tab-btn { flex: 1; background: none; border: none; color: gray; padding: 10px; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 15px; }
+        .tab-btn.active { color: var(--primary-gold); border-bottom: 2px solid var(--primary-gold); }
+        .auth-form { display: none; } .auth-form.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .bottom-sheet { background: var(--body-bg); width: 100%; height: 90vh; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: transform 0.4s, background 0.5s; display: flex; flex-direction: column; overflow: hidden; padding-bottom: env(safe-area-inset-bottom); }
         .modal-overlay.active .bottom-sheet { transform: translateY(0); }
+        .sheet-header { padding: 20px; border-bottom: var(--glass-border); display: flex; align-items: center; gap: 15px; font-size: 16px; font-weight: 600; z-index: 10; background: rgba(10,10,12,0.6); backdrop-filter:blur(20px);}
+        .list-item { display: flex; align-items: center; gap: 15px; padding: 15px 20px; border-bottom: var(--glass-border); cursor: pointer;}
+        .list-avatar { width: 48px; height: 48px; border-radius: 50%; background: #222; background-size: cover; background-position: center; flex-shrink: 0;}
+        .list-text { flex: 1; font-size: 14px; line-height: 1.4;}
+
+        .reels-box { background: #000; width: 100%; height: 100dvh; position: relative; transform: translateY(100%); transition: 0.4s; overflow-y: scroll; scroll-snap-type: y mandatory; }
+        .modal-overlay.active .reels-box { transform: translateY(0); }
+        .reel-item { width: 100%; height: 100dvh; scroll-snap-align: start; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center;}
+        .reel-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 35%, rgba(0,0,0,0.3) 100%); z-index: 2; pointer-events: none;}
+        .reel-content { position: absolute; bottom: calc(90px + env(safe-area-inset-bottom)); left:0; padding:20px; z-index: 3; display: flex; justify-content: space-between; align-items: flex-end; width: 100%; }
+        .reel-user { display: flex; align-items: center; gap: 8px; color: white; font-weight: 600; font-size: 15px; margin-bottom: 12px; cursor: pointer;}
+        .reel-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center;}
+        .btn-follow { background: transparent; border: 1px solid white; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-left: 5px;}
+        .btn-follow.following { background: rgba(255,255,255,0.2); border-color: transparent;}
+        .reel-actions { display: flex; flex-direction: column; gap: 20px; align-items: center;}
+        .reel-action-btn { background: none; border: none; color: white; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));}
+        .reel-action-btn.liked .material-symbols-outlined { color: #ff3040; font-variation-settings: 'FILL' 1; }
+
+        .search-input { flex: 1; background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; padding: 12px 20px; border-radius: 30px; outline: none; font-size: 14px;}
+        .explore-users-container { display: none; max-height: 250px; overflow-y: auto; border-bottom: var(--glass-border); -webkit-overflow-scrolling: touch;}
+        .explore-scroll-area { flex: 1; overflow-y: auto; display: flex; flex-direction: column; -webkit-overflow-scrolling: touch;}
+        .grid-view { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; width: 100%; }
+        .grid-item { width: 100%; height: 0; padding-bottom: 100%; position: relative; background-color: #1a1a1a; background-size: cover; background-position: center; cursor: pointer; }
+        .grid-video-icon { position:absolute; top:8px; right:8px; color:white; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); font-size: 22px;}
+
+        .up-header-top { display: flex; align-items: center; padding: 20px 20px 15px; gap: 20px;}
+        .up-avatar-container { width: 86px; height: 86px; border-radius: 50%; padding: 3px; background: var(--ring-gradient); flex-shrink: 0; transition: background 0.5s;}
+        .up-avatar { width: 100%; height: 100%; border-radius: 50%; background-size: cover; background-position: center; border: 3px solid var(--body-bg); transition: border-color 0.5s;}
+        .up-stats { display: flex; flex: 1; justify-content: space-around; text-align: center; }
+        .up-stat-item { font-size: 12px; color: rgba(255,255,255,0.7); }
+        .up-stat-item span { display: block; font-size: 16px; font-weight: bold; color: white; margin-bottom: 2px;}
+        .up-bio-container { padding: 0 20px 15px; }
+        .up-name { font-size: 16px; font-weight: bold; color: white; margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
+        .up-bio { font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.4; white-space: pre-wrap; }
+        .up-actions { display: flex; gap: 10px; padding: 0 20px 20px; }
+        .btn-up-action { flex: 1; padding: 8px 0; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; border: none; transition: 0.2s;}
+
+        .post-detail-box { background: var(--body-bg); width: 100%; height: 90vh; border-radius: 24px 24px 0 0; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.4s, background 0.5s; display: flex; flex-direction: column; overflow: hidden;}
+        .modal-overlay.active .post-detail-box { transform: translateY(0); }
+        .post-detail-img-container { position: relative; width: 100%; height: 50vh; display: flex; justify-content: center; align-items: center; background: black; overflow: hidden; border-bottom: var(--glass-border); border-top: var(--glass-border);}
+        .media-blur-bg { position: absolute; top: -10%; left: -10%; width: 120%; height: 120%; background-size: cover; background-position: center; filter: blur(35px) brightness(0.3); z-index: 0;}
+
+        /* SOHBET SİSTEMİ V21 EKLENTİLERİ */
+        .chat-area { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; position: relative; transition: background 0.5s ease;}
+        .chat-msg { display: flex; flex-direction: column; max-width: 80%; position: relative; transition: transform 0.2s ease;}
+        .chat-msg.mine { align-self: flex-end; align-items: flex-end; }
+        .chat-msg.theirs { align-self: flex-start; align-items: flex-start; }
+        .chat-bubble { padding: 12px 16px; border-radius: 20px; font-size: 14px; line-height: 1.4; word-break: break-word; position: relative;}
+        .chat-msg.mine .chat-bubble { background: var(--ring-gradient); color: #000; border-bottom-right-radius: 4px; transition: background 0.5s;}
+        .chat-msg.theirs .chat-bubble { background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; border-bottom-left-radius: 4px;}
+        .chat-time { font-size: 10px; color: gray; margin-top: 4px; }
         
-        .sheet-header { padding: 15px 20px; border-bottom: var(--glass-border); display: flex; align-items: center; gap: 15px; font-size: 18px; font-weight: bold; background: #050505; flex-shrink: 0;}
-        .list-item { display: flex; align-items: center; gap: 15px; padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: background 0.2s;}
-        .list-item:active { background: rgba(255,255,255,0.05); }
-        .list-avatar { width: 50px; height: 50px; border-radius: 50%; background-size: cover; background-position: center; border: 1px solid var(--primary-gold); flex-shrink:0;}
+        .chat-area.theme-neon { background: linear-gradient(to bottom, #12001b, #000); }
+        .chat-area.theme-neon .chat-msg.mine .chat-bubble { background: linear-gradient(135deg, #8e2de2, #4a00e0); color: white; }
+        .chat-area.theme-wine { background: linear-gradient(to bottom, #1a0004, #000); }
+        .chat-area.theme-wine .chat-msg.mine .chat-bubble { background: linear-gradient(135deg, #800020, #4d0013); color: white; }
+        .chat-area.theme-ocean { background: linear-gradient(to bottom, #000b18, #000); }
+        .chat-area.theme-ocean .chat-msg.mine .chat-bubble { background: linear-gradient(135deg, #005c97, #363795); color: white; }
 
-        /* 🔥 DÜZELTİLMİŞ ŞIK PROFİL TASARIMI (MODAL İÇİN) 🔥 */
-        .up-header-top { display: flex; align-items: center; padding: 20px; gap: 20px;}
-        .up-stats { display: flex; flex: 1; justify-content: space-around; text-align: center; font-size: 13px; color: #ccc;}
-        .up-stats span { display: block; font-size: 18px; font-weight: bold; color: white; margin-bottom: 2px;}
+        .reply-preview-box { display: none; background: rgba(20,20,25,0.95); padding: 10px 15px; border-left: 3px solid var(--primary-gold); font-size: 12px; color: gray; position: relative; border-radius: 12px 12px 0 0; margin-bottom: -10px; z-index: 5; align-items: center; justify-content: space-between; border-top: var(--glass-border); backdrop-filter: blur(15px);}
+        .reply-preview-box.active { display: flex; animation: slideUp 0.2s ease; }
+        .quoted-msg { background: rgba(0,0,0,0.25); padding: 8px 12px; border-left: 3px solid rgba(255,255,255,0.6); border-radius: 8px; font-size: 12px; margin-bottom: 6px; opacity: 0.9; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 100%;}
+        .chat-msg.mine .quoted-msg { background: rgba(255,255,255,0.2); border-left-color: #000; color: #000; }
         
-        /* 🔥 REELS & KEŞFET & GÖNDERİLER 🔥 */
-        .reels-container { width: 100%; height: 100dvh; overflow-y: scroll; scroll-snap-type: y mandatory; background: #000; }
-        .reel-item { width: 100%; height: 100dvh; scroll-snap-align: start; position: relative; background: #000; display: flex; justify-content: center; align-items: center; overflow: hidden;}
-        .reel-media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; z-index: 1; }
-        .reel-ui { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; padding-bottom: calc(85px + env(safe-area-inset-bottom)); background: linear-gradient(to top, rgba(0,0,0,0.8), transparent 40%); pointer-events: none;}
-        .reel-ui-content { display: flex; justify-content: space-between; align-items: flex-end; pointer-events: auto; width: 100%;}
-        .action-icon { background: none; border: none; color: white; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; font-size: 13px; font-weight: bold; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8)); margin-top: 20px;}
-        .action-icon .material-symbols-outlined { font-size: 34px; }
-        .action-icon.liked { color: #ff3040; }
-        .action-icon.liked .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
+        .msg-like-badge { position: absolute; bottom: -6px; right: -6px; background: #111; border-radius: 50%; padding: 4px; font-size: 13px; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 2px 6px rgba(0,0,0,0.8); animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 2;}
+        @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+        @keyframes slideUp { 0% { transform: translateY(10px); opacity:0;} 100% { transform: translateY(0); opacity:1;} }
 
-        .search-input { flex: 1; background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; padding: 12px 20px; border-radius: 30px; outline: none;}
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; width: 100%; }
-        .grid-item { aspect-ratio: 1; background-size: cover; background-position: center; cursor: pointer; position: relative; background-color: #111;}
-        .grid-video-icon { position:absolute; top:8px; right:8px; color:white; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8)); font-size: 22px;}
-
-        /* PROFİL AKIŞI FIX */
-        .feed-modal { background: var(--body-bg); width: 100%; height: 100dvh; display: flex; flex-direction: column; position: absolute; bottom: 0; transform: translateY(100%); transition: transform 0.4s; }
-        .modal-overlay.active .feed-modal { transform: translateY(0); }
-        .feed-scroll-container { flex: 1; overflow-y: auto; scroll-snap-type: y mandatory; display: flex; flex-direction: column; background: #000; }
-        .feed-post-item { width: 100%; height: calc(100dvh - 60px); scroll-snap-align: start; display: flex; flex-direction: column; border-bottom: 2px solid #111; background: var(--body-bg); flex-shrink: 0;}
-
-        /* SOHBET / DM */
-        .chat-room-bg { background: linear-gradient(to bottom, #0a0a0c, #000); }
-        .chat-area { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
-        .chat-msg { max-width: 75%; display: flex; flex-direction: column; position: relative;}
-        .chat-mine { align-self: flex-end; }
-        .chat-mine .chat-bubble { background: var(--ring-gradient); color: #000; border-radius: 20px 20px 4px 20px; padding: 12px 18px; font-size: 14.5px; box-shadow: 0 4px 10px rgba(212,175,55,0.2); font-weight: 500;}
-        .chat-theirs { align-self: flex-start; }
-        .chat-theirs .chat-bubble { background: rgba(255,255,255,0.08); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 20px 20px 20px 4px; padding: 12px 18px; font-size: 14.5px; }
+        .chat-input-container { padding: 15px 20px; background: rgba(20,20,25,0.9); border-top: var(--glass-border); display: flex; gap: 8px; align-items: center; z-index: 10; position:relative;}
+        .chat-input { flex: 1; background: rgba(255,255,255,0.1); border: none; color: white; padding: 14px 20px; border-radius: 30px; outline: none; font-size:14px;}
+        .chat-send-btn { background: var(--primary-gold); width: 45px; height: 45px; border-radius: 50%; border: none; display: flex; justify-content: center; align-items: center; color: black; cursor: pointer; transition: transform 0.2s, background 0.5s;}
         
-        .chat-input-wrapper { padding: 10px 15px; background: rgba(15,15,18,0.9); backdrop-filter: blur(20px); border-top: var(--glass-border); display: flex; gap: 10px; align-items: center; padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
-        .chat-pill { flex: 1; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); border-radius: 30px; display: flex; align-items: center; padding: 5px 15px; }
-        .chat-pill input { flex: 1; background: transparent; border: none; color: white; padding: 10px 0; outline: none; font-size: 14.5px; }
-        .chat-btn-send { background: var(--primary-gold); color: #000; width: 38px; height: 38px; border-radius: 50%; border: none; display: flex; justify-content: center; align-items: center; cursor: pointer; flex-shrink: 0; box-shadow: 0 2px 10px rgba(212,175,55,0.4);}
-        
-        .match-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); z-index: 3000; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; text-align: center; padding: 20px;}
-        .match-overlay.active { opacity: 1; pointer-events: all; }
+        .typing-indicator-box { display: flex; align-items: center; gap: 4px; padding: 12px 16px; height: 38px; width: fit-content; }
+        .typing-dot { width: 6px; height: 6px; background: rgba(255,255,255,0.7); border-radius: 50%; animation: typeBounce 1.4s infinite ease-in-out both; }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typeBounce { 0%, 80%, 100% { transform: scale(0); opacity:0.5;} 40% { transform: scale(1); opacity:1;} }
 
-        .story-sticker { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); background: rgba(255,255,255,0.15); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.3); border-radius: 16px; padding: 15px 20px; text-align: center; z-index: 10; min-width: 220px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); cursor: pointer;}
+        .match-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: 0.5s ease;}
+        .match-overlay.active { opacity: 1; visibility: visible; }
+        .match-title { font-family: 'Grand Hotel', cursive; font-size: 60px; color: var(--primary-gold); margin-bottom: 40px; transform: scale(0.5); opacity: 0; transition: 0.5s; }
+        .match-overlay.active .match-title { transform: scale(1); opacity: 1; }
+
+        @media (max-width: 768px) {
+            .modal-overlay { padding: 0; align-items: flex-end;}
+            .glass-box { margin: 0; max-width: 100%; border-radius: 25px 25px 0 0; transform: translateY(100%); border-bottom: none;}
+            .modal-overlay.active .glass-box { transform: translateY(0); }
+            .modal-overlay.active .auth-box { transform: scale(1) translateY(0) !important; margin: auto !important; border-radius: 35px; }
+            .bottom-sheet, .post-detail-box { height: 90vh; border-radius: 20px 20px 0 0; }
+            .reels-box { height: 100dvh; max-width: 100%; border-radius: 0; }
+        }
     </style>
 </head>
 <body>
 
-<div id="splash-screen">
-    <div class="splash-logo">Swinder</div>
-    <div style="color:var(--primary-gold); margin-top:20px; font-weight:bold; letter-spacing:1px;">VIP Ağına Bağlanıyor...</div>
-</div>
+    <div id="splash-screen"><div class="splash-logo">Swinder</div></div>
+    <div class="ambient-bg"><div class="ambient-blob-1"></div><div class="ambient-blob-2"></div></div>
 
-<header>
-    <div class="header-left">
-        <button class="header-icon" onclick="window.openM('settingsModal')"><span class="material-symbols-outlined">menu</span></button>
-        <button class="header-icon" onclick="window.openM('notificationsModal')"><span class="material-symbols-outlined">favorite</span><span class="noti-dot" id="noti-dot"></span></button>
-    </div>
-    <a href="index.html" class="logo">Swinder</a>
-    <div class="header-right">
-        <button class="header-icon" onclick="window.openM('preferencesModal')"><span class="material-symbols-outlined">tune</span></button>
-        <button class="header-icon" onclick="window.openM('messagesModal')"><span class="material-symbols-outlined">send</span></button>
-    </div>
-</header>
-
-<div class="stories-wrapper" id="stories-container"></div>
-<div class="swipe-container" id="swipe-container"><div class="empty-state" id="empty-state" style="display: none;"><span class="material-symbols-outlined" style="font-size:50px; color:gray;">radar</span><p style="color:gray; margin-top:10px;">Yakınlarda kimse kalmadı.</p><button class="btn-reset-swipes" onclick="window.resetSwipes()" style="margin-top:20px;">Sıfırla</button></div></div>
-
-<div class="action-buttons">
-    <button class="action-btn" onclick="window.swipeAction('left')" style="color:#ff4757"><span class="material-symbols-outlined" style="font-size:35px;">close</span></button>
-    <button class="action-btn" onclick="window.swipeAction('super')" style="color:#3498db; width:50px; height:50px;"><span class="material-symbols-outlined" style="font-size:28px;">star</span></button>
-    <button class="action-btn" onclick="window.swipeAction('right')" style="color:#2ecc71"><span class="material-symbols-outlined" style="font-size:35px;">favorite</span></button>
-</div>
-
-<nav class="bottom-nav">
-    <button class="nav-btn active" onclick="location.reload()"><span class="material-symbols-outlined">home</span></button>
-    <button class="nav-btn" onclick="window.openExplore()"><span class="material-symbols-outlined">search</span></button>
-    <button class="nav-btn add-btn" onclick="window.openM('addModal')"><span class="material-symbols-outlined">add</span></button>
-    <button class="nav-btn" onclick="window.openReels()"><span class="material-symbols-outlined">movie</span></button>
-    <button class="nav-btn" onclick="location.assign('profil.html')"><span class="material-symbols-outlined">person</span></button>
-</nav>
-
-<div class="modal-overlay" id="authModal">
-    <div class="glass-box" style="text-align:center;">
-        <div class="splash-logo" style="font-size:50px; margin-bottom:10px;">Swinder</div>
-        <p style="color:#ccc; font-size:13px; margin-bottom:25px;">Premium Ağa Giriş Yap</p>
-        <input type="email" id="auth-email" class="form-input" placeholder="E-posta">
-        <input type="password" id="auth-pass" class="form-input" placeholder="Şifre">
-        <button class="btn-gold" id="btn-login" style="margin-bottom:10px;">Giriş Yap</button>
-        <button class="btn-gold" id="btn-register" style="background:rgba(255,255,255,0.1); color:white; border:var(--glass-border);">Yeni Hesap Oluştur</button>
-    </div>
-</div>
-
-<div class="modal-overlay" id="settingsModal">
-    <div class="bottom-sheet" style="height: auto;">
-        <div class="sheet-header">Ayarlar <button class="header-icon" onclick="window.closeM('settingsModal')" style="margin-left:auto;"><span class="material-symbols-outlined">close</span></button></div>
-        <div class="list-item" onclick="window.closeM('settingsModal'); window.openM('preferencesModal')"><span class="material-symbols-outlined">tune</span> Filtreler ve Gizlilik</div>
-        <div class="list-item" id="btn-admin-panel" style="display:none; color:var(--primary-gold);" onclick="window.closeM('settingsModal'); window.openM('adminModal')"><span class="material-symbols-outlined">workspace_premium</span> Admin Paneli</div>
-        <div class="list-item" onclick="window.logoutApp()" style="color:#ff4757;"><span class="material-symbols-outlined">logout</span> Çıkış Yap</div>
-    </div>
-</div>
-
-<div class="modal-overlay" id="adminModal">
-    <div class="glass-box">
-        <button class="close-x" onclick="window.closeM('adminModal')"><span class="material-symbols-outlined">close</span></button>
-        <h2 style="color:var(--primary-gold); text-align:center; margin-bottom:20px;">Admin Paneli</h2>
-        <input type="text" id="admin-target-user" class="form-input" placeholder="Kullanıcı Adı">
-        <button class="btn-gold" onclick="window.grantPremium()">Premium Ver</button>
-    </div>
-</div>
-
-<div class="modal-overlay" id="preferencesModal">
-    <div class="glass-box">
-        <button class="close-x" onclick="window.closeM('preferencesModal')"><span class="material-symbols-outlined">close</span></button>
-        <h2 style="color:white; text-align:center; margin-bottom:20px;">Filtreler</h2>
-        <div style="margin-bottom: 20px;">
-            <div style="display:flex; justify-content:space-between; color:white; font-size:14px;"><span>Mesafe</span><strong id="dist-val" style="color:var(--primary-gold);">50 km</strong></div>
-            <input type="range" id="max-distance-slider" min="1" max="100" value="50" style="width:100%; margin-top:10px;" oninput="document.getElementById('dist-val').innerText=this.value+' km'">
+    <header>
+        <div class="header-left"><button class="header-icon" onclick="window.openNotifications()"><span class="material-symbols-outlined">favorite</span><span class="notification-dot" id="noti-dot"></span></button></div>
+        <a href="index.html" class="logo">Swinder</a>
+        <div class="header-right">
+            <button class="header-icon" onclick="openModal('preferencesModal')"><span class="material-symbols-outlined">tune</span></button>
+            <button class="header-icon" onclick="window.openMessages()"><span class="material-symbols-outlined">send</span></button>
         </div>
-        <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.5); padding:15px; border-radius:12px; margin-bottom:20px;">
-            <span style="color:white;">Hayalet Modu (VIP)</span>
-            <input type="checkbox" id="ghost-mode-toggle" style="width:20px; height:20px;">
+    </header>
+
+    <div class="stories-wrapper" id="stories-container"></div>
+    <div class="swipe-container" id="swipe-container"><div class="empty-state" id="empty-state" style="display: none;"><span class="material-symbols-outlined">radar</span><p>Kriterlerine uygun kimse kalmadı.</p><button class="btn-reset-swipes" onclick="window.resetSwipes()">Sıfırla</button></div></div>
+
+    <div class="action-buttons">
+        <button class="action-btn btn-dislike" onclick="window.buttonSwipe('left')"><span class="material-symbols-outlined">close</span></button>
+        <button class="action-btn btn-superlike" onclick="window.buttonSwipe('super')"><span class="material-symbols-outlined">star</span></button>
+        <button class="action-btn btn-like" onclick="window.buttonSwipe('right')"><span class="material-symbols-outlined">favorite</span></button>
+    </div>
+
+    <nav class="bottom-nav">
+        <button class="nav-icon-btn active" onclick="window.scrollTo({top: 0, behavior: 'smooth'})"><span class="material-symbols-outlined">home</span></button>
+        <button class="nav-icon-btn" onclick="window.openExplore()"><span class="material-symbols-outlined">search</span></button>
+        <button class="nav-icon-btn add-btn" onclick="openModal('addModal')"><span class="material-symbols-outlined">add</span></button>
+        <button class="nav-icon-btn" onclick="window.openReels()"><span class="material-symbols-outlined">movie</span></button>
+        <button class="nav-icon-btn" onclick="window.location.assign('profil.html')"><span class="material-symbols-outlined">person</span></button>
+    </nav>
+
+    <div class="modal-overlay" id="authModal" style="z-index: 9999; align-items:center;">
+        <div class="auth-box">
+            <div class="splash-logo" style="font-size: 55px; margin-bottom: 5px; animation: none;">Swinder</div>
+            <p style="color:rgba(255,255,255,0.6); font-size:14px; margin-bottom:30px;">VIP Ağınıza Hoş Geldiniz</p>
+            <div class="auth-tabs"><button class="tab-btn active" id="tab-login" onclick="window.switchAuthTab('login')">Giriş Yap</button><button class="tab-btn" id="tab-register" onclick="window.switchAuthTab('register')">Kayıt Ol</button></div>
+            <div class="auth-form active" id="form-login"><div class="form-group"><input type="email" id="login-email" placeholder="E-posta Adresi"></div><div class="form-group"><input type="password" id="login-pass" placeholder="Şifre"></div><button class="btn-premium" id="btn-login">Oturum Aç</button></div>
+            <div class="auth-form" id="form-register"><div class="form-group"><input type="text" id="reg-name" placeholder="Kullanıcı Adı"></div><div class="form-group"><input type="email" id="reg-email" placeholder="E-posta Adresi"></div><div class="form-group"><input type="password" id="reg-pass" placeholder="Şifre"></div><button class="btn-premium" id="btn-register">VIP Hesabını Oluştur</button></div>
         </div>
-        <button class="btn-gold" onclick="window.savePreferences()">Kaydet</button>
     </div>
-</div>
 
-<div class="modal-overlay" id="addModal">
-    <div class="glass-box">
-        <button class="close-x" onclick="window.closeM('addModal')"><span class="material-symbols-outlined">close</span></button>
-        <h2 style="color:white; text-align:center; margin-bottom:20px;">Yeni Gönderi</h2>
-        <input type="file" id="add-image-file" class="form-input" accept="image/*, video/*">
-        <textarea id="add-caption" class="form-input" rows="3" placeholder="Açıklama yaz..."></textarea>
-        <button class="btn-gold" id="btn-submit-post">Paylaş</button>
-    </div>
-</div>
-
-<div class="modal-overlay" id="addStoryModal">
-    <div class="glass-box">
-        <button class="close-x" onclick="window.closeM('addStoryModal')"><span class="material-symbols-outlined">close</span></button>
-        <h2 style="color:white; text-align:center; margin-bottom:20px;">Hikaye Ekle</h2>
-        <input type="file" id="story-file" class="form-input" accept="image/*, video/*">
-        <select id="story-sticker-type" class="form-input" onchange="document.getElementById('sticker-text-box').style.display = this.value==='none'?'none':'block';">
-            <option value="none">Çıkartma Yok</option>
-            <option value="ama">Bana Soru Sor</option>
-            <option value="poll">Anket</option>
-        </select>
-        <input type="text" id="sticker-text-box" class="form-input" placeholder="Soru/Anket Başlığı" style="display:none;">
-        <button class="btn-gold" id="btn-submit-story">Paylaş</button>
-    </div>
-</div>
-
-<div class="modal-overlay" id="viewStoryModal" style="background:#000;">
-    <button class="close-x" onclick="window.closeM('viewStoryModal')"><span class="material-symbols-outlined">close</span></button>
-    <div style="width:100%; height:100dvh; display:flex; flex-direction:column; position:relative;">
-        <div style="position:absolute; top:15px; left:0; width:100%; padding:15px; z-index:20; display:flex; align-items:center; gap:10px;">
-            <div id="view-story-avatar" class="list-avatar" style="width:40px; height:40px;"></div>
-            <b id="view-story-username" style="color:white; text-shadow:0 1px 3px black;"></b>
+    <div class="modal-overlay" id="preferencesModal" style="z-index: 1800;">
+        <div class="glass-box">
+            <button class="close-btn" onclick="closeModal('preferencesModal')"><span class="material-symbols-outlined">close</span></button>
+            <h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Filtre ve Gizlilik</h2>
+            <div style="margin-bottom: 25px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <span style="color:gray; font-size:14px;">Maksimum Mesafe</span>
+                    <strong style="color:var(--primary-gold);" id="dist-val">50 km</strong>
+                </div>
+                <input type="range" min="1" max="100" value="50" class="pref-slider" id="max-distance-slider" oninput="document.getElementById('dist-val').innerText = this.value + ' km'">
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 25px; padding:15px; background:rgba(0,0,0,0.5); border-radius:12px; border:var(--glass-border);">
+                <div><strong style="color:white; display:block;">Hayalet Modu (Ghost)</strong><span style="font-size:12px; color:gray;">Sadece VIP (💎) özel.</span></div>
+                <label class="switch"><input type="checkbox" id="ghost-mode-toggle"><span class="slider"></span></label>
+            </div>
+            <button class="btn-premium" onclick="window.savePreferences()" style="margin-bottom: 10px;">Kaydet ve Yenile</button>
         </div>
-        <div id="view-story-media-container" style="flex:1; display:flex; justify-content:center; align-items:center; background:#111;"></div>
-        <div id="story-sticker-container" style="position:absolute; top:40%; left:50%; transform:translate(-50%,-50%); z-index:15;"></div>
-        <div style="position:absolute; top:0; left:0; width:30%; height:80%; z-index:10;" onclick="window.prevStory()"></div>
-        <div style="position:absolute; top:0; right:0; width:70%; height:80%; z-index:10;" onclick="window.nextStory()"></div>
-        <div style="position:absolute; bottom:20px; width:100%; padding:0 15px; z-index:20; display:flex; gap:10px;">
-            <input type="text" id="story-reply-input" class="form-input" style="margin:0; border-radius:30px;" placeholder="Mesaj gönder...">
-            <button onclick="window.sendStoryReaction('text')" style="background:none; border:none; color:white;"><span class="material-symbols-outlined" style="font-size:30px;">send</span></button>
-        </div>
-        <button id="btn-delete-story" onclick="window.deleteStoryDB()" style="display:none; position:absolute; top:70px; right:20px; z-index:20; background:red; color:white; border:none; padding:5px 10px; border-radius:10px;">Sil</button>
     </div>
-</div>
 
-<div class="modal-overlay" id="exploreModal">
-    <div class="bottom-sheet">
-        <div class="sheet-header">
-            <button class="header-icon" onclick="window.closeM('exploreModal')"><span class="material-symbols-outlined">arrow_back</span></button>
-            <input type="text" id="search-input" class="form-input" style="margin:0; border-radius:30px; flex:1;" placeholder="Ara..." onkeyup="window.performSearch()">
-        </div>
-        <div id="explore-users-list" style="display:none; max-height:200px; overflow-y:auto; border-bottom:1px solid #222;"></div>
-        <div style="flex:1; overflow-y:auto;"><div class="grid" id="explore-grid"></div></div>
+    <div class="modal-overlay" id="messagesModal"><div class="bottom-sheet"><div class="sheet-header"><button class="header-icon" onclick="closeModal('messagesModal')"><span class="material-symbols-outlined">arrow_back</span></button>Mesajlar</div><div style="flex:1; overflow-y:auto;" id="dm-list-container"></div></div></div>
+    
+    <div class="modal-overlay" id="chatThemeModal" style="z-index:1700;">
+       <div class="glass-box">
+           <button class="close-btn" onclick="closeModal('chatThemeModal')"><span class="material-symbols-outlined">close</span></button>
+           <h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Sohbet Teması Seç</h2>
+           <div style="display:flex; flex-direction:column; gap:10px;">
+               <button class="btn-premium" style="background:var(--ring-gradient); color:black;" onclick="window.changeChatTheme('default')">Klasik Swinder Altını</button>
+               <button class="btn-premium" style="background:linear-gradient(135deg, #8e2de2, #4a00e0); color:white; border:none;" onclick="window.changeChatTheme('neon')">Neon Şehir (Mor)</button>
+               <button class="btn-premium" style="background:linear-gradient(135deg, #800020, #4d0013); color:white; border:none;" onclick="window.changeChatTheme('wine')">Kırmızı Şarap</button>
+               <button class="btn-premium" style="background:linear-gradient(135deg, #005c97, #363795); color:white; border:none;" onclick="window.changeChatTheme('ocean')">Gece Sürüşü (Mavi)</button>
+           </div>
+       </div>
     </div>
-</div>
 
-<div class="modal-overlay" id="reelsModal" style="padding:0; background:#000;">
-    <button class="close-x" onclick="window.closeM('reelsModal')"><span class="material-symbols-outlined">close</span></button>
-    <div class="reels-container" id="reels-container"></div>
-</div>
+    <div class="modal-overlay" id="chatRoomModal" style="z-index: 1600;">
+        <div class="bottom-sheet" style="height: 100dvh; border-radius: 0;">
+            <div class="sheet-header" style="padding-top: calc(15px + env(safe-area-inset-top));">
+                <button class="header-icon" onclick="closeModal('chatRoomModal'); window.openMessages();"><span class="material-symbols-outlined">arrow_back</span></button>
+                <div style="display:flex; align-items:center; gap:10px;"><div id="chat-header-avatar" style="width:36px; height:36px; border-radius:50%; background-size:cover; border:var(--glass-border);"></div><span id="chat-header-name">Kullanıcı</span></div>
+                
+                <button class="header-icon" style="margin-left:auto; margin-right:10px; color:white;" onclick="openModal('chatThemeModal')"><span class="material-symbols-outlined">palette</span></button>
+                <button class="header-icon" style="color:#ff4757;" onclick="window.deleteChatRoom()"><span class="material-symbols-outlined">delete</span></button>
+            </div>
+            
+            <div class="chat-area" id="chat-messages"></div>
+            
+            <div id="reply-preview" class="reply-preview-box">
+                <div style="flex:1; overflow:hidden;">
+                    <strong id="reply-to-name" style="color:white; display:block; margin-bottom:2px; font-size:13px;">-</strong>
+                    <span id="reply-to-text" style="white-space:nowrap; text-overflow:ellipsis; display:block; overflow:hidden;">-</span>
+                </div>
+                <button class="header-icon" style="font-size:20px; padding:5px; margin-left:10px;" onclick="window.cancelReply()"><span class="material-symbols-outlined">close</span></button>
+            </div>
 
-<div class="modal-overlay" id="userProfileModal">
-    <div class="bottom-sheet">
-        <div class="sheet-header"><button class="header-icon" onclick="window.closeM('userProfileModal')"><span class="material-symbols-outlined">arrow_back</span></button><span id="up-title">Profil</span></div>
-        <div style="display:flex; align-items:center; padding:20px; gap:20px;">
-            <div id="up-avatar" class="list-avatar" style="width:80px; height:80px;"></div>
-            <div style="flex:1; display:flex; justify-content:space-around; text-align:center; color:white;">
-                <div><b id="up-post-count" style="font-size:18px; display:block;">0</b>Gönderi</div>
-                <div><b id="up-follower-count" style="font-size:18px; display:block;">0</b>Takipçi</div>
-                <div><b id="up-following-count" style="font-size:18px; display:block;">0</b>Takip</div>
+            <div class="chat-input-container" id="chat-input-container">
+                <input type="text" id="chat-input" class="chat-input" placeholder="Mesaj yaz... (Kaydırarak yanıtla)" oninput="window.onChatInput()" onkeypress="if(event.key === 'Enter') window.sendChatMessage()">
+                <button class="chat-send-btn" id="btn-mic" style="background:#ff3040; color:white;" onmousedown="window.startVoiceRecord(event)" onmouseup="window.stopVoiceRecord(event)" ontouchstart="window.startVoiceRecord(event)" ontouchend="window.stopVoiceRecord(event)"><span class="material-symbols-outlined">mic</span></button>
+                <button class="chat-send-btn" onclick="window.sendChatMessage()"><span class="material-symbols-outlined">send</span></button>
             </div>
         </div>
-        <div style="padding:0 20px 15px; color:white;"><b id="up-name">...</b><br><span id="up-bio" style="color:gray; font-size:14px;">...</span></div>
-        <div style="padding:0 20px 20px;"><button id="btn-follow-user" class="btn-gold" style="background:transparent; border:1px solid white; color:white;" onclick="window.toggleFollowDB(this)">Takip Et</button></div>
-        <div style="flex:1; overflow-y:auto; border-top:1px solid #222;"><div class="grid" id="up-grid"></div></div>
     </div>
-</div>
-
-<div class="modal-overlay" id="postDetailModal">
-    <div class="feed-modal">
-        <div class="sheet-header" style="height:60px; background:#000;"><button class="header-icon" onclick="window.closeM('postDetailModal')"><span class="material-symbols-outlined">arrow_back</span></button>Gönderi</div>
-        <div id="feed-scroll-container" class="feed-scroll-container"></div>
-    </div>
-</div>
-
-<div class="modal-overlay" id="commentsModal">
-    <div class="bottom-sheet" style="height:70vh;">
-        <div class="sheet-header"><button class="header-icon" onclick="window.closeM('commentsModal')"><span class="material-symbols-outlined">close</span></button>Yorumlar</div>
-        <div id="comments-list" style="flex:1; overflow-y:auto; padding:15px;"></div>
-        <div style="padding:15px; border-top:1px solid #222; display:flex; gap:10px;">
-            <input type="text" id="new-comment-input" class="form-input" style="margin:0; border-radius:30px;" placeholder="Yorum ekle...">
-            <button class="btn-gold" style="width:auto; padding:10px 20px;" onclick="window.submitComment()">Paylaş</button>
-        </div>
-    </div>
-</div>
-
-<div class="modal-overlay" id="shareModal">
-    <div class="bottom-sheet" style="height:60vh;">
-        <div class="sheet-header"><button class="header-icon" onclick="window.closeM('shareModal')"><span class="material-symbols-outlined">close</span></button>Gönder</div>
-        <div style="padding:10px;"><input type="text" class="form-input" style="margin:0; border-radius:30px;" placeholder="Ara..." onkeyup="window.filterShareList(this.value)"></div>
-        <div id="share-list-container" style="flex:1; overflow-y:auto;"></div>
-    </div>
-</div>
-
-<div class="modal-overlay" id="messagesModal">
-    <div class="bottom-sheet">
-        <div class="sheet-header"><button class="header-icon" onclick="window.closeM('messagesModal')"><span class="material-symbols-outlined">arrow_back</span></button>Mesajlar</div>
-        <div id="dm-list-container" style="flex:1; overflow-y:auto;"></div>
-    </div>
-</div>
-
-<div class="modal-overlay" id="chatRoomModal">
-    <div class="bottom-sheet chat-room-bg" style="height:100dvh; border-radius:0;">
-        <div class="dm-header" style="padding-top:calc(15px + env(safe-area-inset-top));">
-            <button class="header-icon" onclick="window.closeM('chatRoomModal'); window.openM('messagesModal');"><span class="material-symbols-outlined">arrow_back</span></button>
-            <div style="display:flex; align-items:center; gap:10px;"><div id="chat-header-avatar" class="list-avatar" style="width:35px; height:35px;"></div><b id="chat-header-name" style="color:white;">...</b></div>
-            <button class="header-icon" style="margin-left:auto; color:red;" onclick="window.deleteChatRoom()"><span class="material-symbols-outlined">delete</span></button>
-        </div>
-        <div id="chat-messages" class="chat-area"></div>
-        <div class="chat-input-wrapper">
-            <input type="text" id="chat-input" class="form-input" style="margin:0; border-radius:30px;" placeholder="Mesaj..." onkeypress="if(event.key==='Enter') window.sendChatMessage()">
-            <button class="btn-gold" style="width:auto; border-radius:50%; width:45px; height:45px; display:flex; justify-content:center; align-items:center;" onclick="window.sendChatMessage()"><span class="material-symbols-outlined">send</span></button>
-        </div>
-    </div>
-</div>
-
-<div class="modal-overlay" id="notificationsModal">
-    <div class="bottom-sheet">
-        <div class="sheet-header"><button class="header-icon" onclick="window.closeM('notificationsModal')"><span class="material-symbols-outlined">arrow_back</span></button>Bildirimler</div>
-        <div id="noti-list" style="flex:1; overflow-y:auto;"></div>
-    </div>
-</div>
-
-<div class="match-overlay" id="matchOverlay">
-    <h1 style="color:var(--primary-gold); font-family:'Grand Hotel', cursive; font-size:60px;">Eşleştiniz!</h1>
-    <p id="match-text" style="color:white; margin:20px 0; font-size:18px;">...</p>
-    <button class="btn-gold" id="btn-match-msg" style="width:200px; margin-bottom:10px;">Mesaj Gönder</button>
-    <button class="btn-gold" style="width:200px; background:transparent; border:1px solid white; color:white;" onclick="window.closeM('matchOverlay')">Devam Et</button>
-</div>
-
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-    import { getFirestore, collection, getDocs, doc, getDoc, addDoc, query, setDoc, where, updateDoc, deleteDoc, arrayUnion, arrayRemove, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-
-    const firebaseConfig = { apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0", authDomain: "swinder-79534.firebaseapp.com", projectId: "swinder-79534", storageBucket: "swinder-79534.firebasestorage.app", messagingSenderId: "704644873549", appId: "1:704644873549:web:d95f561ec912b94cf2cb04" };
-    const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
-
-    const CLOUD_NAME = "dv9c3ygco"; const UPLOAD_PRESET = "ntc9cq4y";
     
-    window.globalUsersById = {}; window.globalUsersByName = {}; window.globalPosts = []; 
-    let currentUserProfile = null; window.activeInteractPostId = null; window.activeShareUrl = null; window.activeChatId = null;
-    window.currentStoryGroup = []; window.currentStoryIndex = 0; window.activeStoryOwner = null;
-
-    // UI FONKSİYONLARI
-    window.openM = (id) => { const el = document.getElementById(id); if(el) { el.classList.add('active'); document.body.style.overflow='hidden'; } };
-    window.closeM = (id) => { const el = document.getElementById(id); if(el) { el.classList.remove('active'); document.body.style.overflow='auto'; el.querySelectorAll('video').forEach(v=>v.pause()); } };
-    document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if(e.target===m && m.id!=='authModal' && m.id!=='splash-screen') window.closeM(m.id); }));
+    <div class="modal-overlay" id="notificationsModal"><div class="bottom-sheet"><div class="sheet-header"><button class="header-icon" onclick="closeModal('notificationsModal')"><span class="material-symbols-outlined">arrow_back</span></button> Bildirimler</div><div style="flex:1; overflow-y:auto;" id="noti-list"></div></div></div>
     
-    window.logoutApp = async () => { await signOut(auth); location.reload(); };
-    window.isVideo = (url) => url && (url.includes('video') || url.includes('.mp4') || url.includes('.mov'));
-    window.getVideoThumbnail = (url) => url ? url.replace(/\.(mp4|webm|ogg|mov)(\?.*)?$/i, ".jpg$2") : '';
-    window.uploadMedia = async (file) => { const fd = new FormData(); fd.append("file", file); fd.append("upload_preset", UPLOAD_PRESET); const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, {method:'POST', body:fd}); const d = await res.json(); if(d.error) throw new Error(d.error.message); return d.secure_url; };
+    <div class="modal-overlay" id="exploreModal"><div class="bottom-sheet"><div class="sheet-header" style="gap:10px;"><button class="header-icon" onclick="closeModal('exploreModal')"><span class="material-symbols-outlined">arrow_back</span></button><input type="text" class="search-input" id="search-input" placeholder="Kişi veya gönderi ara..." onkeyup="window.performSearch()"></div><div class="explore-users-container" id="explore-users-list"></div><div class="explore-scroll-area"><div class="grid-view" id="explore-grid"></div></div></div></div>
 
-    // VERİ ÇEKME
-    window.loadAllData = async () => {
-        try {
-            const uSnap = await getDocs(collection(db, "kullanicilar")); window.globalUsersById={}; window.globalUsersByName={};
-            uSnap.forEach(d => { window.globalUsersById[d.id] = {uid:d.id, ...d.data()}; window.globalUsersByName[d.data().displayName] = {uid:d.id, ...d.data()}; });
-            const pSnap = await getDocs(collection(db, "gonderiler")); window.globalPosts=[];
-            pSnap.forEach(d => window.globalPosts.push({id:d.id, ...d.data()}));
-            window.globalPosts.sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
-        } catch(e) {}
-    }
+    <div class="modal-overlay" id="userProfileModal" style="z-index: 1550;"><div class="bottom-sheet"><div class="sheet-header"><button class="header-icon" onclick="closeModal('userProfileModal')"><span class="material-symbols-outlined">arrow_back</span></button><span id="up-title" style="font-weight:bold;">Profil</span></div><div class="up-header-top"><div class="up-avatar-container"><div class="up-avatar" id="up-avatar"></div></div><div class="up-stats"><div class="up-stat-item"><span id="up-post-count">0</span>Gönderi</div><div class="up-stat-item"><span id="up-follower-count">0</span>Takipçi</div><div class="up-stat-item"><span id="up-following-count">0</span>Takip</div></div></div><div class="up-bio-container"><div class="up-name" id="up-name">-</div><div class="up-bio" id="up-bio">-</div></div><div class="up-actions"><button id="btn-follow-user" class="btn-up-action btn-follow" onclick="window.toggleFollowDB(this)">Takip Et</button></div><div class="explore-scroll-area" style="border-top: var(--glass-border); padding-top: 2px;"><div class="grid-view" id="up-grid"></div></div></div></div>
 
-    // AUTH
-    onAuthStateChanged(auth, async (user) => {
-        if(user) {
-            window.closeM('authModal');
-            const sName = user.displayName || "Kullanıcı";
-            const snap = await getDoc(doc(db, "kullanicilar", user.uid));
-            if(snap.exists()) {
-                currentUserProfile = { uid: user.uid, following: [], followers: [], maxDistance: 50, ghostMode: false, ...snap.data() };
-                const mds = document.getElementById('max-distance-slider'); if(mds) mds.value = currentUserProfile.maxDistance;
-                const gmt = document.getElementById('ghost-mode-toggle'); if(gmt) gmt.checked = currentUserProfile.ghostMode;
-            } else {
-                await setDoc(doc(db, "kullanicilar", user.uid), { displayName: sName, email: user.email||"", maxDistance:50, ghostMode:false, followers:[], following:[] }, {merge:true});
-                currentUserProfile = { uid: user.uid, following: [], followers: [], maxDistance: 50, ghostMode: false, displayName: sName };
-            }
-            if(user.email === "kcagatay239@gmail.com") { const ap = document.getElementById('btn-admin-panel'); if(ap) ap.style.display='block'; }
-            
-            await window.loadAllData();
-            window.loadProfilesForDeck(); window.listenToDMs(); window.loadStories();
-            
-            onSnapshot(query(collection(db, "bildirimler"), where("to", "==", sName)), (s) => {
-                const nd = document.getElementById('noti-dot'); const nl = document.getElementById('noti-list'); if(nl) nl.innerHTML='';
-                if(!s.empty) {
-                    if(nd) nd.style.display='block';
-                    let nts = []; s.forEach(d=>nts.push(d.data())); nts.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
-                    nts.forEach(n => { if(nl) nl.insertAdjacentHTML('beforeend', `<div class="list-item"><b style="color:var(--primary-gold);">${n.from}</b> <span style="color:white;">${n.text}</span></div>`); });
-                } else { if(nl) nl.innerHTML='<div style="padding:20px; color:gray; text-align:center;">Bildirim yok.</div>'; }
-            });
-            
-            const spl = document.getElementById('splash-screen'); if(spl) { spl.style.opacity = '0'; setTimeout(()=>spl.style.display='none', 500); }
-        } else { window.openM('authModal'); const spl = document.getElementById('splash-screen'); if(spl) spl.style.display='none'; }
-    });
-
-    document.getElementById('btn-login')?.addEventListener('click', async () => { try { await signInWithEmailAndPassword(auth, document.getElementById('auth-email').value, document.getElementById('auth-pass').value); location.reload(); } catch(e) { alert("Hata: "+e.message); }});
-    document.getElementById('btn-register')?.addEventListener('click', async () => { try { const u = await createUserWithEmailAndPassword(auth, document.getElementById('auth-email').value, document.getElementById('auth-pass').value); await updateProfile(u.user, {displayName: document.getElementById('reg-name').value}); await setDoc(doc(db, "kullanicilar", u.user.uid), { displayName: document.getElementById('reg-name').value, email: u.user.email, followers:[], following:[] }); location.reload(); } catch(e) { alert("Hata: "+e.message); }});
-
-    // 🔥 REELS SİSTEMİ (VİDEO OTOMATİK OYNATMA KALKANLI 'muted') 🔥
-    window.openReels = () => {
-        window.openM('reelsModal'); const rc = document.getElementById('reels-container'); if(!rc) return; rc.innerHTML = '';
-        const vids = window.globalPosts.filter(p => window.isVideo(p.imageUrl));
-        if(vids.length === 0) { rc.innerHTML = '<div style="color:gray; text-align:center; padding-top:50vh;">Video yok.</div>'; return; }
-        vids.forEach(d => {
-            const av = window.globalUsersByName[d.username]?.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100';
-            const isL = auth.currentUser && d.likedBy && d.likedBy.includes(auth.currentUser.displayName);
-            rc.insertAdjacentHTML('beforeend', `
-            <div class="reel-item">
-                <div style="position:absolute; inset:0; background:url('${d.imageUrl.replace(/'/g, "\\'")}') center/cover; filter:blur(20px) brightness(0.3);"></div>
-                <video src="${d.imageUrl}" loop playsinline muted class="reel-media" onclick="this.muted=!this.muted" ondblclick="window.toggleLikeDB(document.getElementById('r-like-${d.id}'), '${d.id}')"></video>
-                <div class="reel-ui">
-                    <div class="reel-ui-content">
-                        <div style="flex:1;">
-                            <div style="display:flex; align-items:center; gap:10px; cursor:pointer; margin-bottom:10px;" onclick="window.closeM('reelsModal'); window.openUserProfile('${d.username}')">
-                                <div style="width:40px; height:40px; border-radius:50%; background:url('${av.replace(/'/g, "\\'")}') center/cover; border:2px solid var(--primary-gold);"></div>
-                                <b style="color:white; font-size:16px; text-shadow:0 2px 4px #000;">@${d.username}</b>
-                            </div>
-                            <div style="color:white; font-size:14px; text-shadow:0 1px 3px #000;">${d.caption||''}</div>
-                        </div>
-                        <div style="display:flex; flex-direction:column; gap:20px; align-items:center;">
-                            <button id="r-like-${d.id}" class="action-icon" style="color:${isL?'#ff3040':'white'};" onclick="window.toggleLikeDB(this, '${d.id}')"><span class="material-symbols-outlined" style="font-size:35px; ${isL?"font-variation-settings:'FILL' 1;":""}">favorite</span><b>${d.likesCount||0}</b></button>
-                            <button class="action-icon" onclick="window.activeInteractPostId='${d.id}'; window.openCommentsDB()"><span class="material-symbols-outlined" style="font-size:35px;">chat_bubble</span></button>
-                            <button class="action-icon" onclick="window.openShareModal('${d.imageUrl}')"><span class="material-symbols-outlined" style="font-size:35px;">send</span></button>
-                        </div>
+    <div class="modal-overlay" id="postDetailModal" style="z-index: 1600;">
+        <div class="post-detail-box">
+            <div class="sheet-header">
+                <button class="header-icon" onclick="closeModal('postDetailModal')"><span class="material-symbols-outlined">arrow_back</span></button> 
+                Gönderi 
+            </div>
+            <div style="flex:1; overflow-y:auto; padding-bottom:30px;">
+                
+                <div style="display:flex; align-items:center; padding:12px 15px; gap:10px;">
+                    <div id="pd-header-avatar" style="width:34px; height:34px; border-radius:50%; background-size:cover; background-position:center; cursor:pointer; border: 1px solid var(--primary-gold);"></div>
+                    <div style="flex:1; display:flex; align-items:center; gap:6px;">
+                        <strong id="pd-header-username" style="font-size:14px; cursor:pointer;">-</strong>
+                        <button id="pd-btn-inline-follow" style="background:transparent; border:none; color:#3498db; font-weight:600; font-size:13px; cursor:pointer; display:none;" onclick="window.toggleFollowInline(this)">• Takip Et</button>
+                    </div>
+                    <div id="admin-controls" style="display:none; gap:15px;">
+                        <button class="header-icon" style="color:var(--primary-gold); font-size:22px;" onclick="window.editPostDB()"><span class="material-symbols-outlined">edit</span></button>
+                        <button class="header-icon" style="color:#ff4757; font-size:22px;" onclick="window.deletePostDB()"><span class="material-symbols-outlined">delete</span></button>
                     </div>
                 </div>
-            </div>`);
-        });
-        if(window.rObs) window.rObs.disconnect();
-        window.rObs = new IntersectionObserver((es) => { es.forEach(e => { const v = e.target.querySelector('video'); if(v) e.isIntersecting ? v.play().catch(()=>{}) : v.pause(); }); }, {threshold:0.5});
-        document.querySelectorAll('.reel-item').forEach(i => window.rObs.observe(i));
-    };
 
-    // KEŞFET SİSTEMİ
-    window.openExplore = () => { window.openM('exploreModal'); window.performSearch(); };
-    window.performSearch = () => {
-        const grid = document.getElementById('explore-grid'); const ul = document.getElementById('explore-users-list');
-        const txt = document.getElementById('search-input').value.toLowerCase(); grid.innerHTML=''; ul.innerHTML='';
-        let usrs = Object.values(window.globalUsersById).filter(u => u.uid !== auth.currentUser.uid && u.displayName && u.displayName.toLowerCase().includes(txt));
-        if(txt && usrs.length>0) {
-            ul.style.display='block';
-            usrs.forEach(u => { ul.insertAdjacentHTML('beforeend', `<div class="list-item" onclick="window.closeM('exploreModal'); window.openUserProfile('${u.displayName}')"><div class="list-avatar" style="background-image:url('${u.avatar||'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100'}')"></div><b style="color:white;">${u.displayName}</b></div>`); });
-        } else { ul.style.display='none'; }
-        
-        let pst = window.globalPosts.filter(p => p.username !== auth.currentUser.displayName);
-        if(txt) pst = pst.filter(p => (p.caption||'').toLowerCase().includes(txt) || p.username.toLowerCase().includes(txt));
-        pst.forEach(p => { 
-            const bg = window.isVideo(p.imageUrl) ? window.getVideoThumbnail(p.imageUrl) : p.imageUrl;
-            const ic = window.isVideo(p.imageUrl) ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : '';
-            grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image:url('${bg.replace(/'/g, "\\'")}')" onclick="window.closeM('exploreModal'); window.openPostDetail('${p.id}', '${p.username}')">${ic}</div>`); 
-        });
-    };
-
-    // PROFİL GÖRÜNTÜLEME
-    window.openUserProfile = (uname) => {
-        const p = window.globalUsersByName[uname] || {};
-        document.getElementById('up-title').innerText = uname; document.getElementById('up-name').innerText = uname;
-        document.getElementById('up-bio').innerText = p.bio || 'VIP Üye'; document.getElementById('up-avatar').style.backgroundImage = `url('${p.avatar||''}')`;
-        const pts = window.globalPosts.filter(x=>x.username===uname);
-        document.getElementById('up-post-count').innerText = pts.length;
-        document.getElementById('up-follower-count').innerText = (p.followers||[]).length;
-        document.getElementById('up-following-count').innerText = (p.following||[]).length;
-        
-        const bf = document.getElementById('btn-follow-user');
-        if(uname === auth.currentUser.displayName) { bf.style.display='none'; } else {
-            bf.style.display='block';
-            if(currentUserProfile.following?.includes(p.uid)) { bf.innerText="Takibi Bırak"; bf.style.background="transparent"; bf.style.border="1px solid white"; bf.style.color="white"; }
-            else { bf.innerText="Takip Et"; bf.style.background="var(--primary-gold)"; bf.style.border="none"; bf.style.color="black"; }
-        }
-        
-        const g = document.getElementById('up-grid'); g.innerHTML='';
-        pts.forEach(pt => { const bg = window.isVideo(pt.imageUrl) ? window.getVideoThumbnail(pt.imageUrl) : pt.imageUrl; const ic = window.isVideo(pt.imageUrl) ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : ''; g.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image:url('${bg.replace(/'/g, "\\'")}')" onclick="window.openPostDetail('${pt.id}', '${pt.username}')">${ic}</div>`); });
-        window.openM('userProfileModal');
-    };
-
-    window.toggleFollowDB = async (btn) => {
-        const tName = document.getElementById('up-title').innerText; const tUser = window.globalUsersByName[tName]; if(!tUser) return;
-        const myR = doc(db, "kullanicilar", auth.currentUser.uid); const tR = doc(db, "kullanicilar", tUser.uid);
-        const fc = document.getElementById('up-follower-count'); let c = parseInt(fc.innerText);
-        if(btn.innerText === "Takip Et") {
-            btn.innerText="Takibi Bırak"; btn.style.background="transparent"; btn.style.border="1px solid white"; btn.style.color="white"; fc.innerText = c+1;
-            await updateDoc(myR, {following: arrayUnion(tUser.uid)}); await updateDoc(tR, {followers: arrayUnion(auth.currentUser.uid)});
-            if(!currentUserProfile.following) currentUserProfile.following=[]; currentUserProfile.following.push(tUser.uid);
-        } else {
-            btn.innerText="Takip Et"; btn.style.background="var(--primary-gold)"; btn.style.border="none"; btn.style.color="black"; fc.innerText = c-1;
-            await updateDoc(myR, {following: arrayRemove(tUser.uid)}); await updateDoc(tR, {followers: arrayRemove(auth.currentUser.uid)});
-            currentUserProfile.following = currentUserProfile.following.filter(id => id!==tUser.uid);
-        }
-    };
-
-    // 🔥 GÖNDERİ AKIŞI (VİDEO AUTOPLAY KALKANLI VE SİL BUTONLU) 🔥
-    window.openPostDetail = (startId, uname) => {
-        window.activeInteractPostId = startId; const c = document.getElementById('feed-scroll-container'); c.innerHTML='';
-        const pts = window.globalPosts.filter(p => p.username === uname);
-        pts.forEach(p => {
-            const av = window.globalUsersByName[p.username]?.avatar || '';
-            const isM = auth.currentUser.displayName === p.username;
-            const delBtn = isM ? `<button onclick="window.deletePostDB('${p.id}')" style="background:none; border:none; color:#ff4757; font-weight:bold; cursor:pointer;"><span class="material-symbols-outlined">delete</span></button>` : '';
-            const isL = p.likedBy?.includes(auth.currentUser.displayName);
-            
-            const media = window.isVideo(p.imageUrl) ? `<video src="${p.imageUrl}" loop playsinline muted style="width:100%; height:100%; object-fit:contain; background:black;" onclick="this.muted=!this.muted"></video>` : `<img src="${p.imageUrl}" style="width:100%; height:100%; object-fit:contain; background:black;"/>`;
-            
-            c.insertAdjacentHTML('beforeend', `
-            <div id="post-${p.id}" class="feed-post-item">
-                <div style="padding:15px; display:flex; justify-content:space-between; align-items:center; flex-shrink:0;">
-                    <div style="display:flex; align-items:center; gap:10px; cursor:pointer;" onclick="window.closeM('postDetailModal'); window.openUserProfile('${p.username}')"><div class="list-avatar" style="background-image:url('${av.replace(/'/g, "\\'")}'); width:35px; height:35px;"></div><b style="color:white;">${p.username}</b></div>
-                    ${delBtn}
+                <div class="post-detail-img-container">
+                    <div class="media-blur-bg" id="pd-blur"></div>
+                    <div id="pd-media-container" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center; z-index:1;"></div>
                 </div>
-                <div style="flex:1; background:black; position:relative; overflow:hidden; display:flex; justify-content:center; align-items:center;" ondblclick="window.toggleLikeDB(document.getElementById('p-like-${p.id}'), '${p.id}')">${media}</div>
-                <div style="padding:15px 20px; flex-shrink:0;">
+                
+                <div style="padding: 15px 20px;">
                     <div style="display:flex; gap:15px; margin-bottom:10px;">
-                        <button id="p-like-${p.id}" style="background:none; border:none; color:${isL?'#ff3040':'white'}; cursor:pointer;" onclick="window.toggleLikeDB(this, '${p.id}')"><span class="material-symbols-outlined" style="font-size:28px; ${isL?"font-variation-settings:'FILL' 1;":""}">favorite</span></button>
-                        <button style="background:none; border:none; color:white; cursor:pointer;" onclick="window.activeInteractPostId='${p.id}'; window.openM('commentsModal')"><span class="material-symbols-outlined" style="font-size:28px;">chat_bubble</span></button>
-                        <button style="background:none; border:none; color:white; cursor:pointer;" onclick="window.openShareModal('${p.imageUrl}')"><span class="material-symbols-outlined" style="font-size:28px;">send</span></button>
+                        <button class="header-icon" id="pd-btn-like" onclick="window.toggleLikeDB(this)"><span class="material-symbols-outlined">favorite</span></button>
+                        <button class="header-icon" onclick="window.openCommentsDB()"><span class="material-symbols-outlined">chat_bubble</span></button>
+                        <button class="header-icon" onclick="window.openShareModal()"><span class="material-symbols-outlined">send</span></button>
                     </div>
-                    <b style="color:white; font-size:14px;"><span id="likes-${p.id}">${p.likesCount||0}</span> beğenme</b>
-                    <div style="color:white; font-size:14px; margin-top:5px;"><b>${p.username}</b> <span style="color:#ccc;">${p.caption||''}</span></div>
+                    <div style="font-weight:600; margin-bottom:5px; font-size:14px;"><span id="pd-likes">0</span> beğenme</div>
+                    <div style="font-size: 14px;">
+                        <strong id="pd-user" style="margin-right:5px; cursor:pointer;">-</strong>
+                        <span id="pd-caption" style="color:rgba(255,255,255,0.8);">-</span>
+                    </div>
                 </div>
-            </div>`);
-        });
-        window.openM('postDetailModal');
-        setTimeout(() => { const t = document.getElementById('post-'+startId); if(t) t.scrollIntoView({behavior:'instant'}); }, 50);
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="addModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color: white; font-size: 18px; margin-bottom: 20px; text-align: center;">Yeni Gönderi/Video</h2><div class="form-group"><label style="color:gray; font-size:12px;">Galeriden Seç (Fotoğraf/Video)</label><input type="file" id="add-image-file" accept="image/*, video/*" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 12px; color: white;"></div><div class="form-group"><textarea id="add-caption" rows="3" placeholder="Açıklama..."></textarea></div><button type="button" id="btn-submit-post" class="btn-premium">Paylaş</button></div></div>
+    
+    <div class="modal-overlay" id="addStoryModal"><div class="glass-box"><button class="close-btn" onclick="closeModal('addStoryModal')"><span class="material-symbols-outlined">close</span></button><h2 style="color:white; font-size:18px; text-align:center; margin-bottom:20px;">Hikaye Ekle</h2><div class="form-group"><label style="color:gray; font-size:12px;">Galeriden Seç (Fotoğraf/Video)</label><input type="file" id="story-file" accept="image/*, video/*" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 12px; color: white;"></div><button id="btn-submit-story" class="btn-premium">Paylaş</button></div></div>
+
+    <div class="modal-overlay" id="viewStoryModal" style="z-index: 1800; background:#000;"><div style="width:100%; height:100dvh; display:flex; flex-direction:column; position:relative;"><div style="width:100%; height:3px; background:rgba(255,255,255,0.3); position:absolute; top:calc(10px + env(safe-area-inset-top)); left:0; z-index:10; display:flex; padding:0 5px;"><div id="story-progress-fill" style="height:100%; background:white; width:0%; border-radius:2px;"></div></div><div style="position:absolute; top:calc(15px + env(safe-area-inset-top)); left:0; width:100%; padding:15px; display:flex; align-items:center; gap:10px; z-index:25; background:linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);"><div id="view-story-avatar" style="width:35px; height:35px; border-radius:50%; background-size:cover; border:2px solid var(--primary-gold);"></div><div id="view-story-username" style="color:white; font-weight:600; font-size:14px; text-shadow:0 1px 3px rgba(0,0,0,0.8);"></div><button class="header-icon" style="margin-left:auto;" onclick="closeModal('viewStoryModal')"><span class="material-symbols-outlined">close</span></button></div><div style="flex:1; position:relative; overflow:hidden; display:flex; justify-content:center; align-items:center; background:#000;"><div class="media-blur-bg" id="view-story-blur"></div><div id="view-story-media-container" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center; position:relative; z-index:1;"></div><div style="position:absolute; top:10%; left:0; width:30%; height:75%; z-index:5;" onclick="window.prevStory()"></div><div style="position:absolute; top:10%; right:0; width:70%; height:75%; z-index:5;" onclick="window.nextStory()"></div></div><div class="story-reaction-bar" id="story-reaction-bar"><input type="text" id="story-reply-input" class="story-reply-input" placeholder="Mesaj gönder..."><button class="story-react-btn" onclick="window.sendStoryReaction('🔥')">🔥</button><button class="story-react-btn" onclick="window.sendStoryReaction('❤️')">❤️</button><button class="story-send-btn" onclick="window.sendStoryReaction('text')"><span class="material-symbols-outlined" style="color:black; font-size:20px;">send</span></button></div><div id="btn-delete-story" style="position:absolute; bottom:80px; left:50%; transform:translateX(-50%); z-index:20; display:none;"><button onclick="window.deleteStoryDB()" style="background:rgba(255,71,87,0.8); color:white; border:none; padding:10px 20px; border-radius:20px; font-weight:bold; cursor:pointer;"><span class="material-symbols-outlined" style="vertical-align:middle; font-size:18px;">delete</span> Bu Hikayeyi Sil</button></div></div></div>
+
+    <div class="modal-overlay" id="commentsModal" style="z-index: 1700;"><div class="bottom-sheet" style="height: 70vh;"><div class="sheet-header"><button class="header-icon" onclick="closeModal('commentsModal')"><span class="material-symbols-outlined">close</span></button> Yorumlar</div><div style="flex:1; overflow-y:auto; padding:15px; display:flex; flex-direction:column; gap:15px;" id="comments-list"></div><div class="chat-input-container"><input type="text" id="new-comment-input" placeholder="Yorum ekle..." class="chat-input"><button onclick="window.submitComment()" style="background:none; border:none; color:var(--primary-gold); font-weight:bold; padding:0 10px; cursor:pointer;">Paylaş</button></div></div></div>
+    
+    <div class="modal-overlay" id="reelsModal" style="padding:0; background: #000;"><button class="close-btn" onclick="closeModal('reelsModal')" style="z-index: 1000; top: calc(20px + env(safe-area-inset-top)); right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button><div class="reels-box" id="reels-container"></div></div>
+    
+    <div class="match-overlay" id="matchOverlay"><div class="match-title">Eşleştiniz!</div><div class="match-avatars"><div class="m-avatar left" id="match-my-avatar"></div><div class="m-avatar right" id="match-their-avatar"></div></div><div style="color: white; font-size: 16px; margin-bottom: 30px;" id="match-text"></div><div style="display:flex; flex-direction:column; gap:15px;"><button class="btn-msg" id="btn-match-msg"><span class="material-symbols-outlined">send</span> Mesaj Gönder</button><button class="btn-keep" onclick="window.closeMatch()">Devam Et</button></div></div>
+    <div class="modal-overlay" id="shareModal" style="z-index: 1750;"><div class="bottom-sheet" style="height: 60vh;"><div class="sheet-header"><button class="header-icon" onclick="closeModal('shareModal')"><span class="material-symbols-outlined">close</span></button> Kime Gönderilsin?</div><div style="flex:1; overflow-y:auto;" id="share-list-container"></div></div></div>
+
+    <script>
+        function openModal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = 'auto'; const modal = document.getElementById(id); if(modal) { modal.querySelectorAll('video').forEach(vid => { vid.pause(); }); } if(id === 'viewStoryModal') { clearTimeout(window.storyTimeout); } if(id === 'chatRoomModal' && window.chatDocUnsubscribe) { window.chatDocUnsubscribe(); window.chatDocUnsubscribe = null; window.cancelReply(); } }
+        document.querySelectorAll('.modal-overlay').forEach(m => { m.addEventListener('click', (e) => { if(e.target === m && m.id !== 'authModal' && m.id !== 'splash-screen') closeModal(m.id); }); });
         
-        if(window.fObs) window.fObs.disconnect();
-        window.fObs = new IntersectionObserver((es) => { es.forEach(e => { const v = e.target.querySelector('video'); if(v) e.isIntersecting ? v.play().catch(()=>{}) : v.pause(); }); }, {threshold:0.5});
-        document.querySelectorAll('.feed-post-item').forEach(i => window.fObs.observe(i));
-    };
+        window.switchAuthTab = function(tab) { document.getElementById('tab-login').classList.remove('active'); document.getElementById('tab-register').classList.remove('active'); document.getElementById('tab-' + tab).classList.add('active'); document.getElementById('form-login').classList.remove('active'); document.getElementById('form-register').classList.remove('active'); document.getElementById('form-' + tab).classList.add('active'); }
+        window.openExplore = () => { openModal('exploreModal'); if(window.renderExploreGrid) window.renderExploreGrid(); }
+        window.openReels = () => { openModal('reelsModal'); if(window.renderReels) window.renderReels(); }
+        window.openNotifications = () => { openModal('notificationsModal'); const dot = document.getElementById('noti-dot'); if(dot) dot.style.display='none'; if(window.loadNotifications) window.loadNotifications(); }
+        window.openMessages = () => { openModal('messagesModal'); if(window.loadDMs) window.loadDMs(); }
+        window.closeMatch = () => { const m = document.getElementById('matchOverlay'); if(m) m.classList.remove('active'); }
+        window.openShareModal = function() { openModal('shareModal'); const c = document.getElementById('share-list-container'); if(c) c.innerHTML = '<div style="padding:30px; text-align:center; color:gray;">Bağlantı kopyalandı!</div>'; if(window.activeShareUrl) navigator.clipboard.writeText(window.activeShareUrl).catch(e=>{}); }
 
-    window.deletePostDB = async (id) => { if(confirm("Silinsin mi?")) { await deleteDoc(doc(db, "gonderiler", id)); alert("Silindi."); location.reload(); } };
+        function hideSplash() { sessionStorage.setItem("swinder_splashed", "true"); const spl = document.getElementById('splash-screen'); if(spl) { spl.style.opacity = '0'; setTimeout(() => spl.style.display = 'none', 400); } }
+        setTimeout(() => { hideSplash(); }, 2000);
 
-    // BEĞENİ VE YORUM (ZIRHLI ID KONTROLÜ)
-    window.toggleLikeDB = async (btn, id) => {
-        const pR = doc(db, "gonderiler", id); const p = window.globalPosts.find(x=>x.id===id); let c = p ? (p.likesCount||0) : 0;
-        const s1 = document.getElementById('likes-'+id); const s2 = document.getElementById('like-count-'+id);
-        if(p.likedBy?.includes(auth.currentUser.displayName)) {
-            if(btn) { btn.style.color='white'; const sp = btn.querySelector('span'); if(sp) sp.style.fontVariationSettings="'FILL' 0"; }
-            if(s1) s1.innerText=c-1; if(s2) s2.innerText=c-1; await updateDoc(pR, {likedBy:arrayRemove(auth.currentUser.displayName), likesCount:c-1}); p.likesCount-=1; p.likedBy=p.likedBy.filter(x=>x!==auth.currentUser.displayName);
-        } else {
-            if(btn) { btn.style.color='#ff3040'; const sp = btn.querySelector('span'); if(sp) sp.style.fontVariationSettings="'FILL' 1"; }
-            if(s1) s1.innerText=c+1; if(s2) s2.innerText=c+1; await updateDoc(pR, {likedBy:arrayUnion(auth.currentUser.displayName), likesCount:c+1}); p.likesCount+=1; if(!p.likedBy) p.likedBy=[]; p.likedBy.push(auth.currentUser.displayName);
+        window.isVideo = function(url) { if(!url) return false; return url.match(/\.(mp4|webm|ogg|mov)(\?.*)?$/i) !== null || url.includes('video'); }
+        window.getVideoThumbnail = function(url) { if(!url) return ''; if(window.isVideo(url)) return url.replace(/\.(mp4|webm|ogg|mov)(\?.*)?$/i, ".jpg$2"); return url; }
+
+        window.getDistanceFromLatLonInKm = function(lat1, lon1, lat2, lon2) { const R = 6371; const dLat = (lat2-lat1)*(Math.PI/180); const dLon = (lon2-lon1)*(Math.PI/180); const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1*(Math.PI/180)) * Math.cos(lat2*(Math.PI/180)) * Math.sin(dLon/2) * Math.sin(dLon/2); return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))); }
+        window.calcAge = function(bDate) { if(!bDate) return 25; const dateObj = new Date(bDate); if(isNaN(dateObj.getTime())) return 25; const diff = Date.now() - dateObj.getTime(); return Math.abs(new Date(diff).getUTCFullYear() - 1970); }
+
+        let mediaRecorder; let audioChunks = []; let isRecording = false; let recordTimeout;
+        window.startVoiceRecord = async function(e) { if(e) e.preventDefault(); if(isRecording) return; try { const stream = await navigator.mediaDevices.getUserMedia({ audio: true }); mediaRecorder = new MediaRecorder(stream); mediaRecorder.start(); isRecording = true; audioChunks = []; const b = document.getElementById('btn-mic'); if(b) b.style.transform = 'scale(1.3)'; const ci = document.getElementById('chat-input'); if(ci) ci.placeholder = "🎤 Kaydediliyor..."; mediaRecorder.addEventListener("dataavailable", event => { audioChunks.push(event.data); }); recordTimeout = setTimeout(() => { window.stopVoiceRecord(); }, 60000); } catch(err) { alert("Mikrofon izni reddedildi!"); } };
+        window.stopVoiceRecord = function(e) { if(e) e.preventDefault(); if(!isRecording || mediaRecorder.state === "inactive") return; clearTimeout(recordTimeout); mediaRecorder.stop(); isRecording = false; const b = document.getElementById('btn-mic'); if(b) b.style.transform = 'scale(1)'; const ci = document.getElementById('chat-input'); if(ci) ci.placeholder = "Mesaj yaz..."; mediaRecorder.addEventListener("stop", () => { let mime = mediaRecorder.mimeType || 'audio/mp4'; const audioBlob = new Blob(audioChunks, { type: mime }); const reader = new FileReader(); reader.readAsDataURL(audioBlob); reader.onloadend = async function() { if(!window.activeChatId) return; if(window.sendBase64Message) await window.sendBase64Message("[SES] " + reader.result, "🎤 Sesli Mesaj"); } }); };
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, collection, getDocs, doc, getDoc, addDoc, query, setDoc, where, updateDoc, deleteDoc, arrayUnion, arrayRemove, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const firebaseConfig = { apiKey: "AIzaSyAb8OS_PIroDWGpApmPfrCkKltb_F6J__0", authDomain: "swinder-79534.firebaseapp.com", projectId: "swinder-79534", storageBucket: "swinder-79534.firebasestorage.app", messagingSenderId: "704644873549", appId: "1:704644873549:web:d95f561ec912b94cf2cb04" };
+        const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
+
+        const CLOUD_NAME = "dv9c3ygco"; const UPLOAD_PRESET = "ntc9cq4y";
+        window.uploadMedia = async function(file) { const formData = new FormData(); formData.append("file", file); formData.append("upload_preset", UPLOAD_PRESET); const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, { method: 'POST', body: formData }); const data = await res.json(); if(data.error) throw new Error(data.error.message); return data.secure_url; }
+
+        const safeEncode = (str) => encodeURIComponent(str || '').replace(/'/g, "%27");
+        const adminEmail = "kcagatay239@gmail.com"; 
+        const instaGoldTick = `<svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align: text-bottom; margin-left: 4px; overflow: visible; filter: drop-shadow(0 2px 4px rgba(212,175,55,0.5));"><defs><linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f3e5ab" /><stop offset="50%" stop-color="#ffdf00" /><stop offset="100%" stop-color="#d4af37" /></linearGradient></defs><path d="M12 1.5l2.6 1.54 2.97-.47 1.25 2.76 2.87.9-.6 2.94 1.83 2.37-1.55 2.58 1.03 2.83-2.4 1.8-.23 3.01-2.9 1.02-1.37 2.7-2.95-.33-2.07 2.2-2.07-2.2-2.95.33-1.37-2.7-2.9-1.02-.23-3.01-2.4-1.8 1.03-2.83-1.55-2.58 1.83-2.37-.6-2.94 2.87-.9 1.25-2.76 2.97.47L12 1.5z" fill="url(#goldGrad)"/><path d="M10.5 15.5l-3.5-3.5 1.4-1.4 2.1 2.1 5.6-5.6 1.4 1.4-7 7z" fill="#fff"/></svg>`;
+
+        window.globalUsersById = {}; window.globalUsersByName = {}; window.globalPosts = []; let currentUserProfile = null;
+        window.activeInteractPostId = null; window.activeInteractOwner = null; window.activeInteractStoryId = null; window.activeStoryOwner = null; window.activeShareUrl = null; window.activeChatId = null; let messagesUnsubscribe = null; window.chatDocUnsubscribe = null;
+        window.activeReplyTo = null;
+
+        window.loadAllData = async function() {
+            try {
+                const usersSnap = await getDocs(collection(db, "kullanicilar")); window.globalUsersById = {}; window.globalUsersByName = {};
+                usersSnap.forEach(uDoc => { const d = uDoc.data(); d.uid = uDoc.id; window.globalUsersById[uDoc.id] = d; if(d.displayName) window.globalUsersByName[d.displayName] = d; });
+                const postSnap = await getDocs(collection(db, "gonderiler")); window.globalPosts = []; 
+                postSnap.forEach(doc => { window.globalPosts.push({ id: doc.id, ...doc.data() }); });
+                window.globalPosts.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+            } catch(err) {}
         }
-    };
 
-    window.openCommentsDB = async () => {
-        window.openM('commentsModal'); const cl = document.getElementById('comments-list'); cl.innerHTML = '<div style="color:gray; text-align:center;">Yükleniyor...</div>';
-        const s = await getDocs(collection(db, `gonderiler/${window.activeInteractPostId}/yorumlar`)); cl.innerHTML='';
-        if(s.empty) { cl.innerHTML='<div style="color:gray; text-align:center;">İlk yorumu sen yap!</div>'; return; }
-        let c = []; s.forEach(d=>c.push(d.data())); c.sort((a,b)=>(a.createdAt?.seconds||0)-(b.createdAt?.seconds||0));
-        c.forEach(d => { const av = window.globalUsersByName[d.username]?.avatar||''; cl.insertAdjacentHTML('beforeend', `<div style="display:flex; gap:10px; margin-bottom:15px;"><div class="list-avatar" style="width:36px; height:36px; background-image:url('${av.replace(/'/g, "\\'")}')"></div><div><b style="color:var(--primary-gold); font-size:14px;">${d.username}</b> <span style="color:white; font-size:14px;">${d.text}</span></div></div>`); });
-    };
-    window.submitComment = async () => { const i = document.getElementById('new-comment-input'); const t = i.value.trim(); if(!t) return; i.value=''; await addDoc(collection(db, `gonderiler/${window.activeInteractPostId}/yorumlar`), {username:auth.currentUser.displayName, text:t, createdAt:new Date()}); window.openCommentsDB(); };
+        window.viewGroupedStory = function(encodedUsername, encodedAvatar, storiesJson) { window.activeStoryOwner = decodeURIComponent(encodedUsername); const avatarUrl = decodeURIComponent(encodedAvatar); window.currentStoryGroup = JSON.parse(decodeURIComponent(storiesJson)); window.currentStoryIndex = 0; const isP = (window.globalUsersByName[window.activeStoryOwner]?.isPremium || window.activeStoryOwner.toLowerCase().includes('çağatay')) ? instaGoldTick : ''; document.getElementById('view-story-username').innerHTML = window.activeStoryOwner + isP; document.getElementById('view-story-avatar').style.backgroundImage = `url('${avatarUrl.replace(/'/g, "\\'")}')`; const isAdmin = auth.currentUser && auth.currentUser.email === adminEmail; const isMine = auth.currentUser && auth.currentUser.displayName === window.activeStoryOwner; const bd = document.getElementById('btn-delete-story'); if(bd) bd.style.display = (isAdmin || isMine) ? 'block' : 'none'; const srb = document.getElementById('story-reaction-bar'); if(srb) srb.style.display = isMine ? 'none' : 'flex'; openModal('viewStoryModal'); window.playCurrentStory(); }
+        window.playCurrentStory = function() { if(window.currentStoryIndex >= window.currentStoryGroup.length) { closeModal('viewStoryModal'); return; } const currentObj = window.currentStoryGroup[window.currentStoryIndex]; window.activeInteractStoryId = currentObj.id; const url = currentObj.url; const container = document.getElementById('view-story-media-container'); if(!container) return; if(window.isVideo(url)) { container.innerHTML = `<video id="story-vid" src="${url}" preload="auto" autoplay playsinline style="max-width:100%; max-height:100%; object-fit:contain; position:relative; z-index:1;"></video>`; document.getElementById('view-story-blur').style.backgroundImage = 'none'; const vid = document.getElementById('story-vid'); if(vid) vid.onloadedmetadata = () => { window.startStoryTimer(vid.duration * 1000 || 5000); }; } else { container.innerHTML = `<img src="${url}" loading="lazy" decoding="async" style="max-width:100%; max-height:100%; object-fit:contain; position:relative; z-index:1;" />`; document.getElementById('view-story-blur').style.backgroundImage = `url('${url.replace(/'/g, "\\'")}')`; window.startStoryTimer(5000); } }
+        window.startStoryTimer = function(duration) { const progress = document.getElementById('story-progress-fill'); if(progress){ progress.style.transition = 'none'; progress.style.width = '0%'; setTimeout(() => { progress.style.transition = `width ${duration/1000}s linear`; progress.style.width = '100%'; }, 50); } clearTimeout(window.storyTimeout); window.storyTimeout = setTimeout(() => { window.nextStory(); }, duration); }
+        window.nextStory = function() { window.currentStoryIndex++; window.playCurrentStory(); }
+        window.prevStory = function() { if(window.currentStoryIndex > 0) { window.currentStoryIndex--; window.playCurrentStory(); } else { window.playCurrentStory(); } }
+        window.deleteStoryDB = async function() { if(!window.activeInteractStoryId) return; if(confirm("Silinsin mi?")) { try { await deleteDoc(doc(db, "hikayeler", window.activeInteractStoryId)); closeModal('viewStoryModal'); if(window.loadStories) window.loadStories(); }catch(e){} } }
+        window.sendStoryReaction = async function(reaction) { if(!window.activeStoryOwner || !auth.currentUser) return; let msg = reaction; if(reaction === 'text') { const input = document.getElementById('story-reply-input'); if(!input) return; msg = input.value.trim(); if(!msg) return; input.value = ""; } try { await addDoc(collection(db, "bildirimler"), { to: window.activeStoryOwner, from: auth.currentUser.displayName, text: `hikayene yanıt verdi: ${msg}`, createdAt: new Date() }); alert("Yanıt gönderildi!"); } catch(e){} }
 
-    // PAYLAŞ (DM) SİSTEMİ
-    window.openShareModal = async (url) => {
-        window.activeShareUrl = url; window.openM('shareModal'); const c = document.getElementById('share-list-container'); c.innerHTML='<div style="text-align:center; color:gray; padding:20px;">Yükleniyor...</div>';
-        const s = await getDocs(query(collection(db, "eslesmeler"), where("users", "array-contains", auth.currentUser.uid))); c.innerHTML='';
-        if(s.empty) { c.innerHTML='<div style="text-align:center; color:gray; padding:20px;">Eşleşme yok.</div>'; return; }
-        window.myShareMatches = [];
-        s.forEach(d => { const m=d.data(); const tId = m.users.find(x=>x!==auth.currentUser.uid); window.myShareMatches.push({id:d.id, name:window.globalUsersById[tId]?.displayName||'Kullanıcı', img:window.globalUsersById[tId]?.avatar||''}); });
-        window.renderShareList('');
-    };
-    window.renderShareList = (txt) => {
-        const c = document.getElementById('share-list-container'); c.innerHTML='';
-        window.myShareMatches.filter(m=>m.name.toLowerCase().includes(txt.toLowerCase())).forEach(m => {
-            c.insertAdjacentHTML('beforeend', `<div class="list-item" style="justify-content:space-between;"><div style="display:flex; align-items:center; gap:15px;"><div class="list-avatar" style="background-image:url('${m.img.replace(/'/g, "\\'")}')"></div><b style="color:white;">${m.name}</b></div><button class="btn-gold" style="width:auto; padding:8px 15px;" onclick="window.sendShareDM('${m.id}', this)">Gönder</button></div>`);
-        });
-    };
-    window.filterShareList = (t) => window.renderShareList(t);
-    window.sendShareDM = async (id, btn) => { btn.innerText="İletildi"; btn.style.background="gray"; btn.disabled=true; await addDoc(collection(db, `eslesmeler/${id}/mesajlar`), {senderId:auth.currentUser.uid, text:"[PAYLAŞIM] "+window.activeShareUrl, timestamp:new Date(), read:false}); await updateDoc(doc(db,"eslesmeler",id), {lastMessage:"🖼️ Gönderi paylaştı.", updatedAt:new Date()}); };
-
-    // 🔥 GÖNDERİ PAYLAŞ (SAYFAYI YENİLEYEREK DONMAYI ÖNLER) 🔥
-    document.getElementById('btn-submit-post')?.addEventListener('click', async () => {
-        const f = document.getElementById('add-image-file').files[0]; const cap = document.getElementById('add-caption').value;
-        if(!f) return alert("Dosya seçin!"); document.getElementById('btn-submit-post').innerText="Yükleniyor...";
-        try { const u = await window.uploadMedia(f); await addDoc(collection(db, "gonderiler"), {imageUrl:u, caption:cap, username:auth.currentUser.displayName, likesCount:0, createdAt:new Date()}); location.reload(); } catch(e){ alert("Hata."); document.getElementById('btn-submit-post').innerText="Paylaş"; }
-    });
-
-    // SWIPE, STORY VE MESAJ KODLARI
-    window.loadStories = async () => {
-        const c = document.getElementById('stories-container'); c.innerHTML = `<div class="story-item" onclick="openM('addStoryModal')"><div class="story-ring"><div class="story-img" style="display:flex;justify-content:center;align-items:center;background:rgba(255,255,255,0.1);"><span class="material-symbols-outlined" style="color:white;">add</span></div></div><b class="story-name">Sen</b></div>`;
-        const s = await getDocs(collection(db, "hikayeler")); let docs=[]; s.forEach(d=>docs.push({id:d.id, ...d.data()})); docs.sort((a,b)=>(a.createdAt?.seconds||0)-(b.createdAt?.seconds||0));
-        let byU = {}; docs.forEach(d=>{ if(!byU[d.username]) byU[d.username]=[]; byU[d.username].push(d); });
-        for(let u in byU) {
-            const inf = window.globalUsersByName[u]; if(!inf) continue;
-            if(u === auth.currentUser.displayName || currentUserProfile?.following?.includes(inf.uid)) {
-                let lst = byU[u][byU[u].length-1].imageUrl; if(window.isVideo(lst)) lst = window.getVideoThumbnail(lst);
-                c.insertAdjacentHTML('beforeend', `<div class="story-item" onclick="window.viewStory('${encodeURIComponent(u)}', '${encodeURIComponent(JSON.stringify(byU[u]))}')"><div class="story-ring"><div class="story-img" style="background-image:url('${lst.replace(/'/g, "\\'")}')"></div></div><b class="story-name">${u.split(' ')[0]}</b></div>`);
-            }
+        window.loadStories = async function() {
+            const stContainer = document.getElementById('stories-container'); if(!stContainer) return;
+            stContainer.innerHTML = `<div class="story-item" onclick="openModal('addStoryModal')"><div class="story-ring add-story"><div class="story-img" style="display:flex; justify-content:center; align-items:center; color: var(--text-muted); background:rgba(255,255,255,0.1);"><span class="material-symbols-outlined">add</span></div></div><span class="story-name">Sen</span></div>`;
+            try {
+                const snapshot = await getDocs(collection(db, "hikayeler"));
+                let storyDocs = []; snapshot.forEach(doc => storyDocs.push({id: doc.id, ...doc.data()}));
+                storyDocs.sort((a,b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0));
+                let storiesByUser = {};
+                storyDocs.forEach(data => { if(!storiesByUser[data.username]) storiesByUser[data.username] = []; storiesByUser[data.username].push({id: data.id, url: data.imageUrl}); });
+                for(let username in storiesByUser) {
+                    const uInfo = window.globalUsersByName[username]; if(!uInfo) continue; 
+                    const isMe = auth.currentUser && username === auth.currentUser.displayName;
+                    const followingList = currentUserProfile?.following || []; const isFollowing = followingList.includes(uInfo.uid);
+                    if(isMe || isFollowing) {
+                        const sAvatar = uInfo.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100'; 
+                        const premiumIcon = (uInfo.isPremium || username.toLowerCase().includes('çağatay')) ? instaGoldTick : ''; 
+                        const safeAvatar = safeEncode(sAvatar); const safeUsername = safeEncode(username); const storiesJson = safeEncode(JSON.stringify(storiesByUser[username]));
+                        let thumbUrl = storiesByUser[username][storiesByUser[username].length-1].url; 
+                        if(window.isVideo(thumbUrl)) thumbUrl = window.getVideoThumbnail(thumbUrl); 
+                        stContainer.insertAdjacentHTML('beforeend', `<div class="story-item" onclick="window.viewGroupedStory('${safeUsername}', '${safeAvatar}', '${storiesJson}')"><div class="story-ring"><div class="story-img" style="background-image: url('${thumbUrl.replace(/'/g, "\\'")}');"></div></div><span class="story-name">${username.split(' ')[0]}${premiumIcon}</span></div>`);
+                    }
+                }
+            } catch(e){}
         }
-    };
-    document.getElementById('btn-submit-story')?.addEventListener('click', async () => {
-        const f = document.getElementById('story-file').files[0]; const st = document.getElementById('story-sticker-type').value; const txt = document.getElementById('sticker-text-box').value;
-        if(!f) return alert("Dosya seçin!"); document.getElementById('btn-submit-story').innerText="Yükleniyor...";
-        try { const u = await window.uploadMedia(f); await addDoc(collection(db, "hikayeler"), {imageUrl:u, username:auth.currentUser.displayName, stickerType:st, stickerText:txt, createdAt:new Date()}); closeM('addStoryModal'); window.loadStories(); } catch(e){} finally{ document.getElementById('btn-submit-story').innerText="Paylaş"; }
-    });
-    window.viewStory = (eu, es) => { window.activeStoryOwner = decodeURIComponent(eu); window.currentStoryGroup = JSON.parse(decodeURIComponent(es)); window.currentStoryIndex=0; document.getElementById('view-story-username').innerText=window.activeStoryOwner; document.getElementById('view-story-avatar').style.backgroundImage=`url('${(window.globalUsersByName[window.activeStoryOwner]?.avatar||'').replace(/'/g, "\\'")}')`; window.openM('viewStoryModal'); window.playStory(); };
-    window.playStory = () => {
-        if(window.currentStoryIndex >= window.currentStoryGroup.length) { window.closeM('viewStoryModal'); return; }
-        const obj = window.currentStoryGroup[window.currentStoryIndex]; const c = document.getElementById('view-story-media-container');
-        if(window.isVideo(obj.imageUrl)) { c.innerHTML=`<video id="s-vid" src="${obj.imageUrl}" autoplay playsinline style="max-width:100%;max-height:100%;object-fit:contain;"></video>`; document.getElementById('s-vid').onloadedmetadata=()=>window.startStoryTimer(document.getElementById('s-vid').duration*1000); }
-        else { c.innerHTML=`<img src="${obj.imageUrl}" style="max-width:100%;max-height:100%;object-fit:contain;"/>`; window.startStoryTimer(5000); }
-    };
-    window.startStoryTimer = (d) => { clearTimeout(window.sTimer); window.sTimer = setTimeout(()=>window.nextStory(), d); };
-    window.nextStory = () => { window.currentStoryIndex++; window.playStory(); }; window.prevStory = () => { window.currentStoryIndex--; if(window.currentStoryIndex<0) window.currentStoryIndex=0; window.playStory(); };
 
-    window.loadProfilesForDeck = async () => {
-        const c = document.getElementById('swipe-container'); if(!c) return;
-        const mySwps = await getDocs(query(collection(db,"kaydirmalar"), where("swiperId","==",auth.currentUser.uid))); const sIds = new Set(); mySwps.forEach(d=>sIds.add(d.data().swipedId));
-        const lkMe = await getDocs(query(collection(db,"kaydirmalar"), where("swipedId","==",auth.currentUser.uid))); const lkIds = new Set(); lkMe.forEach(d=>{ if(d.data().action!=='left') lkIds.add(d.data().swiperId); });
-        const prfs = [];
-        Object.values(window.globalUsersById).forEach(u => {
-            if(u.uid !== auth.currentUser.uid && !sIds.has(u.uid) && u.displayName) {
-                if(u.ghostMode && !lkIds.has(u.uid)) return;
-                prfs.push({uid:u.uid, name:u.displayName, bio:u.bio||'VIP Üye', img:u.avatar||'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=800', isPremium: u.isPremium});
-            }
-        });
-        if(prfs.length===0) { document.getElementById('empty-state').style.display='flex'; return; }
-        prfs.reverse().forEach((p,i) => {
-            const isP = p.isPremium ? '<span style="color:var(--primary-gold);">💎</span>' : '';
-            c.insertAdjacentHTML('beforeend', `<div class="swipe-card" data-uid="${p.uid}" data-name="${p.name}" data-img="${p.img}" style="z-index:${1000-i};"><div class="card-img-bg" style="background-image:url('${p.img.replace(/'/g, "\\'")}')"></div><div class="card-overlay"></div><div class="stamp stamp-like">LIKE</div><div class="stamp stamp-nope">NOPE</div><div class="card-info"><div class="card-name">${p.name} ${isP}</div><div class="card-bio">${p.bio}</div></div></div>`);
-        });
-        window.initSwipe();
-    };
-    window.initSwipe = () => {
-        const cards = Array.from(document.querySelectorAll('.swipe-card:not(.removed)'));
-        cards.forEach(c => {
-            let sX=0, cX=0; const lS = c.querySelector('.stamp-like'); const nS = c.querySelector('.stamp-nope');
-            const move = e => { cX = (e.type.includes('mouse')?e.pageX:e.touches[0].clientX)-sX; c.style.transform=`translateX(${cX}px) rotate(${cX*0.05}deg)`; if(cX>0){lS.style.opacity=cX/100;nS.style.opacity=0;}else{nS.style.opacity=Math.abs(cX)/100;lS.style.opacity=0;} };
-            const end = () => { document.removeEventListener('mousemove',move); document.removeEventListener('touchmove',move); document.removeEventListener('mouseup',end); document.removeEventListener('touchend',end); if(cX>120){c.classList.add('removed'); window.processSwipe(c,'right');}else if(cX<-120){c.classList.add('removed'); window.processSwipe(c,'left');}else{c.style.transform='';lS.style.opacity=0;nS.style.opacity=0;} };
-            const start = e => { if(c!==document.querySelector('.swipe-card:not(.removed)')) return; sX=e.type.includes('mouse')?e.pageX:e.touches[0].clientX; document.addEventListener('mousemove',move); document.addEventListener('touchmove',move,{passive:false}); document.addEventListener('mouseup',end); document.addEventListener('touchend',end); };
-            c.addEventListener('mousedown',start); c.addEventListener('touchstart',start,{passive:true});
-        });
-    };
-    window.swipeAction = (d) => { const c = document.querySelector('.swipe-card:not(.removed)'); if(c){ c.classList.add('removed'); c.querySelector(d==='left'?'.stamp-nope':'.stamp-like').style.opacity=1; window.processSwipe(c,d); } };
-    window.processSwipe = async (c, d) => {
-        c.style.transform = `translateX(${d==='left'?'-':' '}1000px) rotate(${d==='left'?'-':''}30deg)`; c.style.opacity=0;
-        const tUid = c.dataset.uid; const tName = c.dataset.name; const tImg = c.dataset.img;
-        await setDoc(doc(db,"kaydirmalar",`${auth.currentUser.uid}_${tUid}`), {swiperId:auth.currentUser.uid, swipedId:tUid, action:d, timestamp:new Date()});
-        if(d!=='left') {
-            const tS = await getDoc(doc(db,"kaydirmalar",`${tUid}_${auth.currentUser.uid}`));
-            if(tS.exists() && tS.data().action!=='left') {
-                const mR = await addDoc(collection(db,"eslesmeler"), {users:[auth.currentUser.uid, tUid], userNames:[auth.currentUser.displayName, tName], lastMessage:"Yeni Eşleşme!", updatedAt:new Date()});
-                document.getElementById('match-text').innerHTML = `Sen ve <b>${tName}</b> eşleştiniz!`; document.getElementById('btn-match-msg').onclick = () => { closeM('matchOverlay'); window.openChatRoom(mR.id, encodeURIComponent(tName), encodeURIComponent(tImg)); }; openM('matchOverlay');
-            }
+        window.loadProfilesForDeck = async function() { 
+            const swipeContainer = document.getElementById('swipe-container'); if(!swipeContainer) return;
+            const myUid = auth.currentUser ? auth.currentUser.uid : null; if(!myUid) return; 
+            try {
+                const mySwipesSnap = await getDocs(query(collection(db, "kaydirmalar"), where("swiperId", "==", myUid)));
+                const swipedIds = new Set(); mySwipesSnap.forEach(doc => swipedIds.add(doc.data().swipedId)); 
+                const likedMeSnap = await getDocs(query(collection(db, "kaydirmalar"), where("swipedId", "==", myUid)));
+                const likedMeIds = new Set(); likedMeSnap.forEach(doc => { const d = doc.data(); if(d.action === "right" || d.action === "super") likedMeIds.add(d.swiperId); });
+                
+                if(!currentUserProfile) return;
+                const profiles = []; const myLat = currentUserProfile.lat; const myLng = currentUserProfile.lng; const maxD = currentUserProfile.maxDistance || 50;
+
+                Object.values(window.globalUsersById).forEach(u => { 
+                    if(u.uid !== myUid && !swipedIds.has(u.uid) && u.displayName) { 
+                        if (u.ghostMode && !likedMeIds.has(u.uid)) return;
+                        let distance = 0; if(myLat && u.lat && window.getDistanceFromLatLonInKm) { distance = window.getDistanceFromLatLonInKm(myLat, myLng, u.lat, u.lng); }
+                        if(myLat && u.lat && distance > maxD) return; 
+                        const calcA = window.calcAge(u.birthdate);
+                        profiles.push({ uid: u.uid, name: u.displayName, age: calcA, bio: (u.bio || "Swinder Üyesi") + (distance>0 ? ` • ${Math.round(distance)} km uzakta` : ''), img: u.avatar || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=800", isPremium: u.isPremium || (u.displayName || '').toLowerCase().includes('çağatay') }); 
+                    } 
+                }); 
+                if(profiles.length === 0) { const es = document.getElementById('empty-state'); if(es) es.style.display = 'flex'; return; } 
+                profiles.reverse().forEach((p, index) => { 
+                    const isP = p.isPremium ? instaGoldTick : ''; 
+                    swipeContainer.insertAdjacentHTML('beforeend', `<div class="swipe-card" data-uid="${p.uid}" data-name="${p.name}" data-img="${p.img}" style="z-index: ${1000 - index};"><div class="card-img-bg" style="background-image: url('${p.img.replace(/'/g, "\\'")}');"></div><div class="card-overlay"></div><div class="swipe-stamp stamp-like">LIKE</div><div class="swipe-stamp stamp-nope">NOPE</div><div class="card-info"><div class="card-details"><div class="card-name">${p.name} <span class="card-age">${p.age}</span> ${isP}</div><div class="card-bio">${p.bio}</div></div></div></div>`); 
+                }); window.initSwipeLogic(); 
+            } catch(e) {}
         }
-        setTimeout(()=>{ c.remove(); if(!document.querySelector('.swipe-card:not(.removed)')) document.getElementById('empty-state').style.display='flex'; }, 300);
-    };
+        
+        window.initSwipeLogic = function() { const cards = Array.from(document.querySelectorAll('.swipe-card:not(.removed)')); if(cards.length === 0) return; cards.forEach(card => { const likeStamp = card.querySelector('.stamp-like'); const nopeStamp = card.querySelector('.stamp-nope'); let startX = 0, currentX = 0; const onDrag = (e) => { const clientX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX; currentX = clientX - startX; card.style.transform = `translateX(${currentX}px) rotate(${currentX * 0.05}deg)`; if (currentX > 0) { likeStamp.style.opacity = currentX / 100; nopeStamp.style.opacity = 0; } else { nopeStamp.style.opacity = Math.abs(currentX) / 100; likeStamp.style.opacity = 0; } }; const endDrag = (e) => { document.removeEventListener('mousemove', onDrag); document.removeEventListener('touchmove', onDrag); document.removeEventListener('mouseup', endDrag); document.removeEventListener('touchend', endDrag); card.classList.remove('moving'); if (currentX > 120) { card.classList.add('removed'); window.processSwipe(card, 'right'); } else if (currentX < -120) { card.classList.add('removed'); window.processSwipe(card, 'left'); } else { card.style.transform = `translateX(0px) rotate(0deg)`; likeStamp.style.opacity = 0; nopeStamp.style.opacity = 0; } currentX = 0; }; const startDrag = (e) => { const currentTopCard = document.querySelector('.swipe-card:not(.removed)'); if (card !== currentTopCard) return; startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX; card.classList.add('moving'); document.addEventListener('mousemove', onDrag); document.addEventListener('touchmove', onDrag, {passive: false}); document.addEventListener('mouseup', endDrag); document.addEventListener('touchend', endDrag); }; card.addEventListener('mousedown', startDrag); card.addEventListener('touchstart', startDrag, {passive: true}); }); }
+        window.buttonSwipe = function(d) { const topCard = document.querySelector('.swipe-card:not(.removed)'); if(!topCard) return; topCard.classList.add('removed'); if(d === 'right' || d === 'super') topCard.querySelector('.stamp-like').style.opacity = 1; else topCard.querySelector('.stamp-nope').style.opacity = 1; window.processSwipe(topCard, d); }
+        window.processSwipe = async function(card, direction) { const endX = (direction === 'right' || direction === 'super') ? window.innerWidth : -window.innerWidth; card.style.transition = 'transform 0.4s ease-out, opacity 0.4s ease-out'; card.style.transform = `translateX(${endX}px) rotate(${direction === 'left' ? -30 : 30}deg)`; card.style.opacity = '0'; const user = auth.currentUser; const theirUid = card.dataset.uid; const theirName = card.dataset.name; const theirImg = card.dataset.img; if (user) { await setDoc(doc(db, "kaydirmalar", `${user.uid}_${theirUid}`), { swiperId: user.uid, swipedId: theirUid, action: direction, timestamp: new Date() }); if (direction === 'right' || direction === 'super') { const theirSwipe = await getDoc(doc(db, "kaydirmalar", `${theirUid}_${user.uid}`)); if(theirSwipe.exists() && (theirSwipe.data().action === 'right' || theirSwipe.data().action === 'super')) { const matchQ = await getDocs(query(collection(db, "eslesmeler"), where("users", "array-contains", user.uid))); let alreadyMatched = false; matchQ.forEach(d => { if(d.data().users.includes(theirUid)) alreadyMatched = true; }); if(!alreadyMatched) { const matchRef = await addDoc(collection(db, "eslesmeler"), { users: [user.uid, theirUid], userNames: [user.displayName, theirName], lastMessage: "Yeni Eşleşme!", updatedAt: new Date() }); const mma = document.getElementById('match-my-avatar'); if(mma) mma.style.backgroundImage = `url('${currentUserProfile?.avatar || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=200"}')`; const mta = document.getElementById('match-their-avatar'); if(mta) mta.style.backgroundImage = `url('${theirImg}')`; const mt = document.getElementById('match-text'); if(mt) mt.innerHTML = `Sen ve <strong>${theirName}</strong> birbirinizi beğendiniz!`; const bmm = document.getElementById('btn-match-msg'); if(bmm) bmm.onclick = () => { window.closeMatch(); window.openChatRoom(matchRef.id, theirName, theirImg, theirUid); }; const mo = document.getElementById('matchOverlay'); if(mo) mo.classList.add('active'); } } } } setTimeout(() => { card.remove(); const rem = document.querySelectorAll('.swipe-card:not(.removed)'); if(rem.length === 0) { const es = document.getElementById('empty-state'); if(es) es.style.display = 'flex'; } }, 400); }
+        window.resetSwipes = async function() { const user = auth.currentUser; if(!user) return; const snap = await getDocs(query(collection(db, "kaydirmalar"), where("swiperId", "==", user.uid))); for(const d of snap.docs) { await deleteDoc(doc(db, "kaydirmalar", d.id)); } alert("Sıfırlandı."); window.location.reload(); }
 
-    window.listenToDMs = () => {
-        onSnapshot(query(collection(db, "eslesmeler"), where("users", "array-contains", auth.currentUser.uid)), s => {
-            const lc = document.getElementById('dm-list-container'); lc.innerHTML='';
-            if(s.empty) { lc.innerHTML='<div style="padding:20px; color:gray; text-align:center;">Mesaj yok.</div>'; return; }
-            let ms = []; s.forEach(d=>ms.push({id:d.id, ...d.data()})); ms.sort((a,b)=>(b.updatedAt?.seconds||0)-(a.updatedAt?.seconds||0));
-            ms.forEach(m => {
-                const ti = m.users.indexOf(auth.currentUser.uid)===0?1:0; const tUid = m.users[ti]; const tName = m.userNames[ti]; const tImg = window.globalUsersById[tUid]?.avatar||'';
-                let lm = m.lastMessage; if(lm.startsWith("[PAYLAŞIM]")) lm="🖼️ Gönderi"; if(lm.startsWith("[SES]")) lm="🎤 Ses";
-                lc.insertAdjacentHTML('beforeend', `<div class="list-item" onclick="window.openChatRoom('${m.id}','${encodeURIComponent(tName)}','${encodeURIComponent(tImg)}')"><div class="list-avatar" style="background-image:url('${tImg.replace(/'/g, "\\'")}')"></div><div><b style="color:white; font-size:15px;">${tName}</b><br><span style="color:gray; font-size:13px;">${lm}</span></div></div>`);
+        window.renderReels = function() {
+            const rc = document.getElementById('reels-container'); if(!rc) return; rc.innerHTML = ''; 
+            if(window.globalPosts.length === 0) { rc.innerHTML = '<div style="color:white; text-align:center; padding-top:50vh;">Gönderi yok.</div>'; return; }
+            window.globalPosts.forEach(data => {
+                const pInfo = window.globalUsersByName[data.username] || {}; const av = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100')`; const likedClass = (auth.currentUser && data.likedBy && data.likedBy.includes(auth.currentUser.displayName)) ? 'liked' : ''; 
+                const isP = (pInfo.isPremium || (data.username || '').toLowerCase().includes('çağatay')) ? instaGoldTick : '';
+                const mediaHtml = window.isVideo(data.imageUrl) ? `<video src="${data.imageUrl}" preload="none" poster="${window.getVideoThumbnail(data.imageUrl)}" loop playsinline style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;" onclick="this.muted = !this.muted" ondblclick="window.toggleLikeDB(this.parentElement.querySelector('.btn-like'), '${data.id}', '${data.username}')"></video>` : `<img src="${data.imageUrl}" loading="lazy" decoding="async" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;" ondblclick="window.toggleLikeDB(this.parentElement.querySelector('.btn-like'), '${data.id}', '${data.username}')"/>`;
+                rc.insertAdjacentHTML('beforeend', `<div class="reel-item"><div class="media-blur-bg" style="background-image: url('${data.imageUrl.replace(/'/g, "\\'")}');"></div>${mediaHtml}<div class="reel-overlay"></div><div class="reel-content"><div class="reel-info"><div class="reel-user" data-user="${(data.username || '').replace(/"/g, '&quot;')}" onclick="closeModal('reelsModal'); window.openUserProfile(this.dataset.user)"><div class="reel-avatar" style="background-image:${av};"></div>${data.username}${isP}</div><div class="reel-caption">${data.caption || ''}</div></div><div class="reel-actions"><button class="reel-action-btn btn-like ${likedClass}" onclick="window.toggleLikeDB(this, '${data.id}', '${data.username}')"><span class="material-symbols-outlined">favorite</span><span class="reel-action-text" id="like-count-${data.id}">${data.likesCount||0}</span></button><button class="reel-action-btn" onclick="window.activeInteractPostId='${data.id}'; window.activeInteractOwner='${data.username}'; window.openCommentsDB();"><span class="material-symbols-outlined">chat_bubble</span></button><button class="reel-action-btn" onclick="window.activeShareUrl='${data.imageUrl}'; window.openShareModal();"><span class="material-symbols-outlined">send</span></button></div></div></div>`);
             });
+            if(window.reelsObserver) window.reelsObserver.disconnect();
+            window.reelsObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { const vid = entry.target.querySelector('video'); if(vid) { if(entry.isIntersecting) { vid.play().catch(e=>{}); } else { vid.pause(); } } }); }, { threshold: 0.5 });
+            document.querySelectorAll('.reel-item').forEach(item => window.reelsObserver.observe(item));
+        }
+
+        window.renderExploreGrid = async function() {
+            const grid = document.getElementById('explore-grid'); if(!grid) return;
+            const myUid = auth.currentUser ? auth.currentUser.uid : null; const currentName = auth.currentUser ? auth.currentUser.displayName : '';
+            const filterText = document.getElementById('search-input').value.toLocaleLowerCase('tr-TR'); grid.innerHTML = ''; const userList = document.getElementById('explore-users-list'); if(userList) userList.innerHTML = '';
+            let matchedUsers = Object.values(window.globalUsersById).filter(u => u.displayName && u.displayName.toLocaleLowerCase('tr-TR').includes(filterText) && u.uid !== myUid);
+            if(filterText && matchedUsers.length > 0 && userList) { 
+                userList.style.display = 'block'; 
+                matchedUsers.forEach(u => { const av = u.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100'; const isP = (u.isPremium || (u.displayName || '').toLowerCase().includes('çağatay')) ? instaGoldTick : ''; userList.insertAdjacentHTML('beforeend', `<div class="list-item" data-user="${(u.displayName || '').replace(/"/g, '&quot;')}" onclick="closeModal('exploreModal'); window.openUserProfile(this.dataset.user)" style="padding: 10px 20px;"><div class="list-avatar" style="background-image: url('${av}'); width: 40px; height: 40px;"></div><div class="list-text"><strong style="color:white; font-size:15px;">${u.displayName}${isP}</strong></div></div>`); }); 
+            } else if(userList) { userList.style.display = 'none'; }
+            let filteredPosts = window.globalPosts.filter(p => p.username !== currentName);
+            if(filterText) filteredPosts = filteredPosts.filter(p => (p.caption||'').toLocaleLowerCase('tr-TR').includes(filterText) || (p.username||'').toLocaleLowerCase('tr-TR').includes(filterText));
+            if(filteredPosts.length === 0 && (!filterText || (userList && userList.innerHTML === ''))) { grid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 40px; font-size: 13px;">Sonuç bulunamadı.</div>'; return;}
+            filteredPosts.forEach(p => { const dataStr = safeEncode(JSON.stringify(p)); const isVid = window.isVideo(p.imageUrl); const bgUrl = isVid ? window.getVideoThumbnail(p.imageUrl) : p.imageUrl; const iconHtml = isVid ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : ''; grid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${bgUrl.replace(/'/g, "\\'")}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')">${iconHtml}</div>`); });
+        }
+        window.performSearch = () => window.renderExploreGrid();
+
+        // 🔥 GÖNDERİ DETAY EKRANI (INSTAGRAM UI + TAKİP ET BUTONU) 🔥
+        window.openPostDetail = function(postId, dataStr) {
+            const data = JSON.parse(decodeURIComponent(dataStr)); window.activeInteractPostId = postId; window.activeInteractOwner = data.username; window.activeShareUrl = data.imageUrl; 
+            
+            const mediaContainer = document.getElementById('pd-media-container'); if(!mediaContainer) return;
+            if(window.isVideo(data.imageUrl)) { mediaContainer.innerHTML = `<video src="${data.imageUrl}" preload="none" poster="${window.getVideoThumbnail(data.imageUrl)}" autoplay loop playsinline style="max-width:100%; max-height:100%; position:relative; z-index:1;"></video>`; document.getElementById('pd-blur').style.backgroundImage = 'none'; } else { mediaContainer.innerHTML = `<img src="${data.imageUrl}" loading="lazy" decoding="async" style="max-width:100%; max-height:100%; object-fit:contain; position:relative; z-index:1;" />`; document.getElementById('pd-blur').style.backgroundImage = `url('${data.imageUrl.replace(/'/g, "\\'")}')`; }
+            
+            let pInfo = window.globalUsersByName[data.username] || {}; 
+            const isP = (pInfo.isPremium || (data.username || '').toLowerCase().includes('çağatay')) ? instaGoldTick : ''; 
+            const avatarUrl = pInfo.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100';
+
+            // Üst Kullanıcı Şeridi (Insta Style)
+            const headerAvatar = document.getElementById('pd-header-avatar');
+            if(headerAvatar) { headerAvatar.style.backgroundImage = `url('${avatarUrl.replace(/'/g, "\\'")}')`; headerAvatar.onclick = () => { closeModal('postDetailModal'); window.openUserProfile(data.username); }; }
+            
+            const headerName = document.getElementById('pd-header-username');
+            if(headerName) { headerName.innerHTML = data.username + isP; headerName.onclick = () => { closeModal('postDetailModal'); window.openUserProfile(data.username); }; }
+
+            // Hızlı Takip Et (Inline Follow) Butonu
+            const inlineFollowBtn = document.getElementById('pd-btn-inline-follow');
+            if(inlineFollowBtn && auth.currentUser) {
+                if(auth.currentUser.displayName === data.username) {
+                    inlineFollowBtn.style.display = 'none';
+                } else {
+                    const followingList = currentUserProfile?.following || [];
+                    if(followingList.includes(pInfo.uid)) {
+                        inlineFollowBtn.style.display = 'none'; // Zaten takip ediyorsa gizle
+                    } else {
+                        inlineFollowBtn.style.display = 'block';
+                        inlineFollowBtn.dataset.targetUid = pInfo.uid;
+                        inlineFollowBtn.innerText = "• Takip Et";
+                        inlineFollowBtn.style.color = "#3498db";
+                    }
+                }
+            }
+
+            // Alt Bilgiler
+            const pu = document.getElementById('pd-user'); if(pu) { pu.dataset.user = data.username; pu.innerHTML = data.username + isP; pu.onclick = () => { closeModal('postDetailModal'); window.openUserProfile(data.username); }; } 
+            const pc = document.getElementById('pd-caption'); if(pc) pc.innerText = data.caption || ''; 
+            const pl = document.getElementById('pd-likes'); if(pl) pl.innerText = data.likesCount || 0;
+            
+            const btnLike = document.getElementById('pd-btn-like'); if(btnLike) { if(auth.currentUser && data.likedBy && data.likedBy.includes(auth.currentUser.displayName)) btnLike.classList.add('liked'); else btnLike.classList.remove('liked'); }
+            const adminControls = document.getElementById('admin-controls'); if(adminControls) adminControls.style.display = (auth.currentUser && (auth.currentUser.email === adminEmail || auth.currentUser.displayName === data.username)) ? 'flex' : 'none'; 
+            
+            openModal('postDetailModal');
+        }
+
+        // 🔥 HIZLI TAKİP ET FONKSİYONU 🔥
+        window.toggleFollowInline = async function(btnElement) {
+            const user = auth.currentUser; if(!user) return;
+            const targetUid = btnElement.dataset.targetUid; if(!targetUid) return;
+            
+            btnElement.innerText = "Takip Ediliyor";
+            btnElement.style.color = "gray";
+            
+            const myRef = doc(db, "kullanicilar", user.uid); 
+            const targetRef = doc(db, "kullanicilar", targetUid);
+            
+            try {
+                await updateDoc(myRef, { following: arrayUnion(targetUid) }); 
+                await updateDoc(targetRef, { followers: arrayUnion(user.uid) }); 
+                if(currentUserProfile) { 
+                    if(!currentUserProfile.following) currentUserProfile.following=[]; 
+                    currentUserProfile.following.push(targetUid); 
+                }
+                setTimeout(() => { btnElement.style.display = 'none'; }, 1000); 
+            } catch(e){}
+        }
+
+        window.toggleLikeDB = async function(btnElement, forcePostId=null, forceOwner=null) {
+            const user = auth.currentUser; if(!user) return; const postId = forcePostId || window.activeInteractPostId; const owner = forceOwner || window.activeInteractOwner; if(!postId) return;
+            const isLiked = btnElement.classList.contains('liked'); const postRef = doc(db, "gonderiler", postId); const likeSpan = document.getElementById('pd-likes'); const postData = window.globalPosts.find(p=>p.id===postId); let currentLikes = postData ? (postData.likesCount||0) : 0;
+            if(isLiked) { btnElement.classList.remove('liked'); if(likeSpan && window.activeInteractPostId===postId) likeSpan.innerText = currentLikes - 1; await updateDoc(postRef, { likedBy: arrayRemove(user.displayName), likesCount: currentLikes - 1 }); if(postData) postData.likesCount -= 1; } else { btnElement.classList.add('liked'); if(likeSpan && window.activeInteractPostId===postId) likeSpan.innerText = currentLikes + 1; await updateDoc(postRef, { likedBy: arrayUnion(user.displayName), likesCount: currentLikes + 1 }); if(postData) postData.likesCount += 1; if(owner && owner !== user.displayName) await addDoc(collection(db, "bildirimler"), { to: owner, from: user.displayName, text: 'gönderini beğendi.', createdAt: new Date() }); }
+        }
+
+        window.openCommentsDB = async function(postId=null) {
+            const pId = postId || window.activeInteractPostId; if(!pId) return; window.activeInteractPostId = pId; openModal('commentsModal'); const list = document.getElementById('comments-list'); if(!list) return; list.innerHTML = '<div style="color:gray; text-align:center;">Yükleniyor...</div>';
+            const snap = await getDocs(collection(db, `gonderiler/${pId}/yorumlar`)); list.innerHTML = ''; 
+            if(snap.empty) { list.innerHTML = '<div style="color:gray; text-align:center;">İlk yorumu sen yap!</div>'; return;}
+            let comments = []; snap.forEach(d => comments.push(d.data())); comments.sort((a,b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0));
+            comments.forEach(data => { const avatar = window.globalUsersByName[data.username]?.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100'; list.insertAdjacentHTML('beforeend', `<div class="list-item" style="padding:0; border:none;"><div class="list-avatar" style="background-image:url('${avatar}'); width:36px; height:36px;"></div><div class="list-text"><strong style="color:var(--primary-gold);">${data.username}</strong> <span style="color:white;">${data.text}</span></div></div>`); });
+        }
+        window.submitComment = async function() { const user = auth.currentUser; if(!user || !window.activeInteractPostId) return; const text = document.getElementById('new-comment-input').value.trim(); if(!text) return; document.getElementById('new-comment-input').value = ""; await addDoc(collection(db, `gonderiler/${window.activeInteractPostId}/yorumlar`), { username: user.displayName, text: text, createdAt: new Date() }); window.openCommentsDB(window.activeInteractPostId); }
+
+        window.openUserProfile = function(username) {
+            let pInfo = window.globalUsersByName[username] || {}; const isP = (pInfo.isPremium || (username || '').toLowerCase().includes('çağatay')) ? instaGoldTick : ''; 
+            const ut = document.getElementById('up-title'); if(ut) ut.innerText = username; const un = document.getElementById('up-name'); if(un) un.innerHTML = `${username} ${isP}`; const ub = document.getElementById('up-bio'); if(ub) ub.innerText = pInfo.bio || 'Swinder VIP Üyesi'; const ua = document.getElementById('up-avatar'); if(ua) ua.style.backgroundImage = pInfo.avatar ? `url('${pInfo.avatar.replace(/'/g, "\\'")}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=200')`;
+            const userPosts = window.globalPosts.filter(p => p.username === username); const upc = document.getElementById('up-post-count'); if(upc) upc.innerText = userPosts.length; const ufc = document.getElementById('up-follower-count'); if(ufc) ufc.innerText = (pInfo.followers || []).length; const ufic = document.getElementById('up-following-count'); if(ufic) ufic.innerText = (pInfo.following || []).length;
+            const btnFollow = document.getElementById('btn-follow-user'); if(btnFollow) { if(auth.currentUser && auth.currentUser.displayName === username) { btnFollow.style.display = 'none'; } else { btnFollow.style.display = 'block'; if(currentUserProfile && currentUserProfile.following && currentUserProfile.following.includes(pInfo.uid)) { btnFollow.classList.add('following'); btnFollow.innerText="Takibi Bırak"; btnFollow.style.background="rgba(255,255,255,0.15)"; btnFollow.style.color="white"; } else { btnFollow.classList.remove('following'); btnFollow.innerText="Takip Et"; btnFollow.style.background="var(--primary-gold)"; btnFollow.style.color="black"; } } }
+            const upGrid = document.getElementById('up-grid'); if(upGrid) { upGrid.innerHTML = ''; if(userPosts.length === 0) upGrid.innerHTML = '<div style="grid-column: span 3; text-align: center; color: gray; padding: 30px; font-size:13px;">Gönderi yok.</div>'; userPosts.forEach(p => { const dataStr = safeEncode(JSON.stringify(p)); const isVid = window.isVideo(p.imageUrl); const bgUrl = isVid ? window.getVideoThumbnail(p.imageUrl) : p.imageUrl; const iconHtml = isVid ? '<span class="material-symbols-outlined grid-video-icon">play_circle</span>' : ''; upGrid.insertAdjacentHTML('beforeend', `<div class="grid-item" style="background-image: url('${bgUrl.replace(/'/g, "\\'")}');" onclick="window.openPostDetail('${p.id}', '${dataStr}')">${iconHtml}</div>`); }); }
+            openModal('userProfileModal');
+        }
+
+        window.toggleFollowDB = async function(btnElement) { const user = auth.currentUser; if(!user) return; const ut = document.getElementById('up-title'); if(!ut) return; const tName = ut.innerText; const targetUser = window.globalUsersByName[tName]; if(!targetUser) return; const isFollowing = btnElement.classList.contains('following'); const myRef = doc(db, "kullanicilar", user.uid); const targetRef = doc(db, "kullanicilar", targetUser.uid); const countEl = document.getElementById('up-follower-count'); let count = countEl ? parseInt(countEl.innerText) : 0; if(isFollowing) { btnElement.classList.remove('following'); btnElement.innerText = "Takip Et"; btnElement.style.background = "var(--primary-gold)"; btnElement.style.color = "black"; if(countEl) countEl.innerText = count - 1; await updateDoc(myRef, { following: arrayRemove(targetUser.uid) }); await updateDoc(targetRef, { followers: arrayRemove(user.uid) }); if(currentUserProfile && currentUserProfile.following) currentUserProfile.following = currentUserProfile.following.filter(id => id !== targetUser.uid); } else { btnElement.classList.add('following'); btnElement.innerText = "Takibi Bırak"; btnElement.style.background = "rgba(255,255,255,0.15)"; btnElement.style.color = "white"; if(countEl) countEl.innerText = count + 1; await updateDoc(myRef, { following: arrayUnion(targetUser.uid) }); await updateDoc(targetRef, { followers: arrayUnion(user.uid) }); if(currentUserProfile) { if(!currentUserProfile.following) currentUserProfile.following=[]; currentUserProfile.following.push(targetUser.uid); } } }
+
+        window.listenToDMs = function() { 
+            const user = auth.currentUser; if(!user) return; const dmListContainer = document.getElementById('dm-list-container'); if(!dmListContainer) return;
+            onSnapshot(query(collection(db, "eslesmeler"), where("users", "array-contains", user.uid)), (snapshot) => { 
+                dmListContainer.innerHTML = ''; if(snapshot.empty) { dmListContainer.innerHTML = '<div style="text-align:center; padding:40px; color:gray;">Henüz eşleşmen yok.</div>'; return; } 
+                let matches = []; snapshot.forEach(d => matches.push({ id: d.id, ...d.data() })); matches.sort((a,b) => { const timeA = a.updatedAt?.seconds || 0; const timeB = b.updatedAt?.seconds || 0; return timeB - timeA; }); 
+                matches.forEach(match => { const theirIndex = match.users.indexOf(user.uid) === 0 ? 1 : 0; const theirUid = match.users[theirIndex]; const theirName = match.userNames[theirIndex]; const theirImg = window.globalUsersById[theirUid]?.avatar || "https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100"; let safeLastMsg = match.lastMessage || ""; if(safeLastMsg.startsWith("[PAYLAŞIM]")) safeLastMsg = "🖼️ Bir gönderi paylaştı."; if(safeLastMsg.startsWith("[SES]")) safeLastMsg = "🎤 Sesli mesaj"; const typingInfo = match.typing || {}; if(typingInfo[theirUid] > Date.now() - 3000) safeLastMsg = "<span style='color:#00d2ff;'>Yazıyor...</span>"; dmListContainer.insertAdjacentHTML('beforeend', `<div class="list-item" onclick="window.openChatRoom('${match.id}', '${theirName.replace(/'/g, "\\'")}', '${theirImg}', '${theirUid}')"><div class="list-avatar" style="background-image: url('${theirImg.replace(/'/g, "\\'")}');"></div><div class="list-text"><strong style="font-size:15px; color:white;">${theirName}</strong><br><span style="color:gray; font-size:13px;">${safeLastMsg}</span></div></div>`); }); 
+            }); 
+        }
+        window.changeChatTheme = async function(themeName) { if(!window.activeChatId) return; try { await updateDoc(doc(db, "eslesmeler", window.activeChatId), { chatTheme: themeName }); closeModal('chatThemeModal'); } catch(e) {} }
+        window.likeMessageDB = async function(msgId) { if(!window.activeChatId || !msgId || !auth.currentUser) return; try { const msgRef = doc(db, `eslesmeler/${window.activeChatId}/mesajlar/${msgId}`); const snap = await getDoc(msgRef); if(snap.exists() && snap.data().senderId !== auth.currentUser.uid) { await updateDoc(msgRef, { liked: !(snap.data().liked || false) }); } } catch(e){} }
+        window.startReply = function(msgId, senderName, text) { window.activeReplyTo = { id: msgId, text: text, name: senderName }; const rp = document.getElementById('reply-preview'); if(rp) rp.classList.add('active'); const rn = document.getElementById('reply-to-name'); if(rn) rn.innerText = senderName; const rt = document.getElementById('reply-to-text'); if(rt) rt.innerText = text; const ci = document.getElementById('chat-input'); if(ci) ci.focus(); }
+        window.cancelReply = function() { window.activeReplyTo = null; const rp = document.getElementById('reply-preview'); if(rp) rp.classList.remove('active'); }
+        
+        let chatInteractionsSetup = false;
+        function setupChatInteractions() { if(chatInteractionsSetup) return; const chatArea = document.getElementById('chat-messages'); if(!chatArea) return; let lastTap = 0; chatArea.addEventListener('touchend', function(e) { const bubble = e.target.closest('.chat-bubble'); if(!bubble) return; const tapLength = new Date().getTime() - lastTap; if(tapLength < 300 && tapLength > 0) { const msgDiv = bubble.closest('.chat-msg'); if(msgDiv && msgDiv.dataset.id) { window.likeMessageDB(msgDiv.dataset.id); e.preventDefault(); } } lastTap = new Date().getTime(); }); chatArea.addEventListener('dblclick', function(e) { const bubble = e.target.closest('.chat-bubble'); if(!bubble) return; const msgDiv = bubble.closest('.chat-msg'); if(msgDiv && msgDiv.dataset.id) window.likeMessageDB(msgDiv.dataset.id); }); let startX = 0, currentX = 0, activeSwipeMsg = null; chatArea.addEventListener('touchstart', e => { const msg = e.target.closest('.chat-msg'); if(!msg) return; activeSwipeMsg = msg; startX = e.touches[0].clientX; msg.style.transition = 'none'; }, {passive: true}); chatArea.addEventListener('touchmove', e => { if(!activeSwipeMsg) return; currentX = e.touches[0].clientX - startX; if(currentX > 0 && currentX < 100) activeSwipeMsg.style.transform = `translateX(${currentX}px)`; }, {passive: true}); chatArea.addEventListener('touchend', e => { if(!activeSwipeMsg) return; activeSwipeMsg.style.transition = 'transform 0.2s ease'; activeSwipeMsg.style.transform = `translateX(0px)`; if(currentX > 50) { const id = activeSwipeMsg.dataset.id; const text = activeSwipeMsg.dataset.text; const sender = activeSwipeMsg.dataset.sender; if(id) window.startReply(id, sender, text); } activeSwipeMsg = null; startX = 0; currentX = 0; }); chatInteractionsSetup = true; }
+
+        window.openChatRoom = function(chatId, partnerName, partnerImg, partnerUid) { closeModal('messagesModal'); window.activeChatId = chatId; window.cancelReply(); const cn = document.getElementById('chat-header-name'); if(cn) cn.innerText = partnerName; const ca = document.getElementById('chat-header-avatar'); if(ca) ca.style.backgroundImage = `url('${partnerImg.replace(/'/g, "\\'")}')`; openModal('chatRoomModal'); const chatArea = document.getElementById('chat-messages'); if(!chatArea) return; chatArea.innerHTML = '<div style="color:gray; text-align:center; margin-top:20px;">Mesajlar yükleniyor...</div>'; setupChatInteractions(); if(window.chatDocUnsubscribe) { window.chatDocUnsubscribe(); window.chatDocUnsubscribe = null; } if(messagesUnsubscribe) messagesUnsubscribe(); try { window.chatDocUnsubscribe = onSnapshot(doc(db, "eslesmeler", chatId), (docSnap) => { if(docSnap.exists()) { const data = docSnap.data(); chatArea.className = 'chat-area theme-' + (data.chatTheme || 'default'); const typingInfo = data.typing || {}; let isThemTyping = false; const myUid = auth.currentUser ? auth.currentUser.uid : null; for(let key in typingInfo) { if(key !== myUid && typingInfo[key] > Date.now() - 3000) isThemTyping = true; } const existingTyping = document.getElementById('typing-indicator'); if(isThemTyping && !existingTyping) { chatArea.insertAdjacentHTML('beforeend', `<div id="typing-indicator" class="chat-msg theirs"><div class="chat-bubble typing-indicator-box"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`); chatArea.scrollTop = chatArea.scrollHeight; } else if(!isThemTyping && existingTyping) { existingTyping.remove(); } } }); messagesUnsubscribe = onSnapshot(collection(db, `eslesmeler/${chatId}/mesajlar`), (snapshot) => { const existingTyping = document.getElementById('typing-indicator'); if(existingTyping) existingTyping.remove(); chatArea.innerHTML = ''; let msgs = []; const myUid = auth.currentUser ? auth.currentUser.uid : null; if(!myUid) return; snapshot.forEach(docSnap => { let m = docSnap.data(); m.id = docSnap.id; msgs.push(m); if(m.senderId !== myUid && !m.read) { updateDoc(doc(db, `eslesmeler/${chatId}/mesajlar/${docSnap.id}`), { read: true }).catch(e=>{}); } }); msgs.sort((a,b) => (a.timestamp?.seconds || 0) - (b.timestamp?.seconds || 0)); if(msgs.length === 0) { chatArea.innerHTML = '<div style="color:gray; text-align:center; margin-top:20px;">İlk mesajı sen gönder!</div>'; return; } let lastMyMsgId = null; for(let i=msgs.length-1; i>=0; i--) { if(msgs[i].senderId === myUid) { lastMyMsgId = msgs[i].id; break; } } msgs.forEach(msg => { const isMine = msg.senderId === myUid; let timeStr = ""; try { if(msg.timestamp && msg.timestamp.toDate) timeStr = msg.timestamp.toDate().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}); } catch(e) {} let displayMsg = msg.text || ""; let rawTextForReply = msg.text || ""; if(displayMsg.startsWith("[PAYLAŞIM] ")) { rawTextForReply = "🖼️ Gönderi"; const url = displayMsg.replace("[PAYLAŞIM] ", ""); if(window.isVideo(url)) displayMsg = `<video src="${url}" preload="none" autoplay loop playsinline style="width:100%; border-radius:12px;" onclick="this.muted = !this.muted"></video><div style="font-size:11px; margin-top:5px; color:var(--primary-gold); text-align:center;">Gönderi Paylaşıldı</div>`; else displayMsg = `<img src="${url}" loading="lazy" decoding="async" style="width:100%; border-radius:12px;"/><div style="font-size:11px; margin-top:5px; color:var(--primary-gold); text-align:center;">Gönderi Paylaşıldı</div>`; } else if(displayMsg.startsWith("[SES] ")) { rawTextForReply = "🎤 Sesli Mesaj"; displayMsg = `<audio controls src="${displayMsg.replace('[SES] ', '')}" style="height:35px; width:200px; outline:none;"></audio>`; } let quoteHtml = ""; if(msg.replyTo) { quoteHtml = `<div class="quoted-msg"><strong style="display:block; margin-bottom:2px;">${msg.replyTo.name}</strong>${msg.replyTo.text}</div>`; } let likeHtml = msg.liked ? `<div class="msg-like-badge">❤️</div>` : ''; let seenHtml = (isMine && msg.id === lastMyMsgId && msg.read) ? `<div style="font-size:10px; color:#3498db; text-align:right; margin-top:4px;">Görüldü ✓✓</div>` : ''; chatArea.insertAdjacentHTML('beforeend', `<div class="chat-msg ${isMine ? 'mine' : 'theirs'}" data-id="${msg.id}" data-text="${rawTextForReply.replace(/"/g, '&quot;')}" data-sender="${isMine ? auth.currentUser.displayName : partnerName}"><div class="chat-bubble">${quoteHtml}${displayMsg}</div><div class="chat-time">${timeStr}</div>${seenHtml}${likeHtml}</div>`); }); chatArea.scrollTop = chatArea.scrollHeight; }); } catch(err) {} }
+        let isTypingSync = false; window.onChatInput = function() { if(!window.activeChatId || !auth.currentUser) return; const myUid = auth.currentUser.uid; if(!isTypingSync) { isTypingSync = true; updateDoc(doc(db, "eslesmeler", window.activeChatId), { [`typing.${myUid}`]: Date.now() }).catch(e=>{}); setTimeout(() => { isTypingSync = false; }, 1500); } }
+        window.sendBase64Message = async function(base64Text, shortDesc) { if(!window.activeChatId) return; try { const msgData = { senderId: auth.currentUser.uid, text: base64Text, timestamp: new Date(), read: false }; if(window.activeReplyTo) { msgData.replyTo = window.activeReplyTo; } await addDoc(collection(db, `eslesmeler/${window.activeChatId}/mesajlar`), msgData); await updateDoc(doc(db, "eslesmeler", window.activeChatId), { lastMessage: shortDesc, updatedAt: new Date(), [`typing.${auth.currentUser.uid}`]: 0 }); window.cancelReply(); } catch(e) {} }
+        window.sendChatMessage = function() { const input = document.getElementById('chat-input'); if(!input) return; const text = input.value.trim(); if(!text) return; input.value = ""; window.sendBase64Message(text, text); }
+        window.deleteChatRoom = async function() { if(!window.activeChatId) return; if(confirm("Sohbeti kalıcı olarak silmek istediğine emin misin?")) { try { await deleteDoc(doc(db, "eslesmeler", window.activeChatId)); closeModal('chatRoomModal'); window.openMessages(); } catch(e) {} } }
+
+        document.getElementById('btn-login')?.addEventListener('click', async () => { try { await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-pass').value); window.location.reload(); } catch (err) { alert(err.message); }});
+        document.getElementById('btn-register')?.addEventListener('click', async () => { const name = document.getElementById('reg-name').value.trim(); const email = document.getElementById('reg-email').value; const pass = document.getElementById('reg-pass').value; if(!name || !email || !pass) return alert("Doldurun!"); document.getElementById('btn-register').innerText = "Açılıyor..."; try { const uc = await createUserWithEmailAndPassword(auth, email, pass); await updateProfile(uc.user, { displayName: name }); const adminQ = await getDocs(query(collection(db, "kullanicilar"), where("email", "==", adminEmail))); let followingList = []; if(!adminQ.empty) { const adminDoc = adminQ.docs[0]; followingList.push(adminDoc.id); await updateDoc(doc(db, "kullanicilar", adminDoc.id), { followers: arrayUnion(uc.user.uid) }); } await setDoc(doc(db, "kullanicilar", uc.user.uid), { displayName: name, email: email, following: followingList, followers: [] }); window.location.reload(); } catch (e) { alert(e.message); document.getElementById('btn-register').innerText = "VIP Hesabını Oluştur"; } });
+
+        document.getElementById('btn-submit-post')?.addEventListener('click', async () => { const user = auth.currentUser; if (!user) return; const fileInput = document.getElementById('add-image-file'); const file = fileInput.files[0]; const caption = document.getElementById('add-caption').value; if (!file) return alert("Dosya seçin!"); const btn = document.getElementById('btn-submit-post'); btn.innerText = "Yükleniyor (Bekleyin)..."; try { const imageUrl = await window.uploadMedia(file); await addDoc(collection(db, "gonderiler"), { imageUrl, caption, username: user.displayName, likesCount: 0, createdAt: new Date() }); closeModal('addModal'); fileInput.value = ""; document.getElementById('add-caption').value = ""; await window.loadAllData(); if(window.renderExploreGrid) window.renderExploreGrid(); } catch (err) { alert("Hata: " + err.message); } finally { btn.innerText = "Paylaş"; } });
+        document.getElementById('btn-submit-story')?.addEventListener('click', async () => { const user = auth.currentUser; if (!user) return; const fileInput = document.getElementById('story-file'); const file = fileInput.files[0]; if (!file) return alert("Dosya seçin!"); const btn = document.getElementById('btn-submit-story'); btn.innerText = "Yükleniyor..."; try { const imageUrl = await window.uploadMedia(file); await addDoc(collection(db, "hikayeler"), { imageUrl, username: user.displayName, createdAt: new Date() }); closeModal('addStoryModal'); fileInput.value = ""; if(window.loadStories) window.loadStories(); } catch (e) { alert("Hata: " + e.message); } finally { btn.innerText = "Paylaş"; } });
+
+        // 🔥 EN SON AŞAMA: AUTH BAŞLATICI 🔥
+        onAuthStateChanged(auth, async (user) => {
+            try {
+                if (user) { 
+                    closeModal('authModal'); 
+                    const safeName = user.displayName || "Kullanıcı";
+                    await setDoc(doc(db, "kullanicilar", user.uid), { displayName: safeName, email: user.email || "" }, { merge: true });
+                    
+                    const snap = await getDoc(doc(db, "kullanicilar", user.uid));
+                    if(snap.exists()) {
+                        currentUserProfile = { uid: user.uid, following: [], followers: [], maxDistance: 50, ghostMode: false, birthdate: "", profileTheme: "normal", ...snap.data() };
+                        const mds = document.getElementById('max-distance-slider'); if(mds) mds.value = currentUserProfile.maxDistance;
+                        const dv = document.getElementById('dist-val'); if(dv) dv.innerText = currentUserProfile.maxDistance + " km";
+                        const gmt = document.getElementById('ghost-mode-toggle'); if(gmt) gmt.checked = currentUserProfile.ghostMode;
+                        let savedTheme = currentUserProfile.profileTheme || 'normal';
+                        if(savedTheme !== 'normal' && !currentUserProfile.isPremium && user.email !== adminEmail) savedTheme = 'normal';
+                        if(savedTheme !== 'normal') document.body.classList.add('theme-' + savedTheme);
+                    }
+                    
+                    await window.loadAllData(); 
+                    if(document.getElementById('swipe-container')) window.loadProfilesForDeck();
+                    if(document.getElementById('dm-list-container')) window.listenToDMs();
+                    if(document.getElementById('stories-container')) window.loadStories();
+
+                    let initNoti = true;
+                    onSnapshot(query(collection(db, "bildirimler"), where("to", "==", safeName)), (s) => { 
+                        if(!s.empty) { const nd = document.getElementById('noti-dot'); if(nd) nd.style.display = 'block'; }
+                        s.docChanges().forEach(change => { if(change.type === 'added' && !initNoti) { if(window.sendSystemPush) window.sendSystemPush("Yeni Bildirim 💖", change.doc.data().text); } });
+                        initNoti = false;
+                    });
+                } else { openModal('authModal'); }
+            } catch(e) { console.error("Baslatma hatasi:", e); } finally { hideSplash(); }
         });
-    };
-    window.openChatRoom = (cId, enN, enI) => { closeM('messagesModal'); window.activeChatId = cId; document.getElementById('chat-header-name').innerText=decodeURIComponent(enN); document.getElementById('chat-header-avatar').style.backgroundImage=`url('${decodeURIComponent(enI).replace(/'/g, "\\'")}')`; openM('chatRoomModal'); const a = document.getElementById('chat-messages'); a.innerHTML='Yükleniyor...';
-        if(window.cU) window.cU(); window.cU = onSnapshot(collection(db, `eslesmeler/${cId}/mesajlar`), s => {
-            a.innerHTML=''; let msgs=[]; s.forEach(d=>msgs.push({id:d.id, ...d.data()})); msgs.sort((x,y)=>(x.timestamp?.seconds||0)-(y.timestamp?.seconds||0));
-            msgs.forEach(m => { const isM = m.senderId===auth.currentUser.uid; let t = m.text; if(t.startsWith("[PAYLAŞIM]")) t=`<img src="${t.replace('[PAYLAŞIM] ','')}" style="width:150px; border-radius:10px;"/>`; else if(t.startsWith("[SES]")) t=`<audio controls src="${t.replace('[SES] ','')}" style="height:35px; width:200px;"></audio>`;
-            a.insertAdjacentHTML('beforeend', `<div class="chat-msg ${isM?'chat-mine':'chat-theirs'}"><div class="chat-bubble">${t}</div></div>`); }); a.scrollTop = a.scrollHeight;
-        });
-    };
-    window.sendChatMessage = async () => { const i = document.getElementById('chat-input'); const t = i.value.trim(); if(!t) return; i.value=''; await addDoc(collection(db, `eslesmeler/${window.activeChatId}/mesajlar`), {senderId:auth.currentUser.uid, text:t, timestamp:new Date()}); await updateDoc(doc(db,"eslesmeler",window.activeChatId), {lastMessage:t, updatedAt:new Date()}); };
-</script>
+
+        if ('serviceWorker' in navigator) { 
+            navigator.serviceWorker.register('sw.js').then((reg) => {
+                reg.onupdatefound = () => {
+                    const installingWorker = reg.installing;
+                    installingWorker.onstatechange = () => {
+                        if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            if(!sessionStorage.getItem('sw_reloaded_v25')) {
+                                sessionStorage.setItem('sw_reloaded_v25', 'true');
+                                window.location.reload();
+                            }
+                        }
+                    };
+                };
+            }).catch(err => console.log("SW Hatası:", err)); 
+        }
+    </script>
 </body>
 </html>
