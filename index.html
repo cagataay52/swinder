@@ -426,7 +426,10 @@
 
         const safeEncode = (str) => encodeURIComponent(str || '').replace(/'/g, "%27");
         const adminEmail = "kcagatay239@gmail.com"; 
-        const instaGoldTick = `<svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align: text-bottom; margin-left: 4px; overflow: visible; filter: drop-shadow(0 2px 4px rgba(212,175,55,0.5));"><defs><linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f3e5ab" /><stop offset="50%" stop-color="#ffdf00" /><stop offset="100%" stop-color="#d4af37" /></linearGradient></defs><path d="M12 1.5l2.6 1.54 2.97-.47 1.25 2.76 2.87.9-.6 2.94 1.83 2.37-1.55 2.58 1.03 2.83-2.4 1.8-.23 3.01-2.9 1.02-1.37 2.7-2.95-.33-2.07 2.2-2.07-2.2-2.95.33-1.37-2.7-2.9-1.02-.23-3.01-2.4-1.8 1.03-2.83-1.55-2.58 1.83-2.37-.6-2.94 2.87-.9 1.25-2.76 2.97.47L12 1.5z" fill="url(#goldGrad)"/><path d="M10.5 15.5l-3.5-3.5 1.4-1.4 2.1 2.1 5.6-5.6 1.4 1.4-7 7z" fill="#fff"/></svg>`;
+        const instaGoldTick = `<svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align: text-bottom; margin-left: 4px; overflow: visible; filter: drop-shadow(0 2px 4px rgba(212,175,55,0.5));">
+  <path fill="#FFC107" d="M22 11.164l-2.072 1.489a2 2 0 00-.73 2.138l.681 2.454a2 2 0 01-1.637 2.493l-2.484.536a2 2 0 00-1.488 1.489l-.536 2.484a2 2 0 01-2.493 1.637l-2.454-.681a2 2 0 00-2.138.73l-1.489 2.072a2 2 0 01-2.986 0l-1.489-2.072a2 2 0 00-2.138-.73L4.93 23.33a2 2 0 01-2.493-1.637l-.536-2.484A2 2 0 00.413 17.72L.413 17.72a2 2 0 011.637-2.493l2.484-.536a2 2 0 001.488-1.489l.536-2.484A2 2 0 019.05 9.08l2.454.681a2 2 0 002.138-.73l1.489-2.072a2 2 0 012.986 0l1.489 2.072a2 2 0 002.138.73l2.454-.681a2 2 0 012.493 1.637l.536 2.484a2 2 0 001.488 1.489l2.484-.536a2 2 0 011.637 2.493l-.681 2.454z"/>
+  <path fill="#fff" d="M10.151 15.111l-3.351-3.352 1.414-1.414 1.937 1.937 4.937-4.937 1.414 1.414z"/>
+</svg>`;
 
         window.globalUsersById = {}; window.globalUsersByName = {}; window.globalPosts = []; let currentUserProfile = null;
         window.activeInteractPostId = null; window.activeInteractOwner = null; window.activeInteractStoryId = null; window.activeStoryOwner = null; window.activeShareUrl = null; window.activeChatId = null; let messagesUnsubscribe = null; window.chatDocUnsubscribe = null;
