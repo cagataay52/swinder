@@ -21,15 +21,6 @@
     <script>if(sessionStorage.getItem("swinder_splashed")) { document.write('<style>#splash-screen { display: none !important; }</style>'); }</script>
 
     <style>
-        /* APPLE IOS EKRAN UZATMA FIX'İ BURADA */
-        html, body {
-            width: 100%;
-            height: 100vh;
-            height: -webkit-fill-available;
-            margin: 0;
-            padding: 0;
-        }
-        
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; touch-action: pan-y; -webkit-tap-highlight-color: transparent;}
         :root { --primary-gold: #d4af37; --text-light: #f5f5f7; --glass-bg: rgba(20, 20, 25, 0.45); --glass-border: 1px solid rgba(255, 255, 255, 0.08); --body-bg: #050505; --ring-gradient: linear-gradient(45deg, #d4af37, #aa8529, #f3e5ab); }
         
@@ -44,7 +35,15 @@
         body.theme-gold .btn-premium { background: linear-gradient(135deg, #d4af37 0%, #ffdf00 50%, #d4af37 100%); color: #000; font-weight: 800; box-shadow: 0 5px 20px rgba(255, 223, 0, 0.35); }
         body.theme-gold .chat-msg.mine .chat-bubble { background: linear-gradient(135deg, #d4af37, #ffdf00); color: #000; font-weight: 500;}
         
-        body { background: var(--body-bg); color: var(--text-light); overflow: hidden; overscroll-behavior-y: none; transition: background 0.5s ease;}
+        body { 
+            background: var(--body-bg); 
+            color: var(--text-light); 
+            overflow: hidden; 
+            overscroll-behavior-y: none; 
+            transition: background 0.5s ease;
+            width: 100vw;
+            height: 100dvh;
+        }
 
         #splash-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #050505; z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease, visibility 0.5s; }
         .splash-logo { font-family: 'Grand Hotel', cursive; font-size: 70px; color: var(--primary-gold); animation: splashPulse 1.5s infinite alternate; text-shadow: 0 0 20px rgba(212,175,55,0.4); }
@@ -87,8 +86,8 @@
         .action-btn { width: 60px; height: 60px; border-radius: 50%; background: var(--glass-bg); backdrop-filter: blur(15px); border: var(--glass-border); display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s;}
         .btn-dislike { color: #ff4757; } .btn-superlike { width: 50px; height: 50px; color: #3498db; } .btn-like { color: #2ecc71; }
 
-        /* PROFIL ILE %100 AYNI HALE GETIRILEN MENÜ */
-        .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 8px 10px max(5px, env(safe-area-inset-bottom)); border-top: 1px solid rgba(255,255,255,0.08); z-index: 900; transition: border-color 0.5s ease; }
+        /* PROFIL HTML İLE BİREBİR AYNI, KUSURSUZ İOS ALT MENÜSÜ */
+        .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 8px 10px calc(8px + env(safe-area-inset-bottom)); border-top: 1px solid rgba(255,255,255,0.08); z-index: 900; transition: border-color 0.5s ease; }
         .nav-icon-btn { background: none; border: none; color: rgba(255,255,255,0.45); cursor: pointer; display: flex; align-items: center; justify-content: center; height: 40px; width: 40px; -webkit-tap-highlight-color: transparent;}
         .nav-icon-btn .material-symbols-outlined { font-size: 28px; transition: transform 0.2s, color 0.2s; }
         .nav-icon-btn.active { color: white; }
@@ -443,7 +442,6 @@
         window.activeInteractPostId = null; window.activeInteractOwner = null; window.activeInteractStoryId = null; window.activeStoryOwner = null; window.activeShareUrl = null; window.activeChatId = null; let messagesUnsubscribe = null; window.chatDocUnsubscribe = null;
         window.activeReplyTo = null; window.activeChatPartnerName = null;
 
-        // PUSH NOTIFICATION GÖNDERME FONKSİYONU
         window.sendSystemPush = function(title, body) {
             if (!("Notification" in window)) return;
             if (Notification.permission === "granted") {
@@ -777,51 +775,34 @@
         document.getElementById('btn-login')?.addEventListener('click', async () => { try { await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-pass').value); window.location.reload(); } catch (err) { alert(err.message); }});
         document.getElementById('btn-register')?.addEventListener('click', async () => { const name = document.getElementById('reg-name').value.trim(); const email = document.getElementById('reg-email').value; const pass = document.getElementById('reg-pass').value; if(!name || !email || !pass) return alert("Doldurun!"); document.getElementById('btn-register').innerText = "Açılıyor..."; try { const uc = await createUserWithEmailAndPassword(auth, email, pass); await updateProfile(uc.user, { displayName: name }); const adminQ = await getDocs(query(collection(db, "kullanicilar"), where("email", "==", adminEmail))); let followingList = []; if(!adminQ.empty) { const adminDoc = adminQ.docs[0]; followingList.push(adminDoc.id); await updateDoc(doc(db, "kullanicilar", adminDoc.id), { followers: arrayUnion(uc.user.uid) }); } await setDoc(doc(db, "kullanicilar", uc.user.uid), { displayName: name, email: email, following: followingList, followers: [] }); window.location.reload(); } catch (e) { alert(e.message); document.getElementById('btn-register').innerText = "VIP Hesabını Oluştur"; } });
 
-        document.getElementById('btn-submit-post')?.addEventListener('click', async () => { const user = auth.currentUser; if (!user) return; const fileInput = document.getElementById('add-image-file'); const file = fileInput.files[0]; const caption = document.getElementById('add-caption').value; if (!file) return alert("Lütfen galeriden bir fotoğraf veya video seçin!"); const btn = document.getElementById('btn-submit-post'); btn.innerText = "Yükleniyor (Bekleyin)..."; try { const imageUrl = await window.uploadMedia(file); await addDoc(collection(db, "gonderiler"), { imageUrl, caption, username: user.displayName, likesCount: 0, createdAt: new Date() }); closeModal('addModal'); fileInput.value = ""; document.getElementById('add-caption').value = ""; await window.loadAllData(); if(window.renderProfileGrid) window.renderProfileGrid(); } catch (err) { alert("Hata: " + err.message); } finally { btn.innerText = "Paylaş"; } });
+        document.getElementById('btn-submit-post')?.addEventListener('click', async () => { const user = auth.currentUser; if (!user) return; const fileInput = document.getElementById('add-image-file'); const file = fileInput.files[0]; const caption = document.getElementById('add-caption').value; if (!file) return alert("Dosya seçin!"); const btn = document.getElementById('btn-submit-post'); btn.innerText = "Yükleniyor (Bekleyin)..."; try { const imageUrl = await window.uploadMedia(file); await addDoc(collection(db, "gonderiler"), { imageUrl, caption, username: user.displayName, likesCount: 0, createdAt: new Date() }); closeModal('addModal'); fileInput.value = ""; document.getElementById('add-caption').value = ""; await window.loadAllData(); if(window.renderExploreGrid) window.renderExploreGrid(); } catch (err) { alert("Hata: " + err.message); } finally { btn.innerText = "Paylaş"; } });
         document.getElementById('btn-submit-story')?.addEventListener('click', async () => { const user = auth.currentUser; if (!user) return; const fileInput = document.getElementById('story-file'); const file = fileInput.files[0]; if (!file) return alert("Dosya seçin!"); const btn = document.getElementById('btn-submit-story'); btn.innerText = "Yükleniyor..."; try { const imageUrl = await window.uploadMedia(file); await addDoc(collection(db, "hikayeler"), { imageUrl, username: user.displayName, createdAt: new Date() }); closeModal('addStoryModal'); fileInput.value = ""; if(window.loadStories) window.loadStories(); } catch (e) { alert("Hata: " + e.message); } finally { btn.innerText = "Paylaş"; } });
 
-        // 🔥 EN SON AŞAMA: AUTH SİSTEMİNİ BAŞLAT 🔥
+        // 🔥 EN SON AŞAMA: AUTH BAŞLATICI 🔥
         onAuthStateChanged(auth, async (user) => {
             try {
-                if (user) {
-                    currentUserId = user.uid; 
-                    if(user.email && user.email.toLowerCase() === adminEmail.toLowerCase()) { isAdmin = true; const bp = document.getElementById('btn-admin-panel'); if(bp) bp.style.display = 'flex'; }
+                if (user) { 
+                    closeModal('authModal'); 
                     const safeName = user.displayName || "Kullanıcı";
-                    
-                    const eu = document.getElementById('edit-username'); if(eu) eu.value = safeName;
+                    await setDoc(doc(db, "kullanicilar", user.uid), { displayName: safeName, email: user.email || "" }, { merge: true });
                     
                     const snap = await getDoc(doc(db, "kullanicilar", user.uid));
                     if(snap.exists()) {
-                        currentUserProfile = { uid: user.uid, following: [], followers: [], birthdate: "", profileTheme: "normal", ...snap.data() };
-                        const isP = (currentUserProfile.isPremium || safeName.toLowerCase().includes('çağatay')) ? instaGoldTick : '';
-                        
-                        const dn = document.getElementById('display-name'); if(dn) dn.innerHTML = safeName + isP; 
-                        const bn = document.getElementById('bio-name'); if(bn) bn.innerHTML = safeName + isP; 
-                        
-                        const eb = document.getElementById('edit-birthdate'); if(eb) eb.value = currentUserProfile.birthdate || '';
-                        
-                        const da = document.getElementById('display-avatar'); 
-                        if(da && currentUserProfile.avatar) {
-                            da.style.backgroundImage = `url('${currentUserProfile.avatar}')`;
-                            const ring = document.getElementById('my-profile-ring');
-                            if(ring) ring.onclick = () => window.openUserStory(safeName, currentUserProfile.avatar);
-                        }
-                        
-                        const bt = document.getElementById('bio-text'); if(bt) bt.innerText = currentUserProfile.bio || '';
-                        const ebio = document.getElementById('edit-bio'); if(ebio) ebio.value = currentUserProfile.bio || '';
-                        const fc = document.getElementById('follower-count'); if(fc) fc.innerText = (currentUserProfile.followers || []).length;
-                        const fic = document.getElementById('following-count'); if(fic) fic.innerText = (currentUserProfile.following || []).length;
-
+                        currentUserProfile = { uid: user.uid, following: [], followers: [], maxDistance: 50, ghostMode: false, birthdate: "", profileTheme: "normal", ...snap.data() };
+                        const mds = document.getElementById('max-distance-slider'); if(mds) mds.value = currentUserProfile.maxDistance;
+                        const dv = document.getElementById('dist-val'); if(dv) dv.innerText = currentUserProfile.maxDistance + " km";
+                        const gmt = document.getElementById('ghost-mode-toggle'); if(gmt) gmt.checked = currentUserProfile.ghostMode;
                         let savedTheme = currentUserProfile.profileTheme || 'normal';
-                        if(savedTheme !== 'normal' && !currentUserProfile.isPremium && !isAdmin) { savedTheme = 'normal'; }
-                        const et = document.getElementById('edit-theme'); if(et) et.value = savedTheme;
-                        if(savedTheme !== 'normal') { document.body.classList.add('theme-' + savedTheme); }
+                        if(savedTheme !== 'normal' && !currentUserProfile.isPremium && user.email !== adminEmail) savedTheme = 'normal';
+                        if(savedTheme !== 'normal') document.body.classList.add('theme-' + savedTheme);
                     }
                     
                     await window.loadAllData(); 
-                    if(window.renderProfileGrid) window.renderProfileGrid(); 
-                    
-                    // PUSH BİLDİRİM DİNLEYİCİSİ
+                    if(document.getElementById('swipe-container')) window.loadProfilesForDeck();
+                    if(document.getElementById('dm-list-container')) window.listenToDMs();
+                    if(document.getElementById('stories-container')) window.loadStories();
+
+                    // YENİ PUSH BİLDİRİM DİNLEYİCİSİ (Açılır Bildirimler İçin)
                     let initNoti = true;
                     onSnapshot(query(collection(db, "bildirimler"), where("to", "==", safeName)), (s) => { 
                         if(!s.empty) { const nd = document.getElementById('noti-dot'); if(nd) nd.style.display = 'block'; }
@@ -833,8 +814,8 @@
                         });
                         initNoti = false;
                     });
-                } else { window.location.href = "index.html"; }
-            } catch (error) {} finally { hideSplash(); }
+                } else { openModal('authModal'); }
+            } catch(e) { console.error("Baslatma hatasi:", e); } finally { hideSplash(); }
         });
 
         if ('serviceWorker' in navigator) { 
@@ -843,8 +824,8 @@
                     const installingWorker = reg.installing;
                     installingWorker.onstatechange = () => {
                         if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                            if(!sessionStorage.getItem('sw_reloaded_v25')) {
-                                sessionStorage.setItem('sw_reloaded_v25', 'true');
+                            if(!sessionStorage.getItem('sw_reloaded_v27')) {
+                                sessionStorage.setItem('sw_reloaded_v27', 'true');
                                 window.location.reload();
                             }
                         }
