@@ -32,7 +32,7 @@
         body.theme-gold .story-ring { box-shadow: 0 0 20px rgba(255, 223, 0, 0.3); }
         body.theme-gold .btn-premium { background: linear-gradient(135deg, #d4af37 0%, #ffdf00 50%, #d4af37 100%); color: #000; font-weight: 800; box-shadow: 0 5px 20px rgba(255, 223, 0, 0.35); }
         body.theme-gold .chat-msg.mine .chat-bubble { background: linear-gradient(135deg, #d4af37, #ffdf00); color: #000; font-weight: 500;}
-        body { background: var(--body-bg); color: var(--text-light); width: 100vw; height: 100vh; height: 100dvh; position: fixed; top: 0; left: 0; overflow: hidden; overscroll-behavior-y: none; transition: background 0.5s;}
+        body { background: var(--body-bg); color: var(--text-light); min-height: 100dvh; overflow: hidden; overscroll-behavior-y: none; transition: background 0.5s ease;}
         
         #splash-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #050505; z-index: 99999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease, visibility 0.5s; }
         .splash-logo { font-family: 'Grand Hotel', cursive; font-size: 70px; color: var(--primary-gold); animation: splashPulse 1.5s infinite alternate; text-shadow: 0 0 20px rgba(212,175,55,0.4); }
