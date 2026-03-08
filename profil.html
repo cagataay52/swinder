@@ -110,30 +110,16 @@
         .reel-item { width: 100%; height: 100dvh; scroll-snap-align: start; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center;}
         .reel-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 35%, rgba(0,0,0,0.3) 100%); z-index: 2; pointer-events: none;}
         .reel-content { position: absolute; bottom: calc(90px + env(safe-area-inset-bottom)); left:0; padding:20px; z-index: 3; display: flex; justify-content: space-between; align-items: flex-end; width: 100%; }
-        .reel-user { display: flex; align-items: center; gap: 8px; color: white; font-weight: 600; font-size: 15px; margin-bottom: 12px; cursor: pointer;}
+        .reel-user { display: flex; align-items: center; gap: 8px; color: white; font-weight: 600; font-size: 15px; margin-bottom: 6px; cursor: pointer;}
         .reel-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-gold); background-size: cover; background-position: center;}
         .reel-actions { display: flex; flex-direction: column; gap: 20px; align-items: center;}
         .reel-action-btn { background: none; border: none; color: white; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));}
         .reel-action-btn.liked .material-symbols-outlined { color: #ff3040; font-variation-settings: 'FILL' 1; }
 
-        /* KEŞFET VE DIGER PROFIL (EXPLORE) YAPI CSS'LERI */
+        /* KEŞFET */
         .search-input { flex: 1; background: rgba(255,255,255,0.1); border: var(--glass-border); color: white; padding: 12px 20px; border-radius: 30px; outline: none; font-size: 14px;}
         .explore-users-container { display: none; max-height: 250px; overflow-y: auto; border-bottom: var(--glass-border); -webkit-overflow-scrolling: touch;}
         .explore-scroll-area { flex: 1; overflow-y: auto; display: flex; flex-direction: column; -webkit-overflow-scrolling: touch;}
-
-        .up-header-top { display: flex; align-items: center; padding: 20px 20px 15px; gap: 20px;}
-        .up-avatar-container { width: 86px; height: 86px; border-radius: 50%; padding: 3px; background: var(--ring-gradient); flex-shrink: 0; transition: background 0.5s;}
-        .up-avatar { width: 100%; height: 100%; border-radius: 50%; background-size: cover; background-position: center; border: 3px solid var(--body-bg); transition: border-color 0.5s; cursor: pointer;}
-        .up-stats { display: flex; flex: 1; justify-content: space-around; text-align: center; }
-        .up-stat-item { font-size: 12px; color: rgba(255,255,255,0.7); }
-        .up-stat-item span { display: block; font-size: 16px; font-weight: bold; color: white; margin-bottom: 2px;}
-        .up-bio-container { padding: 0 20px 15px; }
-        .up-name { font-size: 16px; font-weight: bold; color: white; margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
-        .up-bio { font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.4; white-space: pre-wrap; }
-        .up-actions { display: flex; gap: 10px; padding: 0 20px 20px; }
-        .btn-up-action { flex: 1; padding: 8px 0; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; border: none; transition: 0.2s;}
-        .btn-follow { background: transparent; border: 1px solid white; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-left: 5px;}
-        .btn-follow.following { background: rgba(255,255,255,0.2); border-color: transparent;}
 
         @media (max-width: 768px) {
             .modal-overlay { padding: 0; align-items: flex-end;}
@@ -222,6 +208,7 @@
                     <div id="pd-header-avatar" style="width:34px; height:34px; border-radius:50%; background-size:cover; background-position:center; cursor:pointer; border: 1px solid var(--primary-gold);"></div>
                     <div style="flex:1; display:flex; align-items:center; gap:6px;">
                         <strong id="pd-header-username" style="font-size:14px; cursor:pointer;">-</strong>
+                        <span id="pd-time" style="color:rgba(255,255,255,0.5); font-size:12px; margin-left:5px;"></span>
                         <button id="pd-btn-inline-follow" style="background:transparent; border:none; color:#3498db; font-weight:600; font-size:13px; cursor:pointer; display:none;" onclick="window.toggleFollowInline(this)">• Takip Et</button>
                     </div>
                     <div id="admin-controls" style="display:none; gap:15px;">
@@ -260,9 +247,28 @@
     
     <div class="modal-overlay" id="userProfileModal" style="z-index: 1550;"><div class="bottom-sheet"><div class="sheet-header"><button class="header-icon" onclick="closeModal('userProfileModal')"><span class="material-symbols-outlined">arrow_back</span></button><span id="up-title" style="font-weight:bold;">Profil</span></div><div class="up-header-top"><div class="up-avatar-container"><div class="up-avatar" id="up-avatar"></div></div><div class="up-stats"><div class="up-stat-item"><span id="up-post-count">0</span>Gönderi</div><div class="up-stat-item"><span id="up-follower-count">0</span>Takipçi</div><div class="up-stat-item"><span id="up-following-count">0</span>Takip</div></div></div><div class="up-bio-container"><div class="up-name" id="up-name">-</div><div class="up-bio" id="up-bio">-</div></div><div class="up-actions"><button id="btn-follow-user" class="btn-up-action btn-follow" onclick="window.toggleFollowDB(this)">Takip Et</button></div><div class="explore-scroll-area" style="border-top: var(--glass-border); padding-top: 2px;"><div class="grid-view" id="up-grid"></div></div></div></div>
 
-    <div class="modal-overlay" id="viewStoryModal" style="z-index: 1800; background:#000;"><div style="width:100%; height:100dvh; display:flex; flex-direction:column; position:relative;"><div style="width:100%; height:3px; background:rgba(255,255,255,0.3); position:absolute; top:calc(10px + env(safe-area-inset-top)); left:0; z-index:10; display:flex; padding:0 5px;"><div id="story-progress-fill" style="height:100%; background:white; width:0%; border-radius:2px;"></div></div><div style="position:absolute; top:calc(15px + env(safe-area-inset-top)); left:0; width:100%; padding:15px; display:flex; align-items:center; gap:10px; z-index:25; background:linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);"><div id="view-story-avatar" style="width:35px; height:35px; border-radius:50%; background-size:cover; border:2px solid var(--primary-gold);"></div><div id="view-story-username" style="color:white; font-weight:600; font-size:14px; text-shadow:0 1px 3px rgba(0,0,0,0.8);"></div><button class="header-icon" style="margin-left:auto;" onclick="closeModal('viewStoryModal')"><span class="material-symbols-outlined">close</span></button></div><div style="flex:1; position:relative; overflow:hidden; display:flex; justify-content:center; align-items:center; background:#000;"><div class="media-blur-bg" id="view-story-blur"></div><div id="view-story-media-container" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center; position:relative; z-index:1;"></div><div style="position:absolute; top:10%; left:0; width:30%; height:75%; z-index:5;" onclick="window.prevStory()"></div><div style="position:absolute; top:10%; right:0; width:70%; height:75%; z-index:5;" onclick="window.nextStory()"></div></div><div class="story-reaction-bar" id="story-reaction-bar"><input type="text" id="story-reply-input" class="story-reply-input" placeholder="Mesaj gönder..."><button class="story-react-btn" onclick="window.sendStoryReaction('🔥')">🔥</button><button class="story-react-btn" onclick="window.sendStoryReaction('❤️')">❤️</button><button class="story-send-btn" onclick="window.sendStoryReaction('text')"><span class="material-symbols-outlined" style="color:black; font-size:20px;">send</span></button></div><div id="btn-delete-story" style="position:absolute; bottom:80px; left:50%; transform:translateX(-50%); z-index:20; display:none;"><button onclick="window.deleteStoryDB()" style="background:rgba(255,71,87,0.8); color:white; border:none; padding:10px 20px; border-radius:20px; font-weight:bold; cursor:pointer;"><span class="material-symbols-outlined" style="vertical-align:middle; font-size:18px;">delete</span> Bu Hikayeyi Sil</button></div></div></div>
+    <div class="modal-overlay" id="viewStoryModal" style="z-index: 1800; background:#000;"><div style="width:100%; height:100dvh; display:flex; flex-direction:column; position:relative;"><div style="width:100%; height:3px; background:rgba(255,255,255,0.3); position:absolute; top:calc(10px + env(safe-area-inset-top)); left:0; z-index:10; display:flex; padding:0 5px;"><div id="story-progress-fill" style="height:100%; background:white; width:0%; border-radius:2px;"></div></div><div style="position:absolute; top:calc(15px + env(safe-area-inset-top)); left:0; width:100%; padding:15px; display:flex; align-items:center; gap:10px; z-index:25; background:linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);"><div id="view-story-avatar" style="width:35px; height:35px; border-radius:50%; background-size:cover; border:2px solid var(--primary-gold);"></div><div style="display:flex; align-items:center; gap:8px;"><div id="view-story-username" style="color:white; font-weight:600; font-size:14px; text-shadow:0 1px 3px rgba(0,0,0,0.8);"></div><div id="view-story-time" style="color:rgba(255,255,255,0.7); font-size:12px; text-shadow:0 1px 3px rgba(0,0,0,0.8);"></div></div><button class="header-icon" style="margin-left:auto;" onclick="closeModal('viewStoryModal')"><span class="material-symbols-outlined">close</span></button></div><div style="flex:1; position:relative; overflow:hidden; display:flex; justify-content:center; align-items:center; background:#000;"><div class="media-blur-bg" id="view-story-blur"></div><div id="view-story-media-container" style="width:100%; height:100%; display:flex; justify-content:center; align-items:center; position:relative; z-index:1;"></div><div style="position:absolute; top:10%; left:0; width:30%; height:75%; z-index:5;" onclick="window.prevStory()"></div><div style="position:absolute; top:10%; right:0; width:70%; height:75%; z-index:5;" onclick="window.nextStory()"></div></div><div class="story-reaction-bar" id="story-reaction-bar"><input type="text" id="story-reply-input" class="story-reply-input" placeholder="Mesaj gönder..."><button class="story-react-btn" onclick="window.sendStoryReaction('🔥')">🔥</button><button class="story-react-btn" onclick="window.sendStoryReaction('❤️')">❤️</button><button class="story-send-btn" onclick="window.sendStoryReaction('text')"><span class="material-symbols-outlined" style="color:black; font-size:20px;">send</span></button></div><div id="btn-delete-story" style="position:absolute; bottom:80px; left:50%; transform:translateX(-50%); z-index:20; display:none;"><button onclick="window.deleteStoryDB()" style="background:rgba(255,71,87,0.8); color:white; border:none; padding:10px 20px; border-radius:20px; font-weight:bold; cursor:pointer;"><span class="material-symbols-outlined" style="vertical-align:middle; font-size:18px;">delete</span> Bu Hikayeyi Sil</button></div></div></div>
 
     <script>
+        // ZAMAN HESAPLAMA FONKSİYONU EKLENDİ
+        window.timeAgo = function(timeMs) {
+            if(!timeMs) return "";
+            const seconds = Math.floor((Date.now() - timeMs) / 1000);
+            if(seconds < 60) return Math.max(1, seconds) + "sn";
+            let interval = seconds / 31536000;
+            if (interval > 1) return Math.floor(interval) + "y";
+            interval = seconds / 2592000;
+            if (interval > 1) return Math.floor(interval) + "a";
+            interval = seconds / 604800;
+            if (interval > 1) return Math.floor(interval) + "h";
+            interval = seconds / 86400;
+            if (interval > 1) return Math.floor(interval) + "g";
+            interval = seconds / 3600;
+            if (interval > 1) return Math.floor(interval) + "s";
+            interval = seconds / 60;
+            return Math.floor(interval) + "d";
+        }
+
         function openModal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = 'auto'; const modal = document.getElementById(id); if(modal) { modal.querySelectorAll('video').forEach(vid => { vid.pause(); }); } if(id === 'viewStoryModal') { clearTimeout(window.storyTimeout); } }
         document.querySelectorAll('.modal-overlay').forEach(m => { m.addEventListener('click', (e) => { if(e.target === m && m.id !== 'splash-screen') closeModal(m.id); }); });
@@ -314,6 +320,44 @@
             } catch(e) {}
         }
 
+        // GÖNDERİ DÜZENLEME FONKSİYONU EKLENDİ
+        window.editPostDB = async function() {
+            if(!window.activeInteractPostId) return;
+            const pdCaption = document.getElementById('pd-caption');
+            const currentCaption = pdCaption ? pdCaption.innerText : "";
+            const newCaption = prompt("Gönderi açıklamasını düzenle:", currentCaption);
+            if(newCaption !== null && newCaption !== currentCaption) {
+                try {
+                    await updateDoc(doc(db, "gonderiler", window.activeInteractPostId), { caption: newCaption });
+                    if(pdCaption) pdCaption.innerText = newCaption;
+                    const pIndex = window.globalPosts.findIndex(p => p.id === window.activeInteractPostId);
+                    if(pIndex !== -1) window.globalPosts[pIndex].caption = newCaption;
+                    if(window.renderExploreGrid) window.renderExploreGrid();
+                    if(window.renderProfileGrid) window.renderProfileGrid();
+                    alert("Açıklama güncellendi!");
+                } catch(e) { alert("Hata: " + e.message); }
+            }
+        }
+
+        // GÖNDERİ SİLME FONKSİYONU EKLENDİ
+        window.deletePostDB = async function() {
+            if(!window.activeInteractPostId) return;
+            if(confirm("Bu gönderiyi silmek istediğine emin misin? Bu işlem geri alınamaz.")) {
+                try {
+                    await deleteDoc(doc(db, "gonderiler", window.activeInteractPostId));
+                    closeModal('postDetailModal');
+                    window.globalPosts = window.globalPosts.filter(p => p.id !== window.activeInteractPostId);
+                    if(window.renderExploreGrid) window.renderExploreGrid();
+                    if(window.renderProfileGrid) window.renderProfileGrid();
+                    if(window.renderReels) {
+                        const reelsContainer = document.getElementById('reels-container');
+                        if(reelsContainer && reelsContainer.innerHTML !== '') window.renderReels();
+                    }
+                    alert("Gönderi başarıyla silindi.");
+                } catch(e) { alert("Hata: " + e.message); }
+            }
+        }
+
         // HİKAYELERİ OYNATMA VE REAKSİYON İŞLEMLERİ
         window.openUserStory = async function(username, avatarUrl) {
             try {
@@ -324,14 +368,28 @@
                     return;
                 }
                 let storyDocs = [];
-                snap.forEach(doc => storyDocs.push({id: doc.id, url: doc.data().imageUrl, createdAt: doc.data().createdAt}));
-                storyDocs.sort((a,b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0));
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    const timeMs = data.createdAt?.seconds ? data.createdAt.seconds * 1000 : Date.now();
+                    storyDocs.push({id: doc.id, url: data.imageUrl, timeMs: timeMs});
+                });
+                storyDocs.sort((a,b) => a.timeMs - b.timeMs);
                 window.viewGroupedStory(encodeURIComponent(username), encodeURIComponent(avatarUrl), encodeURIComponent(JSON.stringify(storyDocs)));
             } catch(e) {}
         }
 
         window.viewGroupedStory = function(encodedUsername, encodedAvatar, storiesJson) { window.activeStoryOwner = decodeURIComponent(encodedUsername); const avatarUrl = decodeURIComponent(encodedAvatar); window.currentStoryGroup = JSON.parse(decodeURIComponent(storiesJson)); window.currentStoryIndex = 0; const isP = (window.globalUsersByName[window.activeStoryOwner]?.isPremium || window.activeStoryOwner.toLowerCase().includes('çağatay')) ? instaGoldTick : ''; document.getElementById('view-story-username').innerHTML = window.activeStoryOwner + isP; document.getElementById('view-story-avatar').style.backgroundImage = `url('${avatarUrl.replace(/'/g, "\\'")}')`; const isAdminUser = auth.currentUser && auth.currentUser.email === adminEmail; const isMine = auth.currentUser && auth.currentUser.displayName === window.activeStoryOwner; const bd = document.getElementById('btn-delete-story'); if(bd) bd.style.display = (isAdminUser || isMine) ? 'block' : 'none'; const srb = document.getElementById('story-reaction-bar'); if(srb) srb.style.display = isMine ? 'none' : 'flex'; openModal('viewStoryModal'); window.playCurrentStory(); }
-        window.playCurrentStory = function() { if(window.currentStoryIndex >= window.currentStoryGroup.length) { closeModal('viewStoryModal'); return; } const currentObj = window.currentStoryGroup[window.currentStoryIndex]; window.activeInteractStoryId = currentObj.id; const url = currentObj.url; const container = document.getElementById('view-story-media-container'); if(!container) return; if(window.isVideo(url)) { container.innerHTML = `<video id="story-vid" src="${url}" preload="auto" autoplay playsinline style="max-width:100%; max-height:100%; object-fit:contain; position:relative; z-index:1;"></video>`; document.getElementById('view-story-blur').style.backgroundImage = 'none'; const vid = document.getElementById('story-vid'); if(vid) vid.onloadedmetadata = () => { window.startStoryTimer(vid.duration * 1000 || 5000); }; } else { container.innerHTML = `<img src="${url}" loading="lazy" decoding="async" style="max-width:100%; max-height:100%; object-fit:contain; position:relative; z-index:1;" />`; document.getElementById('view-story-blur').style.backgroundImage = `url('${url.replace(/'/g, "\\'")}')`; window.startStoryTimer(5000); } }
+        window.playCurrentStory = function() { 
+            if(window.currentStoryIndex >= window.currentStoryGroup.length) { closeModal('viewStoryModal'); return; } 
+            const currentObj = window.currentStoryGroup[window.currentStoryIndex]; 
+            window.activeInteractStoryId = currentObj.id; const url = currentObj.url; 
+            
+            const stTimeEl = document.getElementById('view-story-time');
+            if(stTimeEl && currentObj.timeMs) { stTimeEl.innerText = window.timeAgo(currentObj.timeMs); } else if (stTimeEl) { stTimeEl.innerText = ""; }
+
+            const container = document.getElementById('view-story-media-container'); if(!container) return; 
+            if(window.isVideo(url)) { container.innerHTML = `<video id="story-vid" src="${url}" preload="auto" autoplay playsinline style="max-width:100%; max-height:100%; object-fit:contain; position:relative; z-index:1;"></video>`; document.getElementById('view-story-blur').style.backgroundImage = 'none'; const vid = document.getElementById('story-vid'); if(vid) vid.onloadedmetadata = () => { window.startStoryTimer(vid.duration * 1000 || 5000); }; } else { container.innerHTML = `<img src="${url}" loading="lazy" decoding="async" style="max-width:100%; max-height:100%; object-fit:contain; position:relative; z-index:1;" />`; document.getElementById('view-story-blur').style.backgroundImage = `url('${url.replace(/'/g, "\\'")}')`; window.startStoryTimer(5000); } 
+        }
         window.startStoryTimer = function(duration) { const progress = document.getElementById('story-progress-fill'); if(progress){ progress.style.transition = 'none'; progress.style.width = '0%'; setTimeout(() => { progress.style.transition = `width ${duration/1000}s linear`; progress.style.width = '100%'; }, 50); } clearTimeout(window.storyTimeout); window.storyTimeout = setTimeout(() => { window.nextStory(); }, duration); }
         window.nextStory = function() { window.currentStoryIndex++; window.playCurrentStory(); }
         window.prevStory = function() { if(window.currentStoryIndex > 0) { window.currentStoryIndex--; window.playCurrentStory(); } else { window.playCurrentStory(); } }
@@ -345,7 +403,8 @@
                 const pInfo = window.globalUsersByName[data.username] || {}; const av = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100')`; const likedClass = (auth.currentUser && data.likedBy && data.likedBy.includes(auth.currentUser.displayName)) ? 'liked' : ''; 
                 const isP = (pInfo.isPremium || (data.username || '').toLowerCase().includes('çağatay')) ? instaGoldTick : '';
                 const mediaHtml = window.isVideo(data.imageUrl) ? `<video src="${data.imageUrl}" preload="none" poster="${window.getVideoThumbnail(data.imageUrl)}" loop playsinline style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;" onclick="this.muted = !this.muted" ondblclick="window.toggleLikeDB(this.parentElement.querySelector('.btn-like'), '${data.id}', '${data.username}')"></video>` : `<img src="${data.imageUrl}" loading="lazy" decoding="async" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;" ondblclick="window.toggleLikeDB(this.parentElement.querySelector('.btn-like'), '${data.id}', '${data.username}')"/>`;
-                rc.insertAdjacentHTML('beforeend', `<div class="reel-item"><div class="media-blur-bg" style="background-image: url('${data.imageUrl.replace(/'/g, "\\'")}');"></div>${mediaHtml}<div class="reel-overlay"></div><div class="reel-content"><div class="reel-info"><div class="reel-user" data-user="${(data.username || '').replace(/"/g, '&quot;')}" onclick="closeModal('reelsModal'); window.openUserProfile(this.dataset.user)"><div class="reel-avatar" style="background-image:${av};"></div>${data.username}${isP}</div><div class="reel-caption">${data.caption || ''}</div></div><div class="reel-actions"><button class="reel-action-btn btn-like ${likedClass}" onclick="window.toggleLikeDB(this, '${data.id}', '${data.username}')"><span class="material-symbols-outlined">favorite</span><span class="reel-action-text" id="like-count-${data.id}">${data.likesCount||0}</span></button><button class="reel-action-btn" onclick="window.activeInteractPostId='${data.id}'; window.activeInteractOwner='${data.username}'; window.openCommentsDB();"><span class="material-symbols-outlined">chat_bubble</span></button><button class="reel-action-btn" onclick="window.activeShareUrl='${data.imageUrl}'; window.openShareModal();"><span class="material-symbols-outlined">send</span></button></div></div></div>`);
+                const timeMs = data.createdAt?.seconds ? data.createdAt.seconds * 1000 : Date.now();
+                rc.insertAdjacentHTML('beforeend', `<div class="reel-item"><div class="media-blur-bg" style="background-image: url('${data.imageUrl.replace(/'/g, "\\'")}');"></div>${mediaHtml}<div class="reel-overlay"></div><div class="reel-content"><div class="reel-info"><div class="reel-user" data-user="${(data.username || '').replace(/"/g, '&quot;')}" onclick="closeModal('reelsModal'); window.openUserProfile(this.dataset.user)"><div class="reel-avatar" style="background-image:${av};"></div>${data.username}${isP}</div><div class="reel-caption">${data.caption || ''}</div><div style="font-size:11px; color:rgba(255,255,255,0.6); margin-top:4px;">${window.timeAgo(timeMs)} önce</div></div><div class="reel-actions"><button class="reel-action-btn btn-like ${likedClass}" onclick="window.toggleLikeDB(this, '${data.id}', '${data.username}')"><span class="material-symbols-outlined">favorite</span><span class="reel-action-text" id="like-count-${data.id}">${data.likesCount||0}</span></button><button class="reel-action-btn" onclick="window.activeInteractPostId='${data.id}'; window.activeInteractOwner='${data.username}'; window.openCommentsDB();"><span class="material-symbols-outlined">chat_bubble</span></button><button class="reel-action-btn" onclick="window.activeShareUrl='${data.imageUrl}'; window.openShareModal();"><span class="material-symbols-outlined">send</span></button></div></div></div>`);
             });
             if(window.reelsObserver) window.reelsObserver.disconnect();
             window.reelsObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { const vid = entry.target.querySelector('video'); if(vid) { if(entry.isIntersecting) { vid.play().catch(e=>{}); } else { vid.pause(); } } }); }, { threshold: 0.5 });
@@ -392,6 +451,11 @@
             const headerName = document.getElementById('pd-header-username');
             if(headerName) { headerName.innerHTML = data.username + isP; headerName.onclick = () => { closeModal('postDetailModal'); window.openUserProfile(data.username); }; }
 
+            // ZAMAN DAMGASI
+            const timeMs = data.createdAt?.seconds ? data.createdAt.seconds * 1000 : Date.now();
+            const ptEl = document.getElementById('pd-time');
+            if(ptEl) ptEl.innerText = window.timeAgo(timeMs);
+
             const inlineFollowBtn = document.getElementById('pd-btn-inline-follow');
             if(inlineFollowBtn && auth.currentUser) {
                 if(auth.currentUser.displayName === data.username) {
@@ -399,7 +463,7 @@
                 } else {
                     const followingList = currentUserProfile?.following || [];
                     if(followingList.includes(pInfo.uid)) {
-                        inlineFollowBtn.style.display = 'none';
+                        inlineFollowBtn.style.display = 'none'; 
                     } else {
                         inlineFollowBtn.style.display = 'block';
                         inlineFollowBtn.dataset.targetUid = pInfo.uid;
