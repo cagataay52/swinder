@@ -75,7 +75,9 @@
         .action-btn { width: 60px; height: 60px; border-radius: 50%; background: var(--glass-bg); backdrop-filter: blur(15px); border: var(--glass-border); display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s;}
         .btn-dislike { color: #ff4757; } .btn-superlike { width: 50px; height: 50px; color: #3498db; } .btn-like { color: #2ecc71; }
 
-        .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(20px); padding: 5px 10px calc(5px + env(safe-area-inset-bottom)); border-top: 1px solid rgba(255,255,255,0.08); z-index: 900; transition: border-color 0.5s ease; }
+        html, body { width: 100%; height: 100%; margin: 0; padding: 0; background: var(--body-bg); color: var(--text-light); overflow: hidden; overscroll-behavior-y: none; transition: background 0.5s ease; }
+        
+        .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(20px); padding: 5px 10px max(5px, env(safe-area-inset-bottom)); border-top: 1px solid rgba(255,255,255,0.08); z-index: 900; transition: border-color 0.5s ease; }
         .nav-icon-btn { background: none; border: none; color: rgba(255,255,255,0.45); cursor: pointer; display: flex; align-items: center; justify-content: center; height: 40px; width: 40px; -webkit-tap-highlight-color: transparent;}
         .nav-icon-btn .material-symbols-outlined { font-size: 28px; transition: transform 0.2s, color 0.2s; }
         .nav-icon-btn.active { color: white; }
