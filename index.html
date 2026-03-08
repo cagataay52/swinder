@@ -185,6 +185,14 @@
         .match-title { font-family: 'Grand Hotel', cursive; font-size: 60px; color: var(--primary-gold); margin-bottom: 40px; transform: scale(0.5); opacity: 0; transition: 0.5s; }
         .match-overlay.active .match-title { transform: scale(1); opacity: 1; }
 
+        /* INSTAGRAM TARZI HİKAYE REAKSİYON CSS'LERİ */
+        .story-reaction-bar { position: absolute; bottom: calc(20px + env(safe-area-inset-bottom)); left: 0; width: 100%; padding: 0 15px; display: flex; gap: 10px; align-items: center; z-index: 30; }
+        .story-reply-input { flex: 1; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 12px 20px; border-radius: 30px; outline: none; font-size: 14px; backdrop-filter: blur(10px); }
+        .story-reply-input::placeholder { color: rgba(255,255,255,0.7); }
+        .story-react-btn { font-size: 24px; background: none; border: none; cursor: pointer; transition: transform 0.2s; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); display:flex; justify-content:center; align-items:center;}
+        .story-react-btn:active { transform: scale(1.2); }
+        .story-send-btn { background: white; width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: none; cursor: pointer; }
+
         @media (max-width: 768px) {
             .modal-overlay { padding: 0; align-items: flex-end;}
             .glass-box { margin: 0; max-width: 100%; border-radius: 25px 25px 0 0; transform: translateY(100%); border-bottom: none;}
@@ -420,7 +428,9 @@
         window.nextStory = function() { window.currentStoryIndex++; window.playCurrentStory(); }
         window.prevStory = function() { if(window.currentStoryIndex > 0) { window.currentStoryIndex--; window.playCurrentStory(); } else { window.playCurrentStory(); } }
         window.deleteStoryDB = async function() { if(!window.activeInteractStoryId) return; if(confirm("Silinsin mi?")) { try { await deleteDoc(doc(db, "hikayeler", window.activeInteractStoryId)); closeModal('viewStoryModal'); if(window.loadStories) window.loadStories(); }catch(e){} } }
-        window.sendStoryReaction = async function(reaction) { if(!window.activeStoryOwner || !auth.currentUser) return; let msg = reaction; if(reaction === 'text') { const input = document.getElementById('story-reply-input'); if(!input) return; msg = input.value.trim(); if(!msg) return; input.value = ""; } try { await addDoc(collection(db, "bildirimler"), { to: window.activeStoryOwner, from: auth.currentUser.displayName, text: `hikayene yanıt verdi: ${msg}`, createdAt: new Date() }); alert("Yanıt gönderildi!"); } catch(e){} }
+        
+        /* HİKAYEYE REAKSİYON FONKSİYONU GÜNCELLENDİ */
+        window.sendStoryReaction = async function(reaction) { if(!window.activeStoryOwner || !auth.currentUser) return; let msg = reaction; if(reaction === 'text') { const input = document.getElementById('story-reply-input'); if(!input) return; msg = input.value.trim(); if(!msg) return; input.value = ""; } try { await addDoc(collection(db, "bildirimler"), { to: window.activeStoryOwner, from: auth.currentUser.displayName, text: `hikayene yanıt verdi: ${msg}`, createdAt: new Date() }); alert("Yanıt gönderildi!"); closeModal('viewStoryModal'); } catch(e){} }
 
         window.loadStories = async function() {
             const stContainer = document.getElementById('stories-container'); if(!stContainer) return;
@@ -511,7 +521,6 @@
         }
         window.performSearch = () => window.renderExploreGrid();
 
-        // 🔥 GÖNDERİ DETAY EKRANI (INSTAGRAM UI + TAKİP ET BUTONU) 🔥
         window.openPostDetail = function(postId, dataStr) {
             const data = JSON.parse(decodeURIComponent(dataStr)); window.activeInteractPostId = postId; window.activeInteractOwner = data.username; window.activeShareUrl = data.imageUrl; 
             
@@ -522,14 +531,12 @@
             const isP = (pInfo.isPremium || (data.username || '').toLowerCase().includes('çağatay')) ? instaGoldTick : ''; 
             const avatarUrl = pInfo.avatar || 'https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100';
 
-            // Üst Kullanıcı Şeridi (Insta Style)
             const headerAvatar = document.getElementById('pd-header-avatar');
             if(headerAvatar) { headerAvatar.style.backgroundImage = `url('${avatarUrl.replace(/'/g, "\\'")}')`; headerAvatar.onclick = () => { closeModal('postDetailModal'); window.openUserProfile(data.username); }; }
             
             const headerName = document.getElementById('pd-header-username');
             if(headerName) { headerName.innerHTML = data.username + isP; headerName.onclick = () => { closeModal('postDetailModal'); window.openUserProfile(data.username); }; }
 
-            // Hızlı Takip Et (Inline Follow) Butonu
             const inlineFollowBtn = document.getElementById('pd-btn-inline-follow');
             if(inlineFollowBtn && auth.currentUser) {
                 if(auth.currentUser.displayName === data.username) {
@@ -537,7 +544,7 @@
                 } else {
                     const followingList = currentUserProfile?.following || [];
                     if(followingList.includes(pInfo.uid)) {
-                        inlineFollowBtn.style.display = 'none'; // Zaten takip ediyorsa gizle
+                        inlineFollowBtn.style.display = 'none'; 
                     } else {
                         inlineFollowBtn.style.display = 'block';
                         inlineFollowBtn.dataset.targetUid = pInfo.uid;
@@ -547,7 +554,6 @@
                 }
             }
 
-            // Alt Bilgiler
             const pu = document.getElementById('pd-user'); if(pu) { pu.dataset.user = data.username; pu.innerHTML = data.username + isP; pu.onclick = () => { closeModal('postDetailModal'); window.openUserProfile(data.username); }; } 
             const pc = document.getElementById('pd-caption'); if(pc) pc.innerText = data.caption || ''; 
             const pl = document.getElementById('pd-likes'); if(pl) pl.innerText = data.likesCount || 0;
@@ -558,7 +564,6 @@
             openModal('postDetailModal');
         }
 
-        // 🔥 HIZLI TAKİP ET FONKSİYONU 🔥
         window.toggleFollowInline = async function(btnElement) {
             const user = auth.currentUser; if(!user) return;
             const targetUid = btnElement.dataset.targetUid; if(!targetUid) return;
@@ -583,7 +588,7 @@
         window.toggleLikeDB = async function(btnElement, forcePostId=null, forceOwner=null) {
             const user = auth.currentUser; if(!user) return; const postId = forcePostId || window.activeInteractPostId; const owner = forceOwner || window.activeInteractOwner; if(!postId) return;
             const isLiked = btnElement.classList.contains('liked'); const postRef = doc(db, "gonderiler", postId); const likeSpan = document.getElementById('pd-likes'); const postData = window.globalPosts.find(p=>p.id===postId); let currentLikes = postData ? (postData.likesCount||0) : 0;
-            if(isLiked) { btnElement.classList.remove('liked'); if(likeSpan && window.activeInteractPostId===postId) likeSpan.innerText = currentLikes - 1; await updateDoc(postRef, { likedBy: arrayRemove(user.displayName), likesCount: currentLikes - 1 }); if(postData) postData.likesCount -= 1; } else { btnElement.classList.add('liked'); if(likeSpan && window.activeInteractPostId===postId) likeSpan.innerText = currentLikes + 1; await updateDoc(postRef, { likedBy: arrayUnion(user.displayName), likesCount: currentLikes + 1 }); if(postData) postData.likesCount += 1; if(owner && owner !== user.displayName) await addDoc(collection(db, "bildirimler"), { to: owner, from: user.displayName, text: 'gönderini beğendi.', createdAt: new Date() }); }
+            if(isLiked) { btnElement.classList.remove('liked'); if(likeSpan && window.activeInteractPostId===postId) likeSpan.innerText = currentLikes - 1; await updateDoc(postRef, { likedBy: arrayRemove(user.displayName), likesCount: currentLikes - 1 }); if(postData) postData.likesCount -= 1; } else { btnElement.classList.add('liked'); if(likeSpan && window.activeInteractPostId===postId) span.innerText = currentLikes + 1; await updateDoc(postRef, { likedBy: arrayUnion(user.displayName), likesCount: currentLikes + 1 }); if(postData) postData.likesCount += 1; if(owner && owner !== user.displayName) await addDoc(collection(db, "bildirimler"), { to: owner, from: user.displayName, text: 'gönderini beğendi.', createdAt: new Date() }); }
         }
 
         window.openCommentsDB = async function(postId=null) {
