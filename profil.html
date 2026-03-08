@@ -338,11 +338,8 @@
         window.uploadMedia = async function(file) { const formData = new FormData(); formData.append("file", file); formData.append("upload_preset", UPLOAD_PRESET); const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, { method: 'POST', body: formData }); const data = await res.json(); if(data.error) throw new Error(data.error.message); return data.secure_url; }
 
         const safeEncode = (str) => encodeURIComponent(str || '').replace(/'/g, "%27");
-       const instaGoldTick = `<svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align: text-bottom; margin-left: 4px; overflow: visible; filter: drop-shadow(0 2px 4px rgba(212,175,55,0.5));">
-  <path fill="#FFC107" d="M22 11.164l-2.072 1.489a2 2 0 00-.73 2.138l.681 2.454a2 2 0 01-1.637 2.493l-2.484.536a2 2 0 00-1.488 1.489l-.536 2.484a2 2 0 01-2.493 1.637l-2.454-.681a2 2 0 00-2.138.73l-1.489 2.072a2 2 0 01-2.986 0l-1.489-2.072a2 2 0 00-2.138-.73L4.93 23.33a2 2 0 01-2.493-1.637l-.536-2.484A2 2 0 00.413 17.72L.413 17.72a2 2 0 011.637-2.493l2.484-.536a2 2 0 001.488-1.489l.536-2.484A2 2 0 019.05 9.08l2.454.681a2 2 0 002.138-.73l1.489-2.072a2 2 0 012.986 0l1.489 2.072a2 2 0 002.138.73l2.454-.681a2 2 0 012.493 1.637l.536 2.484a2 2 0 001.488 1.489l2.484-.536a2 2 0 011.637 2.493l-.681 2.454z"/>
-  <path fill="#fff" d="M10.151 15.111l-3.351-3.352 1.414-1.414 1.937 1.937 4.937-4.937 1.414 1.414z"/>
-</svg>`;
-
+       const instaGoldTick = `<svg viewBox="0 0 40 40" style="width: 1.1em; height: 1.1em; vertical-align: -0.2em; margin-left: 4px; filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.4)); display: inline-block;"><path fill="#FFD700" d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Z"/><path fill="#050505" d="M17.81 27.231l-6.428-6.427 2.846-2.846 3.583 3.583 8.932-8.932 2.846 2.846-11.779 11.776z"/></svg>`;
+       
         window.globalPosts = []; window.globalUsersById = {}; window.globalUsersByName = {};
         const adminEmail = "kcagatay239@gmail.com"; 
         let currentUserId = null; let isAdmin = false; let currentUserProfile = null; window.activeInteractPostId = null; window.activeShareUrl = null;
