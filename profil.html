@@ -42,6 +42,11 @@
         .splash-logo { font-family: 'Grand Hotel', cursive; font-size: 70px; color: var(--primary-gold); animation: splashPulse 1.5s infinite alternate; text-shadow: 0 0 20px rgba(212,175,55,0.4); }
         @keyframes splashPulse { 0% { transform: scale(1); opacity: 0.8;} 100% { transform: scale(1.1); opacity: 1;} }
 
+        .ambient-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
+        .ambient-blob-1 { position: absolute; top: -10%; left: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, rgba(212,175,55,0.12) 0%, transparent 70%); border-radius: 50%; filter: blur(60px); animation: float1 20s infinite alternate; }
+        .ambient-blob-2 { position: absolute; bottom: 10%; right: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(255,48,64,0.08) 0%, transparent 70%); border-radius: 50%; filter: blur(60px); animation: float2 25s infinite alternate; }
+        @keyframes float1 { 100% { transform: translate(10vw, 10vh); } } @keyframes float2 { 100% { transform: translate(-10vw, -10vh); } }
+
         header { position: sticky; top: 0; width: 100%; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: rgba(10, 10, 12, 0.6); backdrop-filter: blur(20px); z-index: 100; border-bottom: var(--glass-border); padding-top: calc(15px + env(safe-area-inset-top)); transition: border-color 0.5s ease; }
         .header-username { font-size: 20px; font-weight: 700; color: var(--text-light); display: flex; align-items:center; gap:8px; transition: color 0.5s ease;}
         .header-icon { color: var(--text-light); font-size: 28px; cursor: pointer; background: none; border: none; transition: color 0.5s ease; }
@@ -118,6 +123,8 @@
 <body>
 
     <div id="splash-screen"><div class="splash-logo">Swinder</div></div>
+    
+    <div class="ambient-bg"><div class="ambient-blob-1"></div><div class="ambient-blob-2"></div></div>
 
     <header>
         <div class="header-username">
@@ -208,6 +215,7 @@
                     <div style="display:flex; gap:15px; margin-bottom:10px;">
                         <button class="header-icon" id="pd-btn-like" onclick="window.toggleLikeDB(this)"><span class="material-symbols-outlined">favorite</span></button>
                         <button class="header-icon" onclick="window.openCommentsDB()"><span class="material-symbols-outlined">chat_bubble</span></button>
+                        <button class="header-icon" onclick="window.openShareModal()"><span class="material-symbols-outlined">send</span></button>
                     </div>
                     <div style="font-weight:600; margin-bottom:5px; font-size:14px;"><span id="pd-likes">0</span> beğenme</div>
                     <div style="font-size: 14px;">
@@ -221,6 +229,8 @@
     
     <div class="modal-overlay" id="commentsModal" style="z-index: 1700;"><div class="bottom-sheet" style="height: 70vh;"><div class="sheet-header"><button class="header-icon" onclick="closeModal('commentsModal')"><span class="material-symbols-outlined">close</span></button> Yorumlar</div><div style="flex:1; overflow-y:auto; padding:15px; display:flex; flex-direction:column; gap:15px;" id="comments-list"></div><div class="chat-input-container"><input type="text" id="new-comment-input" placeholder="Yorum ekle..." class="chat-input"><button onclick="window.submitComment()" style="background:none; border:none; color:var(--primary-gold); font-weight:bold; padding:0 10px; cursor:pointer;">Paylaş</button></div></div></div>
 
+    <div class="modal-overlay" id="shareModal" style="z-index: 1750;"><div class="bottom-sheet" style="height: 60vh;"><div class="sheet-header"><button class="header-icon" onclick="closeModal('shareModal')"><span class="material-symbols-outlined">close</span></button> Kime Gönderilsin?</div><div style="flex:1; overflow-y:auto;" id="share-list-container"></div></div></div>
+
     <div class="modal-overlay" id="exploreModal"><div class="bottom-sheet"><div class="sheet-header" style="gap:10px;"><button class="header-icon" onclick="closeModal('exploreModal')"><span class="material-symbols-outlined">arrow_back</span></button><input type="text" class="search-input" id="search-input" placeholder="Kişi veya gönderi ara..." onkeyup="window.performSearch()"></div><div class="explore-users-container" id="explore-users-list"></div><div class="explore-scroll-area"><div class="grid-view" id="explore-grid"></div></div></div></div>
     <div class="modal-overlay" id="reelsModal" style="padding:0; background: #000;"><button class="close-btn" onclick="closeModal('reelsModal')" style="z-index: 1000; top: calc(20px + env(safe-area-inset-top)); right: 20px; background: rgba(0,0,0,0.5);"><span class="material-symbols-outlined">close</span></button><div class="reels-box" id="reels-container"></div></div>
     <div class="modal-overlay" id="userProfileModal"></div>
@@ -232,6 +242,7 @@
         
         window.openExplore = () => { openModal('exploreModal'); if(window.renderExploreGrid) window.renderExploreGrid(); }
         window.openReels = () => { openModal('reelsModal'); if(window.renderReels) window.renderReels(); }
+        window.openShareModal = function() { openModal('shareModal'); const c = document.getElementById('share-list-container'); if(c) c.innerHTML = '<div style="padding:30px; text-align:center; color:gray;">Bağlantı kopyalandı!</div>'; if(window.activeShareUrl) navigator.clipboard.writeText(window.activeShareUrl).catch(e=>{}); }
 
         function hideSplash() { sessionStorage.setItem("swinder_splashed", "true"); const spl = document.getElementById('splash-screen'); if(spl) { spl.style.opacity = '0'; setTimeout(() => spl.style.display = 'none', 400); } }
         setTimeout(() => { hideSplash(); }, 1500);
@@ -259,7 +270,7 @@
 
         window.globalPosts = []; window.globalUsersById = {}; window.globalUsersByName = {};
         const adminEmail = "kcagatay239@gmail.com"; 
-        let currentUserId = null; let isAdmin = false; let currentUserProfile = null; window.activeInteractPostId = null;
+        let currentUserId = null; let isAdmin = false; let currentUserProfile = null; window.activeInteractPostId = null; window.activeShareUrl = null;
 
         window.logoutApp = async function() { try { await signOut(auth); window.location.href = "index.html"; } catch(e){} }
 
@@ -280,7 +291,7 @@
                 const pInfo = window.globalUsersByName[data.username] || {}; const av = pInfo.avatar ? `url('${pInfo.avatar}')` : `url('https://images.unsplash.com/photo-1555353540-64fd1b19584d?w=100')`; const likedClass = (auth.currentUser && data.likedBy && data.likedBy.includes(auth.currentUser.displayName)) ? 'liked' : ''; 
                 const isP = (pInfo.isPremium || (data.username || '').toLowerCase().includes('çağatay')) ? instaGoldTick : '';
                 const mediaHtml = window.isVideo(data.imageUrl) ? `<video src="${data.imageUrl}" preload="none" poster="${window.getVideoThumbnail(data.imageUrl)}" loop playsinline style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;" onclick="this.muted = !this.muted" ondblclick="window.toggleLikeDB(this.parentElement.querySelector('.btn-like'), '${data.id}', '${data.username}')"></video>` : `<img src="${data.imageUrl}" loading="lazy" decoding="async" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; z-index:1;" ondblclick="window.toggleLikeDB(this.parentElement.querySelector('.btn-like'), '${data.id}', '${data.username}')"/>`;
-                rc.insertAdjacentHTML('beforeend', `<div class="reel-item"><div class="media-blur-bg" style="background-image: url('${data.imageUrl.replace(/'/g, "\\'")}');"></div>${mediaHtml}<div class="reel-overlay"></div><div class="reel-content"><div class="reel-info"><div class="reel-user" data-user="${(data.username || '').replace(/"/g, '&quot;')}" onclick="closeModal('reelsModal'); window.openUserProfile(this.dataset.user)"><div class="reel-avatar" style="background-image:${av};"></div>${data.username}${isP}</div><div class="reel-caption">${data.caption || ''}</div></div><div class="reel-actions"><button class="reel-action-btn btn-like ${likedClass}" onclick="window.toggleLikeDB(this, '${data.id}', '${data.username}')"><span class="material-symbols-outlined">favorite</span><span class="reel-action-text" id="like-count-${data.id}">${data.likesCount||0}</span></button><button class="reel-action-btn" onclick="window.activeInteractPostId='${data.id}'; window.activeInteractOwner='${data.username}'; window.openCommentsDB();"><span class="material-symbols-outlined">chat_bubble</span></button></div></div></div>`);
+                rc.insertAdjacentHTML('beforeend', `<div class="reel-item"><div class="media-blur-bg" style="background-image: url('${data.imageUrl.replace(/'/g, "\\'")}');"></div>${mediaHtml}<div class="reel-overlay"></div><div class="reel-content"><div class="reel-info"><div class="reel-user" data-user="${(data.username || '').replace(/"/g, '&quot;')}" onclick="closeModal('reelsModal'); window.openUserProfile(this.dataset.user)"><div class="reel-avatar" style="background-image:${av};"></div>${data.username}${isP}</div><div class="reel-caption">${data.caption || ''}</div></div><div class="reel-actions"><button class="reel-action-btn btn-like ${likedClass}" onclick="window.toggleLikeDB(this, '${data.id}', '${data.username}')"><span class="material-symbols-outlined">favorite</span><span class="reel-action-text" id="like-count-${data.id}">${data.likesCount||0}</span></button><button class="reel-action-btn" onclick="window.activeInteractPostId='${data.id}'; window.activeInteractOwner='${data.username}'; window.openCommentsDB();"><span class="material-symbols-outlined">chat_bubble</span></button><button class="reel-action-btn" onclick="window.activeShareUrl='${data.imageUrl}'; window.openShareModal();"><span class="material-symbols-outlined">send</span></button></div></div></div>`);
             });
             if(window.reelsObserver) window.reelsObserver.disconnect();
             window.reelsObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { const vid = entry.target.querySelector('video'); if(vid) { if(entry.isIntersecting) { vid.play().catch(e=>{}); } else { vid.pause(); } } }); }, { threshold: 0.5 });
